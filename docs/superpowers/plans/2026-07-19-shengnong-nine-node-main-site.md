@@ -99,7 +99,7 @@ git commit -m "test: define nine-node shengnong main site"
 
 **Files:**
 - Create: `output/html/shengnong-nodes/data-evidence.js`
-- Reference: `/Users/Admin/Desktop/母方案副本/圣农经营智能中枢_评委版母方案.md:219`
+- Reference: `docs/评委版母方案/圣农经营智能中枢_评委版母方案.md:219`
 
 - [ ] **Step 1: Implement three complete narrative entries**
 
@@ -133,7 +133,7 @@ git commit -m "feat: add data and evidence narratives"
 
 **Files:**
 - Create: `output/html/shengnong-nodes/approval-execution.js`
-- Reference: `/Users/Admin/Desktop/母方案副本/圣农经营智能中枢_评委版母方案.md:288`
+- Reference: `docs/评委版母方案/圣农经营智能中枢_评委版母方案.md:288`
 
 - [ ] **Step 1: Implement three complete narrative entries**
 
@@ -167,7 +167,7 @@ git commit -m "feat: add approval and execution narratives"
 
 **Files:**
 - Create: `output/html/shengnong-nodes/risk-review.js`
-- Reference: `/Users/Admin/Desktop/母方案副本/圣农经营智能中枢_评委版母方案.md:322`
+- Reference: `docs/评委版母方案/圣农经营智能中枢_评委版母方案.md:322`
 
 - [ ] **Step 1: Implement two complete narrative entries**
 

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <link rel="icon" href="data:,">
-  <title>圣农经营智能中枢 · 滚动叙事精修副本</title>
+  <title>圣农经营智能中枢 · 九节点经营主站</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400&family=Inter:wght@400&display=swap');
 
@@ -516,6 +516,18 @@
       .consensus-card, .consensus-card:last-child { grid-column: auto; min-height: 190px; }
       .task-context { grid-template-columns: 1fr; }
     }
+    @media print {
+      html, body, #hash-app { background: #090909 !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .skip-link, .hash-route-bar, .hash-node-tabs, .aily-case-thread, .sn-case-thread, .hash-next, .hash-footer, .sn-handoff, .aily-handoff { display: none !important; }
+      .hash-detail-main { width: 100%; padding: 0; }
+      .hash-node-hero { min-height: 94vh; break-after: page; page-break-after: always; }
+      .aily-scene, .sn-scene { min-height: 94vh !important; padding: 18mm 0 !important; break-before: page; page-break-before: always; }
+      .aily-reveal, .sn-reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
+      .aily-loop-stage-area { display: none !important; }
+      .aily-loop-meter { display: grid !important; grid-template-columns: repeat(6, minmax(0, 1fr)) !important; border: 1px solid #303030 !important; }
+      .aily-loop-marker { color: #f2f2ef !important; opacity: 1 !important; animation: none !important; }
+      .aily-loop-rule { grid-column: 1 / -1 !important; }
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
@@ -868,6 +880,7 @@
       --route-blue: #6aa9ff;
       --route-orange: #ff862f;
       --route-violet: #b79cff;
+      --route-amber: #ffbf5b;
       --route-green: #70c99a;
       --route-canvas: #090909;
       --route-panel: #141414;
@@ -888,16 +901,16 @@
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      gap: 16px;
-      min-height: 60px;
-      padding: 8px clamp(18px, 4vw, 56px);
+      gap: 12px;
+      min-height: 48px;
+      padding: 5px clamp(18px, 4vw, 56px);
       border-bottom: 1px solid rgba(255,255,255,.11);
-      background: rgba(8, 8, 8, .84);
-      box-shadow: 0 12px 34px rgba(0,0,0,.24), inset 0 -1px rgba(255,255,255,.025);
-      backdrop-filter: blur(24px) saturate(118%);
+      background: #080808;
     }
     .hash-brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
-    .hash-brand .brand-mark { width: 30px; height: 30px; border-color: #505050; color: #fff; border-radius: 6px; font-size: 10px; }
+    .hash-brand > div:not(.brand-mark) { display: flex; align-items: center; gap: 9px; min-width: 0; white-space: nowrap; }
+    .hash-brand .brand-mark { display: grid; place-items: center; width: 126px; height: 25px; border: 0; color: #fff; border-radius: 0; font-size: 10px; }
+    .hash-brand .brand-logo { display: block; width: 126px; height: auto; max-height: 25px; object-fit: contain; object-position: left center; }
     .hash-brand small,
     .hash-kicker,
     .hash-stage-code,
@@ -910,9 +923,9 @@
       letter-spacing: 0;
       text-transform: uppercase;
     }
-    .hash-brand small { font-size: 9px; }
-    .hash-brand b { display: block; margin-top: 1px; font-size: 13px; font-weight: 500; }
-    .hash-center-actions { display: flex; justify-content: center; gap: 6px; }
+    .hash-brand small { font-size: 9px; line-height: 1; }
+    .hash-brand b { display: block; margin: 0; font-size: 13px; font-weight: 500; line-height: 1; }
+    .hash-center-actions { display: flex; justify-content: center; gap: 18px; }
     .hash-button,
     .hash-tab,
     .hash-node-button,
@@ -923,7 +936,7 @@
       cursor: pointer;
       transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
     }
-    .hash-button { min-height: 34px; padding: 6px 13px; }
+    .hash-button { min-height: 44px; padding: 8px 14px; }
     .hash-button:hover,
     .hash-tab:hover { border-color: #7a7a7a; }
     #hash-app[data-view="home"] [data-action="home"],
@@ -935,18 +948,239 @@
       align-items: center;
       justify-content: center;
       min-width: 104px;
-      min-height: 34px;
-      padding: 6px 13px;
+      min-height: 44px;
+      padding: 8px 14px;
       color: var(--route-muted);
       border-color: rgba(255,255,255,.14);
       background: rgba(255,255,255,.018);
       cursor: default;
     }
+    .hash-home-header .hash-button,
+    .hash-home-header .hash-contact {
+      position: relative;
+      min-width: 0;
+      min-height: 30px;
+      padding: 5px 1px 7px;
+      color: var(--route-muted);
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      font: 12px var(--mono);
+      letter-spacing: .02em;
+      cursor: pointer;
+    }
+    .hash-home-header .hash-button::after,
+    .hash-home-header .hash-contact::after {
+      content: "";
+      position: absolute;
+      right: 1px;
+      bottom: 1px;
+      left: 1px;
+      height: 1px;
+      background: var(--route-orange);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 180ms cubic-bezier(.16,1,.3,1);
+    }
+    .hash-home-header .hash-button:hover,
+    .hash-home-header .hash-contact:hover { color: #f7f7f5; }
+    .hash-home-header .hash-button:hover::after,
+    .hash-home-header .hash-contact:hover::after { transform: scaleX(.55); }
+    #hash-app[data-view="home"] .hash-home-header [data-action="home"],
+    #hash-app[data-view="detail"] .hash-home-header [data-action="scheme"],
+    #hash-app[data-view="contact"] .hash-home-header [data-action="contact"] {
+      color: #f7f7f5;
+      border-color: transparent;
+      background: transparent;
+    }
+    #hash-app[data-view="home"] .hash-home-header [data-action="home"]::after,
+    #hash-app[data-view="detail"] .hash-home-header [data-action="scheme"]::after,
+    #hash-app[data-view="contact"] .hash-home-header [data-action="contact"]::after { transform: scaleX(1); }
     .hash-home,
-    .hash-detail { display: none; }
+    .hash-detail,
+    .hash-contact-page { display: none; }
+    .hash-home h2:focus,
+    .hash-node-hero h2:focus,
+    .hash-contact-page h2:focus {
+      outline: 2px solid var(--active-color, var(--route-blue));
+      outline-offset: 8px;
+    }
     #hash-app[data-view="home"] .hash-home,
-    #hash-app[data-view="detail"] .hash-detail { display: block; }
+    #hash-app[data-view="detail"] .hash-detail,
+    #hash-app[data-view="contact"] .hash-contact-page { display: block; }
     #hash-app[data-view="detail"] .hash-home-header { display: none; }
+    #hash-app[data-view="contact"] [data-action="contact"] {
+      color: #090909;
+      border-color: #fff;
+      background: #fff;
+    }
+    #hash-app.hash-home-entering .hash-home-header { animation: hash-home-header-enter 520ms cubic-bezier(.22,1,.36,1) both; }
+    #hash-app.hash-home-entering .hash-kicker { animation: hash-home-content-enter 520ms 90ms cubic-bezier(.22,1,.36,1) both; }
+    #hash-app.hash-home-entering .hash-hero-copy h2 { animation: hash-home-content-enter 620ms 150ms cubic-bezier(.22,1,.36,1) both; }
+    #hash-app.hash-home-entering .hash-hero-copy > p { animation: hash-home-content-enter 560ms 240ms cubic-bezier(.22,1,.36,1) both; }
+    #hash-app.hash-home-entering .hash-hero-actions { animation: hash-home-content-enter 520ms 320ms cubic-bezier(.22,1,.36,1) both; }
+    #hash-app.hash-home-entering .hash-phase { animation: hash-home-phase-enter 600ms cubic-bezier(.22,1,.36,1) both; }
+    #hash-app.hash-home-entering .hash-phase:nth-child(1) { animation-delay: 410ms; }
+    #hash-app.hash-home-entering .hash-phase:nth-child(2) { animation-delay: 490ms; }
+    #hash-app.hash-home-entering .hash-phase:nth-child(3) { animation-delay: 570ms; }
+    #hash-app.hash-home-entering .hash-phase:nth-child(4) { animation-delay: 650ms; }
+    #hash-app.hash-home-entering .hash-phase:nth-child(5) { animation-delay: 730ms; }
+    @keyframes hash-home-header-enter { from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes hash-home-content-enter { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes hash-home-phase-enter { from { opacity: 0; transform: translateY(34px); } to { opacity: 1; transform: translateY(0); } }
+    .hash-contact-page {
+      min-height: calc(100vh - 60px);
+      width: min(1320px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: clamp(48px, 9vh, 112px) 0 44px;
+    }
+    .hash-contact-shell { min-height: calc(100vh - 164px); display: flex; flex-direction: column; }
+    .hash-contact-kicker {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--route-line);
+      color: var(--route-muted);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .hash-contact-kicker b { color: var(--route-orange); font-weight: 500; }
+    .hash-contact-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(220px, .75fr);
+      gap: clamp(34px, 8vw, 130px);
+      align-items: end;
+      padding: clamp(54px, 10vh, 128px) 0 clamp(48px, 8vh, 92px);
+    }
+    .hash-contact-hero h2 {
+      max-width: 8ch;
+      margin: 14px 0 24px;
+      color: #f7f7f5;
+      font-size: clamp(60px, 10vw, 148px);
+      font-weight: 400;
+      letter-spacing: -.045em;
+      line-height: .92;
+    }
+    .hash-contact-hero h2 em { color: var(--route-orange); font-style: normal; }
+    .hash-contact-hero p { max-width: 620px; margin: 0; color: #c4c5c8; font-size: clamp(16px, 1.6vw, 21px); line-height: 1.6; }
+    .hash-contact-index { align-self: start; padding-top: 8px; border-left: 2px solid var(--route-orange); padding-left: 18px; }
+    .hash-contact-index small { color: var(--route-muted); font-family: var(--mono); font-size: 10px; }
+    .hash-contact-index strong { display: block; margin-top: 10px; color: #f4f4f1; font-size: 19px; font-weight: 400; }
+    .hash-contact-index span { display: block; margin-top: 5px; color: var(--route-muted); font-size: 12px; }
+    .hash-contact-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); border-top: 1px solid var(--route-line); border-bottom: 1px solid var(--route-line); }
+    .hash-contact-profile, .hash-contact-reach { min-width: 0; padding: 30px 0 34px; }
+    .hash-contact-profile { padding-right: clamp(24px, 5vw, 72px); border-right: 1px solid var(--route-line); }
+    .hash-contact-reach { padding-left: clamp(24px, 5vw, 72px); }
+    .hash-contact-label { color: var(--route-muted); font-family: var(--mono); font-size: 10px; letter-spacing: .04em; }
+    .hash-contact-profile h3 { margin: 20px 0 8px; color: #f7f7f5; font-size: clamp(32px, 4vw, 54px); font-weight: 400; }
+    .hash-contact-profile > p { max-width: 500px; margin: 0; color: #b8b9bd; font-size: 14px; }
+    .hash-contact-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 46px; border-top: 1px solid #303030; }
+    .hash-contact-fact { min-height: 88px; padding: 17px 16px 0 0; border-right: 1px solid #303030; }
+    .hash-contact-fact + .hash-contact-fact { padding-left: 16px; }
+    .hash-contact-fact:last-child { border-right: 0; }
+    .hash-contact-fact small { display: block; color: var(--route-muted); font-family: var(--mono); font-size: 9px; }
+    .hash-contact-fact b { display: block; margin-top: 11px; color: #f4f4f1; font-size: 14px; font-weight: 400; }
+    .hash-contact-channels { display: grid; gap: 0; margin-top: 13px; }
+    .hash-contact-channel { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 18px; align-items: center; padding: 19px 0; border-top: 1px solid #303030; }
+    .hash-contact-channel:last-child { border-bottom: 1px solid #303030; }
+    .hash-contact-channel small { color: var(--route-muted); font-family: var(--mono); font-size: 9px; text-transform: uppercase; }
+    .hash-contact-channel a, .hash-contact-channel .hash-contact-value { min-width: 0; color: #f4f4f1; font-size: 15px; text-decoration: none; overflow-wrap: anywhere; }
+    .hash-contact-channel a:hover { color: var(--route-orange); }
+    .hash-contact-channel .hash-contact-value { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .hash-copy-button { flex: 0 0 auto; min-height: 30px; padding: 5px 10px; color: var(--route-orange); border: 1px solid rgba(255,134,47,.5); border-radius: 999px; background: transparent; font-size: 11px; cursor: pointer; transition: color 180ms ease, background 180ms ease, border-color 180ms ease; }
+    .hash-copy-button:hover { color: #090909; border-color: var(--route-orange); background: var(--route-orange); }
+    .hash-copy-status { grid-column: 2; margin-top: 5px; color: var(--route-muted); font-family: var(--mono); font-size: 10px; }
+    .hash-contact-footer { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: auto; padding-top: 32px; color: var(--route-muted); font-family: var(--mono); font-size: 10px; }
+    .hash-contact-footer a { color: #f0f0ed; text-decoration: none; }
+    .hash-contact-footer a:hover { color: var(--route-orange); }
+
+    /* Compact resume-style contact profile. */
+    .hash-contact-page { position: relative; isolation: isolate; width: min(960px, calc(100% - 48px)); padding: 42px 0 30px; }
+    .hash-contact-page::before { content: "不负信赖"; position: absolute; z-index: -2; top: 9%; right: -7%; color: rgba(255,255,255,.028); font-size: clamp(90px, 15vw, 190px); font-weight: 600; letter-spacing: .08em; line-height: .9; writing-mode: vertical-rl; pointer-events: none; }
+    .hash-contact-page::after { content: "1983 — 2024  /  QUALITY · RESPONSIBILITY · TRUST"; position: absolute; z-index: -1; right: 0; bottom: 8px; left: 0; padding-top: 11px; border-top: 1px solid rgba(255,255,255,.06); color: rgba(255,255,255,.25); font: 9px var(--mono); letter-spacing: .08em; pointer-events: none; }
+    .hash-contact-shell { min-height: 0; }
+    .contact-resume { position: relative; border-top: 1px solid var(--route-line); }
+    .contact-resume::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--route-orange);
+      transform: scaleX(0);
+      transform-origin: left center;
+      pointer-events: none;
+    }
+    .contact-resume-header { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 32px; align-items: end; padding: 28px 0 24px; border-bottom: 1px solid var(--route-line); }
+    .contact-resume-kicker { color: var(--route-orange); font-family: var(--mono); font-size: 10px; letter-spacing: .06em; }
+    .contact-resume-name h2 { margin: 9px 0 7px; color: #f7f7f5; font-size: clamp(38px, 5vw, 58px); font-weight: 400; letter-spacing: -.035em; line-height: 1; }
+    .contact-resume-name p { margin: 0; color: #bfc0c3; font-size: 14px; }
+    .contact-resume-status { padding-left: 16px; border-left: 2px solid var(--route-orange); }
+    .contact-resume-status small, .contact-resume-label { display: block; color: var(--route-muted); font-family: var(--mono); font-size: 9px; letter-spacing: .05em; }
+    .contact-resume-status strong { display: block; margin-top: 8px; color: #f4f4f1; font-size: 15px; font-weight: 400; }
+    .contact-resume-status span { display: block; margin-top: 4px; color: var(--route-muted); font-size: 11px; }
+    .contact-resume-grid { display: grid; grid-template-columns: 248px minmax(0, 1fr); gap: 32px; }
+    .contact-resume-aside { padding: 24px 24px 24px 0; border-right: 1px solid var(--route-line); }
+    .contact-resume-main { padding: 24px 0; }
+    .contact-resume-block + .contact-resume-block { margin-top: 24px; padding-top: 22px; border-top: 1px solid #303030; }
+    .contact-resume-block strong { display: block; margin-top: 12px; color: #f4f4f1; font-size: 15px; font-weight: 400; }
+    .contact-resume-block span:not(.contact-resume-label) { display: block; margin-top: 5px; color: #afb0b4; font-size: 12px; }
+    .contact-resume-links { display: grid; gap: 8px; margin-top: 12px; }
+    .contact-resume-links a, .contact-resume-wechat { color: #f4f4f1; font-size: 12px; text-decoration: none; overflow-wrap: anywhere; }
+    .contact-resume-links a { position: relative; width: fit-content; }
+    .contact-resume-links a::after { content: ""; position: absolute; right: 0; bottom: -3px; left: 0; height: 1px; background: var(--route-orange); transform: scaleX(0); transform-origin: left center; transition: transform 180ms cubic-bezier(.16,1,.3,1); }
+    .contact-resume-links a:hover, .contact-resume-links a:focus-visible { color: var(--route-orange); }
+    .contact-resume-links a:hover::after, .contact-resume-links a:focus-visible::after { transform: scaleX(1); }
+    .contact-resume-wechat { display: block; }
+    .contact-resume-main h3 { margin: 11px 0 10px; color: #f7f7f5; font-size: clamp(22px, 3vw, 34px); font-weight: 400; line-height: 1.2; }
+    .contact-resume-main p { max-width: 620px; margin: 0; color: #b8b9bd; font-size: 14px; line-height: 1.75; }
+    .contact-resume-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+    .contact-resume-tags span { padding: 6px 9px; border: 1px solid #383838; color: #c7c8ca; font-size: 11px; }
+    .contact-resume-footer { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-top: 20px; color: var(--route-muted); border-top: 1px solid var(--route-line); font-family: var(--mono); font-size: 10px; }
+    .contact-resume-footer a { color: #f0f0ed; text-decoration: none; }
+    .contact-resume-footer a:hover { color: var(--route-orange); }
+    .contact-team { position: relative; margin-top: 42px; padding-top: 24px; border-top: 1px solid var(--route-line); }
+    .contact-team::before { content: ""; position: absolute; top: -1px; left: 0; width: 100%; height: 1px; background: var(--route-orange); transform: scaleX(0); transform-origin: left center; transition: transform 640ms cubic-bezier(.16,1,.3,1); }
+    .contact-team.is-revealed::before { transform: scaleX(1); }
+    .contact-team-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; }
+    .contact-team-label { display: block; color: var(--route-muted); font: 9px var(--mono); letter-spacing: .06em; }
+    .contact-team-head h3 { margin: 9px 0 0; color: #f7f7f5; font-size: clamp(22px, 3vw, 32px); font-weight: 400; line-height: 1.15; }
+    .contact-team-head p { max-width: 270px; margin: 0; color: var(--route-muted); font-size: 11px; line-height: 1.6; text-align: right; }
+    .contact-team-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+    .contact-team-card { min-width: 0; min-height: 166px; padding: 18px; border: 1px solid #303030; background: rgba(18,18,18,.78); transition: border-color 180ms cubic-bezier(.16,1,.3,1), background-color 180ms cubic-bezier(.16,1,.3,1); }
+    .contact-team-card.lead { grid-column: 1 / -1; border-color: rgba(255,134,47,.45); background: linear-gradient(105deg, rgba(255,134,47,.08), rgba(18,18,18,.76) 52%); }
+    .contact-team-card small { display: block; color: var(--route-orange); font: 9px var(--mono); letter-spacing: .05em; }
+    .contact-team-card h4 { margin: 10px 0 3px; color: #f4f4f1; font-size: 19px; font-weight: 400; }
+    .contact-team-role { display: block; color: #c3c4c7; font-size: 12px; }
+    .contact-team-card p { max-width: 700px; margin: 13px 0 0; color: #aeb0b4; font-size: 12px; line-height: 1.7; }
+    .contact-team-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .contact-team-tags span { padding: 5px 8px; border: 1px solid #3a3a3a; color: #c9cace; font-size: 10px; }
+    @media (hover: hover) {
+      .contact-team-card:hover { border-color: rgba(255,134,47,.62); background-color: rgba(31,28,24,.86); }
+    }
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering::before { animation: contact-mark-settle 760ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume::before { animation: contact-rule-trace 680ms 40ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-name { animation: contact-enter 520ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-status { animation: contact-enter 520ms 90ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-aside .contact-resume-block:nth-child(1) { animation: contact-enter 500ms 160ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-aside .contact-resume-block:nth-child(2) { animation: contact-enter 500ms 230ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-main .contact-resume-block:nth-child(1) { animation: contact-enter 520ms 250ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-main .contact-resume-block:nth-child(2) { animation: contact-enter 500ms 320ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-footer { animation: contact-enter 460ms 400ms cubic-bezier(.16,1,.3,1) both; }
+    .contact-team-head.contact-scroll-reveal,
+    .contact-team-card.contact-scroll-reveal { opacity: 0; transform: translateY(26px); transition: opacity 560ms cubic-bezier(.16,1,.3,1), transform 560ms cubic-bezier(.16,1,.3,1); }
+    .contact-team-head.contact-scroll-reveal.is-visible,
+    .contact-team-card.contact-scroll-reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .contact-team-card.lead.contact-scroll-reveal { transition-delay: 70ms; }
+    .contact-team-card:not(.lead).contact-scroll-reveal { transition-delay: 140ms; }
+    @keyframes contact-enter { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes contact-mark-settle { from { opacity: 0; transform: translateY(34px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes contact-rule-trace { from { transform: scaleX(0); } to { transform: scaleX(1); } }
     .hash-hero {
       position: relative;
       display: grid;
@@ -985,7 +1219,7 @@
       position: relative;
       z-index: 1;
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       margin-top: 72px;
       border-top: 1px solid var(--route-line);
       border-bottom: 1px solid var(--route-line);
@@ -996,6 +1230,7 @@
     .hash-phase.info { --phase: var(--route-blue); }
     .hash-phase.agent { --phase: var(--route-orange); }
     .hash-phase.execute { --phase: var(--route-violet); }
+    .hash-phase.risk { --phase: var(--route-amber); }
     .hash-phase.feedback { --phase: var(--route-green); }
     .hash-phase b { display: block; margin: 12px 0 8px; font-size: 20px; font-weight: 500; }
     .hash-phase span { color: var(--route-muted); font-size: 13px; }
@@ -1006,42 +1241,55 @@
       width: 54px;
       height: 5px;
       background: var(--route-blue);
-      box-shadow: 0 0 18px currentColor;
       animation: hash-signal-scan 9s cubic-bezier(.65,0,.35,1) infinite;
     }
     @keyframes hash-signal-scan {
       0%, 7% { left: 0; background: var(--route-blue); }
-      18% { left: 25%; background: var(--route-orange); }
-      34% { left: 50%; background: var(--route-violet); }
+      15% { left: 20%; background: var(--route-orange); }
+      28% { left: 40%; background: var(--route-violet); }
+      40% { left: 60%; background: var(--route-amber); }
       50% { left: calc(100% - 54px); background: var(--route-green); }
-      66% { left: 50%; background: var(--route-violet); }
-      82% { left: 25%; background: var(--route-orange); }
+      62% { left: 60%; background: var(--route-amber); }
+      74% { left: 40%; background: var(--route-violet); }
+      86% { left: 20%; background: var(--route-orange); }
       93%, 100% { left: 0; background: var(--route-blue); }
     }
     .hash-route-bar {
       position: sticky;
       top: 0;
       z-index: 30;
-      padding: 7px clamp(18px, 4vw, 56px) 6px;
+      padding: 4px clamp(18px, 4vw, 56px);
       border-bottom: 1px solid rgba(255,255,255,.1);
-      background: rgba(8, 8, 8, .9);
-      box-shadow: 0 14px 38px rgba(0,0,0,.22), inset 0 -1px rgba(255,255,255,.02);
-      backdrop-filter: blur(24px) saturate(118%);
+      background: #080808;
       overflow: hidden;
     }
-    .hash-route-head { display: flex; justify-content: space-between; gap: 12px; width: min(1320px, 100%); margin: 0 auto 5px; }
+    .hash-route-head { display: flex; justify-content: space-between; gap: 12px; width: min(1320px, 100%); margin: 0 auto 2px; }
     .hash-route-head .hash-button,
-    .hash-route-head .hash-contact { min-height: 28px; padding: 3px 10px; font-size: 12px; }
+    .hash-route-head .hash-contact {
+      position: relative;
+      min-width: 0;
+      min-height: 32px;
+      padding: 4px 2px;
+      color: var(--route-muted);
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      font: 12px var(--mono);
+    }
+    .hash-route-head .hash-button::before,
+    .hash-route-head .hash-contact::before { content: ""; position: absolute; inset: -6px; }
+    .hash-route-head .hash-button:hover,
+    .hash-route-head .hash-contact:hover { color: #f7f7f5; }
     .hash-route-scroll { overflow-x: auto; scrollbar-width: thin; scrollbar-color: #686868 transparent; }
     .hash-route-track {
       position: relative;
       display: grid;
-      grid-template-columns: repeat(8, minmax(94px, 1fr));
+      grid-template-columns: repeat(9, minmax(94px, 1fr));
       width: min(1320px, 100%);
-      min-width: 820px;
+      min-width: 930px;
       margin: 0 auto;
     }
-    .route-segment { position: absolute; top: 15px; z-index: 0; height: 1px; overflow: hidden; background: #343434; }
+    .route-segment { position: absolute; top: 22px; z-index: 0; height: 1px; overflow: hidden; background: #343434; }
     .route-segment::after {
       content: "";
       position: absolute;
@@ -1051,18 +1299,20 @@
       transform-origin: left center;
       transition: transform 560ms cubic-bezier(.22,1,.36,1);
     }
-    .route-segment.info { left: 6.25%; width: 25%; --segment-color: var(--route-blue); }
-    .route-segment.agent { left: 31.25%; width: 12.5%; --segment-color: var(--route-orange); }
-    .route-segment.execute { left: 43.75%; width: 37.5%; --segment-color: var(--route-violet); }
-    .route-segment.feedback { left: 81.25%; width: 12.5%; --segment-color: var(--route-green); }
+    .route-segment.info { left: 5.556%; width: 22.222%; --segment-color: var(--route-blue); }
+    .route-segment.agent { left: 27.778%; width: 11.111%; --segment-color: var(--route-orange); }
+    .route-segment.execute { left: 38.889%; width: 33.333%; --segment-color: var(--route-violet); }
+    .route-segment.risk { left: 72.222%; width: 11.111%; --segment-color: var(--route-amber); }
+    .route-segment.feedback { left: 83.333%; width: 11.111%; --segment-color: var(--route-green); }
     .hash-route-node { position: relative; z-index: 1; display: grid; justify-items: center; gap: 3px; --node-color: #fff; }
     .hash-route-node[data-phase="info"] { --node-color: var(--route-blue); }
     .hash-route-node[data-phase="agent"] { --node-color: var(--route-orange); }
     .hash-route-node[data-phase="execute"] { --node-color: var(--route-violet); }
+    .hash-route-node[data-phase="risk"] { --node-color: var(--route-amber); }
     .hash-route-node[data-phase="feedback"] { --node-color: var(--route-green); }
     .hash-node-button {
-      width: 31px;
-      height: 31px;
+      width: 44px;
+      height: 44px;
       padding: 0;
       color: var(--route-muted);
       border-color: #4a4a4a;
@@ -1071,26 +1321,33 @@
     }
     .hash-route-node.is-reached .hash-node-button { color: var(--node-color); border-color: var(--node-color); }
     .hash-route-node.is-active .hash-node-button { color: #090909; border-color: var(--node-color); background: var(--node-color); }
+    #hash-app.is-aily-narrative .hash-route-node[data-node="aily"].is-active .hash-node-button {
+      --node-progress: 0%;
+      color: #fff;
+      border-color: #5c351c;
+      background: conic-gradient(var(--route-orange) var(--node-progress), #353535 0);
+      box-shadow: inset 0 0 0 4px var(--route-canvas);
+    }
     .hash-node-name { color: var(--route-muted); font-size: 11px; white-space: nowrap; }
     .hash-route-node.is-active .hash-node-name { color: #fff; }
     .hash-route-groups {
       display: none;
-      grid-template-columns: 3fr 1fr 3fr 1fr;
+      grid-template-columns: 3fr 1fr 3fr 1fr 1fr;
       gap: 8px;
       width: min(1320px, 100%);
-      min-width: 820px;
+      min-width: 930px;
       margin: 3px auto 0;
     }
     .hash-group-label { text-align: center; font-size: 9px; }
     .hash-detail-main { width: min(1240px, calc(100% - 48px)); margin: 0 auto; padding: 50px 0 90px; }
-    .hash-node-hero { display: grid; grid-template-columns: 1.35fr .8fr; gap: clamp(30px, 7vw, 90px); padding-bottom: 38px; border-bottom: 1px solid var(--route-line); }
+    .hash-node-hero { display: grid; grid-template-columns: 1.35fr .8fr; align-items: center; gap: clamp(30px, 7vw, 90px); min-height: calc(100svh - var(--route-sticky-offset, 112px)); padding-bottom: 38px; border-bottom: 1px solid var(--route-line); }
     .hash-stage-code { font-size: 12px; }
     .hash-node-hero h2 { max-width: 13ch; margin: 14px 0 18px; font-size: clamp(38px, 5vw, 70px); font-weight: 400; line-height: 1.04; }
     .hash-node-hero p { max-width: 720px; margin-bottom: 0; color: #c7c8ca; }
-    .hash-node-output { align-self: end; padding-left: 22px; border-left: 2px solid var(--active-color, var(--route-blue)); }
+    .hash-node-output { align-self: end; padding-left: 22px; border-left: 1px solid var(--active-color, var(--route-blue)); }
     .hash-node-output h3 { margin: 10px 0 8px; font-size: 24px; font-weight: 500; }
-    .hash-node-tabs { display: flex; flex-wrap: wrap; gap: 7px; margin: 24px 0; }
-    .hash-tab { min-height: 34px; padding: 6px 13px; color: var(--route-muted); }
+    .hash-node-tabs { display: none; }
+    .hash-tab { min-height: 44px; padding: 8px 14px; color: var(--route-muted); }
     #hash-app .hash-tab.is-active { color: #090909; border-color: #f6f6f3; background: #f6f6f3; }
     .hash-node-panel[hidden] { display: none !important; }
     .hash-node-panel { animation: hash-panel-in 240ms ease both; }
@@ -1120,9 +1377,7 @@
     .hash-next small { color: var(--route-muted); }
     .hash-next b { display: block; margin-top: 5px; font-weight: 500; }
     .hash-footer { padding: 28px 24px; color: #777; border-top: 1px solid var(--route-line); font-family: var(--mono); font-size: 10px; text-align: center; }
-    #hash-app.is-aily-narrative .hash-node-tabs,
     #hash-app.is-aily-narrative .hash-next { display: none; }
-    #hash-app.is-aily-narrative .hash-node-hero { align-items: center; min-height: calc(100svh - 116px); }
     .aily-narrative { margin-top: 4px; }
     .aily-intro {
       display: flex;
@@ -1135,6 +1390,25 @@
       font-size: 11px;
     }
     .aily-intro strong { color: var(--route-orange); font-weight: 500; }
+    .aily-case-thread {
+      position: sticky;
+      top: var(--route-sticky-offset, 112px);
+      z-index: 12;
+      display: grid;
+      grid-template-columns: 1.15fr repeat(4, minmax(0, 1fr));
+      border: 1px solid #363636;
+      background: #0c0c0c;
+    }
+    .aily-case-id,
+    .aily-case-field { min-width: 0; padding: 11px 13px; border-right: 1px solid #303030; }
+    .aily-case-field:last-child { border-right: 0; }
+    .aily-case-id { display: flex; align-items: center; gap: 10px; }
+    .aily-case-id::before { content: ""; flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%; background: var(--route-orange); }
+    .aily-case-id b,
+    .aily-case-field b { display: block; overflow: visible; color: #f4f4f1; font-size: 12px; font-weight: 400; overflow-wrap: anywhere; text-overflow: clip; white-space: normal; }
+    .aily-case-id span,
+    .aily-case-field span { display: block; margin-bottom: 3px; color: var(--route-muted); font-family: var(--mono); font-size: 9px; }
+    .aily-case-id small { color: #c6c6c3; font-family: var(--mono); font-size: 10px; }
     .aily-scene {
       position: relative;
       display: grid;
@@ -1180,6 +1454,55 @@
     .aily-hypothesis code { color: var(--route-orange); font-family: var(--mono); }
     .aily-hypothesis span { color: #d6d6d3; font-size: 13px; }
     .aily-hypothesis em { color: var(--route-muted); font-family: var(--mono); font-size: 10px; font-style: normal; }
+    .aily-priority-loop {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: .82fr 1.18fr;
+      border: 1px solid #383838;
+      background: #131313;
+    }
+    .aily-priority-source,
+    .aily-priority-queue { min-width: 0; padding: 22px; }
+    .aily-priority-source { border-right: 1px solid #303030; }
+    .aily-priority-source small,
+    .aily-priority-queue > small,
+    .aily-priority-result small { color: var(--route-muted); font-family: var(--mono); font-size: 9px; }
+    .aily-priority-source h4 { margin: 10px 0 9px; font-size: 21px; font-weight: 400; }
+    .aily-priority-source p { margin: 0; color: #c8c8c5; font-size: 13px; }
+    .aily-priority-source p span { color: var(--route-orange); }
+    .aily-priority-criteria { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+    .aily-priority-criteria span { padding: 5px 8px; border: 1px solid #383838; color: #b9b9b6; font-size: 10px; }
+    .aily-priority-note { margin-top: 16px; padding-top: 13px; color: var(--route-muted); border-top: 1px solid #303030; font-size: 10px; }
+    .aily-priority-list { display: grid; gap: 0; margin-top: 10px; }
+    .aily-priority-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) 145px;
+      align-items: center;
+      gap: 11px;
+      min-height: 48px;
+      padding: 9px 10px;
+      border-top: 1px solid #303030;
+    }
+    .aily-priority-item:last-child { border-bottom: 1px solid #303030; }
+    .aily-priority-item.is-first { background: rgba(255,134,47,.07); }
+    .aily-priority-item.is-first::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: var(--route-orange); }
+    .aily-priority-item code { color: var(--route-orange); font-family: var(--mono); font-size: 10px; }
+    .aily-priority-item b { font-size: 13px; font-weight: 400; }
+    .aily-priority-item span { color: var(--route-muted); font-size: 10px; text-align: right; }
+    .aily-priority-trigger {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1.6fr;
+      align-items: stretch;
+      border-top: 1px solid #383838;
+      background: #101010;
+    }
+    .aily-priority-result { display: grid; align-content: center; gap: 4px; min-height: 72px; padding: 13px 16px; }
+    .aily-priority-result b { font-size: 12px; font-weight: 400; }
+    .aily-priority-result.escalate { border-left: 2px solid var(--route-orange); background: rgba(255,134,47,.06); }
+    .aily-priority-arrow { display: grid; place-items: center; color: var(--route-orange); font-family: var(--mono); font-size: 16px; }
     .aily-query-flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
     .aily-query { position: relative; min-height: 120px; padding: 15px; border: 1px solid #2d2d2d; background: #171717; }
     .aily-query:not(:last-child)::after { content: "→"; position: absolute; top: 42%; right: -17px; color: var(--route-orange); font-family: var(--mono); font-size: 18px; }
@@ -1207,6 +1530,85 @@
     .aily-scope-step small { color: var(--route-muted); font-family: var(--mono); }
     .aily-scope-step b { display: block; margin-top: 14px; font-size: 18px; font-weight: 500; }
     .aily-scope-step span { display: block; margin-top: 6px; color: var(--route-muted); font-size: 12px; }
+    .aily-loop-visual {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 250px;
+      min-height: 360px;
+      border: 1px solid #383838;
+      background: #111;
+      overflow: hidden;
+    }
+    .aily-loop-stage-area { display: grid; min-width: 0; padding: clamp(24px, 4vw, 48px); }
+    .aily-loop-stage {
+      grid-area: 1 / 1;
+      display: grid;
+      align-content: center;
+      gap: 24px;
+      min-width: 0;
+      opacity: 0;
+      transform: translateY(16px);
+      pointer-events: none;
+    }
+    .aily-scene.is-active .aily-loop-stage {
+      animation: aily-loop-cycle 12s cubic-bezier(.22,1,.36,1) infinite;
+      animation-delay: calc(var(--loop-i) * 2s);
+    }
+    .aily-loop-copy small { color: var(--route-orange); font-family: var(--mono); font-size: 10px; }
+    .aily-loop-copy h4 { margin: 8px 0 5px; font-size: clamp(23px, 3vw, 34px); font-weight: 400; }
+    .aily-loop-copy p { max-width: 620px; margin: 0; color: #bdbdba; font-size: 13px; }
+    .aily-loop-shape { position: relative; display: grid; place-items: center; min-height: 132px; }
+    .aily-loop-dot {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 74px;
+      height: 74px;
+      border: 1px solid var(--route-orange);
+      border-radius: 50%;
+      background: #17120f;
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-align: center;
+    }
+    .aily-loop-dot::after { content: ""; position: absolute; inset: -9px; border: 1px solid rgba(255,134,47,.24); border-radius: inherit; }
+    .aily-loop-row { position: relative; display: flex; align-items: center; justify-content: space-between; width: min(540px, 94%); }
+    .aily-loop-row::before { content: ""; position: absolute; left: 8%; right: 8%; height: 1px; background: var(--route-orange); }
+    .aily-loop-row .aily-loop-dot { width: 58px; height: 58px; background: #151515; }
+    .aily-loop-row .aily-loop-dot:first-child { background: #2a170d; }
+    .aily-loop-network,
+    .aily-loop-surface { display: grid; gap: 8px; width: min(560px, 96%); }
+    .aily-loop-network { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .aily-loop-surface { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .aily-loop-domain,
+    .aily-loop-region { position: relative; padding: 13px 10px; border: 1px solid #3b3b3b; background: #171717; text-align: center; }
+    .aily-loop-domain::before { content: ""; display: block; width: 7px; height: 7px; margin: 0 auto 9px; border-radius: 50%; background: var(--route-orange); }
+    .aily-loop-domain b,
+    .aily-loop-region b { display: block; font-size: 12px; font-weight: 400; }
+    .aily-loop-domain span,
+    .aily-loop-region span { color: var(--route-muted); font-family: var(--mono); font-size: 9px; }
+    .aily-loop-region.is-signal { border-color: var(--route-orange); background: rgba(255,134,47,.08); }
+    .aily-loop-gate { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 24px; width: min(560px, 96%); }
+    .aily-loop-gate-core { display: grid; place-items: center; width: 116px; height: 116px; border: 1px solid var(--route-orange); border-radius: 50%; color: #fff; font-size: 16px; }
+    .aily-loop-decisions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+    .aily-loop-decisions span { padding: 9px 11px; border: 1px solid #363636; color: #cfcfcb; font-size: 11px; }
+    .aily-loop-query { display: flex; align-items: center; gap: 20px; width: min(560px, 96%); padding: 20px; border: 1px solid rgba(255,134,47,.5); background: rgba(255,134,47,.06); }
+    .aily-loop-query strong { color: var(--route-orange); font-size: 40px; font-weight: 400; }
+    .aily-loop-query b { display: block; margin-bottom: 5px; font-size: 15px; font-weight: 400; }
+    .aily-loop-query span { color: var(--route-muted); font-size: 12px; }
+    .aily-loop-meter { display: grid; align-content: center; gap: 5px; padding: 24px 20px; border-left: 1px solid #303030; background: #141414; }
+    .aily-loop-meter > small { margin-bottom: 12px; color: var(--route-muted); font-family: var(--mono); font-size: 9px; }
+    .aily-loop-marker { display: grid; grid-template-columns: 23px 1fr; align-items: center; gap: 8px; min-height: 36px; color: #747474; font-size: 11px; }
+    .aily-loop-marker i { display: grid; place-items: center; width: 23px; height: 23px; border: 1px solid #3b3b3b; border-radius: 50%; font-family: var(--mono); font-size: 9px; font-style: normal; }
+    .aily-scene.is-active .aily-loop-marker {
+      animation: aily-loop-marker 12s ease infinite;
+      animation-delay: calc(var(--loop-i) * 2s);
+    }
+    .aily-loop-rule { margin-top: 14px; padding-top: 14px; color: #d7d7d3; border-top: 1px solid #333; font-size: 11px; }
+    .aily-loop-rule b { color: var(--route-orange); font-weight: 400; }
     .aily-branches { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 18px; }
     .aily-branch { padding: 13px; border: 1px dashed #3a3a3a; color: #c9c9c6; font-size: 13px; }
     .aily-branch b { display: block; margin-bottom: 5px; font-family: var(--mono); font-size: 11px; }
@@ -1225,7 +1627,7 @@
     .aily-handoff { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 18px; padding: 17px 20px; border: 1px solid rgba(255,134,47,.45); background: rgba(255,134,47,.08); }
     .aily-handoff b { font-weight: 500; }
     .aily-handoff span { color: var(--route-muted); font-family: var(--mono); font-size: 11px; }
-    .aily-reveal { opacity: 0; transform: translateY(26px); }
+    .aily-reveal { opacity: 1; transform: none; }
     .aily-scene.is-active .aily-reveal { animation: aily-reveal 620ms cubic-bezier(.22,1,.36,1) both; }
     .aily-scene.is-active .aily-reveal:nth-child(2) { animation-delay: 100ms; }
     .aily-scene.is-active .aily-reveal:nth-child(3) { animation-delay: 190ms; }
@@ -1242,7 +1644,7 @@
     .aily-lane,
     .aily-scope-step,
     .aily-branch,
-    .aily-check { opacity: 0; transform: translateY(20px); }
+    .aily-check { opacity: 1; transform: none; }
     .aily-scene.is-active .aily-hypothesis,
     .aily-scene.is-active .aily-query,
     .aily-scene.is-active .aily-evidence,
@@ -1275,9 +1677,17 @@
     @keyframes aily-reveal { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes aily-enter-left { from { opacity: 0; transform: translateX(-52px); } to { opacity: 1; transform: translateX(0); } }
     @keyframes aily-enter-right { from { opacity: 0; transform: translateX(52px); } to { opacity: 1; transform: translateX(0); } }
-    @keyframes aily-gate-pulse { 0% { box-shadow: 0 0 0 rgba(255,134,47,0); } 50% { box-shadow: 0 0 42px rgba(255,134,47,.18); } 100% { box-shadow: 0 0 0 rgba(255,134,47,0); } }
+    @keyframes aily-gate-pulse { 0%, 100% { opacity: .72; } 50% { opacity: 1; } }
+    @keyframes aily-loop-cycle {
+      0%, 15% { opacity: 1; transform: translateY(0); }
+      20%, 100% { opacity: 0; transform: translateY(-10px); }
+    }
+    @keyframes aily-loop-marker {
+      0%, 15% { color: #fff; }
+      20%, 100% { color: #747474; }
+    }
     @media (max-width: 760px) {
-      #hash-app.is-aily-narrative .hash-node-hero { min-height: calc(100svh - 172px); }
+      .hash-node-hero { min-height: calc(100svh - var(--route-sticky-offset, 112px)); }
       .aily-scene { min-height: calc(100svh - 172px); padding: 50px 0; }
       .aily-scene-grid,
       .aily-scene-grid.three,
@@ -1288,6 +1698,20 @@
       .aily-scope,
       .aily-branches { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .aily-scope-step::before { display: none; }
+      .aily-case-thread { position: relative; top: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .aily-case-id { grid-column: 1 / -1; border-bottom: 1px solid #303030; }
+      .aily-loop-visual { grid-template-columns: 1fr; }
+      .aily-priority-loop { grid-template-columns: 1fr; }
+      .aily-priority-source { border-right: 0; border-bottom: 1px solid #303030; }
+      .aily-priority-trigger { grid-template-columns: 1fr auto 1fr; }
+      .aily-priority-result.escalate { grid-column: 1 / -1; border-top: 1px solid #303030; border-left-width: 2px; }
+      .aily-priority-trigger .aily-priority-arrow:nth-child(4) { display: none; }
+      .aily-loop-meter { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 3px; padding: 14px; border-top: 1px solid #303030; border-left: 0; }
+      .aily-loop-meter > small,
+      .aily-loop-rule { grid-column: 1 / -1; }
+      .aily-loop-marker { display: block; min-height: auto; text-align: center; }
+      .aily-loop-marker i { margin: 0 auto 4px; }
+      .aily-loop-marker span { font-size: 9px; }
       .aily-handoff { align-items: flex-start; flex-direction: column; }
     }
     @media (max-width: 420px) {
@@ -1295,6 +1719,24 @@
       .aily-query-flow,
       .aily-scope,
       .aily-branches { grid-template-columns: 1fr; }
+      .aily-case-thread { grid-template-columns: 1fr; }
+      .aily-case-id,
+      .aily-case-field { border-right: 0; border-bottom: 1px solid #303030; }
+      .aily-case-field:last-child { border-bottom: 0; }
+      .aily-loop-stage-area { padding: 24px 16px; }
+      .aily-priority-source,
+      .aily-priority-queue { padding: 17px 14px; }
+      .aily-priority-item { grid-template-columns: 34px minmax(0, 1fr); }
+      .aily-priority-item span { grid-column: 2; text-align: left; }
+      .aily-priority-trigger { grid-template-columns: 1fr; }
+      .aily-priority-arrow { min-height: 22px; transform: rotate(90deg); }
+      .aily-priority-trigger .aily-priority-arrow:nth-child(4) { display: grid; }
+      .aily-priority-result.escalate { grid-column: auto; }
+      .aily-loop-network { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .aily-loop-surface { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .aily-loop-gate { grid-template-columns: 1fr; justify-items: center; }
+      .aily-loop-decisions { width: 100%; }
+      .aily-loop-meter { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .aily-scene h3 { font-size: 34px; }
       .aily-object { padding: 17px; }
     }
@@ -1310,16 +1752,36 @@
       .aily-scene.is-active .aily-reveal,
       .aily-scene.is-active .aily-object,
       .aily-scene.is-active .aily-gate-status { opacity: 1; transform: none; animation: none; }
+      .aily-loop-stage,
+      .aily-scene.is-active .aily-loop-stage { position: relative; grid-area: auto; opacity: 1; transform: none; animation: none; }
+      .aily-loop-stage-area { gap: 30px; }
+      .aily-loop-marker,
+      .aily-scene.is-active .aily-loop-marker { color: #d6d6d3; animation: none; }
     }
     @media (max-width: 760px) {
       .hash-home-header { grid-template-columns: 1fr auto; }
-      .hash-center-actions { order: 3; grid-column: 1 / -1; }
+      .hash-center-actions { order: 3; grid-column: 1 / -1; gap: 18px; justify-content: flex-start; }
       .hash-contact { min-width: auto; }
+      .hash-contact-page { width: calc(100% - 32px); padding-top: 38px; }
+      .hash-contact-hero { grid-template-columns: 1fr; gap: 34px; padding: 62px 0 54px; }
+      .hash-contact-hero h2 { font-size: clamp(56px, 17vw, 92px); }
+      .hash-contact-grid { grid-template-columns: 1fr; }
+      .hash-contact-profile { padding-right: 0; border-right: 0; border-bottom: 1px solid var(--route-line); }
+      .hash-contact-reach { padding-left: 0; }
+      .hash-contact-footer { align-items: flex-start; flex-direction: column; }
+      .contact-resume-header { grid-template-columns: 1fr; gap: 24px; }
+      .contact-resume-grid { grid-template-columns: 1fr; gap: 0; }
+      .contact-resume-aside { padding-right: 0; border-right: 0; border-bottom: 1px solid var(--route-line); }
+      .contact-resume-main { padding-top: 26px; }
+      .contact-team-grid { grid-template-columns: 1fr; }
+      .contact-team-card.lead { grid-column: auto; }
       .hash-hero { min-height: auto; padding: 62px 20px 32px; }
       .hash-hero h2 { font-size: 46px; }
       .hash-phases { grid-template-columns: 1fr 1fr; }
-      .hash-phase:nth-child(2) { border-right: 0; }
-      .hash-phase:nth-child(-n+2) { border-bottom: 1px solid var(--route-line); }
+      .hash-phase:nth-child(2),
+      .hash-phase:nth-child(4) { border-right: 0; }
+      .hash-phase:nth-child(-n+4) { border-bottom: 1px solid var(--route-line); }
+      .hash-phase:nth-child(5) { grid-column: 1 / -1; }
       .hash-detail-main { width: calc(100% - 32px); padding-top: 38px; }
       .hash-node-hero { grid-template-columns: 1fr; gap: 28px; }
       .hash-node-output { padding-left: 16px; }
@@ -1332,8 +1794,25 @@
       .hash-hero h2 { font-size: 40px; }
       .hash-phases { grid-template-columns: 1fr; }
       .hash-phase { min-height: 140px; border-right: 0; border-bottom: 1px solid var(--route-line); }
+      .hash-phase:nth-child(5) { grid-column: auto; }
       .hash-phase:last-of-type { border-bottom: 0; }
       .hash-node-hero h2 { font-size: 38px; }
+      .hash-contact-kicker { align-items: flex-start; flex-direction: column; gap: 6px; }
+      .hash-contact-facts { grid-template-columns: 1fr; }
+      .hash-contact-fact, .hash-contact-fact + .hash-contact-fact { min-height: auto; padding: 14px 0; border-right: 0; border-bottom: 1px solid #303030; }
+      .hash-contact-fact:last-child { border-bottom: 0; }
+      .hash-contact-channel { grid-template-columns: 64px minmax(0, 1fr); gap: 12px; }
+      .hash-contact-channel .hash-contact-value { align-items: flex-start; flex-direction: column; gap: 9px; }
+      .hash-copy-status { grid-column: 2; }
+      .contact-resume-header { padding-top: 26px; }
+      .contact-resume-name h2 { font-size: 42px; }
+      .contact-resume-status { padding-left: 12px; }
+      .contact-resume-aside, .contact-resume-main { padding-top: 22px; padding-bottom: 22px; }
+      .contact-resume-footer { align-items: flex-start; flex-direction: column; }
+      .contact-team-head { align-items: flex-start; flex-direction: column; gap: 10px; }
+      .contact-team-head p { max-width: 100%; text-align: left; }
+      .contact-team-grid { grid-template-columns: 1fr; }
+      .contact-team-card.lead { grid-column: auto; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -1344,25 +1823,42 @@
       .hash-scroll-reveal { transition: none; animation: none; opacity: 1; transform: none; }
       .hash-detail-main.is-entering .hash-node-hero > div,
       .hash-detail-main.is-entering .hash-node-tabs,
-      .hash-detail-main.is-entering .hash-node-panels { animation: none; }
+      .hash-detail-main.is-entering .hash-node-panels,
+      #hash-app.hash-home-entering .hash-home-header,
+      #hash-app.hash-home-entering .hash-kicker,
+      #hash-app.hash-home-entering .hash-hero-copy h2,
+      #hash-app.hash-home-entering .hash-hero-copy > p,
+      #hash-app.hash-home-entering .hash-hero-actions,
+      #hash-app.hash-home-entering .hash-phase,
+      #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering::before,
+      #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-name,
+      #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-status,
+      #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume::before,
+      #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-aside .contact-resume-block,
+      #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-main .contact-resume-block,
+      #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-footer,
+      #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-team-head { animation: none; }
+      .contact-team::before { transition: none; transform: scaleX(1); }
+      .contact-team-head.contact-scroll-reveal,
+      .contact-team-card.contact-scroll-reveal { opacity: 1; transform: none; transition: none; }
     }
   </style>
+  <link rel="stylesheet" href="shengnong-nodes/narrative-core.css?v=20260719-2">
 </head>
 <body>
-  <a class="skip-link" href="#collection">跳到架构正文</a>
+  <a class="skip-link" href="#node/collection">跳到架构正文</a>
   <div class="app">
-    <div id="hash-app" data-view="home">
+    <div id="hash-app" class="hash-home-entering" data-view="home">
       <header class="hash-home-header">
         <div class="hash-brand">
-          <div class="brand-mark" aria-hidden="true">SN</div>
+          <div class="brand-mark"><img class="brand-logo" src="shengnong-nodes/sunner-logo.png" alt="圣农" width="300" height="56"></div>
           <div><small>圣农方案 / blueprint</small><b>经营智能中枢</b></div>
         </div>
         <div class="hash-center-actions">
           <button class="hash-button" type="button" data-action="home">首页</button>
           <button class="hash-button" type="button" data-action="scheme">方案详情</button>
-          <button class="hash-button hash-pending" type="button" data-action="cases" aria-disabled="true" disabled>案例实战</button>
         </div>
-        <span class="hash-contact">联系我们</span>
+        <button class="hash-contact" type="button" data-action="contact">联系我们</button>
       </header>
 
       <main>
@@ -1370,18 +1866,19 @@
           <div class="hash-hero">
             <div class="hash-hero-copy">
               <span class="hash-kicker">SHENGNONG / OPERATING INTELLIGENCE</span>
-              <h2>让每一个经营异常，都走向可验证的结果</h2>
+              <h2 tabindex="-1">让每一个经营异常，都走向可验证的结果</h2>
               <p>从分散事实、Agent 调查、管理层审批，到跨部门执行与结果校准。这里呈现的不是一个聊天机器人，而是一套持续运转的企业经营闭环。</p>
               <div class="hash-hero-actions">
                 <button class="hash-button hash-primary" type="button" data-action="explore">探索完整方案</button>
-                <span class="hash-boundary">8 个节点 · 1 个 Agent · 管理层最终决策</span>
+                <span class="hash-boundary">9 个节点 · 1 个 Agent · 管理层最终决策</span>
               </div>
             </div>
-            <div class="hash-phases" aria-label="经营闭环四个阶段">
-              <article class="hash-phase info"><small>01 / FACT</small><b>经营事实进入</b><span>SAP、POS、现场与外部市场形成可信证据。</span></article>
-              <article class="hash-phase agent"><small>02 / INVESTIGATE</small><b>智能调查研判</b><span>Agent 围绕异常逐层补证据、验证原因。</span></article>
-              <article class="hash-phase execute"><small>03 / DECIDE &amp; EXECUTE</small><b>人工批准与执行</b><span>管理层拍板，任务责任到人并按里程碑推进。</span></article>
-              <article class="hash-phase feedback"><small>04 / CALIBRATE</small><b>结果回读与校准</b><span>新数据验证成效，反向修正规则与经验。</span></article>
+            <div class="hash-phases" aria-label="经营闭环五组核心能力">
+              <article class="hash-phase info"><small>01 / EVIDENCE</small><b>数据与证据</b><span>经营事实被可靠接收、统一口径并登记为待调查事件。</span></article>
+              <article class="hash-phase agent"><small>02 / INVESTIGATE</small><b>调查与决策支持</b><span>Aily 逐层补证、比较方案并形成决策就绪材料。</span></article>
+              <article class="hash-phase execute"><small>03 / APPROVE &amp; EXECUTE</small><b>审批与责任执行</b><span>管理层拍板，任务责任到人并按业务节点推进。</span></article>
+              <article class="hash-phase risk"><small>04 / ANTICIPATE</small><b>风险预判与治理</b><span>新数据验证结果，并把销售变化传导到产销存决策。</span></article>
+              <article class="hash-phase feedback"><small>05 / IMPROVE</small><b>管理复盘与改进</b><span>从多个事件识别管理短板，把经验更新为新规则。</span></article>
               <span class="hash-signal" aria-hidden="true"></span>
             </div>
           </div>
@@ -1391,25 +1888,27 @@
           <nav class="hash-route-bar" aria-label="经营智能中枢流程">
             <div class="hash-route-head">
               <button class="hash-button" type="button" data-action="back-home">← 首页</button>
-              <span class="hash-contact">联系我们</span>
+              <button class="hash-contact" type="button" data-action="contact">联系我们</button>
             </div>
             <div class="hash-route-scroll">
             <div class="hash-route-track">
               <span class="route-segment info"></span>
               <span class="route-segment agent"></span>
               <span class="route-segment execute"></span>
+              <span class="route-segment risk"></span>
               <span class="route-segment feedback"></span>
-              <div class="hash-route-node is-active is-reached" data-node="collection" data-phase="info"><button class="hash-node-button" type="button">01</button><span class="hash-node-name">信息采集</span></div>
-              <div class="hash-route-node" data-node="transport" data-phase="info"><button class="hash-node-button" type="button">02</button><span class="hash-node-name">数据传输</span></div>
-              <div class="hash-route-node" data-node="foundation" data-phase="info"><button class="hash-node-button" type="button">03</button><span class="hash-node-name">决策底座</span></div>
-              <div class="hash-route-node" data-node="aily" data-phase="agent"><button class="hash-node-button" type="button">04</button><span class="hash-node-name">Aily Agent</span></div>
-              <div class="hash-route-node" data-node="decision" data-phase="execute"><button class="hash-node-button" type="button">05</button><span class="hash-node-name">人工决策</span></div>
-              <div class="hash-route-node" data-node="milestone" data-phase="execute"><button class="hash-node-button" type="button">06</button><span class="hash-node-name">里程碑门</span></div>
-              <div class="hash-route-node" data-node="coaching" data-phase="execute"><button class="hash-node-button" type="button">07</button><span class="hash-node-name">岗位辅导</span></div>
-              <div class="hash-route-node" data-node="feedback" data-phase="feedback"><button class="hash-node-button" type="button">08</button><span class="hash-node-name">结果校准</span></div>
+              <div class="hash-route-node is-active is-reached" data-node="collection" data-phase="info"><button class="hash-node-button" type="button" aria-label="01 信息采集">01</button><span class="hash-node-name">信息采集</span></div>
+              <div class="hash-route-node" data-node="transport" data-phase="info"><button class="hash-node-button" type="button" aria-label="02 可靠传输">02</button><span class="hash-node-name">数据传输</span></div>
+              <div class="hash-route-node" data-node="foundation" data-phase="info"><button class="hash-node-button" type="button" aria-label="03 经营证据与信号">03</button><span class="hash-node-name">证据与信号</span></div>
+              <div class="hash-route-node" data-node="aily" data-phase="agent"><button class="hash-node-button" type="button" aria-label="04 Aily 智能研判">04</button><span class="hash-node-name">Aily Agent</span></div>
+              <div class="hash-route-node" data-node="decision" data-phase="execute"><button class="hash-node-button" type="button" aria-label="05 管理审批与授权">05</button><span class="hash-node-name">管理审批</span></div>
+              <div class="hash-route-node" data-node="execution" data-phase="execute"><button class="hash-node-button" type="button" aria-label="06 责任执行与岗位指导">06</button><span class="hash-node-name">责任执行</span></div>
+              <div class="hash-route-node" data-node="milestone" data-phase="execute"><button class="hash-node-button" type="button" aria-label="07 业务里程碑与验收">07</button><span class="hash-node-name">里程碑验收</span></div>
+              <div class="hash-route-node" data-node="risk" data-phase="risk"><button class="hash-node-button" type="button" aria-label="08 结果校准与风险预判">08</button><span class="hash-node-name">风险预判</span></div>
+              <div class="hash-route-node" data-node="review" data-phase="feedback"><button class="hash-node-button" type="button" aria-label="09 管理复盘与持续改进">09</button><span class="hash-node-name">管理复盘</span></div>
             </div>
             <div class="hash-route-groups" aria-hidden="true">
-              <span class="hash-group-label">信息收集</span><span class="hash-group-label">智能研判</span><span class="hash-group-label">决策执行</span><span class="hash-group-label">反馈校准</span>
+              <span class="hash-group-label">数据与证据</span><span class="hash-group-label">调查支持</span><span class="hash-group-label">审批与执行</span><span class="hash-group-label">风险治理</span><span class="hash-group-label">管理改进</span>
             </div>
             </div>
           </nav>
@@ -1418,28 +1917,18 @@
             <header class="hash-node-hero">
               <div>
                 <span class="hash-stage-code" data-node-code>01 / COLLECTION</span>
-                <h2 data-node-title>信息采集层</h2>
-                <p data-node-summary>从 SAP、POS、CRM、WMS、飞书与外部市场取得带来源、时间、权限和质量状态的经营事实。</p>
+                <h2 data-node-title tabindex="-1">信息采集</h2>
+                <p data-node-summary>从业务系统、飞书和合法外部来源取得经营事实，同时登记来源、时间、权限和质量状态。</p>
               </div>
               <div class="hash-node-output">
                 <span class="hash-output-label">THIS PAGE OUTPUT</span>
-                <h3 data-node-output>原始证据包</h3>
-                <p data-node-output-copy>本页产物是下一节点的正式输入，八个页面共同构成一条连续的经营数据与责任链。</p>
+                <h3 data-node-output>原始数据</h3>
+                <p data-node-output-copy>本页产物是下一节点的正式输入，九个页面共同构成一条连续的经营数据与责任链。</p>
               </div>
             </header>
 
-            <div class="hash-node-tabs" role="tablist" aria-label="节点详情">
-              <button class="hash-tab is-active" type="button" role="tab" aria-selected="true" data-node-tab="flow">流程示例</button>
-              <button class="hash-tab" type="button" role="tab" aria-selected="false" data-node-tab="contract">输入与产物</button>
-              <button class="hash-tab" type="button" role="tab" aria-selected="false" data-node-tab="technology">技术落地</button>
-              <button class="hash-tab" type="button" role="tab" aria-selected="false" data-node-tab="acceptance">验收与边界</button>
-            </div>
-
             <div class="hash-node-panels">
-              <div class="hash-node-panel hash-node-flow" data-node-panel="flow"></div>
-              <div class="hash-node-panel" data-node-panel="contract" hidden></div>
-              <div class="hash-node-panel" data-node-panel="technology" hidden></div>
-              <div class="hash-node-panel" data-node-panel="acceptance" hidden></div>
+              <div id="node-panel-flow" class="hash-node-panel hash-node-flow" data-node-panel="flow"></div>
             </div>
 
             <div class="hash-next">
@@ -1448,67 +1937,160 @@
             </div>
           </div>
         </section>
+
+        <section class="hash-contact-page" data-view="contact" aria-labelledby="contact-title">
+          <div class="hash-contact-shell">
+            <div class="contact-resume">
+              <header class="contact-resume-header">
+                <div class="contact-resume-name">
+                  <span class="contact-resume-kicker">CONTACT / PROFILE</span>
+                  <h2 id="contact-title" tabindex="-1">刘清源</h2>
+                  <p>工商管理专业 · 南昌航空大学</p>
+                </div>
+                <div class="contact-resume-status"><small>PROFILE STATUS</small><strong>在读 · 持续构建中</strong><span>大二 · 2026.09</span></div>
+              </header>
+              <div class="contact-resume-grid">
+                <aside class="contact-resume-aside">
+                  <section class="contact-resume-block">
+                    <span class="contact-resume-label">01 / EDUCATION</span>
+                    <strong>南昌航空大学</strong>
+                    <span>工商管理专业</span>
+                    <span>本科在读</span>
+                  </section>
+                  <section class="contact-resume-block">
+                    <span class="contact-resume-label">02 / CONTACT</span>
+                    <div class="contact-resume-links">
+                      <a href="https://github.com/Lil-BobCN/feishu-ai-talent-competition">项目公开仓库</a>
+                    </div>
+                  </section>
+                </aside>
+                <div class="contact-resume-main">
+                  <section class="contact-resume-block">
+                    <span class="contact-resume-label">03 / ABOUT</span>
+                    <h3>把问题讲清楚，<br>再把事情推进下去。</h3>
+                    <p>我正在用管理学的视角学习企业经营与 AI 产品，关注如何把复杂的问题拆成可以理解、可以验证、可以落地的行动。</p>
+                  </section>
+                  <section class="contact-resume-block">
+                    <span class="contact-resume-label">04 / FOCUS</span>
+                    <div class="contact-resume-tags"><span>企业数字化</span><span>Agent 工作流</span><span>经营管理</span><span>产品方案</span></div>
+                  </section>
+                </div>
+              </div>
+              <footer class="contact-resume-footer"><span>感谢阅读这份方案。</span><a href="#home" data-action="home">返回首页 →</a></footer>
+            </div>
+            <section class="contact-team" aria-labelledby="contact-team-title">
+              <div class="contact-team-head">
+                <div><span class="contact-team-label">05 / PROJECT TEAM</span><h3 id="contact-team-title">项目团队：三类关键分工</h3></div>
+                <p>管理判断、数据挖掘与界面实现共同把方案推进到可验证的结果。</p>
+              </div>
+              <div class="contact-team-grid">
+                <article class="contact-team-card lead">
+                  <small>导师 / MANAGEMENT &amp; GOVERNANCE</small>
+                  <h4>梁小清</h4>
+                  <span class="contact-team-role">班主任 · 项目导师 · 南昌航空大学经济管理学院</span>
+                  <p>企业管理硕士，长期从事企业管理、组织管理与人力资源管理教学和实践。负责指导命题拆解、管理学表达与方案边界校准，让技术方案始终回到真实的经营问题。</p>
+                  <div class="contact-team-tags"><span>企业管理</span><span>组织管理</span><span>人力资源管理</span><span>项目指导</span></div>
+                </article>
+                <article class="contact-team-card">
+                  <small>成员 / DATA &amp; AGENT</small>
+                  <h4>杜欣宇</h4>
+                  <span class="contact-team-role">数据挖掘自动化</span>
+                  <p>工商管理专业本科在读，负责数据处理、异常监测脚本、Agent 测试与问题优化。</p>
+                  <div class="contact-team-tags"><span>Python</span><span>SQL</span><span>数据挖掘</span><span>Agent</span></div>
+                </article>
+                <article class="contact-team-card">
+                  <small>成员 / FRONTEND &amp; EXPERIENCE</small>
+                  <h4>丁铭浩</h4>
+                  <span class="contact-team-role">前端开发 · AI 应用界面实现</span>
+                  <p>工商管理专业本科在读，负责页面结构、交互实现与响应式体验，让复杂方案能够被清楚地看见和使用。</p>
+                  <div class="contact-team-tags"><span>HTML / CSS / JS</span><span>Vue / React</span><span>交互设计</span></div>
+                </article>
+              </div>
+            </section>
+          </div>
+        </section>
       </main>
       <template id="aily-narrative-template">
         <div class="aily-narrative" aria-label="Aily Agent 调查过程">
-          <div class="aily-intro"><span>03 / FOUNDATION OUTPUT <strong>→</strong> 04 / AILY INVESTIGATION</span><span>EVENT-DRIVEN · BOUNDED LOOP · HUMAN APPROVAL</span></div>
+          <aside class="aily-case-thread" aria-label="PRICE-0249 调查线索">
+            <div class="aily-case-id"><div><span>同一个案例贯穿全程</span><b>PRICE-0249</b><small>门店实付 24.9 元 / 统一价盘 29.9 元</small></div></div>
+            <div class="aily-case-field"><span>现在要回答</span><b data-case-current>这 5 元价差从哪里来？</b></div>
+            <div class="aily-case-field case-confirmed"><span>刚刚确认</span><b data-case-confirmed>价格差真实存在</b></div>
+            <div class="aily-case-field case-unknown"><span>仍然不知道</span><b data-case-unknown>是否存在合法活动</b></div>
+            <div class="aily-case-field case-next"><span>所以继续</span><b data-case-next>先列出可能原因</b></div>
+          </aside>
 
-          <section class="aily-scene is-active" data-aily-scene="intake" data-scene-number="01" aria-labelledby="aily-intake-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">01 / INTAKE</span><h3 id="aily-intake-title">先接收一个完整的信号事件包</h3><p>决策底座把已经统一过的事实、语义版本和权限边界交给 Aily。Agent 不从数据库里盲找，也不把一个字段异常直接当成结论。</p></div>
+          <section class="aily-scene is-active" data-aily-scene="intake" data-scene-number="01" data-case-current="这 5 元价差从哪里来？" data-case-confirmed="门店实付 24.9，价盘 29.9" data-case-unknown="是否存在合法活动" data-case-next="先列出所有可能原因" aria-labelledby="aily-intake-title">
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">01 / INTAKE · 接收事件</span><h3 id="aily-intake-title">接到问题：先看清这一个价格差</h3><p>决策底座交来的是一个有编号的问题档案：哪家门店、哪个商品、何时卖了 24.9 元，以及公司价盘为什么是 29.9 元。Aily 此时只受理，不急着判断谁错了。</p></div>
             <div class="aily-scene-grid aily-reveal">
-              <article class="aily-object accent"><small>INPUT / FROM FOUNDATION</small><h4>PRICE-0249 · 初始信号</h4><div class="aily-packet"><div class="aily-field"><span>observed_price</span><b>24.9 元</b></div><div class="aily-field"><span>baseline_price</span><b>29.9 元</b></div><div class="aily-field"><span>entity</span><b>门店 × SKU</b></div><div class="aily-field"><span>source</span><b>POS + SAP</b></div></div></article>
-              <article class="aily-object blue"><small>CONTEXT / CARRY FORWARD</small><h4>交接时同时带上边界</h4><div class="aily-packet"><div class="aily-field"><span>event_id</span><b>PRICE-0249</b></div><div class="aily-field"><span>semantic_version</span><b>price.v3.2</b></div><div class="aily-field"><span>known / unknown</span><b>3 / 1</b></div><div class="aily-field"><span>permission_scope</span><b>区域销售只读</b></div></div><span class="aily-state">已接收，开始受理</span></article>
+              <article class="aily-object accent"><small>问题本身 / FOUNDATION OUTPUT</small><h4>同一商品出现 5 元价差</h4><div class="aily-packet"><div class="aily-field"><span>门店实付</span><b>24.9 元</b></div><div class="aily-field"><span>公司价盘</span><b>29.9 元</b></div><div class="aily-field"><span>对象</span><b>门店 × 商品</b></div><div class="aily-field"><span>原始来源</span><b>POS + SAP</b></div></div></article>
+              <article class="aily-object blue"><small>调查边界 / CONTROLLED CONTEXT</small><h4>问题编号、口径和权限一起交接</h4><div class="aily-packet"><div class="aily-field"><span>问题编号</span><b>PRICE-0249</b></div><div class="aily-field"><span>价格口径版本</span><b>price.v3.2</b></div><div class="aily-field"><span>目前已知 / 未知</span><b>3 / 1</b></div><div class="aily-field"><span>当前可查范围</span><b>区域销售只读</b></div></div><span class="aily-state">已受理，暂不定责</span></article>
             </div>
           </section>
 
-          <section class="aily-scene" data-aily-scene="assess" data-scene-number="02" aria-labelledby="aily-assess-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">02 / OBSERVE · ASSESS</span><h3 id="aily-assess-title">Agent 先拆问题，再建立互斥假设</h3><p>同一个 5 元价差可能来自合法活动、规格不可比、价签错误或未授权低价。Aily 先把可能性摊开，避免过早定性。</p></div>
-            <div class="aily-object aily-reveal"><small>HYPOTHESIS BOARD / 当前原因假设</small><div class="aily-hypotheses"><div class="aily-hypothesis"><code>H1</code><span>消费券或促销活动合法生效</span><em>待核验</em></div><div class="aily-hypothesis"><code>H2</code><span>SKU / 规格 / 渠道不可比</span><em>待核验</em></div><div class="aily-hypothesis"><code>H3</code><span>价签与 POS 实付价未同步</span><em>部分支持</em></div><div class="aily-hypothesis"><code>H4</code><span>门店存在未授权低价行为</span><em>无证据</em></div></div></div>
+          <section class="aily-scene" data-aily-scene="assess" data-scene-number="02" data-case-current="先查哪个原因，为什么？" data-case-confirmed="5 元价差真实存在" data-case-unknown="本层哪种原因成立" data-case-next="按企业经验执行队首查询" aria-labelledby="aily-assess-title">
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">02 / OBSERVE · ASSESS · 经验排序</span><h3 id="aily-assess-title">先按企业经验排序，再逐一排除</h3><p>同一个 5 元价差可能有多种原因。Aily 先列出可能原因，但先查哪一个不由模型临时猜：公司把老员工处理同类问题的经验整理成调查顺序，再由 Aily 按顺序取证。</p></div>
+            <div class="aily-priority-loop aily-reveal">
+              <div class="aily-priority-source"><small>排查顺序从哪里来</small><h4>把老员工经验变成可复用的方法</h4><p>公司把老员工处理同类问题的经验、制度和历史案例，整理成一套可复用的调查方法，系统内部称为<span>领域 Skill</span>。</p><div class="aily-priority-criteria"><span>最能排除原因</span><span>查询成本更低</span><span>返回速度更快</span><span>证据更加可靠</span><span>当前身份有权查询</span></div><div class="aily-priority-note">以下为方法示意。正式顺序需要由圣农业务负责人用真实案例校准并批准。</div></div>
+              <div class="aily-priority-queue"><small>当前范围：单店价格问题 / 本层排查队列</small><div class="aily-priority-list"><div class="aily-priority-item is-first"><code>优先 1</code><b>商品与规格是否真正可比</b><span>最快排除对象不一致</span></div><div class="aily-priority-item"><code>优先 2</code><b>活动是否批准并绑定该门店</b><span>验证合法促销</span></div><div class="aily-priority-item"><code>优先 3</code><b>价签与实际成交价是否同步</b><span>排除执行错误</span></div><div class="aily-priority-item"><code>优先 4</code><b>是否存在未经授权的主动降价</b><span>证据充分后才能判断</span></div></div></div>
+              <div class="aily-priority-trigger"><div class="aily-priority-result"><small>本轮查清</small><b>原因成立或被排除 → 更新问题档案</b></div><div class="aily-priority-arrow" aria-hidden="true">→</div><div class="aily-priority-result"><small>信息仍不够</small><b>继续查询本层下一项</b></div><div class="aily-priority-arrow" aria-hidden="true">→</div><div class="aily-priority-result escalate"><small>当前范围查不清，且新证据指向更大问题</small><b>才扩大一层，并在新范围内重新排序</b></div></div>
+            </div>
           </section>
 
-          <section class="aily-scene" data-aily-scene="plan" data-scene-number="03" aria-labelledby="aily-plan-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">03 / PLAN</span><h3 id="aily-plan-title">每一轮只选择下一项最小查询</h3><p>调查计划是可检查的中间态。Agent 说明为什么查、查什么、查到什么程度就停止，以及当前身份允许调用哪些工具。</p></div>
-            <div class="aily-query-flow aily-reveal"><article class="aily-query"><small>QUERY 01</small><b>核验规格与 SKU</b><span>先排除不可比商品</span></article><article class="aily-query"><small>QUERY 02</small><b>查询活动审批</b><span>确认合法例外</span></article><article class="aily-query"><small>QUERY 03</small><b>读取券承担方</b><span>确认谁承担 5 元差额</span></article><article class="aily-query"><small>STOP CONDITION</small><b>证据闭合</b><span>足以解释异常时停止</span></article></div>
+          <section class="aily-scene" data-aily-scene="plan" data-scene-number="03" data-case-current="先查哪一条最划算？" data-case-confirmed="企业经验已排出本层顺序" data-case-unknown="商品与规格是否真正可比" data-case-next="执行队首查询：核对商品与规格" aria-labelledby="aily-plan-title">
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">03 / PLAN · 最小查询</span><h3 id="aily-plan-title">只查最能排除原因的一条信息</h3><p>第 02 幕排好顺序后，Aily 每轮只执行队首一项，不把所有系统翻一遍。示例中先核对商品与规格；完成后再由证据决定停止、查询下一项，还是扩大范围。</p></div>
+            <div class="aily-query-flow aily-reveal"><article class="aily-query"><small>当前问题</small><b>24.9 元是否合法？</b><span>四种原因尚未排除</span></article><article class="aily-query"><small>执行队首一项</small><b>核对商品与规格</b><span>优先级最高、成本最小、最能排除原因</span></article><article class="aily-query"><small>查到后写回</small><b>更新问题档案</b><span>记录来源、时间和质量</span></article><article class="aily-query"><small>再决定</small><b>停止或继续</b><span>不够再取下一项，必要时扩大一层</span></article></div>
           </section>
 
-          <section class="aily-scene" data-aily-scene="evidence" data-scene-number="04" aria-labelledby="aily-evidence-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">04 / LOCAL EVIDENCE</span><h3 id="aily-evidence-title">证据逐条回到事件包</h3><p>查询结果不是一句“查到了”，而是带有来源、时间、质量和支持关系的证据。局部证据足够时，循环可以在这里停止。</p></div>
-            <div class="aily-evidence-stream aily-reveal"><div class="aily-evidence"><small>SAP / PRICEBOOK</small><b>29.9 元价盘在 06-18 生效</b><em>verified</em></div><div class="aily-evidence"><small>CRM / PROMOTION</small><b>活动申请存在，但未发现门店绑定</b><em>partial</em></div><div class="aily-evidence"><small>FEISHU / FIELD PHOTO</small><b>价签照片显示 24.9 元，时间 10:32</b><em>verified</em></div><div class="aily-evidence"><small>POS / COUPON</small><b>券承担方仍未知，暂不能定责</b><em>unknown</em></div></div>
+          <section class="aily-scene" data-aily-scene="evidence" data-scene-number="04" data-case-current="活动是否真的覆盖这家门店？" data-case-confirmed="有活动申请，但没有门店绑定" data-case-unknown="5 元差额由谁承担" data-case-next="系统与责任人并行补证" aria-labelledby="aily-evidence-title">
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">04 / LOCAL EVIDENCE · 局部取证</span><h3 id="aily-evidence-title">把查到的证据放回问题档案</h3><p>每条证据都要说明“从哪里来、什么时候有效、是否可信、支持或否定哪个原因”。只有这样，下一轮查询才不会重复，也不会把一句聊天回复当成事实。</p></div>
+            <div class="aily-evidence-stream aily-reveal"><div class="aily-evidence"><small>SAP / 正式价盘</small><b>29.9 元价盘在 06-18 生效</b><em>已确认</em></div><div class="aily-evidence"><small>CRM / 活动记录</small><b>活动申请存在，但未发现该门店绑定</b><em>部分确认</em></div><div class="aily-evidence"><small>飞书 / 现场照片</small><b>价签显示 24.9 元，拍摄时间 10:32</b><em>已确认</em></div><div class="aily-evidence"><small>POS / 券明细</small><b>券承担方仍未知，现在不能定责</b><em>仍未知</em></div></div>
           </section>
 
-          <section class="aily-scene" data-aily-scene="parallel" data-scene-number="05" aria-labelledby="aily-parallel-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">05 / PARALLEL EVIDENCE</span><h3 id="aily-parallel-title">系统查询与人工补证同时推进</h3><p>Agent 不会因为一个系统查不到就假装完整。它一边继续调用已授权 MCP，一边向数据责任人发出明确的补证请求。</p></div>
-            <div class="aily-scene-grid aily-reveal"><article class="aily-lane mcp"><small>MCP QUERY LANE</small><h4>已有系统继续查询</h4><p>自动查询不会跨越当前权限范围。</p><ul><li>POS：订单级券明细</li><li>CRM：门店活动绑定</li><li>WMS：同 SKU 区域库存</li></ul></article><article class="aily-lane people"><small>PEOPLE REQUEST LANE</small><h4>飞书补证请求</h4><p>缺什么、为什么、何时交、什么格式都写清楚。</p><ul><li>责任人：区域销售经理</li><li>状态：已读 · 待回复</li><li>SLA：30 分钟 · 价签照片</li></ul></article></div>
+          <section class="aily-scene" data-aily-scene="parallel" data-scene-number="05" data-case-current="缺少的券承担方在哪里？" data-case-confirmed="系统记录暂不完整" data-case-unknown="平台券还是门店让利" data-case-next="两条取证路径同时推进" aria-labelledby="aily-parallel-title">
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">05 / PARALLEL EVIDENCE · 并行补证</span><h3 id="aily-parallel-title">系统查不到，就请责任人补充</h3><p>Aily 不会用猜测填补空白。它继续查询已有系统，同时在飞书上向真正掌握数据的人发出补证卡；哪条先回来，就先更新同一个问题档案。需要等待人员回复时，本次调查先结束，收到新信息后再按 event_id 继续，不让一次会话无限等待。</p></div>
+            <div class="aily-scene-grid aily-reveal"><article class="aily-lane mcp"><small>系统查询 / MCP 是受控业务接口</small><h4>自动寻找已有正式记录</h4><p>只读取当前身份有权查看的数据。</p><ul><li>收银系统：订单级券明细</li><li>客户系统：门店活动绑定</li><li>库存系统：同商品区域库存</li></ul></article><article class="aily-lane people"><small>人工补证 / 飞书责任请求</small><h4>把缺口准确交给责任人</h4><p>缺什么、为什么要、何时交、什么格式一次写清。</p><ul><li>责任人：区域销售经理</li><li>进度：已读 · 等待回复</li><li>时限：30 分钟 · 上传活动证明</li></ul></article></div>
           </section>
 
-          <section class="aily-scene" data-aily-scene="scope" data-scene-number="06" aria-labelledby="aily-scope-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">06 / SCOPE EXPANSION</span><h3 id="aily-scope-title">范围只随证据扩大：由点及线，由线及面</h3><p>局部、区域、跨域、战略不是脚本预判的严重度。只有新证据支持，Agent 才扩大调查范围。</p></div>
-            <div class="aily-scope aily-reveal"><article class="aily-scope-step"><small>LOCAL</small><b>单店</b><span>价格、规格、活动</span></article><article class="aily-scope-step"><small>REGIONAL</small><b>区域</b><span>多门店、竞品、投诉</span></article><article class="aily-scope-step"><small>CROSS-DOMAIN</small><b>跨域</b><span>库存、退货、回款</span></article><article class="aily-scope-step"><small>STRATEGIC</small><b>战略</b><span>供需、产能、存栏</span></article></div>
-            <div class="aily-branches aily-reveal"><div class="aily-branch stop"><b>STOP / 停止</b>证据足够，停止当前循环</div><div class="aily-branch expand"><b>EXPAND / 扩大</b>新证据支持，扩大范围</div><div class="aily-branch wait"><b>WAIT / 等待补证</b>补证未回，Run 结束等待</div><div class="aily-branch human"><b>HUMAN / 转人工</b>权限或风险阻塞，转人工</div></div>
+          <section class="aily-scene" data-aily-scene="scope" data-scene-number="06" data-case-current="这是单店问题，还是正在扩散？" data-case-confirmed="同区域出现第二个相同价差" data-case-unknown="是否影响库存和整体市场" data-case-next="证据支持后扩大一层再查" aria-labelledby="aily-scope-title">
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">06 / BOUNDED QUERY LOOP · 有界查询循环</span><h3 id="aily-scope-title">证据支持时，才扩大调查范围</h3><p>这就是 Aily 最关键的工作方式：从一个门店的价格点开始；发现同类证据，才连到区域；再发现销量、库存或投诉联动，才进入跨部门与市场层面。没有新证据，就停在当前层。</p></div>
+            <div class="aily-loop-visual aily-reveal" aria-label="由点及线、由线及面的有界查询循环">
+              <div class="aily-loop-stage-area">
+                <div class="aily-loop-stage" data-loop-phase="point" style="--loop-i:0"><div class="aily-loop-copy"><small>01 / 由一个点开始</small><h4>先解释这一家门店</h4><p>只核对当前门店、当前商品、当前时间的价格、规格和活动。</p></div><div class="aily-loop-shape"><span class="aily-loop-dot">门店 A<br>24.9</span></div></div>
+                <div class="aily-loop-stage" data-loop-phase="line" style="--loop-i:1"><div class="aily-loop-copy"><small>02 / 点连成线</small><h4>第二家同类门店也出现价差</h4><p>证据表明它可能不是单店失误，于是把查询扩大到同一区域的可比门店。</p></div><div class="aily-loop-shape"><div class="aily-loop-row"><span class="aily-loop-dot">A<br>24.9</span><span class="aily-loop-dot">B<br>24.9</span><span class="aily-loop-dot">C<br>29.9</span><span class="aily-loop-dot">D<br>29.9</span></div></div></div>
+                <div class="aily-loop-stage" data-loop-phase="network" style="--loop-i:2"><div class="aily-loop-copy"><small>03 / 线织成网</small><h4>价格开始与其他经营事实相互解释</h4><p>区域异常同时伴随销量、库存或投诉变化，调查才进入相关部门。</p></div><div class="aily-loop-shape"><div class="aily-loop-network"><div class="aily-loop-domain"><b>销售</b><span>多店价差</span></div><div class="aily-loop-domain"><b>库存</b><span>周转变慢</span></div><div class="aily-loop-domain"><b>客户</b><span>投诉增加</span></div><div class="aily-loop-domain"><b>供应</b><span>调拨在途</span></div></div></div></div>
+                <div class="aily-loop-stage" data-loop-phase="surface" style="--loop-i:3"><div class="aily-loop-copy"><small>04 / 网扩成面</small><h4>多区域共同变化，才讨论市场级影响</h4><p>只有多个区域、竞争对手和供需数据共同支持，才进入产能、存栏或市场策略调查。</p></div><div class="aily-loop-shape"><div class="aily-loop-surface"><div class="aily-loop-region is-signal"><b>华东</b><span>降价 / 滞销</span></div><div class="aily-loop-region is-signal"><b>华南</b><span>降价 / 滞销</span></div><div class="aily-loop-region"><b>华北</b><span>价格稳定</span></div><div class="aily-loop-region"><b>西南</b><span>待补数据</span></div><div class="aily-loop-region"><b>海外</b><span>机会待验证</span></div><div class="aily-loop-region"><b>供给端</b><span>存栏约束</span></div></div></div></div>
+                <div class="aily-loop-stage" data-loop-phase="gate" style="--loop-i:4"><div class="aily-loop-copy"><small>05 / 每轮经过证据门</small><h4>不是永远向上升级</h4><p>每轮取证后都重新判断：已经解释清楚就停止；确有扩散证据才扩大；查不到就等待补证；越权或高风险就转人工。</p></div><div class="aily-loop-shape"><div class="aily-loop-gate"><div class="aily-loop-gate-core">证据门</div><div class="aily-loop-decisions"><span>证据足够 → 停止</span><span>支持扩散 → 扩大</span><span>数据缺失 → 等待</span><span>权限阻塞 → 转人工</span></div></div></div></div>
+                <div class="aily-loop-stage" data-loop-phase="query" style="--loop-i:5"><div class="aily-loop-copy"><small>06 / 回到下一轮最小查询</small><h4>范围扩大一层，问题也重新变小</h4><p>不是漫无目的继续搜索，而是在新范围中再次选择一项最能排除原因的查询。</p></div><div class="aily-loop-shape"><div class="aily-loop-query"><strong>↻</strong><div><b>下一项：查询同区域可比门店活动绑定</b><span>观察 → 评估 → 计划 → 取证 → 校验 → 决定 → 新一轮</span></div></div></div></div>
+              </div>
+              <div class="aily-loop-meter" aria-hidden="true"><small>查询范围随证据推进</small><div class="aily-loop-marker" style="--loop-i:0"><i>1</i><span>单店点</span></div><div class="aily-loop-marker" style="--loop-i:1"><i>2</i><span>区域线</span></div><div class="aily-loop-marker" style="--loop-i:2"><i>3</i><span>跨域网</span></div><div class="aily-loop-marker" style="--loop-i:3"><i>4</i><span>市场面</span></div><div class="aily-loop-marker" style="--loop-i:4"><i>5</i><span>证据门</span></div><div class="aily-loop-marker" style="--loop-i:5"><i>6</i><span>再查询</span></div><div class="aily-loop-rule"><b>硬规则：</b>没有新证据，不扩大范围；达到停止条件，循环立即结束。每次调查同时受查询次数、总时长、可用工具、证据要求和费用上限约束。</div></div>
+            </div>
           </section>
 
-          <section class="aily-scene" data-aily-scene="gate" data-scene-number="07" aria-labelledby="aily-gate-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">07 / VERIFY · DECIDE</span><h3 id="aily-gate-title">证据门判断：现在能不能交给管理层</h3><p>决策就绪不表示所有信息绝对完整，而是事实、缺口、影响和约束已经透明到足以作出有边界的决定。</p></div>
-            <div class="aily-gate aily-reveal"><div class="aily-gate-status"><span>EVIDENCE GATE</span><strong>WAITING FOR ONE FIELD</strong><span>coupon_owner = unknown<br>风险建议受限 · 补证已发出</span></div><div class="aily-gate-checks"><div class="aily-check"><span>来源与时间可追溯</span><em>PASS</em></div><div class="aily-check"><span>关键价格可复算</span><em>PASS</em></div><div class="aily-check"><span>影响范围已明确</span><em>PARTIAL</em></div><div class="aily-check"><span>高风险动作需审批</span><em>REQUIRED</em></div></div></div>
+          <section class="aily-scene" data-aily-scene="gate" data-scene-number="07" data-case-current="管理层现在能否作出有边界的决定？" data-case-confirmed="事实、影响范围和证据来源已清楚" data-case-unknown="券承担方仍待回复" data-case-next="透明标出缺口并限制方案" aria-labelledby="aily-gate-title">
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">07 / VERIFY · DECIDE · 校验判断</span><h3 id="aily-gate-title">现在是否足够交给管理层</h3><p>“可以决策”不等于“所有数据都齐了”，而是现有事实、仍缺什么、缺口会限制哪些动作，都已经透明，管理层能在边界内决定。</p></div>
+            <div class="aily-gate aily-reveal"><div class="aily-gate-status"><span>当前判断 / EVIDENCE GATE</span><strong>还差一项关键证明</strong><span>券承担方仍未知<br>可以汇报，但不能直接定责或改价</span></div><div class="aily-gate-checks"><div class="aily-check"><span>事实能回到来源和时间</span><em>通过</em></div><div class="aily-check"><span>5 元价差可以复算</span><em>通过</em></div><div class="aily-check"><span>影响范围已经说清</span><em>部分通过</em></div><div class="aily-check"><span>改价等高风险动作</span><em>必须审批</em></div></div></div>
           </section>
 
-          <section class="aily-scene" data-aily-scene="dossier" data-scene-number="08" aria-labelledby="aily-dossier-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">08 / DECISION-READY DOSSIER</span><h3 id="aily-dossier-title">把调查结果交给人工决策</h3><p>Agent 输出可审计、可复算、带缺口和约束的决策就绪事件包，不越过管理层批准边界。</p></div>
+          <section class="aily-scene" data-aily-scene="dossier" data-scene-number="08" data-case-current="管理层需要看到什么才能拍板？" data-case-confirmed="事实、推断、缺口与候选方案已分开" data-case-unknown="券承担方仍明确标为未知" data-case-next="提交人工审批，不自动拍板" aria-labelledby="aily-dossier-title">
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">08 / DECISION-READY DOSSIER · 决策就绪包</span><h3 id="aily-dossier-title">把事实、缺口和方案交给人决定</h3><p>Aily 把调查整理成管理层可以直接审阅的材料：哪些是事实、哪些只是推断、还缺什么、每个方案对销量、毛利、库存和预算可能造成什么影响，以及何时停止、如何恢复。金额和影响由可复算程序测算；价格、存栏、产能和市场进入仍由人批准。</p></div>
             <pre class="aily-json aily-reveal">{
   "event_id": "PRICE-0249",
   "investigation_level": "regional",
   "facts": ["POS 24.9", "SAP baseline 29.9"],
   "inferences": ["活动绑定可能未同步"],
   "missing_data": ["coupon_owner"],
+  "missing_data_impact": "不能定责，不能直接改价",
   "business_impact": { "sell_out": "unknown", "margin": "pending" },
   "options": ["定向券", "规格区隔", "不跟价"],
+  "controls": { "budget": "pending", "stop_conditions": [], "rollback": "required" },
   "approval_required": true
 }</pre>
             <div class="aily-handoff aily-reveal"><span><b>下一节点：人工决策与方案审批</b><br>价格、存栏、产能、市场进入必须由管理层批准</span><span>event_id → decision packet → approval gate</span></div>
           </section>
         </div>
       </template>
-      <footer class="hash-footer">版式精修副本 · Aily 单节点滚动叙事 · 不替代圣农经营智能中枢正式终局蓝图</footer>
+      <footer class="hash-footer">圣农经营智能中枢 · 九节点经营主站 · 方案事实与责任边界以评委版母方案为准</footer>
     </div>
 
     <header class="topbar story-topbar">
@@ -2072,7 +2654,10 @@
     </div>
   </div>
 
-      <script src="圣农经营智能中枢_Aily叙事副本.js"></script>
+      <script src="shengnong-nodes/data-evidence.js?v=20260719-1"></script>
+      <script src="shengnong-nodes/approval-execution.js?v=20260719-1"></script>
+      <script src="shengnong-nodes/risk-review.js?v=20260719-1"></script>
+      <script src="圣农经营智能中枢_Aily叙事副本.js?v=20260719-contact-motion-2"></script>
   <script>
     const detailMap = {
       collection: { kicker: 'C1 / COLLECTION', title: '信息采集层', summary: '先把经营事实带着来源和时间送进系统。', owner: '源系统 + 业务员/合作方', input: '订单、价格、库存、巡店、市场快照', output: '<code>raw evidence envelope</code>', block: '不把缺失补成零，不在采集时定责', verify: 'verified', note: '采集方式和具体接口以圣农 IT 访谈与租户 E2E 为准。' },

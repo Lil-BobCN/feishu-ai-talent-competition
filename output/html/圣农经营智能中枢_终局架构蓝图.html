@@ -1,0 +1,1187 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="data:,">
+  <title>圣农经营智能中枢 · 完整终局方案</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Fira+Sans:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --ink: #eef2ed;
+      --muted: #a8b5b0;
+      --faint: #70817c;
+      --bg: #0c1113;
+      --panel: #12191c;
+      --panel-2: #172125;
+      --line: #2a393b;
+      --teal: #74d3c7;
+      --blue: #82aaff;
+      --amber: #f1c66d;
+      --coral: #ff9874;
+      --green: #b8e986;
+      --red: #ff7777;
+      --mono: "Fira Code", "SFMono-Regular", Consolas, monospace;
+      --sans: "Fira Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      letter-spacing: 0;
+      line-height: 1.55;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .18;
+      background-image:
+        linear-gradient(rgba(116, 211, 199, .06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(116, 211, 199, .06) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, black, transparent 82%);
+    }
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible, [tabindex]:focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 3px;
+    }
+    a { color: inherit; }
+
+    .app { position: relative; min-height: 100vh; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-height: 78px;
+      padding: 14px clamp(18px, 3vw, 48px);
+      background: rgba(12, 17, 19, .93);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+    }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--teal);
+      color: var(--teal);
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: .08em;
+    }
+    .eyebrow {
+      margin: 0 0 1px;
+      color: var(--teal);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 0; font-size: clamp(18px, 2vw, 24px); letter-spacing: .02em; }
+    .header-meta { margin-left: auto; display: flex; align-items: center; gap: 9px; color: var(--muted); }
+    .header-meta strong { color: var(--green); font-size: 12px; font-weight: 600; }
+    .header-meta small { color: var(--faint); font-family: var(--mono); font-size: 10px; }
+    .status-dot { width: 8px; height: 8px; background: var(--green); box-shadow: 0 0 0 4px rgba(184, 233, 134, .12); }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr) 310px;
+      gap: 22px;
+      width: min(1540px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 28px 0 60px;
+    }
+    .side-index { position: sticky; top: 104px; align-self: start; }
+    .side-title { margin-bottom: 16px; color: var(--faint); font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; }
+    .side-index nav { display: grid; gap: 4px; }
+    .side-index a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 38px;
+      padding: 7px 10px;
+      color: var(--muted);
+      border-left: 2px solid transparent;
+      font-size: 13px;
+      text-decoration: none;
+      transition: color .2s, border-color .2s, background .2s;
+    }
+    .side-index a:hover, .side-index a.active { color: var(--ink); border-left-color: var(--teal); background: rgba(116, 211, 199, .07); }
+    .side-index .num { color: var(--faint); font-family: var(--mono); font-size: 10px; }
+    .side-note { margin-top: 28px; padding: 14px; border: 1px solid var(--line); background: rgba(18, 25, 28, .76); }
+    .side-note strong { display: block; margin-bottom: 7px; color: var(--amber); font-size: 12px; }
+    .side-note p { margin: 0; color: var(--muted); font-size: 11px; }
+
+    .content { min-width: 0; }
+    .intro {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 22px;
+      padding: 22px 24px;
+      border: 1px solid var(--line);
+      background: linear-gradient(120deg, rgba(116, 211, 199, .11), rgba(18, 25, 28, .9) 48%);
+    }
+    .intro h2 { margin-bottom: 7px; font-size: clamp(20px, 2.5vw, 31px); line-height: 1.15; }
+    .intro p { max-width: 680px; margin-bottom: 0; color: var(--muted); font-size: 13px; }
+    .intro-code { color: var(--teal); font-family: var(--mono); font-size: 11px; line-height: 1.8; text-align: right; white-space: nowrap; }
+    .intro-code b { color: var(--green); font-weight: 500; }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 22px; }
+    .stat { padding: 13px 14px; border: 1px solid var(--line); background: rgba(18, 25, 28, .82); }
+    .stat .value { display: block; color: var(--ink); font-family: var(--mono); font-size: 21px; font-weight: 600; }
+    .stat .label { color: var(--faint); font-size: 11px; }
+    .stat:nth-child(1) .value { color: var(--teal); }
+    .stat:nth-child(2) .value { color: var(--blue); }
+    .stat:nth-child(3) .value { color: var(--coral); }
+    .stat:nth-child(4) .value { color: var(--green); }
+
+    .section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 32px 0 12px; }
+    .section-head h2 { margin: 0; font-size: 16px; letter-spacing: .03em; }
+    .section-head .micro { color: var(--faint); font-family: var(--mono); font-size: 10px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 9px 15px; color: var(--muted); font-size: 11px; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend i { display: inline-block; width: 8px; height: 8px; }
+    .legend .c { background: var(--teal); } .legend .t { background: var(--blue); } .legend .d { background: var(--amber); } .legend .a { background: var(--coral); } .legend .h { background: var(--green); }
+
+    .flow {
+      position: relative;
+      display: grid;
+      gap: 0;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: rgba(12, 17, 19, .72);
+      overflow: hidden;
+    }
+    .flow-row { display: grid; grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr) 32px minmax(0, 1fr); align-items: stretch; gap: 0; }
+    .flow-row + .flow-row { margin-top: 12px; }
+    .flow-row.single { grid-template-columns: minmax(0, 1fr); }
+    .connector { display: grid; place-items: center; color: var(--faint); font-family: var(--mono); font-size: 18px; }
+    .connector::after { content: "→"; }
+    .connector.down { min-height: 28px; }
+    .connector.down::after { content: "↓"; }
+    .flow-node {
+      position: relative;
+      min-height: 128px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      cursor: pointer;
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+    .flow-node:hover, .flow-node.selected { border-color: currentColor; background: var(--panel-2); transform: translateY(-2px); }
+    .flow-node .node-id { color: currentColor; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; }
+    .flow-node h3 { margin: 8px 0 5px; font-size: 15px; }
+    .flow-node p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
+    .flow-node .node-footer { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 12px; }
+    .pill { display: inline-flex; align-items: center; min-height: 20px; padding: 2px 6px; border: 1px solid currentColor; color: var(--muted); font-family: var(--mono); font-size: 9px; }
+    .collection { color: var(--teal); } .transport { color: var(--blue); } .decision { color: var(--amber); } .agent { color: var(--coral); } .human { color: var(--green); }
+    .flow-node .pill { color: inherit; opacity: .86; }
+
+    .agent-inner { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-top: 13px; }
+    .agent-inner span { min-height: 34px; padding: 6px 5px; border: 1px solid rgba(255, 152, 116, .4); color: #ffc6b0; font-family: var(--mono); font-size: 9px; line-height: 1.2; }
+
+    .detail-panel { position: sticky; top: 104px; align-self: start; }
+    .detail-card { border: 1px solid var(--line); background: rgba(18, 25, 28, .9); }
+    .detail-head { padding: 17px 17px 14px; border-bottom: 1px solid var(--line); }
+    .detail-head .kicker { color: var(--teal); font-family: var(--mono); font-size: 10px; letter-spacing: .12em; }
+    .detail-head h2 { margin: 7px 0 4px; font-size: 20px; }
+    .detail-head p { margin: 0; color: var(--muted); font-size: 12px; }
+    .detail-body { padding: 15px 17px 18px; }
+    .detail-row { display: grid; grid-template-columns: 72px 1fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(42, 57, 59, .7); }
+    .detail-row:last-child { border-bottom: 0; }
+    .detail-row dt { color: var(--faint); font-size: 10px; }
+    .detail-row dd { margin: 0; color: var(--ink); font-size: 11px; }
+    .detail-row dd code { color: var(--teal); font-family: var(--mono); font-size: 10px; }
+    .verification { margin-top: 14px; padding: 10px; border-left: 2px solid var(--amber); background: rgba(241, 198, 109, .07); color: var(--muted); font-size: 10px; }
+    .verification b { color: var(--amber); font-family: var(--mono); font-weight: 500; }
+
+    .view-tabs { display: flex; gap: 5px; margin: 28px 0 14px; border-bottom: 1px solid var(--line); }
+    .view-tab { position: relative; border: 0; padding: 10px 12px; color: var(--faint); background: transparent; font-size: 12px; cursor: pointer; }
+    .view-tab:hover, .view-tab.active { color: var(--ink); }
+    .view-tab.active::after { content: ""; position: absolute; right: 10px; bottom: -1px; left: 10px; height: 2px; background: var(--teal); }
+    .view { display: none; scroll-margin-top: 100px; }
+    .view.active { display: block; animation: reveal .25s ease both; }
+    @keyframes reveal { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    .panel { border: 1px solid var(--line); background: rgba(18, 25, 28, .78); }
+    .panel-pad { padding: 17px; }
+    .panel h3 { margin-bottom: 5px; font-size: 14px; }
+    .panel .sub { margin-bottom: 15px; color: var(--muted); font-size: 11px; }
+    .source-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .source-table th { padding: 10px 9px; color: var(--faint); font-family: var(--mono); font-size: 9px; font-weight: 500; letter-spacing: .06em; text-align: left; }
+    .source-table td { padding: 10px 9px; border-top: 1px solid var(--line); vertical-align: top; }
+    .source-table td:first-child { color: var(--teal); white-space: nowrap; }
+    .source-table td:nth-child(2) { color: var(--ink); }
+    .source-table td:nth-child(3) { color: #bdd0cb; }
+    .source-table td:nth-child(4) { color: var(--faint); }
+    .table-wrap { overflow-x: auto; }
+
+    .config-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 12px; }
+    .config-card { min-width: 0; border: 1px solid var(--line); background: var(--panel); }
+    .config-card header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+    .config-card header h3 { margin: 0; font-size: 13px; }
+    .config-card header span { color: var(--faint); font-family: var(--mono); font-size: 9px; }
+    pre { margin: 0; padding: 14px; overflow: auto; color: #d9e7de; background: #0b1012; font-family: var(--mono); font-size: 10px; line-height: 1.75; white-space: pre-wrap; }
+    .config-list { display: grid; gap: 7px; padding: 13px; }
+    .config-item { padding: 10px; border: 1px solid var(--line); }
+    .config-item strong { display: block; margin-bottom: 3px; color: var(--coral); font-size: 11px; }
+    .config-item p { margin: 0; color: var(--muted); font-size: 10px; }
+    .config-item code { color: var(--teal); font-family: var(--mono); font-size: 9px; }
+    .tool-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; padding: 13px; }
+    .tool { padding: 9px; border: 1px solid var(--line); }
+    .tool .tool-name { color: var(--blue); font-family: var(--mono); font-size: 10px; }
+    .tool p { margin: 4px 0 0; color: var(--muted); font-size: 10px; }
+    .risk { display: inline-block; margin-top: 6px; color: var(--green); font-family: var(--mono); font-size: 9px; }
+    .risk.write { color: var(--coral); }
+
+    .aily-focus {
+      border: 1px solid rgba(255, 152, 116, .44);
+      background: rgba(18, 25, 28, .9);
+    }
+    .aily-summary {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) repeat(3, minmax(100px, .45fr));
+      gap: 8px;
+      padding: 15px;
+      border-bottom: 1px solid var(--line);
+    }
+    .aily-summary-main { padding: 4px 5px; }
+    .aily-summary-main .eyebrow { color: var(--coral); }
+    .aily-summary-main h3 { margin: 6px 0 5px; font-size: 18px; }
+    .aily-summary-main p { margin: 0; color: var(--muted); font-size: 11px; }
+    .aily-metric { min-height: 78px; padding: 11px; border: 1px solid var(--line); background: #0e1517; }
+    .aily-metric b { display: block; color: var(--coral); font-family: var(--mono); font-size: 18px; font-weight: 600; }
+    .aily-metric span { color: var(--faint); font-size: 10px; }
+    .aily-subtabs { display: flex; gap: 4px; padding: 8px 10px 0; overflow-x: auto; border-bottom: 1px solid var(--line); }
+    .aily-subtab { position: relative; flex: 0 0 auto; min-height: 36px; border: 0; padding: 8px 11px; color: var(--faint); background: transparent; font-size: 11px; cursor: pointer; }
+    .aily-subtab:hover, .aily-subtab.active { color: var(--ink); background: rgba(255, 152, 116, .06); }
+    .aily-subtab.active::after { content: ""; position: absolute; right: 9px; bottom: -1px; left: 9px; height: 2px; background: var(--coral); }
+    .aily-pane { display: none; padding: 15px; }
+    .aily-pane.active { display: block; animation: reveal .22s ease both; }
+    .aily-pane-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; margin-bottom: 12px; }
+    .aily-pane-head h3 { margin: 0 0 3px; font-size: 15px; }
+    .aily-pane-head p { margin: 0; color: var(--muted); font-size: 10px; }
+    .state-legend { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; }
+    .state-badge { display: inline-flex; align-items: center; min-height: 20px; padding: 2px 6px; border: 1px solid var(--line); font-family: var(--mono); font-size: 8px; white-space: nowrap; }
+    .state-badge.native { color: var(--green); border-color: rgba(184, 233, 134, .45); }
+    .state-badge.configure { color: var(--blue); border-color: rgba(130, 170, 255, .45); }
+    .state-badge.develop { color: var(--amber); border-color: rgba(241, 198, 109, .45); }
+    .state-badge.verify { color: var(--coral); border-color: rgba(255, 152, 116, .45); }
+    .capability-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .capability-card { min-height: 126px; padding: 12px; border: 1px solid var(--line); background: #101719; }
+    .capability-card .cap-id { color: var(--coral); font-family: var(--mono); font-size: 9px; letter-spacing: .08em; }
+    .capability-card h4 { margin: 7px 0 4px; font-size: 12px; }
+    .capability-card p { margin: 0; color: var(--muted); font-size: 10px; }
+    .capability-card footer { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+    .runtime-lanes { display: grid; gap: 9px; }
+    .runtime-lane { border: 1px solid var(--line); background: #101719; }
+    .lane-head { display: grid; grid-template-columns: 135px 1fr; gap: 12px; padding: 11px 12px; border-bottom: 1px solid var(--line); }
+    .lane-head strong { color: var(--coral); font-size: 11px; }
+    .lane-head span { color: var(--muted); font-size: 10px; }
+    .lane-flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: stretch; gap: 5px; padding: 11px; }
+    .investigation-loop { margin: 0 11px 12px; padding: 14px; border: 1px solid #2d6460; border-radius: 6px; background: #0c2424; }
+    .investigation-loop-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 10px; color: #d8f3ef; }
+    .investigation-loop-head strong { font-size: 14px; letter-spacing: .04em; }
+    .investigation-loop-head span { color: #9ec9c4; font-size: 12px; }
+    .loop-track { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 5px; align-items: stretch; }
+    .loop-step { min-height: 82px; padding: 9px; border: 1px solid #3a7772; background: #153534; border-radius: 5px; }
+    .loop-step b { display: block; color: #ffffff; font-size: 13px; margin-bottom: 4px; }
+    .loop-step small { display: block; color: #b7d9d4; font-size: 11px; line-height: 1.45; }
+    .loop-arrow { display: flex; align-items: center; justify-content: center; color: #7dc8bd; font-size: 18px; }
+    .loop-decisions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; margin-top: 8px; }
+    .loop-decision { padding: 7px 9px; border-radius: 4px; font-size: 11px; color: #d9eeee; background: #162a2b; border-left: 3px solid #7dc8bd; }
+    .loop-decision strong { color: #ffffff; }
+    .lane-node { position: relative; min-height: 68px; padding: 8px; border: 1px solid var(--line); }
+    .lane-node:not(:last-child)::after { content: "→"; position: absolute; top: 24px; right: -8px; z-index: 2; color: var(--faint); font-family: var(--mono); }
+    .lane-node b { display: block; margin-bottom: 4px; color: var(--ink); font-size: 10px; }
+    .lane-node small { color: var(--faint); font-size: 9px; line-height: 1.35; }
+    .component-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 10px; }
+    .component-table th { padding: 8px; color: var(--faint); font-family: var(--mono); font-size: 8px; font-weight: 500; text-align: left; }
+    .component-table td { padding: 9px 8px; border-top: 1px solid var(--line); vertical-align: top; }
+    .component-table td:first-child { color: var(--coral); font-family: var(--mono); white-space: nowrap; }
+    .component-table td:nth-child(3) { color: var(--muted); }
+    .component-table td:last-child { color: var(--faint); }
+    .bundle-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+    .bundle-card { min-width: 0; border: 1px solid var(--line); background: #101719; }
+    .bundle-card.wide { grid-column: 1 / -1; }
+    .bundle-card header { padding: 10px 12px; border-bottom: 1px solid var(--line); }
+    .bundle-card header h4 { margin: 0 0 2px; font-size: 11px; }
+    .bundle-card header p { margin: 0; color: var(--faint); font-size: 9px; }
+    .bundle-body { padding: 11px; }
+    .bundle-list { display: grid; gap: 6px; }
+    .bundle-row { display: grid; grid-template-columns: minmax(120px, .8fr) minmax(0, 1.7fr); gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(42, 57, 59, .7); }
+    .bundle-row:last-child { border-bottom: 0; }
+    .bundle-row code { color: var(--blue); font-family: var(--mono); font-size: 9px; overflow-wrap: anywhere; }
+    .bundle-row span { color: var(--muted); font-size: 9px; }
+    .mcp-domain-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+    .mcp-domain { min-height: 120px; padding: 9px; border: 1px solid var(--line); }
+    .mcp-domain b { display: block; margin-bottom: 6px; color: var(--blue); font-family: var(--mono); font-size: 9px; overflow-wrap: anywhere; }
+    .mcp-domain ul { margin: 0; padding-left: 14px; color: var(--muted); font-size: 8px; line-height: 1.65; }
+    .schema-box { margin-top: 9px; padding: 11px; overflow-x: auto; border-left: 2px solid var(--coral); background: #0b1012; color: #d9e7de; font-family: var(--mono); font-size: 9px; line-height: 1.65; white-space: pre-wrap; }
+    .acceptance-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .acceptance-card { padding: 11px; border: 1px solid var(--line); background: #101719; }
+    .acceptance-card strong { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 5px; color: var(--ink); font-size: 10px; }
+    .acceptance-card p { margin: 0; color: var(--muted); font-size: 9px; }
+    .acceptance-card .pass { color: var(--green); font-family: var(--mono); font-size: 8px; font-weight: 500; }
+    .boundary-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+    .boundary-strip div { padding: 8px; border: 1px solid var(--line); }
+    .boundary-strip b { display: block; color: var(--amber); font-family: var(--mono); font-size: 9px; }
+    .boundary-strip span { color: var(--faint); font-size: 8px; }
+
+    .case-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(240px, .8fr); gap: 12px; }
+    .case-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 17px; border-bottom: 1px solid var(--line); }
+    .case-head h3 { margin: 0 0 5px; font-size: 17px; }
+    .case-head p { margin: 0; color: var(--muted); font-size: 11px; }
+    .case-tag { padding: 4px 7px; border: 1px solid var(--coral); color: var(--coral); font-family: var(--mono); font-size: 9px; white-space: nowrap; }
+    .timeline { padding: 15px 17px 18px; }
+    .step { position: relative; display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding-bottom: 15px; }
+    .step:last-child { padding-bottom: 0; }
+    .step:not(:last-child)::before { content: ""; position: absolute; top: 23px; bottom: 0; left: 10px; width: 1px; background: var(--line); }
+    .step-mark { position: relative; z-index: 1; display: grid; place-items: center; width: 21px; height: 21px; border: 1px solid var(--teal); color: var(--teal); background: var(--panel); font-family: var(--mono); font-size: 9px; }
+    .step h4 { margin: 0 0 3px; font-size: 12px; }
+    .step p { margin: 0; color: var(--muted); font-size: 10px; }
+    .step code { color: var(--teal); font-family: var(--mono); font-size: 9px; }
+    .option-list { display: grid; gap: 8px; padding: 15px 17px 18px; }
+    .option { padding: 11px; border: 1px solid var(--line); }
+    .option strong { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; font-size: 11px; }
+    .option strong span { color: var(--amber); font-family: var(--mono); font-size: 9px; font-weight: 500; }
+    .option p { margin: 0; color: var(--muted); font-size: 10px; }
+    .gate { margin: 0 17px 17px; padding: 12px; border: 1px solid var(--green); background: rgba(184, 233, 134, .06); }
+    .gate strong { color: var(--green); font-size: 11px; }
+    .gate p { margin: 4px 0 0; color: var(--muted); font-size: 10px; }
+
+    .milestone-track {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(112px, 1fr));
+      gap: 7px;
+      padding: 16px;
+      overflow-x: auto;
+    }
+    .milestone-stage {
+      position: relative;
+      min-height: 142px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      background: #101719;
+    }
+    .milestone-stage:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      top: 61px;
+      right: -9px;
+      z-index: 2;
+      color: var(--faint);
+      font-family: var(--mono);
+    }
+    .milestone-stage .stage-id { color: var(--blue); font-family: var(--mono); font-size: 9px; letter-spacing: .08em; }
+    .milestone-stage h3 { margin: 9px 0 5px; font-size: 12px; }
+    .milestone-stage p { margin: 0; color: var(--muted); font-size: 9px; }
+    .milestone-stage .stage-state { display: inline-flex; margin-top: 11px; padding: 3px 6px; border: 1px solid rgba(130, 170, 255, .4); color: var(--blue); font-family: var(--mono); font-size: 8px; }
+    .milestone-stage.gate-stage { border-color: rgba(241, 198, 109, .5); }
+    .milestone-stage.gate-stage .stage-id, .milestone-stage.gate-stage .stage-state { color: var(--amber); border-color: rgba(241, 198, 109, .45); }
+    .state-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+    .state-card { min-height: 132px; padding: 13px; border: 1px solid var(--line); background: #101719; }
+    .state-card .state-id { color: var(--faint); font-family: var(--mono); font-size: 8px; }
+    .state-card h3 { margin: 8px 0 5px; font-size: 12px; }
+    .state-card p { margin: 0; color: var(--muted); font-size: 10px; }
+    .state-card.waiting { border-top: 2px solid var(--blue); }
+    .state-card.progress { border-top: 2px solid var(--amber); }
+    .state-card.quality { border-top: 2px solid var(--coral); }
+    .component-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+    .component-block { min-height: 128px; padding: 12px; border: 1px solid var(--line); background: #101719; }
+    .component-block code { color: var(--teal); font-family: var(--mono); font-size: 9px; }
+    .component-block h3 { margin: 7px 0 4px; font-size: 11px; }
+    .component-block p { margin: 0; color: var(--muted); font-size: 9px; }
+
+    .coaching-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr); gap: 12px; }
+    .dual-lane { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+    .role-lane { padding: 14px; border: 1px solid var(--line); background: #101719; }
+    .role-lane.execution { border-top: 2px solid var(--teal); }
+    .role-lane.learning { border-top: 2px solid var(--blue); }
+    .role-lane .lane-id { color: var(--faint); font-family: var(--mono); font-size: 8px; }
+    .role-lane h3 { margin: 8px 0 6px; font-size: 13px; }
+    .role-lane ul { margin: 0; padding-left: 17px; color: var(--muted); font-size: 10px; line-height: 1.75; }
+    .task-demo { border: 1px solid var(--line); background: #101719; }
+    .task-demo-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 14px; border-bottom: 1px solid var(--line); }
+    .task-demo-head h3 { margin: 4px 0 3px; font-size: 14px; }
+    .task-demo-head p { margin: 0; color: var(--muted); font-size: 9px; }
+    .new-hire { padding: 4px 7px; border: 1px solid rgba(130, 170, 255, .5); color: var(--blue); font-family: var(--mono); font-size: 8px; white-space: nowrap; }
+    .task-context { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+    .task-context div { padding: 8px; border: 1px solid rgba(42, 57, 59, .8); }
+    .task-context b { display: block; color: var(--faint); font-family: var(--mono); font-size: 8px; font-weight: 500; }
+    .task-context span { color: var(--ink); font-size: 9px; }
+    .question-set { display: grid; gap: 6px; padding: 12px 14px; }
+    .question-btn { width: 100%; border: 1px solid var(--line); padding: 9px 10px; color: var(--muted); background: transparent; font-size: 10px; text-align: left; cursor: pointer; transition: border-color .2s, color .2s, background .2s; }
+    .question-btn:hover, .question-btn.active { border-color: var(--blue); color: var(--ink); background: rgba(130, 170, 255, .06); }
+    .answer-box { min-height: 145px; margin: 0 14px 14px; padding: 13px; border-left: 2px solid var(--blue); background: rgba(130, 170, 255, .06); }
+    .answer-box .answer-label { color: var(--blue); font-family: var(--mono); font-size: 8px; }
+    .answer-box h4 { margin: 7px 0 5px; font-size: 11px; }
+    .answer-box p { margin: 0; color: var(--muted); font-size: 9px; line-height: 1.7; }
+    .answer-box code { color: var(--teal); font-family: var(--mono); font-size: 8px; }
+    .metric-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 9px; }
+    .metric-strip div { padding: 9px; border: 1px solid var(--line); }
+    .metric-strip b { display: block; color: var(--green); font-family: var(--mono); font-size: 12px; }
+    .metric-strip span { color: var(--faint); font-size: 8px; }
+
+    .consensus-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+    .consensus-card { position: relative; min-height: 235px; padding: 14px; border: 1px solid var(--line); background: #101719; }
+    .consensus-card .consensus-id { color: var(--amber); font-family: var(--mono); font-size: 9px; letter-spacing: .08em; }
+    .consensus-card h3 { margin: 10px 0 7px; font-size: 12px; }
+    .consensus-card p { margin: 0; color: var(--muted); font-size: 9px; }
+    .consensus-card footer { position: absolute; right: 14px; bottom: 13px; left: 14px; padding-top: 9px; border-top: 1px solid var(--line); color: var(--teal); font-family: var(--mono); font-size: 8px; }
+    .landing-sequence { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 7px; }
+    .landing-step { position: relative; min-height: 100px; padding: 11px; border: 1px solid var(--line); }
+    .landing-step:not(:last-child)::after { content: "→"; position: absolute; top: 39px; right: -9px; z-index: 2; color: var(--faint); }
+    .landing-step b { display: block; margin-bottom: 5px; color: var(--teal); font-family: var(--mono); font-size: 9px; }
+    .landing-step span { color: var(--muted); font-size: 9px; }
+
+    .footer { margin-top: 32px; padding-top: 15px; border-top: 1px solid var(--line); color: var(--faint); font-size: 10px; }
+    .footer a { color: var(--teal); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .footer .source-line { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 7px; }
+
+    @media (max-width: 1180px) {
+      .workspace { grid-template-columns: 180px minmax(0, 1fr); }
+      .detail-panel { grid-column: 2; position: static; }
+      .detail-card { display: grid; grid-template-columns: 1fr 1fr; }
+      .detail-head { border-right: 1px solid var(--line); border-bottom: 0; }
+    }
+    @media (max-width: 820px) {
+      .workspace { display: block; width: min(100% - 24px, 720px); padding-top: 16px; }
+      .side-index { position: static; margin-bottom: 18px; }
+      .side-index nav { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 3px; }
+      .side-index a { flex: 0 0 auto; border-left: 0; border-bottom: 2px solid transparent; }
+      .side-index a:hover, .side-index a.active { border-bottom-color: var(--teal); border-left-color: transparent; }
+      .side-note { display: none; }
+      .intro { display: block; padding: 18px; }
+      .intro-code { margin-top: 14px; text-align: left; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .flow-row { grid-template-columns: 1fr; gap: 8px; }
+      .connector { min-height: 16px; }
+      .connector::after { content: "↓"; }
+      .agent-inner { grid-template-columns: repeat(6, minmax(62px, 1fr)); overflow-x: auto; }
+      .detail-card { display: block; }
+      .detail-head { border-right: 0; border-bottom: 1px solid var(--line); }
+      .config-grid, .case-layout { grid-template-columns: 1fr; }
+      .aily-summary { grid-template-columns: repeat(3, 1fr); }
+      .aily-summary-main { grid-column: 1 / -1; }
+      .lane-flow { grid-template-columns: 1fr; }
+      .loop-track, .loop-decisions { grid-template-columns: 1fr; }
+      .loop-arrow { min-height: 16px; transform: rotate(90deg); }
+      .investigation-loop-head { display: block; }
+      .investigation-loop-head span { display: block; margin-top: 4px; }
+      .lane-node:not(:last-child)::after { content: "↓"; top: auto; right: auto; bottom: -11px; left: 50%; }
+      .mcp-domain-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .boundary-strip { grid-template-columns: repeat(2, 1fr); }
+      .milestone-track { grid-template-columns: repeat(6, minmax(150px, 1fr)); }
+      .state-grid, .component-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .coaching-layout { grid-template-columns: 1fr; }
+      .consensus-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .consensus-card:last-child { grid-column: 1 / -1; min-height: 175px; }
+      .landing-sequence { grid-template-columns: 1fr; }
+      .landing-step:not(:last-child)::after { content: "↓"; top: auto; right: auto; bottom: -12px; left: 50%; }
+    }
+    @media (max-width: 480px) {
+      .topbar { min-height: 68px; padding: 11px 12px; }
+      .brand-mark { width: 36px; height: 36px; }
+      .header-meta small { display: none; }
+      .workspace { width: calc(100% - 16px); }
+      .flow { padding: 10px; }
+      .flow-node { min-height: 112px; padding: 12px; }
+      .source-table { min-width: 660px; }
+      .tool-grid { grid-template-columns: 1fr; }
+      .capability-grid, .bundle-grid, .acceptance-grid { grid-template-columns: 1fr; }
+      .bundle-card.wide { grid-column: auto; }
+      .aily-pane { padding: 10px; }
+      .aily-summary { grid-template-columns: 1fr; }
+      .aily-summary-main { grid-column: auto; }
+      .mcp-domain-grid, .boundary-strip { grid-template-columns: 1fr; }
+      .bundle-row, .lane-head { grid-template-columns: 1fr; gap: 4px; }
+      .state-grid, .component-grid, .dual-lane, .consensus-grid, .metric-strip { grid-template-columns: 1fr; }
+      .consensus-card, .consensus-card:last-child { grid-column: auto; min-height: 190px; }
+      .task-context { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">SN</div>
+      <div>
+        <p class="eyebrow">完整终局方案 / production blueprint</p>
+        <h1>圣农经营智能中枢</h1>
+      </div>
+      <div class="header-meta" aria-label="架构状态">
+        <span class="status-dot" aria-hidden="true"></span>
+        <strong>已冻结</strong>
+        <small>Aily 唯一 Agent</small>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="side-index" aria-label="页面索引">
+        <div class="side-title">Blueprint index</div>
+        <nav>
+          <a class="active" href="#overview"><span class="num">01</span>终局总览</a>
+          <a href="#data-flow"><span class="num">02</span>采集与传输</a>
+          <a href="#agent-config"><span class="num">03</span>Aily Agent</a>
+          <a href="#price-case"><span class="num">04</span>价格事件</a>
+          <a href="#milestones"><span class="num">05</span>里程碑质量门</a>
+          <a href="#coaching"><span class="num">06</span>责任与成长</a>
+          <a href="#consensus"><span class="num">07</span>五项共识</a>
+          <a href="#boundaries"><span class="num">08</span>边界与验收</a>
+        </nav>
+        <div class="side-note">
+          <strong>一个不可变原则</strong>
+          <p>Agent 只调查、解释、组织方案；价格、存栏、产能和市场进入必须经过管理层批准。</p>
+        </div>
+      </aside>
+
+      <main class="content">
+        <section id="overview" class="intro">
+          <div>
+            <p class="eyebrow">data → evidence → decision → execution</p>
+            <h2>把一个异常点，推进成可验证的经营结果</h2>
+            <p>脚本秒级暴露可信信号，Aily 按统一事件受理 Skill 循环取证并扩大调查范围；管理层批准后，企业工作流按 SAP 等业务里程碑推进、验证、辅导责任人并沉淀经验。</p>
+          </div>
+          <div class="intro-code">事实源 <b>≠</b> 传输层<br>Agent <b>≠</b> 规则引擎<br>审批 <b>≠</b> 自动拍板</div>
+        </section>
+
+        <div class="stats" aria-label="架构摘要">
+          <div class="stat"><span class="value">08</span><span class="label">终局能力模块</span></div>
+          <div class="stat"><span class="value">01</span><span class="label">Agent 运行时</span></div>
+          <div class="stat"><span class="value">00</span><span class="label">自动拍板事项</span></div>
+          <div class="stat"><span class="value">05</span><span class="label">行业共识落地</span></div>
+        </div>
+
+        <section aria-labelledby="flow-title">
+          <div class="section-head">
+            <h2 id="flow-title">终局数据与决策流</h2>
+            <div class="legend" aria-label="图例">
+              <span><i class="c"></i>信息采集</span>
+              <span><i class="t"></i>数据传输</span>
+              <span><i class="d"></i>语义与决策</span>
+              <span><i class="a"></i>Aily Agent</span>
+              <span><i class="h"></i>审批与执行</span>
+            </div>
+          </div>
+
+          <div class="flow" id="flow-canvas">
+            <div class="flow-row">
+              <article class="flow-node collection selected" data-node="collection" tabindex="0" role="button" aria-label="查看信息采集层详情">
+                <div class="node-id">C1 / COLLECTION</div>
+                <h3>信息采集层</h3>
+                <p>SAP、POS、CRM、WMS、经销商、飞书现场信息、合法外部市场信号。</p>
+                <div class="node-footer"><span class="pill">事实进入</span><span class="pill">原始证据保留</span></div>
+              </article>
+              <div class="connector" aria-hidden="true"></div>
+              <article class="flow-node transport" data-node="transport" tabindex="0" role="button" aria-label="查看数据传输层详情">
+                <div class="node-id">T1 / TRANSPORT</div>
+                <h3>数据传输层</h3>
+                <p>API、Webhook、CDC、文件交换和内网代理，负责可靠搬运，不负责判断。</p>
+                <div class="node-footer"><span class="pill">AnyCross</span><span class="pill">幂等 / 重试</span></div>
+              </article>
+              <div class="connector" aria-hidden="true"></div>
+              <article class="flow-node decision" data-node="foundation" tabindex="0" role="button" aria-label="查看企业数据与决策底座详情">
+                <div class="node-id">D1 / FOUNDATION</div>
+                <h3>企业数据与决策底座</h3>
+                <p>原始证据、统一语义、规则、预测/情景模拟、经营事件状态与长期审计。</p>
+                <div class="node-footer"><span class="pill">确定性服务</span><span class="pill">版本化</span></div>
+              </article>
+            </div>
+            <div class="flow-row single"><div class="connector down" aria-hidden="true"></div></div>
+            <div class="flow-row single">
+              <article class="flow-node agent" data-node="aily" tabindex="0" role="button" aria-label="查看Aily Agent运行层详情">
+                <div class="node-id">A1 / AILY RUNTIME</div>
+                <h3>飞书 Aily：唯一 Agent 运行时</h3>
+                <p>接收事件 ID，动态调查证据、验证原因、组织情景方案，输出结构化决策包。</p>
+                <div class="agent-inner" aria-label="Aily内部组件"><span>Custom<br>Agent</span><span>Workflow</span><span>Agent<br>Node</span><span>Agent<br>Skill</span><span>MCP<br>Tools</span><span>Session<br>Chat / Run</span></div>
+              </article>
+            </div>
+            <div class="flow-row single"><div class="connector down" aria-hidden="true"></div></div>
+            <div class="flow-row">
+              <article class="flow-node human" data-node="governance" tabindex="0" role="button" aria-label="查看审批与执行层详情">
+                <div class="node-id">H1 / GOVERNANCE</div>
+                <h3>人工决策与执行</h3>
+                <p>飞书审批卡片形成管理层责任门，批准后才拆解任务和写回正式业务系统。</p>
+                <div class="node-footer"><span class="pill">价格 / 存栏 / 产能</span><span class="pill">必须审批</span></div>
+              </article>
+              <div class="connector" aria-hidden="true"></div>
+              <article class="flow-node human" data-node="milestone" tabindex="0" role="button" aria-label="查看里程碑质量门详情">
+                <div class="node-id">H2 / MILESTONE GATE</div>
+                <h3>里程碑质量门</h3>
+                <p>先按 SAP/TMS/WMS/POS 标准完成业务节点，再启动对应检测，避免任务刚下达就误报。</p>
+                <div class="node-footer"><span class="pill">状态映射</span><span class="pill">后置验证</span></div>
+              </article>
+              <div class="connector" aria-hidden="true"></div>
+              <article class="flow-node human" data-node="coaching" tabindex="0" role="button" aria-label="查看责任人与岗位辅导详情">
+                <div class="node-id">H3 / OWNER ENABLEMENT</div>
+                <h3>责任到人与岗位辅导</h3>
+                <p>任务绑定负责人、完成标准和追问入口；Agent 提供岗位职责、历史案例与节点化指导。</p>
+                <div class="node-footer"><span class="pill">执行线</span><span class="pill">成长线</span></div>
+              </article>
+            </div>
+            <div class="flow-row single"><div class="connector down" aria-hidden="true"></div></div>
+            <div class="flow-row single">
+              <article class="flow-node decision" data-node="feedback" tabindex="0" role="button" aria-label="查看反馈校准详情">
+                <div class="node-id">F1 / FEEDBACK</div>
+                <h3>新数据验证与校准</h3>
+                <p>按 6/24/48/72 小时读取结果；关闭、升级或重新调查，并版本化修正规则。</p>
+                <div class="node-footer"><span class="pill">复发率</span><span class="pill">模型校准</span></div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <div class="view-tabs" role="tablist" aria-label="架构视图">
+          <button class="view-tab active" data-view="data-flow" role="tab" aria-selected="true">采集与传输</button>
+          <button class="view-tab" data-view="agent-config" role="tab" aria-selected="false">Aily Agent 深化</button>
+          <button class="view-tab" data-view="price-case" role="tab" aria-selected="false">价格事件实战</button>
+          <button class="view-tab" data-view="milestones" role="tab" aria-selected="false">里程碑质量门</button>
+          <button class="view-tab" data-view="coaching" role="tab" aria-selected="false">责任与成长</button>
+          <button class="view-tab" data-view="consensus" role="tab" aria-selected="false">五项共识</button>
+          <button class="view-tab" data-view="boundaries" role="tab" aria-selected="false">边界与验收</button>
+        </div>
+
+        <section id="data-flow" class="view active" role="tabpanel">
+          <div class="section-head"><h2>02 / 信息采集与数据传输</h2><span class="micro">COLLECT ≠ TRANSPORT ≠ ANALYZE</span></div>
+          <div class="panel panel-pad">
+            <h3>每条数据先形成统一的原始证据包</h3>
+            <p class="sub">源系统不需要直接生成最终语义表。采集层保留原文，传输层保证到达，语义层再做映射和判断。</p>
+            <pre>{
+  source_system, source_record_id, entity_type,
+  source_schema_version, occurred_at, effective_from, effective_to,
+  ingested_at, timezone, source_payload, payload_hash,
+  extractor_version, quality_status, canonical_ids,
+  lineage, sensitivity, access_scope
+}</pre>
+          </div>
+          <div class="panel" style="margin-top:12px">
+            <div class="panel-pad"><h3>逐源接入矩阵</h3><p class="sub">频率是终局目标建议；圣农具体接口、字段和权限仍需 IT 验收。</p></div>
+            <div class="table-wrap">
+              <table class="source-table">
+                <thead><tr><th>源 / 权威</th><th>信息采集</th><th>数据传输</th><th>失败降级</th></tr></thead>
+                <tbody>
+                  <tr><td>SAP / 正式交易</td><td>订单、发票、客户/产品主数据、成本毛利、批准价盘。</td><td>优先 OData/CDS/BAPI/IDoc 或现有集成；AnyCross 编排 API，不直读生产表。</td><td>保留最近快照并标 stale；价盘或成本过期时禁止高风险建议。</td></tr>
+                  <tr><td>POS / 平台</td><td>消费者成交、券前/券后、平台/商家/厂家承担方、实付、门店 SKU 库存。</td><td>零售商授权 API/Webhook；无 API 用 SFTP/对象存储 CSV + manifest/hash。</td><td>缺报不等于零销量；按覆盖率标 unknown，转人工巡店或补录。</td></tr>
+                  <tr><td>CRM / 业务员</td><td>客户归属、报价、拜访、活动申请、渠道政策、订单草稿。</td><td>开放 API/Webhook；飞书表单和审批回调进入事件流。</td><td>事件重放和幂等；缺失拜访不自动判定未执行。</td></tr>
+                  <tr><td>WMS / 物理库存</td><td>批次、可用/冻结/临期库存、出入库、发运。</td><td>API/事件；高量场景才考虑受控 CDC 或只读副本。</td><td>最后成功快照 + 时间戳；SAP/WMS 差异生成数据质量事件。</td></tr>
+                  <tr><td>经销商 / 上报证据</td><td>sell-in、sell-out、库存、库龄、退货、回款、促销执行。</td><td>商城/CRM API 或 EDI；其次 SFTP/模板；最后飞书移动补录。</td><td>缺报标 unknown，不补零；抽样核对发货、回款和门店 POS。</td></tr>
+                  <tr><td>飞书 / 人采事实</td><td>巡店照片、价签、陈列、语音、妙记、审批和任务状态。</td><td>开放平台 API、事件订阅、审批回调；原件与抽取字段分存。</td><td>Webhook 重试、游标和幂等；模糊照片进入待补证据。</td></tr>
+                  <tr><td>外部市场 / 信号</td><td>竞品可比价、促销覆盖、有货、行业供需、政策/天气/节日。</td><td>优先授权 API/正式数据文件；公共网页只依法采集并留快照。</td><td>多来源交叉；来源失效标 stale，不把缺失当作涨跌。</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel panel-pad" style="margin-top:12px">
+            <h3>传输方式选择规则</h3>
+            <div class="config-list">
+              <div class="config-item"><strong>API / Webhook：默认首选</strong><p>业务对象有稳定接口合同、需要分钟级查询或回写时使用；低延迟且可做权限和幂等。</p></div>
+              <div class="config-item"><strong>AnyCross：集成编排层</strong><p>负责连接器、字段转换、重试和内网代理，不替代事实库、语义层或高频 POS 流计算。</p></div>
+              <div class="config-item"><strong>CDC：仅用于受控高量复制</strong><p>源为授权关系库、API 不可用且需要增量复制时使用；不能未经 SAP Basis 许可直连生产表。</p></div>
+              <div class="config-item"><strong>文件 / SFTP：遗留和外部交换</strong><p>配合 manifest、文件 hash、行数/金额校验、迟到文件处理和幂等键，慢但可审计。</p></div>
+              <div class="config-item"><strong>内网代理：安全通道，不是 Agent</strong><p>只允许受控出站访问，使用 mTLS/OAuth、IP allowlist、限速与断点缓存。</p></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="agent-config" class="view" role="tabpanel">
+          <div class="section-head"><h2>03 / 飞书 Aily Agent 深化</h2><span class="micro">CAPABILITY / RUNTIME / PACKAGE / ACCEPTANCE</span></div>
+          <div class="aily-focus">
+            <div class="aily-summary">
+              <div class="aily-summary-main">
+                <p class="eyebrow">A1 / enterprise investigation agent</p>
+                <h3>圣农经营调查与决策助手</h3>
+                <p>Aily 不接管规则、预测和正式交易。它接收经营事件或管理者问题，按企业语义提出原因假设，调用受控工具调查证据，组织情景方案，并把高风险决策送入人工责任门。</p>
+              </div>
+              <div class="aily-metric"><b>10</b><span>项必须能力</span></div>
+              <div class="aily-metric"><b>02</b><span>条运行路径</span></div>
+              <div class="aily-metric"><b>05</b><span>个领域 MCP 网关</span></div>
+            </div>
+
+            <div class="aily-subtabs" role="tablist" aria-label="Aily深化视图">
+              <button class="aily-subtab active" data-aily-pane="aily-capabilities" role="tab" aria-selected="true">能力模型</button>
+              <button class="aily-subtab" data-aily-pane="aily-runtime" role="tab" aria-selected="false">运行路径</button>
+              <button class="aily-subtab" data-aily-pane="aily-package" role="tab" aria-selected="false">配置包</button>
+              <button class="aily-subtab" data-aily-pane="aily-acceptance" role="tab" aria-selected="false">生产验收</button>
+            </div>
+
+            <div id="aily-capabilities" class="aily-pane active" role="tabpanel">
+              <div class="aily-pane-head">
+                <div><h3>Aily 必须具备什么能力</h3><p>能力是否存在，与圣农是否已经完成配置，是两件事。</p></div>
+                <div class="state-legend"><span class="state-badge native">官方已证实</span><span class="state-badge configure">需要配置</span><span class="state-badge develop">外部确定性服务</span><span class="state-badge verify">目标租户验收</span></div>
+              </div>
+              <div class="verification" style="margin:0 0 12px"><b>官方能力审计 / 2026-07-19</b><br>10 项能力均可由这套组合架构实现，但不是 Aily 单体开箱即用。Aily 负责规划、工具调用、知识与文件处理、结构化输出、身份和运行日志；企业语义、证据血缘、预测模拟、审批写入闸门、责任映射与跨天事件状态必须配置或开发。因此“Aily 是唯一 Agent 运行时”成立，“Aily 单体包办全部能力”不成立。官方总览仍标注“功能内测中”，目标租户必须做开通与 E2E 验收。</div>
+              <div class="capability-grid">
+                <article class="capability-card"><div class="cap-id">C01 / CONTEXT</div><h4>理解经营事件上下文</h4><p>Aily 能消费 Prompt、变量和工具结果；event_id、语义版本、区域、渠道、SKU、时间窗、数据质量和权限范围必须由语义服务按数据合同提供。</p><footer><span class="state-badge configure">Prompt / Skill</span><span class="state-badge develop">语义服务</span></footer></article>
+                <article class="capability-card"><div class="cap-id">C02 / PLAN</div><h4>按假设规划调查</h4><p>Agent Node 官方支持复杂任务分解、多步骤推理、动态调整和工具选择；互斥原因假设与调查顺序仍由企业 Skill / Node Prompt 固化。</p><footer><span class="state-badge native">Agent Node 规划</span><span class="state-badge configure">Skill / Node Prompt</span></footer></article>
+                <article class="capability-card"><div class="cap-id">C03 / TOOLS</div><h4>跨系统调用受控工具</h4><p>自定义智能体和 Agent Node 均可调用自定义 MCP；SAP/POS/CRM/WMS 的真实接口、字段、连接器和授权范围仍需开发与现场验收。</p><footer><span class="state-badge native">MCP / API 调用</span><span class="state-badge develop">领域网关 / 连接器</span><span class="state-badge verify">系统权限</span></footer></article>
+                <article class="capability-card"><div class="cap-id">C04 / EVIDENCE</div><h4>融合并分级证据</h4><p>Aily 可处理知识、工具结果、文档、图片和附件；verified / signal / pending 的分级、冲突处理和证据链完整性不是平台自动保证。</p><footer><span class="state-badge native">知识 / 文件 / 工具结果</span><span class="state-badge configure">证据分级规则</span><span class="state-badge develop">证据库</span></footer></article>
+                <article class="capability-card"><div class="cap-id">C05 / EXPLAIN</div><h4>形成可追溯经营判断</h4><p>Agent Node 官方支持 string、list、object 输出；source_id、时间、口径、语义版本和工具结果必须由输出 Schema 与事件审计服务强制保存。</p><footer><span class="state-badge native">Agent Node object / list</span><span class="state-badge configure">输出 Schema</span><span class="state-badge develop">血缘 / 审计服务</span></footer></article>
+                <article class="capability-card"><div class="cap-id">C06 / OPTIONS</div><h4>组织多情景方案</h4><p>Aily 可以分析并组织跟价、定向券、规格区隔、不跟价等候选方向；销量、毛利、库存、预算和风险数字必须调用确定性预测/模拟服务。</p><footer><span class="state-badge native">内容分析 / 方案组织</span><span class="state-badge develop">预测 / 模拟</span></footer></article>
+                <article class="capability-card"><div class="cap-id">C07 / HUMAN GATE</div><h4>把决策送入人工责任门</h4><p>价格、存栏、产能和市场进入只能生成审批草案；未取得 approval_id 前，写回工具必须服务端拒绝。</p><footer><span class="state-badge configure">Workflow / 审批</span><span class="state-badge develop">写入网关</span></footer></article>
+                <article class="capability-card"><div class="cap-id">C08 / TASKS</div><h4>拆成可执行任务草案</h4><p>Aily 可生成结构化任务草案，飞书任务 MCP / API 可创建任务；负责人映射、依赖、验收指标和跨天跟踪仍需 Workflow 与事件库。</p><footer><span class="state-badge native">任务 MCP / API</span><span class="state-badge configure">Workflow</span><span class="state-badge develop">责任映射 / 事件库</span></footer></article>
+                <article class="capability-card"><div class="cap-id">C09 / IDENTITY</div><h4>按身份和数据范围行动</h4><p>自定义智能体官方支持共享应用、开发者个人、对话用户三类身份；Workflow Agent Node 暂不支持需要用户授权的 MCP，无人值守路径应使用最小权限共享应用身份。</p><footer><span class="state-badge native">三类工作身份</span><span class="state-badge configure">读写分离</span><span class="state-badge verify">租户与源系统权限</span></footer></article>
+                <article class="capability-card"><div class="cap-id">C10 / RECOVERY</div><h4>可恢复、可审计、可复盘</h4><p>Agent Node 可配置重试；Workflow 与自定义智能体 API 可查询执行状态，平台提供对话/技能/任务日志。跨天审批、幂等、补偿和长期审计仍由 event_id 事件库承载。</p><footer><span class="state-badge native">节点重试 / Chat·Run 状态 / 日志</span><span class="state-badge develop">事件状态库</span><span class="state-badge verify">留存与 SLA</span></footer></article>
+              </div>
+            </div>
+
+            <div id="aily-runtime" class="aily-pane" role="tabpanel">
+              <div class="aily-pane-head"><div><h3>我们应该怎样使用 Aily</h3><p>一套 Agent，两条入口，共用同一语义、工具和经营事件状态。</p></div><span class="state-badge verify">不要把两条路径混成一次长会话</span></div>
+              <div class="runtime-lanes">
+                <section class="runtime-lane">
+                  <div class="lane-head"><strong>A / 管理者主动调查</strong><span>经理、区域主管或业务员在飞书里提出复杂问题，适合解释、追问和临时研判。</span></div>
+                  <div class="lane-flow"><div class="lane-node"><b>飞书对话</b><small>问题 + 用户身份 + 可见范围</small></div><div class="lane-node"><b>Custom Agent</b><small>理解意图、选择方法、管理多轮</small></div><div class="lane-node"><b>Agent Skill</b><small>加载价格/库存/风险调查 SOP</small></div><div class="lane-node"><b>领域 MCP</b><small>实时查询事实、证据与模型</small></div><div class="lane-node"><b>回答或建案</b><small>简单问数直接回答；异常创建 event_id</small></div></div>
+                </section>
+                <section class="runtime-lane">
+                  <div class="lane-head"><strong>B / 系统自动事件</strong><span>脚本只暴露可信异常点；Aily 使用统一受理 Skill 循环补证据并决定是否扩大调查范围。</span></div>
+                  <div class="lane-flow"><div class="lane-node"><b>信号事件包</b><small>异常字段 + 对象 + 来源 + 时间</small></div><div class="lane-node"><b>受理 Skill</b><small>读取已知/未知，选择下一项最小查询</small></div><div class="lane-node"><b>while 调查</b><small>局部 → 区域 → 跨域 → 战略</small></div><div class="lane-node"><b>并行补证据</b><small>MCP 查询 ∥ 飞书责任人请求</small></div><div class="lane-node"><b>决策就绪包</b><small>事实、缺口、影响、约束、允许决策范围</small></div></div>
+                  <div class="investigation-loop" aria-label="统一事件受理Skill调查循环">
+                    <div class="investigation-loop-head"><strong>统一事件受理 Skill / Bounded While Loop</strong><span>每轮有查询上限、工具白名单、证据门槛和停止条件</span></div>
+                    <div class="loop-track">
+                      <div class="loop-step"><b>01 观察</b><small>读取 event_id、已知事实、未知项、调查层级和权限范围。</small></div><div class="loop-arrow">→</div>
+                      <div class="loop-step"><b>02 评估</b><small>判断当前证据能否解释异常，识别互斥原因假设。</small></div><div class="loop-arrow">→</div>
+                      <div class="loop-step"><b>03 计划</b><small>只选择下一项最小、必要、已授权的查询。</small></div><div class="loop-arrow">→</div>
+                      <div class="loop-step"><b>04 取证</b><small>调用领域 MCP；缺失字段并行发起责任人补数请求。</small></div><div class="loop-arrow">→</div>
+                      <div class="loop-step"><b>05 校验</b><small>检查来源、时间、口径、冲突和证据质量，更新事件包版本。</small></div><div class="loop-arrow">→</div>
+                      <div class="loop-step"><b>06 决定</b><small>停止、扩大调查、等待补数或转人工，并记录原因。</small></div>
+                    </div>
+                    <div class="loop-decisions"><div class="loop-decision"><strong>停止：</strong>证据足够，进入决策就绪包。</div><div class="loop-decision"><strong>扩大：</strong>L0局部 → L1区域 → L2跨域 → L3战略。</div><div class="loop-decision"><strong>等待：</strong>写入缺失项和责任人，当前Run结束，事件回调后恢复。</div><div class="loop-decision"><strong>转人工：</strong>权限、冲突或高风险超出Agent边界。</div></div>
+                  </div>
+                </section>
+                <section class="runtime-lane">
+                  <div class="lane-head"><strong>C / 审批后里程碑执行</strong><span>Agent 不持续挂起等待。审批和源系统状态事件重新触发 Workflow，按 event_id 与 process_id 恢复。</span></div>
+                  <div class="lane-flow"><div class="lane-node"><b>审批回调</b><small>approval_id + decision_version</small></div><div class="lane-node"><b>责任任务</b><small>负责人、岗位指导、完成标准</small></div><div class="lane-node"><b>里程碑事件</b><small>SAP/TMS/WMS/POS 正式状态</small></div><div class="lane-node"><b>后置质量门</b><small>宽限期结束后运行对应检测</small></div><div class="lane-node"><b>关闭或升级</b><small>恢复、复发、重开或重新审批</small></div></div>
+                </section>
+              </div>
+              <div class="table-wrap">
+                <table class="component-table">
+                  <thead><tr><th>Aily 组件</th><th>本方案职责</th><th>需要配置/开发</th><th>明确不能承担</th></tr></thead>
+                  <tbody>
+                    <tr><td>Custom Agent</td><td>统一对话入口、选择 Skill/MCP、汇总证据和方案。</td><td>角色 Prompt、渠道、知识、身份、可用范围。</td><td>事实库、规则引擎、审批者。</td></tr>
+                    <tr><td>飞书 aily Task Mode</td><td>辅助管理者做临时长链研究、批量分析和报告；不纳入生产主闭环。</td><td>用户手动切换/定时任务；与自定义智能体的边界需租户验收。</td><td>自定义智能体的已证实运行模式、经营事件状态机。</td></tr>
+                    <tr><td>Workflow</td><td>触发、质量门、分支、审批、任务、节点重试和验证。</td><td>图形流程、HTTP/代码/连接器节点；通过 Agent Node 使用 MCP。</td><td>直接调用 Custom Agent、自由推理和战略拍板。</td></tr>
+                    <tr><td>Agent Node</td><td>Workflow 内动态拆解调查、调用 MCP、输出 object/list/string。</td><td>节点 Prompt、共享应用身份工具、超时和重试。</td><td>用户授权型 MCP、核心阈值、跨天状态；不假设直接加载 Markdown Skill。</td></tr>
+                    <tr><td>Agent Skill</td><td>给 Custom Agent 固化企业老手调查方法和证据标准。</td><td>SKILL.md、references、scripts、测试样本。</td><td>Workflow Agent Node 直接加载、金额真值、权限和状态迁移。</td></tr>
+                    <tr><td>MCP</td><td>把实时经营事实、模型和受控动作变成工具。</td><td>域级接口、Schema、鉴权、限流、审计。</td><td>模型、数据库或语义规则本身。</td></tr>
+                    <tr><td>Subagents</td><td>官方已支持 Custom Agent 调用其他 Custom Agent，并行处理独立任务；本方案仅作为可选能力。</td><td>父子授权、调用说明 Skill、独立权限和日志，首期最多 2–3 个。</td><td>把五个业务部门机械复制成五个 Agent。</td></tr>
+                    <tr><td>Session / Chat / Run</td><td>Custom Agent 使用 Session/Chat；Workflow 应用 API 使用 Session/Run，两者不是同一状态对象。</td><td>调用 API、轮询、取消/终态处理、metadata 关联 event_id。</td><td>经营事件全生命周期和跨天恢复。</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="aily-package" class="aily-pane" role="tabpanel">
+              <div class="aily-pane-head"><div><h3>需要在 Aily 里装什么</h3><p>不把所有知识塞进一条 Prompt；不可变边界、业务方法、实时工具和长期状态分层管理。</p></div><span class="state-badge configure">可配置交付包</span></div>
+              <div class="bundle-grid">
+                <section class="bundle-card wide"><header><h4>01 / Prompt 分层</h4><p>Custom Agent 与 Workflow Agent 节点分别配置，但共享同一版本化证据规范。</p></header><div class="bundle-body"><div class="config-grid"><pre>Custom Agent System Prompt
+
+角色：圣农经营调查与决策助手。
+目标：调查事实、验证原因、组织方案、提交人工审批。
+硬规则：
+1. 先读 event_id / 语义版本 / 质量状态 / 权限范围。
+2. 只调用授权工具；缺失数据必须标 unknown。
+3. 先列原因假设，再逐项取证；所有结论引用来源与时间。
+4. 阈值、金额、预测调用确定性服务，不由模型心算。
+5. 价格、存栏、产能、市场进入不得自动拍板。
+6. 未有 approval_id 不得写回；不得把模型记忆当企业事实。</pre><pre>Workflow Agent Node Prompt
+
+输入：event_id、event_type、initial_signal、semantic_version。
+步骤：
+1. 调用 get_event_context；质量失败则输出 data_issue。
+2. 生成互斥原因假设和证据需求。
+3. 在允许的领域 MCP 内取证，最多按配置迭代。
+4. 调用 simulate_scenarios 获取确定性影响区间。
+5. 按 decision_packet_schema 输出 JSON。
+6. 不调用正式写入工具，不等待人工审批，不维持跨天会话。</pre></div></div></section>
+
+                <section class="bundle-card"><header><h4>02 / Agent Skills</h4><p>面向 Custom Agent 的企业老手方法包。</p></header><div class="bundle-body bundle-list">
+                  <div class="bundle-row"><code>event-intake-loop</code><span>所有异常的统一受理入口；按局部、区域、跨域、战略层级循环检查证据并决定下一项查询。</span></div>
+                  <div class="bundle-row"><code>price-anomaly-investigation</code><span>触发：价格候选事件；输出：价盘/券/规格/动销证据链和事件定性。</span></div>
+                  <div class="bundle-row"><code>competitive-response-pricing</code><span>触发：竞品让利；输出：跟价、定向券、规格区隔、不跟价方案包。</span></div>
+                  <div class="bundle-row"><code>inventory-demand-risk</code><span>触发：多区降价滞销；输出：需求、库存、产能、存栏和海外多情景。</span></div>
+                  <div class="bundle-row"><code>decision-briefing</code><span>把证据与模型结果转成管理层审批卡和停止条件。</span></div>
+                  <div class="bundle-row"><code>approved-decision-execution</code><span>读取 approval_id，形成跨部门任务草案和受控执行请求。</span></div>
+                  <div class="bundle-row"><code>milestone-outcome-verification</code><span>按源系统里程碑启动后置检查，输出进度阻塞、质量异常、恢复、升级或重开。</span></div>
+                  <div class="bundle-row"><code>role-guided-task-assistance</code><span>按岗位、资历、任务阶段和权限提供职责、步骤、案例与升级指导。</span></div>
+                </div></section>
+
+                <section class="bundle-card"><header><h4>03 / 身份、知识与状态</h4><p>身份、知识和长期状态必须分开配置。</p></header><div class="bundle-body bundle-list">
+                  <div class="bundle-row"><code>conversation_user</code><span>经理主动问数，继承用户可见的数据范围。</span></div>
+                  <div class="bundle-row"><code>shared_application</code><span>Workflow 无人值守调查使用统一服务账号，只授予最小只读范围。</span></div>
+                  <div class="bundle-row"><code>developer_identity</code><span>仅用于开发调试；生产禁用，避免所有用户继承开发者个人权限。</span></div>
+                  <div class="bundle-row"><code>knowledge</code><span>语义词典、价盘/促销制度、合法例外、SOP、脱敏历史案例；不保存实时流水。</span></div>
+                  <div class="bundle-row"><code>event_store</code><span>event_id/case_id、审批、任务、幂等、跨天状态和长期审计；位于 Aily 会话之外。</span></div>
+                </div></section>
+
+                <section class="bundle-card wide"><header><h4>04 / 五个领域 MCP 网关</h4><p>控制实际启用的工具域，减少调度歧义；所有写操作在服务端再次校验权限和审批。</p></header><div class="bundle-body"><div class="mcp-domain-grid">
+                  <div class="mcp-domain"><b>commercial-facts-mcp</b><ul><li>resolve_entities</li><li>get_price_policy</li><li>get_promotion_ledger</li><li>get_sellout</li><li>get_margin</li></ul></div>
+                  <div class="mcp-domain"><b>inventory-supply-mcp</b><ul><li>get_inventory</li><li>get_lot_age</li><li>get_capacity</li><li>get_farm_stock</li><li>get_supply_plan</li></ul></div>
+                  <div class="mcp-domain"><b>market-intelligence-mcp</b><ul><li>get_competitor_price</li><li>get_market_signal</li><li>get_source_snapshot</li><li>check_comparability</li></ul></div>
+                  <div class="mcp-domain"><b>decision-model-mcp</b><ul><li>calculate_impact</li><li>simulate_price</li><li>forecast_demand</li><li>simulate_inventory</li><li>compare_scenarios</li></ul></div>
+                  <div class="mcp-domain"><b>event-execution-mcp</b><ul><li>get_event_context</li><li>append_evidence</li><li>create_approval_draft</li><li>create_approved_tasks</li><li>schedule_recheck</li></ul></div>
+                </div></div></section>
+
+                <section class="bundle-card wide"><header><h4>05 / 结构化输出合同</h4><p>对话可以自然语言呈现，但生产 Workflow 必须输出固定 JSON。</p></header><div class="bundle-body"><div class="schema-box">{
+  "event_id": "...", "semantic_version": "...",
+  "investigation_level": "local | regional | cross_domain | strategic",
+  "status": "verified | signal | pending | data_issue",
+  "evidence": [{"source_id":"...", "occurred_at":"...", "finding":"..."}],
+  "hypotheses": [{"name":"...", "evidence_status":"verified | signal | pending"}],
+  "missing_data": ["..."], "evidence_requests": [{"owner_role":"...", "sla":"..."}],
+  "options": [{"name":"...", "impact_model_id":"...", "risks":["..."]}],
+  "approval_required": true,
+  "task_draft": [{"owner_role":"...", "deadline":"...", "milestone":"...", "acceptance":"..."}],
+  "recheck_at": ["6h", "24h", "48h"]
+}</div></div></section>
+              </div>
+            </div>
+
+            <div id="aily-acceptance" class="aily-pane" role="tabpanel">
+              <div class="aily-pane-head"><div><h3>怎样证明 Aily 真能承担唯一 Agent</h3><p>验收对象不是“机器人能聊天”，而是同一闭环在真实数据、失败和审批等待下仍然成立。</p></div><span class="state-badge verify">E2E HARD GATE</span></div>
+              <div class="acceptance-grid">
+                <article class="acceptance-card"><strong>01 / 证据真实性 <span class="pass">MUST PASS</span></strong><p>29.9→24.9 合法券、未授权低价和规格差异三种样本均能正确区分；每个结论带 source_id/time/schema。</p></article>
+                <article class="acceptance-card"><strong>02 / 缺失数据处理 <span class="pass">MUST PASS</span></strong><p>接口缺失、数据过期或来源冲突时明确输出 unknown/data_issue，不补零、不编造、不继续高风险建议。</p></article>
+                <article class="acceptance-card"><strong>03 / 确定性计算 <span class="pass">100%</span></strong><p>实付价、毛利、库存、预算和预测字段与独立 oracle 结果一致；Agent 只解释，不自行心算。</p></article>
+                <article class="acceptance-card"><strong>04 / 未审批不写入 <span class="pass">0 VIOLATION</span></strong><p>缺少 approval_id、decision_version 或权限不符时，所有改价、存栏、产能和市场动作被服务端拒绝。</p></article>
+                <article class="acceptance-card"><strong>05 / 跨天恢复 <span class="pass">MUST PASS</span></strong><p>审批等待 24 小时后按 event_id 恢复，不依赖原 Agent Run 持续在线；不会重复建案或重复下发任务。</p></article>
+                <article class="acceptance-card"><strong>06 / 故障与幂等 <span class="pass">MUST PASS</span></strong><p>重复、乱序、连接器失败和超时注入后可重试/补偿；失败状态不能伪装成已完成。</p></article>
+                <article class="acceptance-card"><strong>07 / 多区域战略风险 <span class="pass">MUST PASS</span></strong><p>六区域降价滞销时生成多个原因假设，并调用模型比较促销、减产、存栏和海外方案，不直接断言需求下降。</p></article>
+                <article class="acceptance-card"><strong>08 / 权限与审计 <span class="pass">MUST PASS</span></strong><p>用户、服务和共享身份访问范围正确；工具调用、Prompt/Skill/规则/模型版本和审批结果可追溯。</p></article>
+                <article class="acceptance-card"><strong>09 / 里程碑质量门 <span class="pass">0 EARLY ALERT</span></strong><p>货物仍在运输或门店登记时不得误报未上架；达到正式节点并越过宽限期后才执行对应质量检查。</p></article>
+                <article class="acceptance-card"><strong>10 / 岗位辅导 <span class="pass">SOURCE-BOUND</span></strong><p>新人追问能返回当前岗位、任务和里程碑相关指导；所有职责、步骤和案例带来源与版本，不越过责任边界。</p></article>
+              </div>
+              <div class="boundary-strip" aria-label="Aily公开边界">
+                <div><b>10 MIN DEFAULT</b><span>Workflow Agent 节点默认超时；最高值需租户核验。</span></div>
+                <div><b>20 ≠ CONCURRENCY</b><span>公开口径是每人最多配置 20 个定时任务，不是执行并发或应用容量。</span></div>
+                <div><b>SESSION ≠ EVENT</b><span>Aily 会话/Run 不是跨天经营事件状态机。</span></div>
+                <div><b>OPENAPI AVAILABLE</b><span>自定义智能体 OpenAPI 已发布；圣农租户开通、同租户可见范围仍需验收。</span></div>
+              </div>
+              <div class="verification"><b>最终判断门</b><br>Aily 通过上述硬门，则不增加外部 Agent。若失败在接口、语义、计算或状态，先补确定性服务；只有失败在 Agent 运行时的长时编排、并发、私有部署或治理边界时，才评估替代运行时。</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="price-case" class="view" role="tabpanel">
+          <div class="section-head"><h2>04 / 价格异常与竞品让利事件</h2><span class="micro">29.9 → 24.9 / 3-DAY RESPONSE</span></div>
+          <div class="case-layout">
+            <div class="panel">
+              <div class="case-head"><div><h3>价格事件：从一个异常点逐级调查</h3><p>POS 暴露门店到手价 24.9，基准价 29.9；脚本只登记可信信号，Agent 决定下一项最小查询。</p></div><span class="case-tag">SIGNAL → DECISION</span></div>
+              <div class="timeline">
+                <div class="step"><div class="step-mark">01</div><div><h4>脚本暴露异常字段</h4><p>POS 报告某 SKU × 门店的实际价低于正式价盘；记录来源、时间、对象和偏差，不判断问题最终有多大。</p><code>deterministic detector → signal packet</code></div></div>
+                <div class="step"><div class="step-mark">02</div><div><h4>统一事件受理 Skill 启动</h4><p>Aily 读取当前已知和未知，生成下一项最小、必要、已授权的查询计划。</p><code>observe → assess → plan</code></div></div>
+                <div class="step"><div class="step-mark">03</div><div><h4>while 循环逐级扩大调查</h4><p>先核验单店券与审批，再扩至区域门店、渠道库存、投诉和竞品，必要时进入集团供需、产能与存栏。</p><code>L0 局部 → L1 区域 → L2 跨域 → L3 战略</code></div></div>
+                <div class="step"><div class="step-mark">04</div><div><h4>并行补齐证据</h4><p>受控 MCP 查询 SAP/POS/CRM/WMS；无法查询的字段自动映射数据责任人，飞书发起补数请求并追踪已读与 SLA。</p><code>tool retrieval ∥ human evidence request</code></div></div>
+                <div class="step"><div class="step-mark">05</div><div><h4>形成决策就绪事件包</h4><p>明确事实、推断、缺失项、查询轨迹、影响、约束和当前允许的决策范围；不是假装信息绝对完整。</p><code>decision_ready_dossier@version</code></div></div>
+                <div class="step"><div class="step-mark">06</div><div><h4>领域 Skill 生成方案</h4><p>价格、竞品或库存 Skill 调用确定性模型，比较跟价、定向券、规格区隔和不跟价的销量、毛利、库存与预算影响。</p><code>domain skill → scenario service</code></div></div>
+                <div class="step"><div class="step-mark">07</div><div><h4>管理层审批与里程碑执行</h4><p>批准后拆解销售、库存、生产和海外任务；每项任务按业务里程碑推进，达到节点后才启动质量检测。</p><code>approval_id → milestone workflow</code></div></div>
+                <div class="step"><div class="step-mark">08</div><div><h4>结果验证与知识沉淀</h4><p>6/24/48/72 小时回读价格、sell-out、库存和投诉；恢复才关闭，并把有效过程沉淀为规则、语义和岗位案例。</p><code>recheck → close / escalate / reopen</code></div></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-pad"><h3>管理层看到的方案包</h3><p class="sub">Agent 给选择，不替管理层选择。</p></div>
+              <div class="option-list">
+                <div class="option"><strong>定向券 <span>短期</span></strong><p>只覆盖发生竞品冲击且库存健康的门店，控制价格外溢。</p></div>
+                <div class="option"><strong>规格区隔 <span>中期</span></strong><p>通过克重、组合装或渠道专供 SKU 避免全盘降价。</p></div>
+                <div class="option"><strong>库存优先 <span>临期</span></strong><p>在批准的临期窗口内释放库存，明确成本承担和停止条件。</p></div>
+                <div class="option"><strong>不跟价 <span>守价</span></strong><p>保持贡献毛利，持续观察 sell-out 和竞品覆盖，设置升级阈值。</p></div>
+              </div>
+              <div class="gate"><strong>人工责任门</strong><p>价格、存栏、产能和市场进入建议必须有批准人、版本、生效期、预算上限和回滚条件。</p></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="milestones" class="view" role="tabpanel">
+          <div class="section-head"><h2>05 / 里程碑质量门</h2><span class="micro">EXECUTE FIRST / VERIFY AT THE RIGHT NODE</span></div>
+          <div class="panel">
+            <div class="panel-pad"><h3>任务不是下达即要求最终完成</h3><p class="sub">业务系统中的正式状态和单据决定当前里程碑。里程碑未到时只监控进度；达到节点并经过宽限窗口后，才检测执行质量。</p></div>
+            <div class="milestone-track" aria-label="从任务批准到价格验证的里程碑">
+              <article class="milestone-stage"><div class="stage-id">M0 / APPROVED</div><h3>任务批准</h3><p>生成任务、责任人、版本、预算与回滚条件。</p><span class="stage-state">approval_id</span></article>
+              <article class="milestone-stage"><div class="stage-id">M1 / DISPATCHED</div><h3>仓库出库</h3><p>SAP/WMS 出库或发货过账形成完成证据。</p><span class="stage-state">goods_issue</span></article>
+              <article class="milestone-stage"><div class="stage-id">M2 / DELIVERED</div><h3>运输到店</h3><p>TMS 到货、签收或授权交付证据确认。</p><span class="stage-state">proof_of_delivery</span></article>
+              <article class="milestone-stage"><div class="stage-id">M3 / REGISTERED</div><h3>门店登记</h3><p>门店完成收货、入库或商品登记。</p><span class="stage-state">store_receipt</span></article>
+              <article class="milestone-stage gate-stage"><div class="stage-id">M4 / QUALITY GATE</div><h3>上架宽限窗口</h3><p>节点达到后启动等待计时，不提前判断未上架或未标价。</p><span class="stage-state">grace_period</span></article>
+              <article class="milestone-stage gate-stage"><div class="stage-id">M5 / VERIFIED</div><h3>价签与动销验证</h3><p>检查上架、标价、可售、首笔 sell-out 和陈列证据。</p><span class="stage-state">pass / case_id</span></article>
+            </div>
+          </div>
+
+          <div class="state-grid" style="margin-top:12px">
+            <article class="state-card waiting"><div class="state-id">STATE A / NOT REACHED</div><h3>里程碑未到</h3><p>只判断任务是否按标准时长推进。例如仍在运输时，不允许生成“门店未标价”异常。</p></article>
+            <article class="state-card progress"><div class="state-id">STATE B / PROGRESS RISK</div><h3>进度异常</h3><p>规定时间内未达到下一节点，生成运输、登记或协作阻塞事件，由对应责任链处理。</p></article>
+            <article class="state-card quality"><div class="state-id">STATE C / QUALITY ISSUE</div><h3>质量异常</h3><p>里程碑已达到且宽限期结束，结果仍不符合标准，才生成经营异常事件包并唤起 Agent。</p></article>
+          </div>
+
+          <div class="section-head"><h2>里程碑如何落地</h2><span class="micro">DEFINE / MAP / TRACK / CHECK</span></div>
+          <div class="component-grid">
+            <article class="component-block"><code>milestone_registry</code><h3>里程碑定义中心</h3><p>保存进入条件、完成证据、宽限时间、检查规则、责任人、失败分支和版本。</p></article>
+            <article class="component-block"><code>status_adapter</code><h3>源状态映射</h3><p>把 SAP、TMS、WMS、POS 和飞书任务状态转换成统一业务里程碑。</p></article>
+            <article class="component-block"><code>process_state_machine</code><h3>跨系统状态机</h3><p>处理重复、乱序、超时、人工修正、补偿和回滚，保留全部历史。</p></article>
+            <article class="component-block"><code>quality_gate_scheduler</code><h3>质量门调度器</h3><p>达到节点后等待宽限窗口，再运行对应规则；复杂异常才进入 Aily 调查。</p></article>
+          </div>
+
+          <div class="panel" style="margin-top:12px">
+            <div class="panel-pad"><h3>源系统状态到统一里程碑</h3><p class="sub">下列名称是方案级映射，圣农真实单据类型、状态码和接口必须在落地访谈中确认。</p></div>
+            <div class="table-wrap"><table class="source-table"><thead><tr><th>业务证据</th><th>候选来源</th><th>统一里程碑</th><th>触发的检查</th></tr></thead><tbody>
+              <tr><td>出库/发货过账</td><td>SAP SD、MM、WM/EWM 或 WMS</td><td><code>WAREHOUSE_DISPATCHED</code></td><td>发货数量、批次、目的地和运输任务是否一致。</td></tr>
+              <tr><td>到货/签收</td><td>TMS、承运商或门店签收</td><td><code>DELIVERED</code></td><td>是否在 SLA 内到达，签收差异是否需要调查。</td></tr>
+              <tr><td>门店收货登记</td><td>POS、门店系统、CRM 或飞书表单</td><td><code>STORE_REGISTERED</code></td><td>启动上架宽限窗口；此时才允许准备价签检查。</td></tr>
+              <tr><td>商品公开可售</td><td>POS 首笔交易、上架记录或价签巡检</td><td><code>SELLABLE</code></td><td>价格、陈列、库存、首笔 sell-out 和促销一致性。</td></tr>
+            </tbody></table></div>
+          </div>
+        </section>
+
+        <section id="coaching" class="view" role="tabpanel">
+          <div class="section-head"><h2>06 / 责任到人与岗位成长</h2><span class="micro">OWNER ACCOUNTABILITY + IN-TASK COACHING</span></div>
+          <div class="coaching-layout">
+            <div>
+              <div class="dual-lane">
+                <article class="role-lane execution"><div class="lane-id">LANE A / EXECUTION</div><h3>责任执行线</h3><ul><li>任务背景、当前里程碑和异常证据</li><li>本岗位动作、完成标准和截止时间</li><li>依赖任务、审批边界和升级联系人</li><li>完成后需要回写的现场证据</li></ul></article>
+                <article class="role-lane learning"><div class="lane-id">LANE B / GROWTH</div><h3>岗位成长线</h3><ul><li>解释为什么做、第一步做什么</li><li>检索已验证的同岗历史案例</li><li>说明缺少的权限、信息和求助对象</li><li>把完成结果沉淀为下一位员工的经验</li></ul></article>
+              </div>
+              <div class="panel panel-pad" style="margin-top:9px">
+                <h3>任务上下文服务</h3>
+                <p class="sub">事件包、里程碑、岗位、权限、制度与历史案例绑定在同一任务会话中。Agent 的回答随任务节点变化，而不是脱离现场做通用问答。</p>
+                <div class="metric-strip" aria-label="岗位成长验收指标">
+                  <div><b>↓</b><span>独立完成周期</span></div><div><b>↑</b><span>首次正确率</span></div><div><b>↓</b><span>返工与升级次数</span></div><div><b>↓</b><span>同类异常复发率</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="task-demo" aria-label="新入职业务员任务辅导演示">
+              <div class="task-demo-head"><div><p class="eyebrow">TASK / PRICE-0249</p><h3>核验门店价格异常</h3><p>当前里程碑：门店登记完成，等待价签验证</p></div><span class="new-hire">新任岗位 / 42天</span></div>
+              <div class="task-context"><div><b>负责人</b><span>华东业务员</span></div><div><b>完成标准</b><span>证据齐全并回写</span></div><div><b>截止时间</b><span>今日 16:00</span></div></div>
+              <div class="question-set" role="group" aria-label="向Agent追问">
+                <button class="question-btn active" data-answer="first">我是新入职人员，第一步应该做什么？</button>
+                <button class="question-btn" data-answer="standard">这个岗位的完成标准是什么？</button>
+                <button class="question-btn" data-answer="history">过去类似问题是怎么处理的？</button>
+                <button class="question-btn" data-answer="escalate">什么情况必须升级给区域经理？</button>
+              </div>
+              <div class="answer-box" aria-live="polite"><div class="answer-label">AILY / ROLE-GUIDED ANSWER</div><h4 id="coach-answer-title">先核实价签与实际成交价是否一致</h4><p id="coach-answer-text">打开任务中的门店、SKU 和时间窗，先上传价签照片并查询 POS 实付价。不要直接要求门店改价。若价签与实付不一致，记录两个证据并进入下一调查节点。<br><code>来源：价格异常处理 Skill v3.2 / 岗位 SOP 4.1</code></p></div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:12px">
+            <div class="panel-pad"><h3>指导不等于代办</h3><p class="sub">“新任岗位”只用于调整解释深度和案例推荐，不作为降低权限、评价能力或代替责任人的依据。</p></div>
+            <div class="table-wrap"><table class="source-table"><thead><tr><th>Agent 可以做</th><th>必须由负责人做</th><th>系统护栏</th><th>沉淀结果</th></tr></thead><tbody>
+              <tr><td>解释岗位职责、当前节点和完成标准。</td><td>确认现场事实并对提交证据负责。</td><td>回答必须引用制度、Skill 或已验证案例版本。</td><td>问题类型、指导路径和完成结果。</td></tr>
+              <tr><td>推荐历史案例、下一步和求助对象。</td><td>提交需要本人承担的业务承诺。</td><td>不得把原始聊天自动升级为企业标准。</td><td>有效做法、失败原因和适用边界。</td></tr>
+              <tr><td>提示风险、缺失信息和升级条件。</td><td>价格、存栏、产能等高风险决策。</td><td>未有 approval_id，写入网关拒绝执行。</td><td>独立完成周期、返工率和复发率。</td></tr>
+            </tbody></table></div>
+          </div>
+        </section>
+
+        <section id="consensus" class="view" role="tabpanel">
+          <div class="section-head"><h2>07 / 五个行业共识如何落地</h2><span class="micro">BUSINESS CONTEXT AS INFRASTRUCTURE</span></div>
+          <div class="consensus-grid">
+            <article class="consensus-card"><div class="consensus-id">01 / CONCEPT FIRST</div><h3>业务概念优先于数据表</h3><p>先定义 SKU、门店、价盘、到手价、sell-out、里程碑、经营事件和责任角色，再把 SAP/POS/CRM/WMS 字段映射进去。</p><footer>semantic registry + entity resolver</footer></article>
+            <article class="consensus-card"><div class="consensus-id">02 / TACIT KNOWLEDGE</div><h3>语义必须包含暗知识</h3><p>沉淀区域定义、价格口径、合法例外、阈值、责任链、审批条件和动作边界；事实仍保留在源系统，不复制第二套业务账。</p><footer>metric rules + policy + owner map</footer></article>
+            <article class="consensus-card"><div class="consensus-id">03 / INTERMEDIATE STATE</div><h3>必须有可检查中间态</h3><p>信号事件包、调查计划、证据请求、决策就绪事件包、审批版本和里程碑状态全部可检查、可重放、可追溯。</p><footer>case dossier + workflow state</footer></article>
+            <article class="consensus-card"><div class="consensus-id">04 / GUARDRAILS</div><h3>系统给 AI 装上护栏</h3><p>工具白名单、最小权限、规则校验、里程碑前置条件、管理层审批、写入网关和补偿回滚共同约束动作空间。</p><footer>policy engine + human gate</footer></article>
+            <article class="consensus-card"><div class="consensus-id">05 / GOVERNANCE</div><h3>语义是一项长期治理</h3><p>语义、接口、规则、事件模板、Skill、模型和案例都有 owner、版本、回归样本、生效期和退出机制。</p><footer>versioning + evaluation + ownership</footer></article>
+          </div>
+
+          <div class="section-head"><h2>落地顺序</h2><span class="micro">FROM ONE EVENT TO REUSABLE CAPABILITY</span></div>
+          <div class="landing-sequence">
+            <div class="landing-step"><b>01 / 事实清单</b><span>确认六套系统、接口、字段、owner、频率和历史留存。</span></div>
+            <div class="landing-step"><b>02 / 价格语义</b><span>先完成一个 SKU × 门店价格事件的数据合同、规则和例外。</span></div>
+            <div class="landing-step"><b>03 / 调查闭环</b><span>实现信号包、受理 Skill、证据请求、决策就绪包和审批草案。</span></div>
+            <div class="landing-step"><b>04 / 里程碑执行</b><span>连接一个真实业务流程，验证状态映射、质量门和回写。</span></div>
+            <div class="landing-step"><b>05 / 复制治理</b><span>以回归样本扩展库存、动销、产销和战略风险 Skill。</span></div>
+          </div>
+
+          <div class="verification"><b>落地纪律</b><br>先跑通一个真实价格事件和一条责任链，再扩展到跨区域库存、产能和存栏风险。平台化必须来自重复出现的共性，不从架构图直接宣布完成。</div>
+        </section>
+
+        <section id="boundaries" class="view" role="tabpanel">
+          <div class="section-head"><h2>08 / 责任边界与验收门</h2><span class="micro">VERIFIED / UNKNOWN / E2E GATE</span></div>
+          <div class="panel panel-pad">
+            <h3>谁负责什么</h3>
+            <div class="table-wrap">
+              <table class="source-table">
+                <thead><tr><th>对象</th><th>负责</th><th>不负责</th><th>验收证据</th></tr></thead>
+                <tbody>
+                  <tr><td>源系统</td><td>正式交易、库存、主数据和执行记录。</td><td>跨系统经营事件解释。</td><td>字段、接口、权限、更新时间和对账。</td></tr>
+                  <tr><td>传输层</td><td>连接、转换、幂等、重试、死信、数据血缘。</td><td>异常定性和策略选择。</td><td>manifest、hash、延迟、失败重放。</td></tr>
+                  <tr><td>语义/规则服务</td><td>统一对象、指标口径、阈值、聚合和数值计算。</td><td>自然语言调查和责任沟通。</td><td>版本、测试样本、可复算结果。</td></tr>
+                  <tr><td>Aily Agent</td><td>取证、假设验证、解释、方案组织、任务草案。</td><td>凭空补数据、阈值计算、自动拍板。</td><td>工具调用、证据引用、结构化输出。</td></tr>
+                  <tr><td>管理层</td><td>价格、存栏、产能、市场进入等高风险决策。</td><td>把责任交给模型。</td><td>审批人、时间、版本、预算和回滚条件。</td></tr>
+                  <tr><td>里程碑状态机</td><td>跨系统节点、宽限期、进度异常、质量门、补偿和回滚。</td><td>替源系统伪造完成状态。</td><td>process_id、milestone_id、完成证据、规则版本和状态历史。</td></tr>
+                  <tr><td>岗位辅导层</td><td>任务内职责解释、SOP、已验证案例、求助路径和成长指标。</td><td>代替员工确认事实、承诺结果或承担决策责任。</td><td>岗位/权限映射、引用来源、指导记录与完成结果。</td></tr>
+                  <tr><td>经营事件库</td><td>跨天状态、幂等、审计、复发、关闭和模型反馈。</td><td>成为 SAP/POS 的第二套交易账。</td><td>case_id、状态机、重试和长期留存。</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="config-grid" style="margin-top:12px">
+            <div class="panel panel-pad"><h3>必须先验证的租户事实</h3><div class="config-list"><div class="config-item"><strong>接口与权限</strong><p>六套零售系统的准确名称、接口方式、字段、owner、频率和历史留存。</p></div><div class="config-item"><strong>POS 数据授权</strong><p>能否提供订单级券明细、平台/商家/厂家承担方和结算净价。</p></div><div class="config-item"><strong>Aily 开通状态</strong><p>专业版、Workflow、MCP、OpenAPI 渠道、服务账号和审计导出。</p></div><div class="config-item"><strong>写回与回滚</strong><p>价格执行是否允许模拟写回，生产写回需要哪些审批和回滚机制。</p></div></div></div>
+            <div class="panel panel-pad"><h3>外部 Agent 的触发条件</h3><div class="config-list"><div class="config-item"><strong>不是默认组件</strong><p>当前终局不安装第二套 Agent；先用 Aily + 后端服务完成租户 E2E。</p></div><div class="config-item"><strong>只有硬缺口才升级</strong><p>私有化模型、长任务恢复、复杂补偿、精细治理或生产 SLA 经验证无法满足。</p></div><div class="config-item"><strong>升级方式</strong><p>外部 Agent 是替代运行时，不与 Aily 并行做同一决策，避免“双脑”状态冲突。</p></div></div></div>
+          </div>
+        </section>
+
+        <footer class="footer">
+          <div>状态：完整终局方案演示稿。架构、里程碑、责任辅导和护栏已冻结；圣农真实接口、业务状态码、租户套餐和 SLA 仍需 E2E 验证。</div>
+          <div class="source-line">
+            <a href="https://www.feishu.cn/hc/zh-CN/articles/790732948604-" target="_blank" rel="noreferrer">Aily 能力概述</a>
+            <a href="https://aily.feishu.cn/hc/1u7kleqg/7tdpv1rv" target="_blank" rel="noreferrer">Agent Node</a>
+            <a href="https://www.feishu.cn/hc/zh-CN/articles/424209443897-" target="_blank" rel="noreferrer">AnyCross 集成平台</a>
+            <a href="https://aily.feishu.cn/hc/1u7kleqg/nto2bybm" target="_blank" rel="noreferrer">Agent Skill</a>
+            <a href="https://aily.feishu.cn/hc/1u7kleqg/73ahi33a" target="_blank" rel="noreferrer">MCP</a>
+            <a href="https://aily.feishu.cn/hc/1u7kleqg/gnrssu2a" target="_blank" rel="noreferrer">工作身份</a>
+            <a href="https://aily.feishu.cn/hc/1u7kleqg/owh6kvac" target="_blank" rel="noreferrer">Workflow</a>
+            <a href="https://aily.feishu.cn/hc/1u7kleqg/2t3efrzi" target="_blank" rel="noreferrer">Task Mode</a>
+            <a href="https://aily.feishu.cn/hc/1u7kleqg/2sav1okv" target="_blank" rel="noreferrer">定时任务边界</a>
+            <a href="https://aily.feishu.cn/hc/1u7kleqg/anyclaw" target="_blank" rel="noreferrer">子智能体</a>
+            <a href="https://aily.feishu.cn/hc/1u7kleqg/qrb2teig" target="_blank" rel="noreferrer">运行日志</a>
+            <a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/aily-v1/agent/agentuseguide" target="_blank" rel="noreferrer">Custom Agent OpenAPI</a>
+            <a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/aily-v1/aily_session-run/create" target="_blank" rel="noreferrer">Workflow Session / Run API</a>
+          </div>
+        </footer>
+      </main>
+
+      <aside class="detail-panel" aria-live="polite">
+        <div class="detail-card" id="detail-card">
+          <div class="detail-head"><div class="kicker">SELECTED LAYER</div><h2 id="detail-title">信息采集层</h2><p id="detail-summary">先把经营事实带着来源和时间送进系统。</p></div>
+          <div class="detail-body">
+            <dl>
+              <div class="detail-row"><dt>责任</dt><dd id="detail-owner">源系统 + 业务员/合作方</dd></div>
+              <div class="detail-row"><dt>输入</dt><dd id="detail-input">订单、价格、库存、巡店、市场快照</dd></div>
+              <div class="detail-row"><dt>输出</dt><dd id="detail-output"><code>raw evidence envelope</code></dd></div>
+              <div class="detail-row"><dt>禁止</dt><dd id="detail-block">不把缺失补成零，不在采集时定责</dd></div>
+            </dl>
+            <div class="verification" id="detail-verification"><b>状态 / verified</b><br>采集方式和具体接口以圣农 IT 访谈与租户 E2E 为准。</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const detailMap = {
+      collection: { kicker: 'C1 / COLLECTION', title: '信息采集层', summary: '先把经营事实带着来源和时间送进系统。', owner: '源系统 + 业务员/合作方', input: '订单、价格、库存、巡店、市场快照', output: '<code>raw evidence envelope</code>', block: '不把缺失补成零，不在采集时定责', verify: 'verified', note: '采集方式和具体接口以圣农 IT 访谈与租户 E2E 为准。' },
+      transport: { kicker: 'T1 / TRANSPORT', title: '数据传输层', summary: '负责可靠搬运和回放，不负责经营判断。', owner: 'AnyCross / 集成服务', input: 'API、Webhook、CDC、SFTP、内网请求', output: '<code>raw zone + lineage</code>', block: '不把 AnyCross 当事实库或规则引擎', verify: 'verified / partial', note: '连接器、延迟、吞吐和重试上限必须在目标租户验证。' },
+      foundation: { kicker: 'D1 / FOUNDATION', title: '企业数据与决策底座', summary: '把异构数据变成可复算的统一经营事实。', owner: '数据平台 + 业务语义负责人', input: '原始证据和主数据映射', output: '<code>semantic views + event_id</code>', block: '不让 Base 取代 SAP/POS 全量账', verify: 'required', note: '语义、规则、预测和经营事件库是外部开发重点。' },
+      aily: { kicker: 'A1 / AILY RUNTIME', title: '飞书 Aily Agent', summary: '只通过受控工具调查和组织方案。', owner: 'Aily Custom Agent + Workflow', input: '<code>event_id + initial signal</code>', output: '<code>decision packet / JSON</code>', block: '不直连数据库、不越过审批、不凭空补事实', verify: 'verified / partial', note: '长周期状态与长期审计由经营事件库承担，不只依赖聊天记录。' },
+      governance: { kicker: 'H1 / GOVERNANCE', title: '人工决策与执行', summary: '管理层是高风险经营决策的最终责任人。', owner: '管理层 + 飞书审批', input: '证据包、情景方案、风险边界', output: '<code>approval_id + version</code>', block: '不允许模型自动批准价格、存栏、产能和市场进入', verify: 'required', note: '每个批准都必须有批准人、生效期、预算和回滚条件。' },
+      milestone: { kicker: 'H2 / MILESTONE GATE', title: '里程碑质量门', summary: '先完成业务节点，再启动对应质量检测。', owner: '业务系统 + 状态机 + Workflow', input: 'SAP/TMS/WMS/POS 正式状态和完成证据', output: '<code>milestone_id + pass / case_id</code>', block: '里程碑未到时不提前判定后置质量异常', verify: 'required', note: '实际单据、状态码、宽限期和例外必须与圣农业务负责人共同确认。' },
+      coaching: { kicker: 'H3 / OWNER ENABLEMENT', title: '责任到人与岗位辅导', summary: '任务既交付责任，也交付完成任务所需的企业上下文。', owner: '业务责任人 + Aily + 岗位知识负责人', input: '任务、岗位、资历、里程碑、SOP 和已验证案例', output: '<code>evidence + guided action + learning record</code>', block: '不代替员工确认事实、承诺结果或越权决策', verify: 'required', note: '指导必须引用制度、Skill 或已验证案例，并以首次正确率、返工率和独立完成周期验收。' },
+      execution: { kicker: 'H2 / EXECUTION', title: '任务拆解与正式执行', summary: '批准后的决定变成跨部门可追踪任务。', owner: 'Workflow + 业务责任人', input: '批准决定和任务模板', output: '<code>task_id + system writeback</code>', block: '不把飞书任务当正式库存或财务账', verify: 'required', note: '正式交易结果仍回写 SAP/CRM/WMS 等权威系统。' },
+      feedback: { kicker: 'F1 / FEEDBACK', title: '新数据验证与校准', summary: '事件不是关单，而是验证结果并修正规则。', owner: 'Workflow + 经营分析', input: '执行结果、动销、价格、库存和竞品新数据', output: '<code>close / escalate / reopen</code>', block: '不以“任务完成”替代经营结果恢复', verify: 'required', note: '复发率、重开率和动销恢复优先于形式上的关闭率。' }
+    };
+
+    const detailEls = {
+      kicker: document.querySelector('#detail-card .kicker'),
+      title: document.querySelector('#detail-title'),
+      summary: document.querySelector('#detail-summary'),
+      owner: document.querySelector('#detail-owner'),
+      input: document.querySelector('#detail-input'),
+      output: document.querySelector('#detail-output'),
+      block: document.querySelector('#detail-block'),
+      verification: document.querySelector('#detail-verification')
+    };
+
+    function selectNode(id) {
+      const data = detailMap[id];
+      if (!data) return;
+      document.querySelectorAll('.flow-node').forEach(node => node.classList.toggle('selected', node.dataset.node === id));
+      detailEls.kicker.textContent = data.kicker;
+      detailEls.title.textContent = data.title;
+      detailEls.summary.textContent = data.summary;
+      detailEls.owner.textContent = data.owner;
+      detailEls.input.textContent = data.input;
+      detailEls.output.innerHTML = data.output;
+      detailEls.block.textContent = data.block;
+      detailEls.verification.innerHTML = `<b>状态 / ${data.verify}</b><br>${data.note}`;
+    }
+
+    document.querySelectorAll('.flow-node').forEach(node => {
+      node.addEventListener('click', () => selectNode(node.dataset.node));
+      node.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectNode(node.dataset.node); }
+      });
+    });
+
+    document.querySelectorAll('.view-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.view;
+        document.querySelectorAll('.view-tab').forEach(item => {
+          const active = item === tab;
+          item.classList.toggle('active', active);
+          item.setAttribute('aria-selected', String(active));
+        });
+        document.querySelectorAll('.view').forEach(view => view.classList.toggle('active', view.id === target));
+        if (target === 'agent-config') selectNode('aily');
+        if (target === 'milestones') selectNode('milestone');
+        if (target === 'coaching') selectNode('coaching');
+        document.getElementById(target)?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      });
+    });
+
+    const coachingAnswers = {
+      first: { title: '先核实价签与实际成交价是否一致', text: '打开任务中的门店、SKU 和时间窗，先上传价签照片并查询 POS 实付价。不要直接要求门店改价。若价签与实付不一致，记录两个证据并进入下一调查节点。', source: '价格异常处理 Skill v3.2 / 岗位 SOP 4.1' },
+      standard: { title: '完成标准是“证据闭合”，不是口头回复', text: '必须提交价签、POS 实付价、活动审批状态和门店确认记录；系统校验对象、时间和来源一致后，里程碑才可标记完成。', source: '任务验收标准 PRICE-CHECK-04 / v2.4' },
+      history: { title: '优先参考已验证、同渠道的历史案例', text: '系统检索到 3 个同类案例：平台券承担方未同步、渠道特供规格映射错误、门店私自改价。请先按当前证据逐项排除，不直接复制历史结论。', source: '已关闭案例库 / 同区域同渠道 / 近180天' },
+      escalate: { title: '出现跨店扩散或权限冲突时立即升级', text: '同区域两家以上门店出现同类异常、无法取得活动审批、发现区域口头指令与正式价盘冲突，或预计影响超过当前岗位权限时，创建区域经理补证据与审批请求。', source: '价格事件升级矩阵 v1.8' }
+    };
+
+    document.querySelectorAll('.question-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const answer = coachingAnswers[button.dataset.answer];
+        if (!answer) return;
+        document.querySelectorAll('.question-btn').forEach(item => item.classList.toggle('active', item === button));
+        document.getElementById('coach-answer-title').textContent = answer.title;
+        document.getElementById('coach-answer-text').innerHTML = `${answer.text}<br><code>来源：${answer.source}</code>`;
+      });
+    });
+
+    document.querySelectorAll('.aily-subtab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.ailyPane;
+        document.querySelectorAll('.aily-subtab').forEach(item => {
+          const active = item === tab;
+          item.classList.toggle('active', active);
+          item.setAttribute('aria-selected', String(active));
+        });
+        document.querySelectorAll('.aily-pane').forEach(pane => pane.classList.toggle('active', pane.id === target));
+      });
+    });
+
+    const sectionLinks = [...document.querySelectorAll('.side-index a')];
+    const sections = sectionLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    sectionLinks.forEach(link => {
+      link.addEventListener('click', event => {
+        const targetId = link.getAttribute('href').slice(1);
+        const target = document.getElementById(targetId);
+        if (!target?.classList.contains('view')) return;
+        const tab = document.querySelector(`.view-tab[data-view="${targetId}"]`);
+        if (!tab) return;
+        event.preventDefault();
+        tab.click();
+      });
+    });
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      sectionLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${visible.target.id}`));
+    }, { rootMargin: '-18% 0px -66% 0px', threshold: [0, .15, .5] });
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>

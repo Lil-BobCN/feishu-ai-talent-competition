@@ -1,0 +1,17 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+
+.docx_qa_*/
+.pdf_qa_*/
+.playwright-cli/
+.superpowers/
+tmp/
+
+docs/评委版母方案/.work/
+docs/评委阅览指南.pdf
+docs/资产目录.md
+output/feishu_ai_pioneer_liu_qingyuan/
+output/playwright/
+research/前期调研交接包/
+圣农零售经营智能中枢_大白话解释.docx
