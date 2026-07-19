@@ -169,6 +169,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
   let currentNode = 'collection';
   let routeTimer;
   let entranceTimer;
+  let homeEntranceTimer;
   let revealObserver;
 
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -217,6 +218,15 @@ append_evidence(event_id, evidence_ref)</pre></div>
     void detailMain.offsetWidth;
     detailMain.classList.add('is-entering');
     entranceTimer = window.setTimeout(() => detailMain.classList.remove('is-entering'), 860);
+  };
+
+  const triggerHomeEntrance = () => {
+    clearTimeout(homeEntranceTimer);
+    app.classList.remove('hash-home-entering');
+    if (reducedMotion.matches) return;
+    void app.offsetWidth;
+    app.classList.add('hash-home-entering');
+    homeEntranceTimer = window.setTimeout(() => app.classList.remove('hash-home-entering'), 1400);
   };
 
   const cardGrid = items => `<div class="hash-info-grid">${items.map(([title, copy], index) => `<article class="hash-info-card"><small>${String(index + 1).padStart(2, '0')}</small><h3>${title}</h3><p>${copy}</p></article>`).join('')}</div>`;
@@ -296,6 +306,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
       if (location.hash !== '#home') history.replaceState(null, '', '#home');
       app.dataset.view = 'home';
       document.title = '圣农经营智能中枢 · 终局架构蓝图';
+      triggerHomeEntrance();
       resetScroll();
       return;
     }

@@ -32,3 +32,8 @@ test('精修导航、标签对比度和页面动效', () => {
   assert.match(js, /setupScrollReveals/);
   assert.match(js, /is-entering/);
 });
+
+test('首页首次加载具有分层入场动效', () => {
+  assert.match(html, /hash-home-enter/);
+  assert.match(js, /triggerHomeEntrance/);
+});

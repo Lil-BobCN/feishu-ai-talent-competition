@@ -947,6 +947,19 @@
     #hash-app[data-view="home"] .hash-home,
     #hash-app[data-view="detail"] .hash-detail { display: block; }
     #hash-app[data-view="detail"] .hash-home-header { display: none; }
+    #hash-app.hash-home-entering .hash-home-header { animation: hash-home-header-enter 520ms cubic-bezier(.22,1,.36,1) both; }
+    #hash-app.hash-home-entering .hash-kicker { animation: hash-home-content-enter 520ms 90ms cubic-bezier(.22,1,.36,1) both; }
+    #hash-app.hash-home-entering .hash-hero-copy h2 { animation: hash-home-content-enter 620ms 150ms cubic-bezier(.22,1,.36,1) both; }
+    #hash-app.hash-home-entering .hash-hero-copy > p { animation: hash-home-content-enter 560ms 240ms cubic-bezier(.22,1,.36,1) both; }
+    #hash-app.hash-home-entering .hash-hero-actions { animation: hash-home-content-enter 520ms 320ms cubic-bezier(.22,1,.36,1) both; }
+    #hash-app.hash-home-entering .hash-phase { animation: hash-home-phase-enter 600ms cubic-bezier(.22,1,.36,1) both; }
+    #hash-app.hash-home-entering .hash-phase:nth-child(1) { animation-delay: 410ms; }
+    #hash-app.hash-home-entering .hash-phase:nth-child(2) { animation-delay: 490ms; }
+    #hash-app.hash-home-entering .hash-phase:nth-child(3) { animation-delay: 570ms; }
+    #hash-app.hash-home-entering .hash-phase:nth-child(4) { animation-delay: 650ms; }
+    @keyframes hash-home-header-enter { from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes hash-home-content-enter { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes hash-home-phase-enter { from { opacity: 0; transform: translateY(34px); } to { opacity: 1; transform: translateY(0); } }
     .hash-hero {
       position: relative;
       display: grid;
@@ -1153,14 +1166,20 @@
       .hash-scroll-reveal { transition: none; animation: none; opacity: 1; transform: none; }
       .hash-detail-main.is-entering .hash-node-hero > div,
       .hash-detail-main.is-entering .hash-node-tabs,
-      .hash-detail-main.is-entering .hash-node-panels { animation: none; }
+      .hash-detail-main.is-entering .hash-node-panels,
+      #hash-app.hash-home-entering .hash-home-header,
+      #hash-app.hash-home-entering .hash-kicker,
+      #hash-app.hash-home-entering .hash-hero-copy h2,
+      #hash-app.hash-home-entering .hash-hero-copy > p,
+      #hash-app.hash-home-entering .hash-hero-actions,
+      #hash-app.hash-home-entering .hash-phase { animation: none; }
     }
   </style>
 </head>
 <body>
   <a class="skip-link" href="#collection">跳到架构正文</a>
   <div class="app">
-    <div id="hash-app" data-view="home">
+    <div id="hash-app" class="hash-home-entering" data-view="home">
       <header class="hash-home-header">
         <div class="hash-brand">
           <div class="brand-mark" aria-hidden="true">SN</div>
@@ -1822,7 +1841,7 @@
     </div>
   </div>
 
-  <script src="圣农经营智能中枢_滚动叙事副本.js"></script>
+  <script src="圣农经营智能中枢_滚动叙事副本.js?v=20260719-3"></script>
   <script>
     const detailMap = {
       collection: { kicker: 'C1 / COLLECTION', title: '信息采集层', summary: '先把经营事实带着来源和时间送进系统。', owner: '源系统 + 业务员/合作方', input: '订单、价格、库存、巡店、市场快照', output: '<code>raw evidence envelope</code>', block: '不把缺失补成零，不在采集时定责', verify: 'verified', note: '采集方式和具体接口以圣农 IT 访谈与租户 E2E 为准。' },
