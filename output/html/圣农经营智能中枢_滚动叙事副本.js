@@ -168,12 +168,55 @@ append_evidence(event_id, evidence_ref)</pre></div>
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let currentNode = 'collection';
   let routeTimer;
+  let entranceTimer;
+  let revealObserver;
 
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
   const resetScroll = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }));
+  };
+
+  const setupScrollReveals = () => {
+    revealObserver?.disconnect();
+    const activePanel = Object.values(panels).find(panel => !panel.hidden);
+    if (!activePanel) return;
+    const selector = [
+      '.panel', '.foundation-map > article', '.runtime-lane', '.bundle-card',
+      '.milestone-stage', '.state-card', '.task-demo', '.consensus-card',
+      '.acceptance-card', '.component-block', '.landing-step', '.hash-info-card'
+    ].join(',');
+    const candidates = [...activePanel.querySelectorAll(selector)];
+    const targets = (candidates.length ? candidates : [...activePanel.children]).filter(element =>
+      !candidates.some(parent => parent !== element && parent.contains(element))
+    );
+    targets.forEach(target => target.classList.remove('hash-scroll-reveal', 'is-visible'));
+    if (reducedMotion.matches) {
+      targets.forEach(target => target.classList.add('is-visible'));
+      return;
+    }
+    revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: .06 });
+    targets.forEach(target => {
+      target.classList.add('hash-scroll-reveal');
+      revealObserver.observe(target);
+    });
+  };
+
+  const triggerNodeEntrance = () => {
+    const detailMain = app.querySelector('.hash-detail-main');
+    clearTimeout(entranceTimer);
+    detailMain.classList.remove('is-entering');
+    if (reducedMotion.matches) return;
+    void detailMain.offsetWidth;
+    detailMain.classList.add('is-entering');
+    entranceTimer = window.setTimeout(() => detailMain.classList.remove('is-entering'), 860);
   };
 
   const cardGrid = items => `<div class="hash-info-grid">${items.map(([title, copy], index) => `<article class="hash-info-card"><small>${String(index + 1).padStart(2, '0')}</small><h3>${title}</h3><p>${copy}</p></article>`).join('')}</div>`;
@@ -217,6 +260,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
       tab.setAttribute('aria-selected', String(active));
     });
     Object.entries(panels).forEach(([id, panel]) => { panel.hidden = id !== tabId; });
+    window.requestAnimationFrame(setupScrollReveals);
   };
 
   const renderNode = nodeId => {
@@ -236,6 +280,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
     selectTab('flow');
     setRouteProgress(nodeId);
     settleRoute(nodeId);
+    triggerNodeEntrance();
   };
 
   const parseRoute = () => {

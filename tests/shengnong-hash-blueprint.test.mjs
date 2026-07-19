@@ -16,11 +16,19 @@ test('首页与详情页结构存在', () => {
 
 test('八节点 Hash 路由完整', () => {
   for (const route of routes) assert.match(js, new RegExp(`node/${route}`));
-  assert.doesNotMatch(js, /IntersectionObserver/);
+  assert.doesNotMatch(js, /routeObserver|setActiveRoute/);
 });
 
 test('流程条使用灰色底轨和动态填充', () => {
   assert.match(html, /route-segment/);
   assert.match(js, /setRouteProgress/);
   assert.match(js, /is-reached/);
+});
+
+test('精修导航、标签对比度和页面动效', () => {
+  assert.match(html, />案例实战</);
+  assert.match(html, /#hash-app \.hash-tab\.is-active/);
+  assert.match(html, /hash-signal-scan/);
+  assert.match(js, /setupScrollReveals/);
+  assert.match(js, /is-entering/);
 });
