@@ -4,7 +4,7 @@ window.ShengnongNodeNarratives.decision = {
   id: 'decision',
   caseId: 'PRICE-0249',
   bridge: {
-    from: 'Aily 交付的 PRICE-0249 决策就绪材料',
+    from: 'Aily 交付的 PRICE-0249 决策就绪包',
     to: '价格处理方案的正式审批结果'
   },
   statusLabels: ['当前处理', '已经确认', '仍然未知', '下一步'],
@@ -14,7 +14,7 @@ window.ShengnongNodeNarratives.decision = {
       number: '01',
       code: 'DECISION INTAKE',
       title: '接住 Aily 查清的这一个价格事件',
-      description: '管理层收到 PRICE-0249 决策就绪材料：门店实付 24.9 元、SAP 价盘 29.9 元，活动申请未绑定该门店，券承担方仍待补证。材料同时给出“合法活动”和“未授权低价”两套有边界的处理方案。',
+      description: '管理层收到 PRICE-0249 决策就绪包：门店实付 24.9 元、SAP 价盘 29.9 元，活动申请未绑定该门店，券承担方仍待补证。包内同时给出“合法活动”和“未授权低价”两套有边界的处理方案。',
       current: '审阅 PRICE-0249 的事实、缺口和两套方案',
       confirmed: '24.9 元成交与 29.9 元价盘均有来源和时间',
       unknown: '券承担方能否证明 24.9 元属于合法活动',
@@ -198,9 +198,9 @@ window.ShengnongNodeNarratives.execution = {
     {
       id: 'execution-contract',
       number: '03',
-      code: 'RESPONSIBILITY CONTRACT',
-      title: '每项价格任务都写清谁改、何时改、凭什么验收',
-      description: '以门店价签整改为例，任务必须写明负责人、前置的 SAP 价盘状态、29.9 元完成标准、截止时间、照片与 POS 证据，以及延误后的升级对象。',
+      code: '责任任务清单',
+      title: '每项价格任务都写清谁来做、何时做、怎样算完成',
+      description: '以门店价签整改为例，任务必须写明负责人、前置的 SAP 价盘状态、29.9 元完成标准、截止时间、照片与 POS 记录，以及延误后向谁升级。',
       current: '补齐门店价格整改责任合同',
       confirmed: '任务草案已绑定 PRICE-0249-v1',
       unknown: '具体负责人、时限和升级对象待流程责任人确认',
@@ -217,7 +217,7 @@ window.ShengnongNodeNarratives.execution = {
             <div><small>所需证据</small><b>价签照片 + POS 订单 + 时间戳</b></div>
             <div><small>升级路径</small><b>区域经理 / 价格审批人</b></div>
           </div>
-          <div class="sn-task-rule"><span>正式状态</span><b>draft &rarr; assigned &rarr; accepted &rarr; submitted &rarr; verified / rejected</b></div>
+          <div class="sn-task-rule"><span>正式状态</span><b>草稿 &rarr; 已指派 &rarr; 已接受 &rarr; 已提交 &rarr; 已验收 / 已退回</b></div>
         </div>`
     },
     {
@@ -411,12 +411,12 @@ window.ShengnongNodeNarratives.milestone = {
       body: `
         <div class="sn-visual sn-quality-gate" aria-label="PRICE-0249 正式节点到达后的 29.9 元价格验收">
           <div class="sn-gate-conditions">
-            <div class="sn-condition sn-condition-pass"><span>条件 01</span><b>SAP/WMS/TMS/POS 已到达</b><small>source status verified</small></div>
+            <div class="sn-condition sn-condition-pass"><span>条件 01</span><b>SAP/WMS/TMS/POS 已到达</b><small>正式业务状态已经确认</small></div>
             <div class="sn-condition-join">+</div>
-            <div class="sn-condition sn-condition-pass"><span>条件 02</span><b>已超过宽限期</b><small>grace period elapsed</small></div>
+            <div class="sn-condition sn-condition-pass"><span>条件 02</span><b>已超过宽限期</b><small>企业认可的处理时间已经结束</small></div>
           </div>
           <div class="sn-quality-checks">
-            <span class="sn-kicker">QUALITY CHECK START</span>
+            <span class="sn-kicker">开始质量检查</span>
             <div class="sn-quality-row"><b>门店价签</b><span>涉事 SKU 是否显示批准价 29.9 元</span></div>
             <div class="sn-quality-row"><b>POS 成交价</b><span>首笔正式订单是否按 29.9 元成交</span></div>
           </div>

@@ -1948,6 +1948,12 @@
     }
     .hash-node-output h3 { margin: 12px 0 10px; font-size: 22px; }
     .hash-node-output p { font-size: 14px; }
+    .hash-node-methods { margin-top: 20px; padding-top: 16px; border-top: 1px solid #2d2d2b; }
+    .hash-node-methods > small { color: #84847f; font-family: var(--mono); font-size: 9px; }
+    .hash-method-list { display: flex; flex-wrap: wrap; gap: 7px 18px; margin-top: 10px; }
+    .hash-method-list span { color: #d5d5d1; font-size: 12px; }
+    .hash-method-list span::before { content: "—"; margin-right: 7px; color: var(--active-color, var(--route-blue)); }
+    .hash-node-basis { margin: 13px 0 0 !important; color: #999994 !important; font-size: 12px !important; line-height: 1.65 !important; }
     .hash-detail-main.is-entering .hash-node-hero > div:first-child { animation: none; }
     .hash-detail-main.is-entering .hash-stage-code { animation: dossier-fade-in 320ms cubic-bezier(.22,.8,.24,1) both; }
     .hash-detail-main.is-entering .hash-node-hero h2 { animation: dossier-rise-in 600ms 60ms cubic-bezier(.22,.8,.24,1) both; }
@@ -2094,24 +2100,24 @@
         <section class="hash-home" data-view="home">
           <div class="hash-hero">
             <div class="hash-hero-copy">
-              <span class="hash-kicker">面向经营决策的九节点方案</span>
+              <span class="hash-kicker">一条经营异常，怎样变成一项可执行决策</span>
               <div class="hash-hero-title-row">
                 <h2 tabindex="-1">圣农经营智能中枢</h2>
                 <aside class="hash-hero-index" aria-label="方案范围"><small>01—09</small><b>九节点经营闭环</b></aside>
               </div>
-              <p class="hash-hero-statement">让每一个经营异常，<br>都有依据、有负责人、有结果。</p>
-              <p class="hash-hero-description">系统发现异常，Aily 调查原因并组织方案，管理层作出决定，业务人员按节点执行，新的经营数据再回来验证结果。</p>
+              <p class="hash-hero-statement">脚本找异常，Agent 查原因，<br>管理层拍板，业务系统验结果。</p>
+              <p class="hash-hero-description">程序只登记值得调查的问题；Aily 查清原因并组织方案；管理层批准后，系统把决策拆成责任任务，最后用新的经营数据验证是否真正解决。</p>
               <div class="hash-hero-actions">
                 <button class="hash-button hash-primary" type="button" data-action="explore">查看完整方案</button>
                 <span class="hash-boundary">9 个节点 · 1 个案例 · 1 条经营闭环</span>
               </div>
             </div>
-            <div class="hash-phases" aria-label="经营闭环五组核心能力">
-              <article class="hash-phase info"><small>01 / 经营事实</small><b>数据与证据</b><span>经营事实被可靠接收、统一口径并登记为待调查事件。</span></article>
-              <article class="hash-phase agent"><small>02 / 查明原因</small><b>调查与决策支持</b><span>Aily 逐层补证、比较方案并形成决策就绪材料。</span></article>
-              <article class="hash-phase execute"><small>03 / 作出决定</small><b>审批与责任执行</b><span>管理层拍板，任务责任到人并按业务节点推进。</span></article>
-              <article class="hash-phase risk"><small>04 / 验证结果</small><b>风险预判与治理</b><span>新数据验证结果，并把销售变化传导到产销存决策。</span></article>
-              <article class="hash-phase feedback"><small>05 / 沉淀经验</small><b>管理复盘与改进</b><span>从多个事件识别管理短板，把经验更新为新规则。</span></article>
+            <div class="hash-phases" aria-label="经营闭环五个阶段">
+              <article class="hash-phase info"><small>01—03 / 脚本发现问题</small><b>经营信号形成</b><span>接收最小必要信息，统一经营口径，由规则引擎登记待调查信号。</span></article>
+              <article class="hash-phase agent"><small>04 / Agent 查清问题</small><b>逐级调查与方案生成</b><span>查清就停，查不清再扩大；调查完成后加载领域 Skill 组织方案。</span></article>
+              <article class="hash-phase execute"><small>05—07 / 决策落地</small><b>人来拍板，责任到人</b><span>管理层批准后拆成责任任务，并按照真实业务节点推进和验收。</span></article>
+              <article class="hash-phase risk"><small>08 / 验证结果</small><b>结果回读与自动复查</b><span>经营目标恢复才关闭；没有恢复就继续观察、升级或重新调查。</span></article>
+              <article class="hash-phase feedback"><small>09 / 沉淀经验</small><b>复盘反哺规则和 Skill</b><span>从已验证事件中找出重复短板，把有效经验沉淀成企业方法。</span></article>
               <span class="hash-signal" aria-hidden="true"></span>
             </div>
           </div>
@@ -2132,16 +2138,16 @@
               <span class="route-segment feedback"></span>
               <div class="hash-route-node is-active is-reached" data-node="collection" data-phase="info"><button class="hash-node-button" type="button" aria-label="01 信息采集">01</button><span class="hash-node-name">信息采集</span></div>
               <div class="hash-route-node" data-node="transport" data-phase="info"><button class="hash-node-button" type="button" aria-label="02 可靠传输">02</button><span class="hash-node-name">数据传输</span></div>
-              <div class="hash-route-node" data-node="foundation" data-phase="info"><button class="hash-node-button" type="button" aria-label="03 经营证据与信号">03</button><span class="hash-node-name">证据与信号</span></div>
+              <div class="hash-route-node" data-node="foundation" data-phase="info"><button class="hash-node-button" type="button" aria-label="03 企业经营语义层与信号">03</button><span class="hash-node-name">语义与信号</span></div>
               <div class="hash-route-node" data-node="aily" data-phase="agent"><button class="hash-node-button" type="button" aria-label="04 Aily 智能研判">04</button><span class="hash-node-name">Aily Agent</span></div>
               <div class="hash-route-node" data-node="decision" data-phase="execute"><button class="hash-node-button" type="button" aria-label="05 管理审批与授权">05</button><span class="hash-node-name">管理审批</span></div>
               <div class="hash-route-node" data-node="execution" data-phase="execute"><button class="hash-node-button" type="button" aria-label="06 责任执行与岗位指导">06</button><span class="hash-node-name">责任执行</span></div>
-              <div class="hash-route-node" data-node="milestone" data-phase="execute"><button class="hash-node-button" type="button" aria-label="07 业务里程碑与验收">07</button><span class="hash-node-name">里程碑验收</span></div>
-              <div class="hash-route-node" data-node="risk" data-phase="risk"><button class="hash-node-button" type="button" aria-label="08 结果校准与风险预判">08</button><span class="hash-node-name">风险预判</span></div>
+              <div class="hash-route-node" data-node="milestone" data-phase="execute"><button class="hash-node-button" type="button" aria-label="07 按业务节点验收">07</button><span class="hash-node-name">节点验收</span></div>
+              <div class="hash-route-node" data-node="risk" data-phase="risk"><button class="hash-node-button" type="button" aria-label="08 结果回读与自动复查">08</button><span class="hash-node-name">结果复查</span></div>
               <div class="hash-route-node" data-node="review" data-phase="feedback"><button class="hash-node-button" type="button" aria-label="09 管理复盘与持续改进">09</button><span class="hash-node-name">管理复盘</span></div>
             </div>
             <div class="hash-route-groups" aria-hidden="true">
-              <span class="hash-group-label">数据与证据</span><span class="hash-group-label">调查支持</span><span class="hash-group-label">审批与执行</span><span class="hash-group-label">风险治理</span><span class="hash-group-label">管理改进</span>
+              <span class="hash-group-label">经营信号形成</span><span class="hash-group-label">调查与方案</span><span class="hash-group-label">审批与执行</span><span class="hash-group-label">结果复查</span><span class="hash-group-label">管理改进</span>
             </div>
             </div>
           </nav>
@@ -2149,14 +2155,19 @@
           <div class="hash-detail-main">
             <header class="hash-node-hero">
               <div>
-                <span class="hash-stage-code" data-node-code>01 / COLLECTION</span>
-                <h2 data-node-title tabindex="-1">信息采集</h2>
-                <p data-node-summary>从业务系统、飞书和合法外部来源取得经营事实，同时登记来源、时间、权限和质量状态。</p>
+                <span class="hash-stage-code" data-node-code>节点 01 / 信息采集</span>
+                <h2 data-node-title tabindex="-1">最小信息触发</h2>
+                <p data-node-summary>程序负责找异常，不负责下结论。源系统只需提供发现问题所需的关键字段，同时登记来源、时间、权限和质量状态。</p>
               </div>
               <div class="hash-node-output">
                 <span class="hash-output-label">本节点形成</span>
                 <h3 data-node-output>原始数据</h3>
                 <p data-node-output-copy>本页产物是下一节点的正式输入，九个页面共同构成一条连续的经营数据与责任链。</p>
+                <div class="hash-node-methods" aria-label="本节点关键方法">
+                  <small>本节点采用</small>
+                  <div class="hash-method-list" data-node-methods><span>最小信息清单</span><span>API / Webhook</span><span>来源与时间登记</span></div>
+                  <p class="hash-node-basis" data-node-basis>行业方法：只接收当前问题所需的信息；缺失、延迟和无权限分别标明，不把未知补成零。</p>
+                </div>
               </div>
             </header>
 
@@ -2285,28 +2296,28 @@
             <div class="aily-scene-grid aily-reveal"><article class="aily-lane mcp"><small>系统查询 / MCP 是受控业务接口</small><h4>自动寻找已有正式记录</h4><p>只读取当前身份有权查看的数据。</p><ul><li>收银系统：订单级券明细</li><li>客户系统：门店活动绑定</li><li>库存系统：同商品区域库存</li></ul></article><article class="aily-lane people"><small>人工补证 / 飞书责任请求</small><h4>把缺口准确交给责任人</h4><p>缺什么、为什么要、何时交、什么格式一次写清。</p><ul><li>责任人：区域销售经理</li><li>进度：已读 · 等待回复</li><li>时限：30 分钟 · 上传活动证明</li></ul></article></div>
           </section>
 
-          <section class="aily-scene" data-aily-scene="scope" data-scene-number="06" data-case-current="这是单店问题，还是正在扩散？" data-case-confirmed="同区域出现第二个相同价差" data-case-unknown="是否影响库存和整体市场" data-case-next="证据支持后扩大一层再查" aria-labelledby="aily-scope-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">06 / 有界查询循环</span><h3 id="aily-scope-title">证据支持时，才扩大调查范围</h3><p>这就是 Aily 最关键的工作方式：从一个门店的价格点开始；发现同类证据，才连到区域；再发现销量、库存或投诉联动，才进入跨部门与市场层面。没有新证据，就停在当前层。</p></div>
-            <div class="aily-loop-visual aily-reveal" aria-label="由点及线、由线及面的有界查询循环">
+          <section class="aily-scene" data-aily-scene="scope" data-scene-number="06" data-case-current="这是单店问题，还是正在扩散？" data-case-confirmed="同区域出现第二个相同价差" data-case-unknown="是否影响库存和整体市场" data-case-next="发现扩散迹象后，才扩大一层再查" aria-labelledby="aily-scope-title">
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">06 / 由点及面的逐级调查</span><h3 id="aily-scope-title">查清就停，查不清再扩大</h3><p>这是 Aily 最关键的工作方式：先解释一家门店；发现同类情况，才扩大到同一区域；再发现销量、库存或投诉同时变化，才进入跨部门和市场层面。没有新的事实支持，就停在当前范围。</p></div>
+            <div class="aily-loop-visual aily-reveal" aria-label="从单店到区域、跨部门和市场的逐级调查循环">
               <div class="aily-loop-stage-area">
                 <div class="aily-loop-stage" data-loop-phase="point" style="--loop-i:0"><div class="aily-loop-copy"><small>01 / 由一个点开始</small><h4>先解释这一家门店</h4><p>只核对当前门店、当前商品、当前时间的价格、规格和活动。</p></div><div class="aily-loop-shape"><span class="aily-loop-dot">门店 A<br>24.9</span></div></div>
                 <div class="aily-loop-stage" data-loop-phase="line" style="--loop-i:1"><div class="aily-loop-copy"><small>02 / 点连成线</small><h4>第二家同类门店也出现价差</h4><p>证据表明它可能不是单店失误，于是把查询扩大到同一区域的可比门店。</p></div><div class="aily-loop-shape"><div class="aily-loop-row"><span class="aily-loop-dot">A<br>24.9</span><span class="aily-loop-dot">B<br>24.9</span><span class="aily-loop-dot">C<br>29.9</span><span class="aily-loop-dot">D<br>29.9</span></div></div></div>
                 <div class="aily-loop-stage" data-loop-phase="network" style="--loop-i:2"><div class="aily-loop-copy"><small>03 / 线织成网</small><h4>价格开始与其他经营事实相互解释</h4><p>区域异常同时伴随销量、库存或投诉变化，调查才进入相关部门。</p></div><div class="aily-loop-shape"><div class="aily-loop-network"><div class="aily-loop-domain"><b>销售</b><span>多店价差</span></div><div class="aily-loop-domain"><b>库存</b><span>周转变慢</span></div><div class="aily-loop-domain"><b>客户</b><span>投诉增加</span></div><div class="aily-loop-domain"><b>供应</b><span>调拨在途</span></div></div></div></div>
                 <div class="aily-loop-stage" data-loop-phase="surface" style="--loop-i:3"><div class="aily-loop-copy"><small>04 / 网扩成面</small><h4>多区域共同变化，才讨论市场级影响</h4><p>只有多个区域、竞争对手和供需数据共同支持，才进入产能、存栏或市场策略调查。</p></div><div class="aily-loop-shape"><div class="aily-loop-surface"><div class="aily-loop-region is-signal"><b>华东</b><span>降价 / 滞销</span></div><div class="aily-loop-region is-signal"><b>华南</b><span>降价 / 滞销</span></div><div class="aily-loop-region"><b>华北</b><span>价格稳定</span></div><div class="aily-loop-region"><b>西南</b><span>待补数据</span></div><div class="aily-loop-region"><b>海外</b><span>机会待验证</span></div><div class="aily-loop-region"><b>供给端</b><span>存栏约束</span></div></div></div></div>
-                <div class="aily-loop-stage" data-loop-phase="gate" style="--loop-i:4"><div class="aily-loop-copy"><small>05 / 每轮经过证据门</small><h4>不是永远向上升级</h4><p>每轮取证后都重新判断：已经解释清楚就停止；确有扩散证据才扩大；查不到就等待补证；越权或高风险就转人工。</p></div><div class="aily-loop-shape"><div class="aily-loop-gate"><div class="aily-loop-gate-core">证据门</div><div class="aily-loop-decisions"><span>证据足够 → 停止</span><span>支持扩散 → 扩大</span><span>数据缺失 → 等待</span><span>权限阻塞 → 转人工</span></div></div></div></div>
+                <div class="aily-loop-stage" data-loop-phase="gate" style="--loop-i:4"><div class="aily-loop-copy"><small>05 / 每轮重新判断</small><h4>查清就停，查不清再扩大</h4><p>每轮查询后都重新判断：原因已经查清就停止；发现扩散迹象才扩大；信息暂时缺失就等待补充；超出权限或风险过高就交给人工处理。</p></div><div class="aily-loop-shape"><div class="aily-loop-gate"><div class="aily-loop-gate-core">本轮判断</div><div class="aily-loop-decisions"><span>原因已查清 → 停止</span><span>发现扩散迹象 → 扩大</span><span>信息暂时缺失 → 等待</span><span>超出权限范围 → 转人工</span></div></div></div></div>
                 <div class="aily-loop-stage" data-loop-phase="query" style="--loop-i:5"><div class="aily-loop-copy"><small>06 / 回到下一轮最小查询</small><h4>范围扩大一层，问题也重新变小</h4><p>不是漫无目的继续搜索，而是在新范围中再次选择一项最能排除原因的查询。</p></div><div class="aily-loop-shape"><div class="aily-loop-query"><strong>↻</strong><div><b>下一项：查询同区域可比门店活动绑定</b><span>观察 → 评估 → 计划 → 取证 → 校验 → 决定 → 新一轮</span></div></div></div></div>
               </div>
-              <div class="aily-loop-meter" aria-hidden="true"><small>查询范围随证据推进</small><div class="aily-loop-marker" style="--loop-i:0"><i>1</i><span>单店点</span></div><div class="aily-loop-marker" style="--loop-i:1"><i>2</i><span>区域线</span></div><div class="aily-loop-marker" style="--loop-i:2"><i>3</i><span>跨域网</span></div><div class="aily-loop-marker" style="--loop-i:3"><i>4</i><span>市场面</span></div><div class="aily-loop-marker" style="--loop-i:4"><i>5</i><span>证据门</span></div><div class="aily-loop-marker" style="--loop-i:5"><i>6</i><span>再查询</span></div><div class="aily-loop-rule"><b>硬规则：</b>没有新证据，不扩大范围；达到停止条件，循环立即结束。每次调查同时受查询次数、总时长、可用工具、证据要求和费用上限约束。</div></div>
+              <div class="aily-loop-meter" aria-hidden="true"><small>调查范围随新事实推进</small><div class="aily-loop-marker" style="--loop-i:0"><i>1</i><span>单店点</span></div><div class="aily-loop-marker" style="--loop-i:1"><i>2</i><span>区域线</span></div><div class="aily-loop-marker" style="--loop-i:2"><i>3</i><span>跨域网</span></div><div class="aily-loop-marker" style="--loop-i:3"><i>4</i><span>市场面</span></div><div class="aily-loop-marker" style="--loop-i:4"><i>5</i><span>本轮判断</span></div><div class="aily-loop-marker" style="--loop-i:5"><i>6</i><span>再查询</span></div><div class="aily-loop-rule"><b>调查规则：</b>没有新事实，不扩大范围；原因已经查清，循环立即结束。每次调查同时受查询次数、总时长、可用工具、信息要求和费用上限约束。</div></div>
             </div>
           </section>
 
-          <section class="aily-scene" data-aily-scene="gate" data-scene-number="07" data-case-current="管理层现在能否作出有边界的决定？" data-case-confirmed="事实、影响范围和证据来源已清楚" data-case-unknown="券承担方仍待回复" data-case-next="透明标出缺口并限制方案" aria-labelledby="aily-gate-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">07 / 校验判断</span><h3 id="aily-gate-title">现在是否足够交给管理层</h3><p>“可以决策”不等于“所有数据都齐了”，而是现有事实、仍缺什么、缺口会限制哪些动作，都已经透明，管理层能在边界内决定。</p></div>
-            <div class="aily-gate aily-reveal"><div class="aily-gate-status"><span>当前证据门</span><strong>还差一项关键证明</strong><span>券承担方仍未知<br>可以汇报，但不能直接定责或改价</span></div><div class="aily-gate-checks"><div class="aily-check"><span>事实能回到来源和时间</span><em>通过</em></div><div class="aily-check"><span>5 元价差可以复算</span><em>通过</em></div><div class="aily-check"><span>影响范围已经说清</span><em>部分通过</em></div><div class="aily-check"><span>改价等高风险动作</span><em>必须审批</em></div></div></div>
+          <section class="aily-scene" data-aily-scene="gate" data-scene-number="07" data-case-current="调查结果能否支持下一步形成方案？" data-case-confirmed="事实、原因和影响范围已经整理" data-case-unknown="券承担方仍待回复" data-case-next="形成调查结果包并加载价格 Skill" aria-labelledby="aily-gate-title">
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">07 / 调查结束，进入方案生成</span><h3 id="aily-gate-title">先形成调查结果，再让领域 Skill 组织方案</h3><p>Aily 先把已经确认的事实、可能原因、仍缺的信息和影响范围整理成调查结果包。随后加载价格领域 Skill，调用销量、毛利、库存和预算测算程序，生成可以比较的处理方案。</p></div>
+            <div class="aily-gate aily-reveal"><div class="aily-gate-status"><span>调查结果包</span><strong>可以进入方案生成</strong><span>券承担方仍标为未知<br>方案不得据此定责或直接改价</span></div><div class="aily-gate-checks"><div class="aily-check"><span>已确认事实和来源</span><em>已整理</em></div><div class="aily-check"><span>可能原因与其他解释</span><em>已区分</em></div><div class="aily-check"><span>缺失信息及其影响</span><em>已标明</em></div><div class="aily-check"><span>下一步：加载价格领域 Skill</span><em>生成方案</em></div></div></div>
           </section>
 
-          <section class="aily-scene" data-aily-scene="dossier" data-scene-number="08" data-case-current="管理层需要看到什么才能拍板？" data-case-confirmed="事实、推断、缺口与候选方案已分开" data-case-unknown="券承担方仍明确标为未知" data-case-next="提交人工审批，不自动拍板" aria-labelledby="aily-dossier-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">08 / 决策就绪包</span><h3 id="aily-dossier-title">把事实、缺口和方案交给人决定</h3><p>Aily 把调查整理成管理层可以直接审阅的材料：哪些是事实、哪些只是推断、还缺什么、每个方案对销量、毛利、库存和预算可能造成什么影响，以及何时停止、如何恢复。金额和影响由可复算程序测算；价格、存栏、产能和市场进入仍由人批准。</p></div>
+          <section class="aily-scene" data-aily-scene="dossier" data-scene-number="08" data-case-current="管理层需要看到什么才能拍板？" data-case-confirmed="调查结果、候选方案和影响测算已经合并" data-case-unknown="券承担方仍明确标为未知" data-case-next="提交管理层审批，不自动拍板" aria-labelledby="aily-dossier-title">
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">08 / 形成决策就绪包</span><h3 id="aily-dossier-title">把管理者拍板需要的内容放在同一份材料里</h3><p>价格领域 Skill 根据调查结果提出定向券、规格区隔和不跟价等选项，确定性程序负责测算销量、毛利、库存和预算影响。Aily 再把事实、缺口、方案、代价、停止条件和恢复办法合并成决策就绪包，交给管理层选择。</p></div>
             <pre class="aily-json aily-reveal">{
   "event_id": "PRICE-0249",
   "investigation_level": "regional",
@@ -2319,7 +2330,7 @@
   "controls": { "budget": "pending", "stop_conditions": [], "rollback": "required" },
   "approval_required": true
 }</pre>
-            <div class="aily-handoff aily-reveal"><span><b>下一节点：人工决策与方案审批</b><br>价格、存栏、产能、市场进入必须由管理层批准</span><span>event_id → 决策材料 → 人工审批</span></div>
+            <div class="aily-handoff aily-reveal"><span><b>下一节点：管理审批</b><br>Agent 给选择，价格、存栏、产能和市场进入仍由管理层拍板</span><span>调查结果包 → 领域 Skill → 决策就绪包</span></div>
           </section>
         </div>
       </template>
@@ -2524,7 +2535,7 @@
               <div class="aily-summary-main">
                 <p class="eyebrow">A1 / enterprise investigation agent</p>
                 <h3>圣农经营调查与决策助手</h3>
-                <p>Aily 不接管规则、预测和正式交易。它接收经营事件或管理者问题，按企业语义提出原因假设，调用受控工具调查证据，组织情景方案，并把高风险决策送入人工责任门。</p>
+                <p>Aily 不接管规则、预测和正式交易。它接收经营事件或管理者问题，按企业语义提出原因假设，调用受控工具调查事实、组织情景方案，并把高风险决策交给有权管理者审批。</p>
               </div>
               <div class="aily-metric"><b>10</b><span>项必须能力</span></div>
               <div class="aily-metric"><b>02</b><span>条运行路径</span></div>
@@ -2551,7 +2562,7 @@
                 <article class="capability-card"><div class="cap-id">C04 / EVIDENCE</div><h4>融合并分级证据</h4><p>Aily 可处理知识、工具结果、文档、图片和附件；verified / signal / pending 的分级、冲突处理和证据链完整性不是平台自动保证。</p><footer><span class="state-badge native">知识 / 文件 / 工具结果</span><span class="state-badge configure">证据分级规则</span><span class="state-badge develop">证据库</span></footer></article>
                 <article class="capability-card"><div class="cap-id">C05 / EXPLAIN</div><h4>形成可追溯经营判断</h4><p>Agent Node 官方支持 string、list、object 输出；source_id、时间、口径、语义版本和工具结果必须由输出 Schema 与事件审计服务强制保存。</p><footer><span class="state-badge native">Agent Node object / list</span><span class="state-badge configure">输出 Schema</span><span class="state-badge develop">血缘 / 审计服务</span></footer></article>
                 <article class="capability-card"><div class="cap-id">C06 / OPTIONS</div><h4>组织多情景方案</h4><p>Aily 可以分析并组织跟价、定向券、规格区隔、不跟价等候选方向；销量、毛利、库存、预算和风险数字必须调用确定性预测/模拟服务。</p><footer><span class="state-badge native">内容分析 / 方案组织</span><span class="state-badge develop">预测 / 模拟</span></footer></article>
-                <article class="capability-card"><div class="cap-id">C07 / HUMAN GATE</div><h4>把决策送入人工责任门</h4><p>价格、存栏、产能和市场进入只能生成审批草案；未取得 approval_id 前，写回工具必须服务端拒绝。</p><footer><span class="state-badge configure">Workflow / 审批</span><span class="state-badge develop">写入网关</span></footer></article>
+                <article class="capability-card"><div class="cap-id">C07 / MANAGEMENT APPROVAL</div><h4>关键决策由管理层把关</h4><p>价格、存栏、产能和市场进入只能生成审批草案；未取得 approval_id 前，写回工具必须由服务端拒绝。</p><footer><span class="state-badge configure">Workflow / 审批</span><span class="state-badge develop">写入网关</span></footer></article>
                 <article class="capability-card"><div class="cap-id">C08 / TASKS</div><h4>拆成可执行任务草案</h4><p>Aily 可生成结构化任务草案，飞书任务 MCP / API 可创建任务；负责人映射、依赖、验收指标和跨天跟踪仍需 Workflow 与事件库。</p><footer><span class="state-badge native">任务 MCP / API</span><span class="state-badge configure">Workflow</span><span class="state-badge develop">责任映射 / 事件库</span></footer></article>
                 <article class="capability-card"><div class="cap-id">C09 / IDENTITY</div><h4>按身份和数据范围行动</h4><p>自定义智能体官方支持共享应用、开发者个人、对话用户三类身份；Workflow Agent Node 暂不支持需要用户授权的 MCP，无人值守路径应使用最小权限共享应用身份。</p><footer><span class="state-badge native">三类工作身份</span><span class="state-badge configure">读写分离</span><span class="state-badge verify">租户与源系统权限</span></footer></article>
                 <article class="capability-card"><div class="cap-id">C10 / RECOVERY</div><h4>可恢复、可审计、可复盘</h4><p>Agent Node 可配置重试；Workflow 与自定义智能体 API 可查询执行状态，平台提供对话/技能/任务日志。跨天审批、幂等、补偿和长期审计仍由 event_id 事件库承载。</p><footer><span class="state-badge native">节点重试 / Chat·Run 状态 / 日志</span><span class="state-badge develop">事件状态库</span><span class="state-badge verify">留存与 SLA</span></footer></article>
@@ -2567,9 +2578,9 @@
                 </section>
                 <section class="runtime-lane">
                   <div class="lane-head"><strong>B / 系统自动事件</strong><span>脚本只暴露可信异常点；Aily 使用统一受理 Skill 循环补证据并决定是否扩大调查范围。</span></div>
-                  <div class="lane-flow"><div class="lane-node"><b>信号事件包</b><small>异常字段 + 对象 + 来源 + 时间</small></div><div class="lane-node"><b>受理 Skill</b><small>读取已知/未知，选择下一项最小查询</small></div><div class="lane-node"><b>while 调查</b><small>局部 → 区域 → 跨域 → 战略</small></div><div class="lane-node"><b>并行补证据</b><small>MCP 查询 ∥ 飞书责任人请求</small></div><div class="lane-node"><b>决策就绪包</b><small>事实、缺口、影响、约束、允许决策范围</small></div></div>
+                  <div class="lane-flow"><div class="lane-node"><b>待调查信号</b><small>异常字段 + 对象 + 来源 + 时间</small></div><div class="lane-node"><b>逐级调查</b><small>受理 Skill 选查询，MCP 与责任人并行补充信息</small></div><div class="lane-node"><b>调查结果包</b><small>事实 + 原因 + 缺口 + 影响范围</small></div><div class="lane-node"><b>领域 Skill 生成方案</b><small>调用销量、毛利、库存和预算测算</small></div><div class="lane-node"><b>决策就绪包</b><small>事实 + 方案 + 代价 + 停止与恢复办法</small></div></div>
                   <div class="investigation-loop" aria-label="统一事件受理Skill调查循环">
-                    <div class="investigation-loop-head"><strong>统一事件受理 Skill / Bounded While Loop</strong><span>每轮有查询上限、工具白名单、证据门槛和停止条件</span></div>
+                    <div class="investigation-loop-head"><strong>统一事件受理 Skill / 由点及面的逐级调查</strong><span>每轮都有查询上限、工具白名单、信息要求和停止条件</span></div>
                     <div class="loop-track">
                       <div class="loop-step"><b>01 观察</b><small>读取 event_id、已知事实、未知项、调查层级和权限范围。</small></div><div class="loop-arrow">→</div>
                       <div class="loop-step"><b>02 评估</b><small>判断当前证据能否解释异常，识别互斥原因假设。</small></div><div class="loop-arrow">→</div>
@@ -2578,7 +2589,7 @@
                       <div class="loop-step"><b>05 校验</b><small>检查来源、时间、口径、冲突和证据质量，更新事件包版本。</small></div><div class="loop-arrow">→</div>
                       <div class="loop-step"><b>06 决定</b><small>停止、扩大调查、等待补数或转人工，并记录原因。</small></div>
                     </div>
-                    <div class="loop-decisions"><div class="loop-decision"><strong>停止：</strong>证据足够，进入决策就绪包。</div><div class="loop-decision"><strong>扩大：</strong>L0局部 → L1区域 → L2跨域 → L3战略。</div><div class="loop-decision"><strong>等待：</strong>写入缺失项和责任人，当前Run结束，事件回调后恢复。</div><div class="loop-decision"><strong>转人工：</strong>权限、冲突或高风险超出Agent边界。</div></div>
+                    <div class="loop-decisions"><div class="loop-decision"><strong>停止：</strong>原因已经查清，形成调查结果包。</div><div class="loop-decision"><strong>扩大：</strong>发现扩散迹象，再从单店扩大到区域、跨部门或市场。</div><div class="loop-decision"><strong>等待：</strong>记录缺失信息和责任人，本次调查结束，收到回复后继续。</div><div class="loop-decision"><strong>转人工：</strong>权限受阻、信息冲突或风险过高时交给负责人处理。</div></div>
                   </div>
                 </section>
                 <section class="runtime-lane">
@@ -2689,7 +2700,7 @@
                 <div><b>SESSION ≠ EVENT</b><span>Aily 会话/Run 不是跨天经营事件状态机。</span></div>
                 <div><b>OPENAPI AVAILABLE</b><span>自定义智能体 OpenAPI 已发布；圣农租户开通、同租户可见范围仍需验收。</span></div>
               </div>
-              <div class="verification"><b>最终判断门</b><br>Aily 通过上述硬门，则不增加外部 Agent。若失败在接口、语义、计算或状态，先补确定性服务；只有失败在 Agent 运行时的长时编排、并发、私有部署或治理边界时，才评估替代运行时。</div>
+              <div class="verification"><b>最终判断标准</b><br>Aily 通过上述生产验收，则不增加外部 Agent。若问题出在接口、语义、计算或状态，先补齐确定性服务；只有 Agent 运行时确实无法满足长任务恢复、并发、私有部署或治理要求时，才评估替代运行时。</div>
             </div>
           </div>
         </section>
@@ -2702,12 +2713,13 @@
               <div class="timeline">
                 <div class="step"><div class="step-mark">01</div><div><h4>脚本暴露异常字段</h4><p>POS 报告某 SKU × 门店的实际价低于正式价盘；记录来源、时间、对象和偏差，不判断问题最终有多大。</p><code>deterministic detector → signal packet</code></div></div>
                 <div class="step"><div class="step-mark">02</div><div><h4>统一事件受理 Skill 启动</h4><p>Aily 读取当前已知和未知，生成下一项最小、必要、已授权的查询计划。</p><code>observe → assess → plan</code></div></div>
-                <div class="step"><div class="step-mark">03</div><div><h4>while 循环逐级扩大调查</h4><p>先核验单店券与审批，再扩至区域门店、渠道库存、投诉和竞品，必要时进入集团供需、产能与存栏。</p><code>L0 局部 → L1 区域 → L2 跨域 → L3 战略</code></div></div>
+                <div class="step"><div class="step-mark">03</div><div><h4>查不清时，才逐级扩大调查</h4><p>先核验单店券与审批，再扩至区域门店、渠道库存、投诉和竞品，必要时进入集团供需、产能与存栏。</p><code>单店 → 区域 → 跨部门 → 集团</code></div></div>
                 <div class="step"><div class="step-mark">04</div><div><h4>并行补齐证据</h4><p>受控 MCP 查询 SAP/POS/CRM/WMS；无法查询的字段自动映射数据责任人，飞书发起补数请求并追踪已读与 SLA。</p><code>tool retrieval ∥ human evidence request</code></div></div>
-                <div class="step"><div class="step-mark">05</div><div><h4>形成决策就绪事件包</h4><p>明确事实、推断、缺失项、查询轨迹、影响、约束和当前允许的决策范围；不是假装信息绝对完整。</p><code>decision_ready_dossier@version</code></div></div>
+                <div class="step"><div class="step-mark">05</div><div><h4>形成调查结果包</h4><p>明确已经确认的事实、可能原因、仍缺的信息、调查过程和影响范围，为下一步生成方案提供可靠输入。</p><code>调查结果 → 方案生成输入</code></div></div>
                 <div class="step"><div class="step-mark">06</div><div><h4>领域 Skill 生成方案</h4><p>价格、竞品或库存 Skill 调用确定性模型，比较跟价、定向券、规格区隔和不跟价的销量、毛利、库存与预算影响。</p><code>domain skill → scenario service</code></div></div>
-                <div class="step"><div class="step-mark">07</div><div><h4>管理层审批与里程碑执行</h4><p>批准后拆解销售、库存、生产和海外任务；每项任务按业务里程碑推进，达到节点后才启动质量检测。</p><code>approval_id → milestone workflow</code></div></div>
-                <div class="step"><div class="step-mark">08</div><div><h4>结果验证与知识沉淀</h4><p>6/24/48/72 小时回读价格、sell-out、库存和投诉；恢复才关闭，并把有效过程沉淀为规则、语义和岗位案例。</p><code>recheck → close / escalate / reopen</code></div></div>
+                <div class="step"><div class="step-mark">07</div><div><h4>形成决策就绪包</h4><p>把事实、缺口、备选方案、影响、预算、停止条件和恢复办法放进同一份材料，让管理层可以直接比较和审批。</p><code>调查结果包 + 方案测算 → 决策就绪包</code></div></div>
+                <div class="step"><div class="step-mark">08</div><div><h4>管理层审批与业务节点执行</h4><p>批准后拆解销售、库存、生产和海外任务；每项任务按真实业务节点推进，达到节点后才启动质量检查。</p><code>approval_id → 责任任务 → 业务节点</code></div></div>
+                <div class="step"><div class="step-mark">09</div><div><h4>结果验证与经验沉淀</h4><p>6/24/48/72 小时回读价格、终端销量、库存和投诉；恢复才关闭，并把有效过程沉淀为规则、语义和岗位案例。</p><code>复查 → 关闭 / 升级 / 重开</code></div></div>
               </div>
             </div>
             <div class="panel">
@@ -2718,7 +2730,7 @@
                 <div class="option"><strong>库存优先 <span>临期</span></strong><p>在批准的临期窗口内释放库存，明确成本承担和停止条件。</p></div>
                 <div class="option"><strong>不跟价 <span>守价</span></strong><p>保持贡献毛利，持续观察 sell-out 和竞品覆盖，设置升级阈值。</p></div>
               </div>
-              <div class="gate"><strong>人工责任门</strong><p>价格、存栏、产能和市场进入建议必须有批准人、版本、生效期、预算上限和回滚条件。</p></div>
+              <div class="gate"><strong>关键决策由管理层把关</strong><p>价格、存栏、产能和市场进入建议必须有批准人、版本、生效期、预算上限和恢复办法。</p></div>
             </div>
           </div>
         </section>
