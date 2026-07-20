@@ -1196,23 +1196,29 @@
       position: absolute;
       top: 48px;
       right: -20px;
-      color: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.022);
       font-family: var(--mono);
-      font-size: clamp(64px, 9vw, 138px);
+      font-size: 112px;
       white-space: nowrap;
       pointer-events: none;
     }
-    .hash-hero-copy { position: relative; z-index: 1; max-width: 900px; }
+    .hash-hero-copy { position: relative; z-index: 1; max-width: 1180px; }
     .hash-kicker { font-size: 12px; }
+    .hash-hero-title-row { display: grid; grid-template-columns: minmax(0, 1fr) 190px; align-items: end; gap: 56px; }
     .hash-hero h2 {
-      max-width: 12ch;
-      margin: 18px 0 24px;
-      font-size: clamp(48px, 7.4vw, 104px);
+      max-width: none;
+      margin: 18px 0 36px;
+      font-size: 80px;
       font-weight: 400;
-      line-height: 1.02;
+      letter-spacing: 0;
+      line-height: 1.06;
     }
-    .hash-hero-copy > p { max-width: 700px; color: #c7c8ca; font-size: clamp(16px, 1.5vw, 21px); }
-    .hash-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 30px; }
+    .hash-hero-index { margin-bottom: 42px; padding-top: 12px; border-top: 1px solid #3a3a3a; text-align: right; }
+    .hash-hero-index small { display: block; color: var(--route-orange); font: 12px var(--mono); }
+    .hash-hero-index b { display: block; margin-top: 8px; color: #d7d8da; font-size: 15px; font-weight: 400; }
+    .hash-hero-statement { max-width: 18ch; margin: 0; color: #f4f4f1; font-size: 42px; line-height: 1.22; }
+    .hash-hero-description { max-width: 36em; margin: 22px 0 0; color: #bfc0c3; font-size: 18px; line-height: 1.75; }
+    .hash-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 28px; }
     .hash-primary { color: #090909 !important; border-color: #fff; background: #fff; }
     .hash-boundary { color: var(--route-muted); font-family: var(--mono); font-size: 11px; }
     .hash-phases {
@@ -1776,7 +1782,12 @@
       .contact-team-grid { grid-template-columns: 1fr; }
       .contact-team-card.lead { grid-column: auto; }
       .hash-hero { min-height: auto; padding: 62px 20px 32px; }
-      .hash-hero h2 { font-size: 46px; }
+      .hash-hero-title-row { grid-template-columns: 1fr; gap: 0; }
+      .hash-hero h2 { margin-bottom: 22px; font-size: 56px; }
+      .hash-hero-index { display: flex; align-items: center; gap: 12px; margin: 0 0 34px; padding-top: 10px; text-align: left; }
+      .hash-hero-index b { margin-top: 0; }
+      .hash-hero-statement { font-size: 34px; }
+      .hash-hero-description { font-size: 17px; }
       .hash-phases { grid-template-columns: 1fr 1fr; }
       .hash-phase:nth-child(2),
       .hash-phase:nth-child(4) { border-right: 0; }
@@ -1791,7 +1802,9 @@
     @media (max-width: 420px) {
       .hash-brand small { display: none; }
       .hash-brand b { font-size: 13px; }
-      .hash-hero h2 { font-size: 40px; }
+      .hash-hero h2 { font-size: 44px; }
+      .hash-hero-statement { font-size: 30px; }
+      .hash-hero-description { font-size: 16px; }
       .hash-phases { grid-template-columns: 1fr; }
       .hash-phase { min-height: 140px; border-right: 0; border-bottom: 1px solid var(--route-line); }
       .hash-phase:nth-child(5) { grid-column: auto; }
@@ -1865,12 +1878,16 @@
         <section class="hash-home" data-view="home">
           <div class="hash-hero">
             <div class="hash-hero-copy">
-              <span class="hash-kicker">SHENGNONG / OPERATING INTELLIGENCE</span>
-              <h2 tabindex="-1">让每一个经营异常，都走向可验证的结果</h2>
-              <p>从分散事实、Agent 调查、管理层审批，到跨部门执行与结果校准。这里呈现的不是一个聊天机器人，而是一套持续运转的企业经营闭环。</p>
+              <span class="hash-kicker">圣农方案 / OPERATING INTELLIGENCE</span>
+              <div class="hash-hero-title-row">
+                <h2 tabindex="-1">圣农经营智能中枢</h2>
+                <aside class="hash-hero-index" aria-label="方案范围"><small>01—09</small><b>九节点经营闭环</b></aside>
+              </div>
+              <p class="hash-hero-statement">让每一个经营异常，<br>都有依据、有负责人、有结果。</p>
+              <p class="hash-hero-description">系统发现异常，Aily 调查原因并组织方案，管理层作出决定，业务人员按节点执行，新的经营数据再回来验证结果。</p>
               <div class="hash-hero-actions">
-                <button class="hash-button hash-primary" type="button" data-action="explore">探索完整方案</button>
-                <span class="hash-boundary">9 个节点 · 1 个 Agent · 管理层最终决策</span>
+                <button class="hash-button hash-primary" type="button" data-action="explore">查看完整方案</button>
+                <span class="hash-boundary">9 个节点 · 1 个案例 · 1 条经营闭环</span>
               </div>
             </div>
             <div class="hash-phases" aria-label="经营闭环五组核心能力">
