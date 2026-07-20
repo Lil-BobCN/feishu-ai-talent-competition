@@ -1899,11 +1899,13 @@
     .hash-phase small { color: color-mix(in srgb, var(--phase) 74%, #8d8d88); }
     .hash-phase b { margin: 16px 0 8px; font-size: 18px; }
     .hash-phase span { color: #9f9f9a; line-height: 1.65; }
-    #hash-app.hash-home-entering .hash-home-header,
-    #hash-app.hash-home-entering .hash-kicker,
-    #hash-app.hash-home-entering .hash-hero-copy h2,
-    #hash-app.hash-home-entering .hash-hero-copy > p,
-    #hash-app.hash-home-entering .hash-hero-actions,
+    #hash-app.hash-home-entering .hash-home-header { animation: dossier-fade-in 260ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app.hash-home-entering .hash-kicker { animation: dossier-rise-in 360ms 40ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app.hash-home-entering .hash-hero-copy h2 { animation: dossier-rise-in 480ms 80ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app.hash-home-entering .hash-hero-index { animation: dossier-fade-in 360ms 140ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app.hash-home-entering .hash-hero-copy > p { animation: dossier-rise-in 420ms 160ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app.hash-home-entering .hash-hero-actions { animation: dossier-rise-in 360ms 240ms cubic-bezier(.16,1,.3,1) both; }
+    #hash-app.hash-home-entering .hash-phases { animation: dossier-rise-in 460ms 300ms cubic-bezier(.16,1,.3,1) both; }
     #hash-app.hash-home-entering .hash-phase { animation: none; }
 
     .hash-route-bar { padding-top: 8px; padding-bottom: 8px; }
@@ -1926,16 +1928,33 @@
     .hash-node-hero h2 { max-width: 16ch; margin: 16px 0 24px; font-size: 56px; line-height: 1.14; }
     .hash-node-hero p { max-width: 62ch; color: #b9b9b5; font-size: 17px; line-height: 1.7; }
     .hash-node-output {
+      position: relative;
       align-self: end;
       padding: 20px 0 0;
       border: 0;
-      border-top: 1px solid color-mix(in srgb, var(--active-color, var(--route-blue)) 62%, #3a3a38);
+    }
+    .hash-node-output::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 1px;
+      background: color-mix(in srgb, var(--active-color, var(--route-blue)) 62%, #3a3a38);
+      transform-origin: left center;
     }
     .hash-node-output h3 { margin: 12px 0 10px; font-size: 22px; }
     .hash-node-output p { font-size: 14px; }
-    .hash-detail-main.is-entering .hash-node-hero > div:first-child,
-    .hash-detail-main.is-entering .hash-node-output,
-    .hash-detail-main.is-entering .hash-node-panels { animation: taste-fade 240ms cubic-bezier(.16,1,.3,1) both; }
+    .hash-detail-main.is-entering .hash-node-hero > div:first-child { animation: none; }
+    .hash-detail-main.is-entering .hash-stage-code { animation: dossier-fade-in 320ms cubic-bezier(.22,.8,.24,1) both; }
+    .hash-detail-main.is-entering .hash-node-hero h2 { animation: dossier-rise-in 600ms 60ms cubic-bezier(.22,.8,.24,1) both; }
+    .hash-detail-main.is-entering .hash-node-hero > div:first-child > p { animation: dossier-rise-in 520ms 180ms cubic-bezier(.22,.8,.24,1) both; }
+    .hash-detail-main.is-entering .hash-node-output { animation: dossier-rise-in 520ms 260ms cubic-bezier(.22,.8,.24,1) both; }
+    .hash-detail-main.is-entering .hash-node-output::before { animation: dossier-rule-in 600ms 220ms cubic-bezier(.22,.8,.24,1) both; }
+    .hash-detail-main.is-entering .hash-node-panels { animation: dossier-rise-in 480ms 380ms cubic-bezier(.22,.8,.24,1) both; }
+    @keyframes dossier-fade-in { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes dossier-rise-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes dossier-rule-in { from { opacity: .3; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
     @keyframes taste-fade { from { opacity: 0; } to { opacity: 1; } }
     .hash-scroll-reveal { opacity: 0; transform: translateY(8px); transition: opacity 280ms cubic-bezier(.16,1,.3,1), transform 280ms cubic-bezier(.16,1,.3,1); }
 
@@ -1987,7 +2006,13 @@
     .aily-scene.is-active .aily-lane,
     .aily-scene.is-active .aily-scope-step,
     .aily-scene.is-active .aily-branch,
-    .aily-scene.is-active .aily-check { animation-duration: 280ms; }
+    .aily-scene.is-active .aily-check { animation-duration: 420ms; animation-timing-function: cubic-bezier(.16,1,.3,1); }
+    .aily-scene[data-aily-scene="intake"].is-active .aily-object:first-child { animation: dossier-enter-left 480ms 100ms cubic-bezier(.16,1,.3,1) both; }
+    .aily-scene[data-aily-scene="intake"].is-active .aily-object:last-child { animation: dossier-enter-right 480ms 170ms cubic-bezier(.16,1,.3,1) both; }
+    @keyframes aily-reveal { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes dossier-enter-left { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes dossier-enter-right { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes aily-gate-pulse { 0% { opacity: .72; } 55%, 100% { opacity: 1; } }
 
     .contact-team-card,
     .contact-team-card.lead { border: 0; border-top: 1px solid #30302e; background: transparent; }
@@ -2016,8 +2041,34 @@
       .hash-hero-statement { font-size: 28px; }
       .hash-node-hero h2 { font-size: 36px; }
     }
+    @media (prefers-reduced-motion: reduce) {
+      #hash-app.hash-home-entering .hash-home-header,
+      #hash-app.hash-home-entering .hash-kicker,
+      #hash-app.hash-home-entering .hash-hero-copy h2,
+      #hash-app.hash-home-entering .hash-hero-index,
+      #hash-app.hash-home-entering .hash-hero-copy > p,
+      #hash-app.hash-home-entering .hash-hero-actions,
+      #hash-app.hash-home-entering .hash-phases,
+      .hash-detail-main.is-entering .hash-stage-code,
+      .hash-detail-main.is-entering .hash-node-hero h2,
+      .hash-detail-main.is-entering .hash-node-hero > div:first-child > p,
+      .hash-detail-main.is-entering .hash-node-output,
+      .hash-detail-main.is-entering .hash-node-output::before,
+      .hash-detail-main.is-entering .hash-node-panels,
+      .aily-scene.is-active .aily-reveal,
+      .aily-scene.is-active .aily-object,
+      .aily-scene.is-active .aily-hypothesis,
+      .aily-scene.is-active .aily-query,
+      .aily-scene.is-active .aily-evidence,
+      .aily-scene.is-active .aily-lane,
+      .aily-scene.is-active .aily-scope-step,
+      .aily-scene.is-active .aily-branch,
+      .aily-scene.is-active .aily-check,
+      .aily-scene.is-active .aily-gate-status { animation: none !important; opacity: 1; transform: none; }
+      .hash-node-output::before { transform: none; }
+    }
   </style>
-  <link rel="stylesheet" href="shengnong-nodes/narrative-core.css?v=20260720-taste1">
+  <link rel="stylesheet" href="shengnong-nodes/narrative-core.css?v=20260720-motion1">
 </head>
 <body>
   <a class="skip-link" href="#node/collection">跳到架构正文</a>

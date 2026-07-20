@@ -509,12 +509,12 @@
 }
 
 .sn-reveal { opacity: 1; transform: none; }
-.sn-scene.is-active .sn-reveal { animation: sn-scene-enter 280ms cubic-bezier(.16, 1, .3, 1) both; }
+.sn-scene.is-active .sn-reveal { animation: sn-scene-enter 420ms cubic-bezier(.16, 1, .3, 1) both; }
 .sn-scene.is-active .sn-reveal:nth-child(2) { animation-delay: 80ms; }
 .sn-scene.is-active .sn-reveal:nth-child(3) { animation-delay: 150ms; }
 
 @keyframes sn-scene-enter {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
