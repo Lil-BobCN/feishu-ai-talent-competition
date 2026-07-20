@@ -1634,16 +1634,17 @@
     .aily-handoff b { font-weight: 500; }
     .aily-handoff span { color: var(--route-muted); font-family: var(--mono); font-size: 11px; }
     .aily-reveal { opacity: 1; transform: none; }
-    .aily-scene.is-active .aily-reveal { animation: aily-reveal 620ms cubic-bezier(.22,1,.36,1) both; }
-    .aily-scene.is-active .aily-reveal:nth-child(2) { animation-delay: 100ms; }
-    .aily-scene.is-active .aily-reveal:nth-child(3) { animation-delay: 190ms; }
-    .aily-scene.is-active .aily-reveal:nth-child(4) { animation-delay: 280ms; }
-    .aily-scene.is-active .aily-query:nth-child(2),
-    .aily-scene.is-active .aily-evidence:nth-child(2) { animation-delay: 130ms; }
-    .aily-scene.is-active .aily-query:nth-child(3),
-    .aily-scene.is-active .aily-evidence:nth-child(3) { animation-delay: 260ms; }
-    .aily-scene.is-active .aily-query:nth-child(4),
-    .aily-scene.is-active .aily-evidence:nth-child(4) { animation-delay: 390ms; }
+    .aily-narrative.is-motion-ready .aily-scene:not(.is-seen) .aily-reveal { opacity: 0; transform: translateY(14px); }
+    .aily-scene.is-entering .aily-reveal { animation: aily-reveal 620ms cubic-bezier(.22,1,.36,1) both; }
+    .aily-scene.is-entering .aily-reveal:nth-child(2) { animation-delay: 100ms; }
+    .aily-scene.is-entering .aily-reveal:nth-child(3) { animation-delay: 190ms; }
+    .aily-scene.is-entering .aily-reveal:nth-child(4) { animation-delay: 280ms; }
+    .aily-scene.is-entering .aily-query:nth-child(2),
+    .aily-scene.is-entering .aily-evidence:nth-child(2) { animation-delay: 130ms; }
+    .aily-scene.is-entering .aily-query:nth-child(3),
+    .aily-scene.is-entering .aily-evidence:nth-child(3) { animation-delay: 260ms; }
+    .aily-scene.is-entering .aily-query:nth-child(4),
+    .aily-scene.is-entering .aily-evidence:nth-child(4) { animation-delay: 390ms; }
     .aily-hypothesis,
     .aily-query,
     .aily-evidence,
@@ -1651,35 +1652,35 @@
     .aily-scope-step,
     .aily-branch,
     .aily-check { opacity: 1; transform: none; }
-    .aily-scene.is-active .aily-hypothesis,
-    .aily-scene.is-active .aily-query,
-    .aily-scene.is-active .aily-evidence,
-    .aily-scene.is-active .aily-lane,
-    .aily-scene.is-active .aily-scope-step,
-    .aily-scene.is-active .aily-branch,
-    .aily-scene.is-active .aily-check { animation: aily-reveal 520ms cubic-bezier(.22,1,.36,1) both; }
-    .aily-scene.is-active .aily-hypothesis:nth-child(2),
-    .aily-scene.is-active .aily-query:nth-child(2),
-    .aily-scene.is-active .aily-evidence:nth-child(2),
-    .aily-scene.is-active .aily-lane:nth-child(2),
-    .aily-scene.is-active .aily-scope-step:nth-child(2),
-    .aily-scene.is-active .aily-branch:nth-child(2),
-    .aily-scene.is-active .aily-check:nth-child(2) { animation-delay: 150ms; }
-    .aily-scene.is-active .aily-hypothesis:nth-child(3),
-    .aily-scene.is-active .aily-query:nth-child(3),
-    .aily-scene.is-active .aily-evidence:nth-child(3),
-    .aily-scene.is-active .aily-scope-step:nth-child(3),
-    .aily-scene.is-active .aily-branch:nth-child(3),
-    .aily-scene.is-active .aily-check:nth-child(3) { animation-delay: 300ms; }
-    .aily-scene.is-active .aily-hypothesis:nth-child(4),
-    .aily-scene.is-active .aily-query:nth-child(4),
-    .aily-scene.is-active .aily-evidence:nth-child(4),
-    .aily-scene.is-active .aily-scope-step:nth-child(4),
-    .aily-scene.is-active .aily-branch:nth-child(4),
-    .aily-scene.is-active .aily-check:nth-child(4) { animation-delay: 450ms; }
-    .aily-scene[data-aily-scene="intake"].is-active .aily-object:first-child { animation: aily-enter-left 720ms 120ms cubic-bezier(.22,1,.36,1) both; }
-    .aily-scene[data-aily-scene="intake"].is-active .aily-object:last-child { animation: aily-enter-right 720ms 210ms cubic-bezier(.22,1,.36,1) both; }
-    .aily-scene[data-aily-scene="gate"].is-active .aily-gate-status { animation: aily-gate-pulse 1.8s 500ms ease-in-out both; }
+    .aily-scene.is-entering .aily-hypothesis,
+    .aily-scene.is-entering .aily-query,
+    .aily-scene.is-entering .aily-evidence,
+    .aily-scene.is-entering .aily-lane,
+    .aily-scene.is-entering .aily-scope-step,
+    .aily-scene.is-entering .aily-branch,
+    .aily-scene.is-entering .aily-check { animation: aily-reveal 520ms cubic-bezier(.22,1,.36,1) both; }
+    .aily-scene.is-entering .aily-hypothesis:nth-child(2),
+    .aily-scene.is-entering .aily-query:nth-child(2),
+    .aily-scene.is-entering .aily-evidence:nth-child(2),
+    .aily-scene.is-entering .aily-lane:nth-child(2),
+    .aily-scene.is-entering .aily-scope-step:nth-child(2),
+    .aily-scene.is-entering .aily-branch:nth-child(2),
+    .aily-scene.is-entering .aily-check:nth-child(2) { animation-delay: 150ms; }
+    .aily-scene.is-entering .aily-hypothesis:nth-child(3),
+    .aily-scene.is-entering .aily-query:nth-child(3),
+    .aily-scene.is-entering .aily-evidence:nth-child(3),
+    .aily-scene.is-entering .aily-scope-step:nth-child(3),
+    .aily-scene.is-entering .aily-branch:nth-child(3),
+    .aily-scene.is-entering .aily-check:nth-child(3) { animation-delay: 300ms; }
+    .aily-scene.is-entering .aily-hypothesis:nth-child(4),
+    .aily-scene.is-entering .aily-query:nth-child(4),
+    .aily-scene.is-entering .aily-evidence:nth-child(4),
+    .aily-scene.is-entering .aily-scope-step:nth-child(4),
+    .aily-scene.is-entering .aily-branch:nth-child(4),
+    .aily-scene.is-entering .aily-check:nth-child(4) { animation-delay: 450ms; }
+    .aily-scene[data-aily-scene="intake"].is-entering .aily-object:first-child { animation: aily-enter-left 720ms 120ms cubic-bezier(.22,1,.36,1) both; }
+    .aily-scene[data-aily-scene="intake"].is-entering .aily-object:last-child { animation: aily-enter-right 720ms 210ms cubic-bezier(.22,1,.36,1) both; }
+    .aily-scene[data-aily-scene="gate"].is-entering .aily-gate-status { animation: aily-gate-pulse 1.8s 500ms ease-in-out both; }
     @keyframes aily-reveal { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes aily-enter-left { from { opacity: 0; transform: translateX(-52px); } to { opacity: 1; transform: translateX(0); } }
     @keyframes aily-enter-right { from { opacity: 0; transform: translateX(52px); } to { opacity: 1; transform: translateX(0); } }
@@ -1755,9 +1756,10 @@
       .aily-scope-step,
       .aily-branch,
       .aily-check,
-      .aily-scene.is-active .aily-reveal,
-      .aily-scene.is-active .aily-object,
-      .aily-scene.is-active .aily-gate-status { opacity: 1; transform: none; animation: none; }
+      .aily-scene.is-entering .aily-reveal,
+      .aily-scene.is-entering .aily-object,
+      .aily-scene.is-entering .aily-gate-status,
+      .aily-narrative.is-motion-ready .aily-scene:not(.is-seen) .aily-reveal { opacity: 1; transform: none; animation: none; }
       .aily-loop-stage,
       .aily-scene.is-active .aily-loop-stage { position: relative; grid-area: auto; opacity: 1; transform: none; animation: none; }
       .aily-loop-stage-area { gap: 30px; }
@@ -1998,17 +2000,17 @@
     .aily-priority-item.is-first::before { display: none; }
     .aily-priority-result.escalate { border-left: 0; border-top: 1px solid var(--route-orange); }
     .aily-json { background: #0f0f0e; }
-    .aily-scene.is-active .aily-reveal,
-    .aily-scene.is-active .aily-object,
-    .aily-scene.is-active .aily-hypothesis,
-    .aily-scene.is-active .aily-query,
-    .aily-scene.is-active .aily-evidence,
-    .aily-scene.is-active .aily-lane,
-    .aily-scene.is-active .aily-scope-step,
-    .aily-scene.is-active .aily-branch,
-    .aily-scene.is-active .aily-check { animation-duration: 420ms; animation-timing-function: cubic-bezier(.16,1,.3,1); }
-    .aily-scene[data-aily-scene="intake"].is-active .aily-object:first-child { animation: dossier-enter-left 480ms 100ms cubic-bezier(.16,1,.3,1) both; }
-    .aily-scene[data-aily-scene="intake"].is-active .aily-object:last-child { animation: dossier-enter-right 480ms 170ms cubic-bezier(.16,1,.3,1) both; }
+    .aily-scene.is-entering .aily-reveal,
+    .aily-scene.is-entering .aily-object,
+    .aily-scene.is-entering .aily-hypothesis,
+    .aily-scene.is-entering .aily-query,
+    .aily-scene.is-entering .aily-evidence,
+    .aily-scene.is-entering .aily-lane,
+    .aily-scene.is-entering .aily-scope-step,
+    .aily-scene.is-entering .aily-branch,
+    .aily-scene.is-entering .aily-check { animation-duration: 420ms; animation-timing-function: cubic-bezier(.16,1,.3,1); }
+    .aily-scene[data-aily-scene="intake"].is-entering .aily-object:first-child { animation: dossier-enter-left 480ms 100ms cubic-bezier(.16,1,.3,1) both; }
+    .aily-scene[data-aily-scene="intake"].is-entering .aily-object:last-child { animation: dossier-enter-right 480ms 170ms cubic-bezier(.16,1,.3,1) both; }
     @keyframes aily-reveal { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes dossier-enter-left { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: translateX(0); } }
     @keyframes dossier-enter-right { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
@@ -2055,20 +2057,21 @@
       .hash-detail-main.is-entering .hash-node-output,
       .hash-detail-main.is-entering .hash-node-output::before,
       .hash-detail-main.is-entering .hash-node-panels,
-      .aily-scene.is-active .aily-reveal,
-      .aily-scene.is-active .aily-object,
-      .aily-scene.is-active .aily-hypothesis,
-      .aily-scene.is-active .aily-query,
-      .aily-scene.is-active .aily-evidence,
-      .aily-scene.is-active .aily-lane,
-      .aily-scene.is-active .aily-scope-step,
-      .aily-scene.is-active .aily-branch,
-      .aily-scene.is-active .aily-check,
-      .aily-scene.is-active .aily-gate-status { animation: none !important; opacity: 1; transform: none; }
+      .aily-scene.is-entering .aily-reveal,
+      .aily-scene.is-entering .aily-object,
+      .aily-scene.is-entering .aily-hypothesis,
+      .aily-scene.is-entering .aily-query,
+      .aily-scene.is-entering .aily-evidence,
+      .aily-scene.is-entering .aily-lane,
+      .aily-scene.is-entering .aily-scope-step,
+      .aily-scene.is-entering .aily-branch,
+      .aily-scene.is-entering .aily-check,
+      .aily-scene.is-entering .aily-gate-status,
+      .aily-narrative.is-motion-ready .aily-scene:not(.is-seen) .aily-reveal { animation: none !important; opacity: 1; transform: none; }
       .hash-node-output::before { transform: none; }
     }
   </style>
-  <link rel="stylesheet" href="shengnong-nodes/narrative-core.css?v=20260720-motion1">
+  <link rel="stylesheet" href="shengnong-nodes/narrative-core.css?v=20260720-motion2">
 </head>
 <body>
   <a class="skip-link" href="#node/collection">跳到架构正文</a>
@@ -2886,7 +2889,7 @@
       <script src="shengnong-nodes/data-evidence.js?v=20260719-1"></script>
       <script src="shengnong-nodes/approval-execution.js?v=20260719-1"></script>
       <script src="shengnong-nodes/risk-review.js?v=20260719-1"></script>
-      <script src="圣农经营智能中枢_Aily叙事副本.js?v=20260719-contact-motion-2"></script>
+      <script src="圣农经营智能中枢_Aily叙事副本.js?v=20260720-scene-motion-1"></script>
   <script>
     const detailMap = {
       collection: { kicker: 'C1 / COLLECTION', title: '信息采集层', summary: '先把经营事实带着来源和时间送进系统。', owner: '源系统 + 业务员/合作方', input: '订单、价格、库存、巡店、市场快照', output: '<code>raw evidence envelope</code>', block: '不把缺失补成零，不在采集时定责', verify: 'verified', note: '采集方式和具体接口以圣农 IT 访谈与租户 E2E 为准。' },

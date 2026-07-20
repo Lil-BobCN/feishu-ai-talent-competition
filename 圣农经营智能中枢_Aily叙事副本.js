@@ -381,8 +381,17 @@ append_evidence(event_id, evidence_ref)</pre></div>
     stopAilyNarrative();
     const scenes = [...panels.flow.querySelectorAll('[data-aily-scene]')];
     if (!scenes.length) return;
+    const narrative = scenes[0].closest('.aily-narrative');
+    scenes.forEach(scene => scene.classList.remove('is-seen', 'is-entering'));
+    narrative?.classList.add('is-motion-ready');
+    const enterOnce = scene => {
+      if (scene.classList.contains('is-seen')) return;
+      scene.classList.add('is-seen', 'is-entering');
+      window.setTimeout(() => scene.classList.remove('is-entering'), 820);
+    };
     const activate = scene => {
       scenes.forEach(item => item.classList.toggle('is-active', item === scene));
+      enterOnce(scene);
       app.dataset.activeAilyScene = scene.dataset.ailyScene;
       updateAilyCaseThread(scene);
     };
@@ -483,8 +492,17 @@ append_evidence(event_id, evidence_ref)</pre></div>
     stopGenericNarrative();
     const scenes = [...panels.flow.querySelectorAll('[data-sn-scene]')];
     if (!scenes.length) return;
+    const narrative = scenes[0].closest('.sn-narrative');
+    scenes.forEach(scene => scene.classList.remove('is-seen', 'is-entering'));
+    narrative?.classList.add('is-motion-ready');
+    const enterOnce = scene => {
+      if (scene.classList.contains('is-seen')) return;
+      scene.classList.add('is-seen', 'is-entering');
+      window.setTimeout(() => scene.classList.remove('is-entering'), 720);
+    };
     const activate = scene => {
       scenes.forEach(item => item.classList.toggle('is-active', item === scene));
+      enterOnce(scene);
       app.dataset.activeNarrativeScene = scene.dataset.snScene;
       updateGenericThread(scene);
     };

@@ -483,11 +483,11 @@
 .sn-contract-list dt { color: var(--node-accent); border-right: 1px solid #303030; font: 10px var(--mono); }
 .sn-contract-list dd { color: #c3c4c2; font-size: 12px; }
 
-.sn-scene.is-active .sn-flow-line,
-.sn-scene.is-active .sn-arrival-bridge,
-.sn-scene.is-active .sn-map-line,
-.sn-scene.is-active .sn-task-spine,
-.sn-scene.is-active .sn-branch-lines {
+.sn-scene.is-entering .sn-flow-line,
+.sn-scene.is-entering .sn-arrival-bridge,
+.sn-scene.is-entering .sn-map-line,
+.sn-scene.is-entering .sn-task-spine,
+.sn-scene.is-entering .sn-branch-lines {
   animation: sn-line-scan 1800ms cubic-bezier(.22, 1, .36, 1) both;
   transform-origin: left center;
 }
@@ -509,9 +509,10 @@
 }
 
 .sn-reveal { opacity: 1; transform: none; }
-.sn-scene.is-active .sn-reveal { animation: sn-scene-enter 420ms cubic-bezier(.16, 1, .3, 1) both; }
-.sn-scene.is-active .sn-reveal:nth-child(2) { animation-delay: 80ms; }
-.sn-scene.is-active .sn-reveal:nth-child(3) { animation-delay: 150ms; }
+.sn-narrative.is-motion-ready .sn-scene:not(.is-seen) .sn-reveal { opacity: 0; transform: translateY(14px); }
+.sn-scene.is-entering .sn-reveal { animation: sn-scene-enter 420ms cubic-bezier(.16, 1, .3, 1) both; }
+.sn-scene.is-entering .sn-reveal:nth-child(2) { animation-delay: 80ms; }
+.sn-scene.is-entering .sn-reveal:nth-child(3) { animation-delay: 150ms; }
 
 @keyframes sn-scene-enter {
   from { opacity: 0; transform: translateY(14px); }
@@ -564,14 +565,15 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sn-loop [data-loop-step],
-  .sn-scene.is-active .sn-reveal,
-  .sn-scene.is-active .sn-flow-line,
-  .sn-scene.is-active .sn-arrival-bridge,
-  .sn-scene.is-active .sn-map-line,
-  .sn-scene.is-active .sn-task-spine,
-  .sn-scene.is-active .sn-branch-lines,
+  .sn-scene.is-entering .sn-reveal,
+  .sn-scene.is-entering .sn-flow-line,
+  .sn-scene.is-entering .sn-arrival-bridge,
+  .sn-scene.is-entering .sn-map-line,
+  .sn-scene.is-entering .sn-task-spine,
+  .sn-scene.is-entering .sn-branch-lines,
   .sn-scene.is-active .sn-check-led,
   .sn-scene.is-active .sn-ledger-led,
   .sn-scene.is-active .sn-quality-led { animation: none !important; opacity: 1; transform: none; }
-  .sn-reveal { opacity: 1; transform: none; }
+  .sn-reveal,
+  .sn-narrative.is-motion-ready .sn-scene:not(.is-seen) .sn-reveal { opacity: 1; transform: none; }
 }
