@@ -1921,11 +1921,12 @@
     .hash-detail-main { width: min(1160px, calc(100% - 48px)); padding: 0 0 96px; }
     .hash-node-hero {
       grid-template-columns: minmax(0, 1.4fr) minmax(280px, .6fr);
-      align-items: end;
+      align-items: stretch;
       min-height: calc(100svh - var(--route-sticky-offset, 112px));
       gap: 64px;
-      padding: 96px 0 64px;
+      padding: clamp(48px, 7vh, 72px) 0 64px;
     }
+    .hash-node-hero > div:first-child { align-self: start; }
     .hash-stage-code { color: var(--active-color, var(--route-blue)); }
     .hash-node-hero h2 { max-width: 16ch; margin: 16px 0 24px; font-size: 56px; line-height: 1.14; }
     .hash-node-hero p { max-width: 62ch; color: #b9b9b5; font-size: 17px; line-height: 1.7; }
@@ -2031,7 +2032,7 @@
       .hash-hero-statement { font-size: 32px; }
       .hash-phases { margin-top: 48px; }
       .hash-detail-main { width: calc(100% - 32px); }
-      .hash-node-hero { grid-template-columns: 1fr; gap: 32px; padding: 64px 0; }
+      .hash-node-hero { grid-template-columns: 1fr; gap: 32px; padding: 48px 0 56px; }
       .hash-node-hero h2 { font-size: 40px; }
       .hash-node-output { padding-left: 0; }
       .aily-scene-head { grid-template-columns: 1fr; gap: 16px; margin-bottom: 32px; }
