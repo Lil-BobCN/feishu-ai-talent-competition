@@ -414,7 +414,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
             data-state-current="${scene.current}" data-state-confirmed="${scene.confirmed}"
             data-state-unknown="${scene.unknown}" data-state-next="${scene.next}">
             <header class="sn-scene-head sn-reveal">
-              <span class="sn-scene-code">${scene.number} / ${scene.code}</span>
+              <span class="sn-scene-code">步骤 ${scene.number}</span>
               <h3>${scene.title}</h3>
               <p>${scene.description}</p>
             </header>
@@ -422,7 +422,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
           </section>`).join('')}
       </div>
       <div class="sn-handoff">
-        <div><small>HANDOFF / 本节点正式交付</small><h3>${definition.handoff.output}</h3><p>${definition.handoff.condition}</p></div>
+        <div><small>本节点正式交付</small><h3>${definition.handoff.output}</h3><p>${definition.handoff.condition}</p></div>
         <code>→ ${nodes[definition.handoff.nextId]?.title || definition.handoff.nextId}</code>
       </div>`;
     return narrative;
@@ -560,7 +560,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
     }
     const phaseColor = { info: 'blue', agent: 'orange', execute: 'violet', risk: 'amber', feedback: 'green' }[node.phase];
     app.style.setProperty('--active-color', `var(--route-${phaseColor})`);
-    app.querySelector('[data-node-code]').textContent = node.code;
+    app.querySelector('[data-node-code]').textContent = `节点 ${node.code.split('/')[0].trim()}`;
     app.querySelector('[data-node-title]').textContent = node.title;
     app.querySelector('[data-node-summary]').textContent = node.summary;
     app.querySelector('[data-node-output]').textContent = node.output;

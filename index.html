@@ -1855,8 +1855,169 @@
       .contact-team-head.contact-scroll-reveal,
       .contact-team-card.contact-scroll-reveal { opacity: 1; transform: none; transition: none; }
     }
+
+    /* Taste refinement: operating dossier, not a component showcase. */
+    :root {
+      --route-blue: #82aee6;
+      --route-orange: #e9863b;
+      --route-violet: #9f93cf;
+      --route-amber: #c8a461;
+      --route-green: #75a98c;
+      --route-canvas: #0b0b0a;
+      --route-panel: #121211;
+      --route-line: #2a2a28;
+      --route-muted: #969692;
+      --sans: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      --mono: "SFMono-Regular", "Geist Mono", "JetBrains Mono", Consolas, monospace;
+    }
+    #hash-app { color: #f1f1ed; background: var(--route-canvas); font-family: var(--sans); }
+    .hash-home-header,
+    .hash-route-bar { background: rgba(11, 11, 10, .97); }
+    .hash-home h2:focus,
+    .hash-node-hero h2:focus,
+    .hash-contact-page h2:focus { outline: none; }
+    .hash-home h2:focus-visible,
+    .hash-node-hero h2:focus-visible,
+    .hash-contact-page h2:focus-visible { outline: none; }
+
+    .hash-hero {
+      min-height: calc(100svh - 48px);
+      padding: 64px clamp(24px, 6vw, 84px) 32px;
+    }
+    .hash-hero::before,
+    .hash-signal { display: none; }
+    .hash-hero-copy { max-width: 1120px; }
+    .hash-kicker { color: #aaa9a5; font-family: var(--sans); font-size: 13px; text-transform: none; }
+    .hash-hero-title-row { grid-template-columns: minmax(0, 1fr) 176px; gap: 64px; }
+    .hash-hero h2 { margin: 16px 0 32px; font-size: 72px; line-height: 1.08; }
+    .hash-hero-index { margin-bottom: 36px; border-color: #343432; }
+    .hash-hero-statement { max-width: 24ch; font-size: 40px; line-height: 1.25; }
+    .hash-hero-description { max-width: 40em; color: #b8b8b4; font-size: 17px; line-height: 1.7; }
+    .hash-phases { margin-top: 56px; }
+    .hash-phase { min-height: 152px; padding: 24px 18px; }
+    .hash-phase::before { display: none; }
+    .hash-phase small { color: color-mix(in srgb, var(--phase) 74%, #8d8d88); }
+    .hash-phase b { margin: 16px 0 8px; font-size: 18px; }
+    .hash-phase span { color: #9f9f9a; line-height: 1.65; }
+    #hash-app.hash-home-entering .hash-home-header,
+    #hash-app.hash-home-entering .hash-kicker,
+    #hash-app.hash-home-entering .hash-hero-copy h2,
+    #hash-app.hash-home-entering .hash-hero-copy > p,
+    #hash-app.hash-home-entering .hash-hero-actions,
+    #hash-app.hash-home-entering .hash-phase { animation: none; }
+
+    .hash-route-bar { padding-top: 8px; padding-bottom: 8px; }
+    .hash-route-head { margin-bottom: 8px; }
+    .hash-route-scroll { scrollbar-width: none; }
+    .hash-route-scroll::-webkit-scrollbar { display: none; }
+    .hash-node-button { width: 40px; height: 40px; border-radius: 50% !important; }
+    .hash-node-name { margin-top: 2px; font-size: 10px; }
+    .route-segment { top: 20px; }
+
+    .hash-detail-main { width: min(1160px, calc(100% - 48px)); padding: 0 0 96px; }
+    .hash-node-hero {
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, .6fr);
+      align-items: end;
+      min-height: calc(100svh - var(--route-sticky-offset, 112px));
+      gap: 64px;
+      padding: 96px 0 64px;
+    }
+    .hash-stage-code { color: var(--active-color, var(--route-blue)); }
+    .hash-node-hero h2 { max-width: 16ch; margin: 16px 0 24px; font-size: 56px; line-height: 1.14; }
+    .hash-node-hero p { max-width: 62ch; color: #b9b9b5; font-size: 17px; line-height: 1.7; }
+    .hash-node-output {
+      align-self: end;
+      padding: 20px 0 0;
+      border: 0;
+      border-top: 1px solid color-mix(in srgb, var(--active-color, var(--route-blue)) 62%, #3a3a38);
+    }
+    .hash-node-output h3 { margin: 12px 0 10px; font-size: 22px; }
+    .hash-node-output p { font-size: 14px; }
+    .hash-detail-main.is-entering .hash-node-hero > div:first-child,
+    .hash-detail-main.is-entering .hash-node-output,
+    .hash-detail-main.is-entering .hash-node-panels { animation: taste-fade 240ms cubic-bezier(.16,1,.3,1) both; }
+    @keyframes taste-fade { from { opacity: 0; } to { opacity: 1; } }
+    .hash-scroll-reveal { opacity: 0; transform: translateY(8px); transition: opacity 280ms cubic-bezier(.16,1,.3,1), transform 280ms cubic-bezier(.16,1,.3,1); }
+
+    .aily-case-thread {
+      border: 0;
+      border-top: 1px solid #3a3a38;
+      border-bottom: 1px solid #3a3a38;
+      background: #0b0b0a;
+    }
+    .aily-case-id::before { box-shadow: none; }
+    .aily-scene { padding: clamp(64px, 9vh, 96px) 0; }
+    .aily-scene::before { display: none; }
+    .aily-scene-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+      align-items: end;
+      gap: 16px 64px;
+      max-width: none;
+      margin-bottom: 48px;
+    }
+    .aily-scene-code { grid-column: 1 / -1; }
+    .aily-scene h3 { grid-column: 1; margin: 0; max-width: 20ch; font-size: 40px; line-height: 1.2; }
+    .aily-scene-head p { grid-column: 2; max-width: 64ch; font-size: 15px; line-height: 1.7; }
+    .aily-object,
+    .aily-hypothesis,
+    .aily-query,
+    .aily-evidence,
+    .aily-lane,
+    .aily-scope-step,
+    .aily-branch,
+    .aily-check {
+      background: transparent;
+      box-shadow: none;
+    }
+    .aily-object { padding: 20px 0; border: 0; border-top: 1px solid #30302e; }
+    .aily-object.accent,
+    .aily-object.blue,
+    .aily-object.green { box-shadow: none; }
+    .aily-priority-loop,
+    .aily-loop-visual { background: transparent; }
+    .aily-priority-item.is-first::before { display: none; }
+    .aily-priority-result.escalate { border-left: 0; border-top: 1px solid var(--route-orange); }
+    .aily-json { background: #0f0f0e; }
+    .aily-scene.is-active .aily-reveal,
+    .aily-scene.is-active .aily-object,
+    .aily-scene.is-active .aily-hypothesis,
+    .aily-scene.is-active .aily-query,
+    .aily-scene.is-active .aily-evidence,
+    .aily-scene.is-active .aily-lane,
+    .aily-scene.is-active .aily-scope-step,
+    .aily-scene.is-active .aily-branch,
+    .aily-scene.is-active .aily-check { animation-duration: 280ms; }
+
+    .contact-team-card,
+    .contact-team-card.lead { border: 0; border-top: 1px solid #30302e; background: transparent; }
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-name,
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-status,
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume::before,
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-block,
+    #hash-app[data-view="contact"] .hash-contact-page.is-contact-entering .contact-resume-footer { animation: taste-fade 240ms cubic-bezier(.16,1,.3,1) both; }
+
+    @media (max-width: 760px) {
+      .hash-hero { padding: 56px 20px 32px; }
+      .hash-hero-title-row { grid-template-columns: 1fr; gap: 0; }
+      .hash-hero h2 { font-size: 48px; }
+      .hash-hero-statement { font-size: 32px; }
+      .hash-phases { margin-top: 48px; }
+      .hash-detail-main { width: calc(100% - 32px); }
+      .hash-node-hero { grid-template-columns: 1fr; gap: 32px; padding: 64px 0; }
+      .hash-node-hero h2 { font-size: 40px; }
+      .hash-node-output { padding-left: 0; }
+      .aily-scene-head { grid-template-columns: 1fr; gap: 16px; margin-bottom: 32px; }
+      .aily-scene-code, .aily-scene h3, .aily-scene-head p { grid-column: 1; }
+      .aily-scene h3 { font-size: 32px; }
+    }
+    @media (max-width: 420px) {
+      .hash-hero h2 { font-size: 40px; }
+      .hash-hero-statement { font-size: 28px; }
+      .hash-node-hero h2 { font-size: 36px; }
+    }
   </style>
-  <link rel="stylesheet" href="shengnong-nodes/narrative-core.css?v=20260719-2">
+  <link rel="stylesheet" href="shengnong-nodes/narrative-core.css?v=20260720-taste1">
 </head>
 <body>
   <a class="skip-link" href="#node/collection">跳到架构正文</a>
@@ -1865,7 +2026,7 @@
       <header class="hash-home-header">
         <div class="hash-brand">
           <div class="brand-mark"><img class="brand-logo" src="shengnong-nodes/sunner-logo.png" alt="圣农" width="300" height="56"></div>
-          <div><small>圣农方案 / blueprint</small><b>经营智能中枢</b></div>
+          <div><small>圣农经营方案</small><b>经营智能中枢</b></div>
         </div>
         <div class="hash-center-actions">
           <button class="hash-button" type="button" data-action="home">首页</button>
@@ -1878,7 +2039,7 @@
         <section class="hash-home" data-view="home">
           <div class="hash-hero">
             <div class="hash-hero-copy">
-              <span class="hash-kicker">圣农方案 / OPERATING INTELLIGENCE</span>
+              <span class="hash-kicker">面向经营决策的九节点方案</span>
               <div class="hash-hero-title-row">
                 <h2 tabindex="-1">圣农经营智能中枢</h2>
                 <aside class="hash-hero-index" aria-label="方案范围"><small>01—09</small><b>九节点经营闭环</b></aside>
@@ -1891,11 +2052,11 @@
               </div>
             </div>
             <div class="hash-phases" aria-label="经营闭环五组核心能力">
-              <article class="hash-phase info"><small>01 / EVIDENCE</small><b>数据与证据</b><span>经营事实被可靠接收、统一口径并登记为待调查事件。</span></article>
-              <article class="hash-phase agent"><small>02 / INVESTIGATE</small><b>调查与决策支持</b><span>Aily 逐层补证、比较方案并形成决策就绪材料。</span></article>
-              <article class="hash-phase execute"><small>03 / APPROVE &amp; EXECUTE</small><b>审批与责任执行</b><span>管理层拍板，任务责任到人并按业务节点推进。</span></article>
-              <article class="hash-phase risk"><small>04 / ANTICIPATE</small><b>风险预判与治理</b><span>新数据验证结果，并把销售变化传导到产销存决策。</span></article>
-              <article class="hash-phase feedback"><small>05 / IMPROVE</small><b>管理复盘与改进</b><span>从多个事件识别管理短板，把经验更新为新规则。</span></article>
+              <article class="hash-phase info"><small>01 / 经营事实</small><b>数据与证据</b><span>经营事实被可靠接收、统一口径并登记为待调查事件。</span></article>
+              <article class="hash-phase agent"><small>02 / 查明原因</small><b>调查与决策支持</b><span>Aily 逐层补证、比较方案并形成决策就绪材料。</span></article>
+              <article class="hash-phase execute"><small>03 / 作出决定</small><b>审批与责任执行</b><span>管理层拍板，任务责任到人并按业务节点推进。</span></article>
+              <article class="hash-phase risk"><small>04 / 验证结果</small><b>风险预判与治理</b><span>新数据验证结果，并把销售变化传导到产销存决策。</span></article>
+              <article class="hash-phase feedback"><small>05 / 沉淀经验</small><b>管理复盘与改进</b><span>从多个事件识别管理短板，把经验更新为新规则。</span></article>
               <span class="hash-signal" aria-hidden="true"></span>
             </div>
           </div>
@@ -1938,7 +2099,7 @@
                 <p data-node-summary>从业务系统、飞书和合法外部来源取得经营事实，同时登记来源、时间、权限和质量状态。</p>
               </div>
               <div class="hash-node-output">
-                <span class="hash-output-label">THIS PAGE OUTPUT</span>
+                <span class="hash-output-label">本节点形成</span>
                 <h3 data-node-output>原始数据</h3>
                 <p data-node-output-copy>本页产物是下一节点的正式输入，九个页面共同构成一条连续的经营数据与责任链。</p>
               </div>
@@ -1960,7 +2121,7 @@
             <div class="contact-resume">
               <header class="contact-resume-header">
                 <div class="contact-resume-name">
-                  <span class="contact-resume-kicker">CONTACT / PROFILE</span>
+                  <span class="contact-resume-kicker">项目联系人</span>
                   <h2 id="contact-title" tabindex="-1">刘清源</h2>
                   <p>工商管理专业 · 南昌航空大学</p>
                 </div>
@@ -2038,15 +2199,15 @@
           </aside>
 
           <section class="aily-scene is-active" data-aily-scene="intake" data-scene-number="01" data-case-current="这 5 元价差从哪里来？" data-case-confirmed="门店实付 24.9，价盘 29.9" data-case-unknown="是否存在合法活动" data-case-next="先列出所有可能原因" aria-labelledby="aily-intake-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">01 / INTAKE · 接收事件</span><h3 id="aily-intake-title">接到问题：先看清这一个价格差</h3><p>决策底座交来的是一个有编号的问题档案：哪家门店、哪个商品、何时卖了 24.9 元，以及公司价盘为什么是 29.9 元。Aily 此时只受理，不急着判断谁错了。</p></div>
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">01 / 接收事件</span><h3 id="aily-intake-title">接到问题：先看清这一个价格差</h3><p>决策底座交来的是一个有编号的问题档案：哪家门店、哪个商品、何时卖了 24.9 元，以及公司价盘为什么是 29.9 元。Aily 此时只受理，不急着判断谁错了。</p></div>
             <div class="aily-scene-grid aily-reveal">
-              <article class="aily-object accent"><small>问题本身 / FOUNDATION OUTPUT</small><h4>同一商品出现 5 元价差</h4><div class="aily-packet"><div class="aily-field"><span>门店实付</span><b>24.9 元</b></div><div class="aily-field"><span>公司价盘</span><b>29.9 元</b></div><div class="aily-field"><span>对象</span><b>门店 × 商品</b></div><div class="aily-field"><span>原始来源</span><b>POS + SAP</b></div></div></article>
-              <article class="aily-object blue"><small>调查边界 / CONTROLLED CONTEXT</small><h4>问题编号、口径和权限一起交接</h4><div class="aily-packet"><div class="aily-field"><span>问题编号</span><b>PRICE-0249</b></div><div class="aily-field"><span>价格口径版本</span><b>price.v3.2</b></div><div class="aily-field"><span>目前已知 / 未知</span><b>3 / 1</b></div><div class="aily-field"><span>当前可查范围</span><b>区域销售只读</b></div></div><span class="aily-state">已受理，暂不定责</span></article>
+              <article class="aily-object accent"><small>决策底座交付</small><h4>同一商品出现 5 元价差</h4><div class="aily-packet"><div class="aily-field"><span>门店实付</span><b>24.9 元</b></div><div class="aily-field"><span>公司价盘</span><b>29.9 元</b></div><div class="aily-field"><span>对象</span><b>门店 × 商品</b></div><div class="aily-field"><span>原始来源</span><b>POS + SAP</b></div></div></article>
+              <article class="aily-object blue"><small>当前调查边界</small><h4>问题编号、口径和权限一起交接</h4><div class="aily-packet"><div class="aily-field"><span>问题编号</span><b>PRICE-0249</b></div><div class="aily-field"><span>价格口径版本</span><b>price.v3.2</b></div><div class="aily-field"><span>目前已知 / 未知</span><b>3 / 1</b></div><div class="aily-field"><span>当前可查范围</span><b>区域销售只读</b></div></div><span class="aily-state">已受理，暂不定责</span></article>
             </div>
           </section>
 
           <section class="aily-scene" data-aily-scene="assess" data-scene-number="02" data-case-current="先查哪个原因，为什么？" data-case-confirmed="5 元价差真实存在" data-case-unknown="本层哪种原因成立" data-case-next="按企业经验执行队首查询" aria-labelledby="aily-assess-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">02 / OBSERVE · ASSESS · 经验排序</span><h3 id="aily-assess-title">先按企业经验排序，再逐一排除</h3><p>同一个 5 元价差可能有多种原因。Aily 先列出可能原因，但先查哪一个不由模型临时猜：公司把老员工处理同类问题的经验整理成调查顺序，再由 Aily 按顺序取证。</p></div>
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">02 / 经验排序</span><h3 id="aily-assess-title">先按企业经验排序，再逐一排除</h3><p>同一个 5 元价差可能有多种原因。Aily 先列出可能原因，但先查哪一个不由模型临时猜：公司把老员工处理同类问题的经验整理成调查顺序，再由 Aily 按顺序取证。</p></div>
             <div class="aily-priority-loop aily-reveal">
               <div class="aily-priority-source"><small>排查顺序从哪里来</small><h4>把老员工经验变成可复用的方法</h4><p>公司把老员工处理同类问题的经验、制度和历史案例，整理成一套可复用的调查方法，系统内部称为<span>领域 Skill</span>。</p><div class="aily-priority-criteria"><span>最能排除原因</span><span>查询成本更低</span><span>返回速度更快</span><span>证据更加可靠</span><span>当前身份有权查询</span></div><div class="aily-priority-note">以下为方法示意。正式顺序需要由圣农业务负责人用真实案例校准并批准。</div></div>
               <div class="aily-priority-queue"><small>当前范围：单店价格问题 / 本层排查队列</small><div class="aily-priority-list"><div class="aily-priority-item is-first"><code>优先 1</code><b>商品与规格是否真正可比</b><span>最快排除对象不一致</span></div><div class="aily-priority-item"><code>优先 2</code><b>活动是否批准并绑定该门店</b><span>验证合法促销</span></div><div class="aily-priority-item"><code>优先 3</code><b>价签与实际成交价是否同步</b><span>排除执行错误</span></div><div class="aily-priority-item"><code>优先 4</code><b>是否存在未经授权的主动降价</b><span>证据充分后才能判断</span></div></div></div>
@@ -2055,22 +2216,22 @@
           </section>
 
           <section class="aily-scene" data-aily-scene="plan" data-scene-number="03" data-case-current="先查哪一条最划算？" data-case-confirmed="企业经验已排出本层顺序" data-case-unknown="商品与规格是否真正可比" data-case-next="执行队首查询：核对商品与规格" aria-labelledby="aily-plan-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">03 / PLAN · 最小查询</span><h3 id="aily-plan-title">只查最能排除原因的一条信息</h3><p>第 02 幕排好顺序后，Aily 每轮只执行队首一项，不把所有系统翻一遍。示例中先核对商品与规格；完成后再由证据决定停止、查询下一项，还是扩大范围。</p></div>
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">03 / 最小查询</span><h3 id="aily-plan-title">只查最能排除原因的一条信息</h3><p>第 02 幕排好顺序后，Aily 每轮只执行队首一项，不把所有系统翻一遍。示例中先核对商品与规格；完成后再由证据决定停止、查询下一项，还是扩大范围。</p></div>
             <div class="aily-query-flow aily-reveal"><article class="aily-query"><small>当前问题</small><b>24.9 元是否合法？</b><span>四种原因尚未排除</span></article><article class="aily-query"><small>执行队首一项</small><b>核对商品与规格</b><span>优先级最高、成本最小、最能排除原因</span></article><article class="aily-query"><small>查到后写回</small><b>更新问题档案</b><span>记录来源、时间和质量</span></article><article class="aily-query"><small>再决定</small><b>停止或继续</b><span>不够再取下一项，必要时扩大一层</span></article></div>
           </section>
 
           <section class="aily-scene" data-aily-scene="evidence" data-scene-number="04" data-case-current="活动是否真的覆盖这家门店？" data-case-confirmed="有活动申请，但没有门店绑定" data-case-unknown="5 元差额由谁承担" data-case-next="系统与责任人并行补证" aria-labelledby="aily-evidence-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">04 / LOCAL EVIDENCE · 局部取证</span><h3 id="aily-evidence-title">把查到的证据放回问题档案</h3><p>每条证据都要说明“从哪里来、什么时候有效、是否可信、支持或否定哪个原因”。只有这样，下一轮查询才不会重复，也不会把一句聊天回复当成事实。</p></div>
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">04 / 局部取证</span><h3 id="aily-evidence-title">把查到的证据放回问题档案</h3><p>每条证据都要说明“从哪里来、什么时候有效、是否可信、支持或否定哪个原因”。只有这样，下一轮查询才不会重复，也不会把一句聊天回复当成事实。</p></div>
             <div class="aily-evidence-stream aily-reveal"><div class="aily-evidence"><small>SAP / 正式价盘</small><b>29.9 元价盘在 06-18 生效</b><em>已确认</em></div><div class="aily-evidence"><small>CRM / 活动记录</small><b>活动申请存在，但未发现该门店绑定</b><em>部分确认</em></div><div class="aily-evidence"><small>飞书 / 现场照片</small><b>价签显示 24.9 元，拍摄时间 10:32</b><em>已确认</em></div><div class="aily-evidence"><small>POS / 券明细</small><b>券承担方仍未知，现在不能定责</b><em>仍未知</em></div></div>
           </section>
 
           <section class="aily-scene" data-aily-scene="parallel" data-scene-number="05" data-case-current="缺少的券承担方在哪里？" data-case-confirmed="系统记录暂不完整" data-case-unknown="平台券还是门店让利" data-case-next="两条取证路径同时推进" aria-labelledby="aily-parallel-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">05 / PARALLEL EVIDENCE · 并行补证</span><h3 id="aily-parallel-title">系统查不到，就请责任人补充</h3><p>Aily 不会用猜测填补空白。它继续查询已有系统，同时在飞书上向真正掌握数据的人发出补证卡；哪条先回来，就先更新同一个问题档案。需要等待人员回复时，本次调查先结束，收到新信息后再按 event_id 继续，不让一次会话无限等待。</p></div>
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">05 / 并行补证</span><h3 id="aily-parallel-title">系统查不到，就请责任人补充</h3><p>Aily 不会用猜测填补空白。它继续查询已有系统，同时在飞书上向真正掌握数据的人发出补证卡；哪条先回来，就先更新同一个问题档案。需要等待人员回复时，本次调查先结束，收到新信息后再按 event_id 继续，不让一次会话无限等待。</p></div>
             <div class="aily-scene-grid aily-reveal"><article class="aily-lane mcp"><small>系统查询 / MCP 是受控业务接口</small><h4>自动寻找已有正式记录</h4><p>只读取当前身份有权查看的数据。</p><ul><li>收银系统：订单级券明细</li><li>客户系统：门店活动绑定</li><li>库存系统：同商品区域库存</li></ul></article><article class="aily-lane people"><small>人工补证 / 飞书责任请求</small><h4>把缺口准确交给责任人</h4><p>缺什么、为什么要、何时交、什么格式一次写清。</p><ul><li>责任人：区域销售经理</li><li>进度：已读 · 等待回复</li><li>时限：30 分钟 · 上传活动证明</li></ul></article></div>
           </section>
 
           <section class="aily-scene" data-aily-scene="scope" data-scene-number="06" data-case-current="这是单店问题，还是正在扩散？" data-case-confirmed="同区域出现第二个相同价差" data-case-unknown="是否影响库存和整体市场" data-case-next="证据支持后扩大一层再查" aria-labelledby="aily-scope-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">06 / BOUNDED QUERY LOOP · 有界查询循环</span><h3 id="aily-scope-title">证据支持时，才扩大调查范围</h3><p>这就是 Aily 最关键的工作方式：从一个门店的价格点开始；发现同类证据，才连到区域；再发现销量、库存或投诉联动，才进入跨部门与市场层面。没有新证据，就停在当前层。</p></div>
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">06 / 有界查询循环</span><h3 id="aily-scope-title">证据支持时，才扩大调查范围</h3><p>这就是 Aily 最关键的工作方式：从一个门店的价格点开始；发现同类证据，才连到区域；再发现销量、库存或投诉联动，才进入跨部门与市场层面。没有新证据，就停在当前层。</p></div>
             <div class="aily-loop-visual aily-reveal" aria-label="由点及线、由线及面的有界查询循环">
               <div class="aily-loop-stage-area">
                 <div class="aily-loop-stage" data-loop-phase="point" style="--loop-i:0"><div class="aily-loop-copy"><small>01 / 由一个点开始</small><h4>先解释这一家门店</h4><p>只核对当前门店、当前商品、当前时间的价格、规格和活动。</p></div><div class="aily-loop-shape"><span class="aily-loop-dot">门店 A<br>24.9</span></div></div>
@@ -2085,12 +2246,12 @@
           </section>
 
           <section class="aily-scene" data-aily-scene="gate" data-scene-number="07" data-case-current="管理层现在能否作出有边界的决定？" data-case-confirmed="事实、影响范围和证据来源已清楚" data-case-unknown="券承担方仍待回复" data-case-next="透明标出缺口并限制方案" aria-labelledby="aily-gate-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">07 / VERIFY · DECIDE · 校验判断</span><h3 id="aily-gate-title">现在是否足够交给管理层</h3><p>“可以决策”不等于“所有数据都齐了”，而是现有事实、仍缺什么、缺口会限制哪些动作，都已经透明，管理层能在边界内决定。</p></div>
-            <div class="aily-gate aily-reveal"><div class="aily-gate-status"><span>当前判断 / EVIDENCE GATE</span><strong>还差一项关键证明</strong><span>券承担方仍未知<br>可以汇报，但不能直接定责或改价</span></div><div class="aily-gate-checks"><div class="aily-check"><span>事实能回到来源和时间</span><em>通过</em></div><div class="aily-check"><span>5 元价差可以复算</span><em>通过</em></div><div class="aily-check"><span>影响范围已经说清</span><em>部分通过</em></div><div class="aily-check"><span>改价等高风险动作</span><em>必须审批</em></div></div></div>
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">07 / 校验判断</span><h3 id="aily-gate-title">现在是否足够交给管理层</h3><p>“可以决策”不等于“所有数据都齐了”，而是现有事实、仍缺什么、缺口会限制哪些动作，都已经透明，管理层能在边界内决定。</p></div>
+            <div class="aily-gate aily-reveal"><div class="aily-gate-status"><span>当前证据门</span><strong>还差一项关键证明</strong><span>券承担方仍未知<br>可以汇报，但不能直接定责或改价</span></div><div class="aily-gate-checks"><div class="aily-check"><span>事实能回到来源和时间</span><em>通过</em></div><div class="aily-check"><span>5 元价差可以复算</span><em>通过</em></div><div class="aily-check"><span>影响范围已经说清</span><em>部分通过</em></div><div class="aily-check"><span>改价等高风险动作</span><em>必须审批</em></div></div></div>
           </section>
 
           <section class="aily-scene" data-aily-scene="dossier" data-scene-number="08" data-case-current="管理层需要看到什么才能拍板？" data-case-confirmed="事实、推断、缺口与候选方案已分开" data-case-unknown="券承担方仍明确标为未知" data-case-next="提交人工审批，不自动拍板" aria-labelledby="aily-dossier-title">
-            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">08 / DECISION-READY DOSSIER · 决策就绪包</span><h3 id="aily-dossier-title">把事实、缺口和方案交给人决定</h3><p>Aily 把调查整理成管理层可以直接审阅的材料：哪些是事实、哪些只是推断、还缺什么、每个方案对销量、毛利、库存和预算可能造成什么影响，以及何时停止、如何恢复。金额和影响由可复算程序测算；价格、存栏、产能和市场进入仍由人批准。</p></div>
+            <div class="aily-scene-head aily-reveal"><span class="aily-scene-code">08 / 决策就绪包</span><h3 id="aily-dossier-title">把事实、缺口和方案交给人决定</h3><p>Aily 把调查整理成管理层可以直接审阅的材料：哪些是事实、哪些只是推断、还缺什么、每个方案对销量、毛利、库存和预算可能造成什么影响，以及何时停止、如何恢复。金额和影响由可复算程序测算；价格、存栏、产能和市场进入仍由人批准。</p></div>
             <pre class="aily-json aily-reveal">{
   "event_id": "PRICE-0249",
   "investigation_level": "regional",
@@ -2103,7 +2264,7 @@
   "controls": { "budget": "pending", "stop_conditions": [], "rollback": "required" },
   "approval_required": true
 }</pre>
-            <div class="aily-handoff aily-reveal"><span><b>下一节点：人工决策与方案审批</b><br>价格、存栏、产能、市场进入必须由管理层批准</span><span>event_id → decision packet → approval gate</span></div>
+            <div class="aily-handoff aily-reveal"><span><b>下一节点：人工决策与方案审批</b><br>价格、存栏、产能、市场进入必须由管理层批准</span><span>event_id → 决策材料 → 人工审批</span></div>
           </section>
         </div>
       </template>
