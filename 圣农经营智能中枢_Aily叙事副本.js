@@ -405,7 +405,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
     const labels = definition.statusLabels || ['当前处理', '已经确认', '仍然未知', '下一步'];
     narrative.innerHTML = `
       <div class="sn-case-thread" aria-label="当前节点处理状态">
-        <div class="sn-case-id"><div><span>PROCESS OBJECT</span><b>${definition.caseId}</b></div></div>
+        <div class="sn-case-id"><div><span>同一个案例贯穿全程</span><b>${definition.caseId}</b><small>门店实付 24.9 元 / 统一价盘 29.9 元</small></div></div>
         ${labels.map((label, index) => `<div class="sn-case-state"><span>${label}</span><b data-sn-state="${['current', 'confirmed', 'unknown', 'next'][index]}">—</b></div>`).join('')}
       </div>
       <div class="sn-scenes">
