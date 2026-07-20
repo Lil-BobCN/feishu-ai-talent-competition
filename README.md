@@ -5,7 +5,7 @@
 
 评审入口：[评委阅览指南](评委阅览指南.md)
 
-快速打开：[评委版 PDF](圣农经营智能中枢_评委版母方案.pdf) · [完整母稿 PDF](圣农经营智能中枢_完整方案母稿.pdf) · [在线演示](https://lil-bobcn.github.io/feishu-ai-talent-competition/)
+快速打开：[最新评委交付包](https://github.com/Lil-BobCN/feishu-ai-talent-competition/releases/download/reviewer-package/shengnong-reviewer-package.zip) · [评委版 PDF](圣农经营智能中枢_评委版母方案.pdf) · [完整母稿 PDF](圣农经营智能中枢_完整方案母稿.pdf) · [在线演示](https://lil-bobcn.github.io/feishu-ai-talent-competition/)
 
 ## 当前状态
 
@@ -28,6 +28,7 @@
 
 建议按以下顺序审阅：
 
+- [最新评委交付包](https://github.com/Lil-BobCN/feishu-ai-talent-competition/releases/download/reviewer-package/shengnong-reviewer-package.zip)
 - [评委阅览指南](评委阅览指南.md)
 - [评委版 PDF](圣农经营智能中枢_评委版母方案.pdf)
 - [在线演示](https://lil-bobcn.github.io/feishu-ai-talent-competition/)

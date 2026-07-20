@@ -1,0 +1,79 @@
+name: Publish reviewer package
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: reviewer-package
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: reviewer-package
+      RELEASE_TITLE: 圣农经营智能中枢｜评委交付包
+      RELEASE_ASSET: shengnong-reviewer-package.zip
+    steps:
+      - name: Check out the published commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build and verify the reviewer package
+        shell: bash
+        run: |
+          set -euo pipefail
+          generated_at="$(date -u +'%Y-%m-%dT%H:%M:%S.000Z')"
+          node scripts/build-reviewer-package.mjs \
+            --source-root . \
+            --output dist/shengnong-reviewer-package \
+            --commit "$GITHUB_SHA" \
+            --timestamp "$generated_at"
+          (
+            cd dist
+            zip -qr "$RELEASE_ASSET" shengnong-reviewer-package
+          )
+          unzip -t "dist/$RELEASE_ASSET"
+          sha256sum "dist/$RELEASE_ASSET"
+
+      - name: Update the stable release tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          git tag --force "$RELEASE_TAG" "$GITHUB_SHA"
+          git push --force origin "refs/tags/$RELEASE_TAG"
+
+      - name: Publish the reviewer package
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release edit "$RELEASE_TAG" \
+              --title "$RELEASE_TITLE" \
+              --notes-file .github/reviewer-release-notes.md \
+              --latest
+            gh release upload "$RELEASE_TAG" "dist/$RELEASE_ASSET#评委交付包" --clobber
+          else
+            gh release create "$RELEASE_TAG" "dist/$RELEASE_ASSET#评委交付包" \
+              --verify-tag \
+              --title "$RELEASE_TITLE" \
+              --notes-file .github/reviewer-release-notes.md \
+              --latest
+          fi
+
+      - name: Verify published metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(gh release view "$RELEASE_TAG" --json isDraft --jq '.isDraft')" = "false"
+          test "$(gh release view "$RELEASE_TAG" --json isPrerelease --jq '.isPrerelease')" = "false"
+          test "$(gh release view "$RELEASE_TAG" --json assets --jq '.assets | length')" -eq 1
+          test "$(gh release view "$RELEASE_TAG" --json assets --jq '.assets[0].name')" = "$RELEASE_ASSET"
