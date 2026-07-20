@@ -26,6 +26,7 @@ async function createFixture(t) {
   await writeFile(path.join(source, '圣农经营智能中枢_完整方案母稿.pdf'), 'full-pdf');
   await writeFile(path.join(source, 'docs', '圣农经营智能中枢_完整方案母稿.md'), '# Full plan\n');
   await writeFile(path.join(source, 'index.html'), '<!doctype html><title>Demo</title>');
+  await writeFile(path.join(source, '圣农经营智能中枢_Aily叙事副本.js'), 'console.log("narrative");\n');
   await writeFile(path.join(source, 'shengnong-nodes', 'app.js'), 'console.log("demo");\n');
   await writeFile(path.join(source, 'docs', 'superpowers', 'internal.md'), 'internal');
   await writeFile(path.join(source, 'tests', 'internal.test.mjs'), 'internal');
@@ -57,6 +58,7 @@ test('builds a complete reviewer-only package with a traceable manifest', async 
     '03-圣农经营智能中枢_完整方案母稿.pdf',
     '04-圣农经营智能中枢_完整方案母稿.md',
     'demo/index.html',
+    'demo/圣农经营智能中枢_Aily叙事副本.js',
     'demo/shengnong-nodes/app.js',
     'manifest.json',
   ];

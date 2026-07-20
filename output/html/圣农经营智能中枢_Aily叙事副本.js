@@ -55,7 +55,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
   }
 
   const stageDefinitions = [
-    ['agent-config', '04', 'AILY RUNTIME', '飞书 Aily：唯一 Agent 运行时', '接收可信异常点后，按统一事件受理 Skill 运行有界查询循环；证据不足时并行调用领域工具与责任人补数，直到形成决策就绪事件包或明确转人工。', ['有界 while 循环', '领域 MCP', '结构化事件包'], 'stage-agent'],
+    ['agent-config', '04', 'AILY RUNTIME', '飞书 Aily：唯一 Agent 运行时', '接到待调查信号后，Aily 按企业经验由点及面逐级调查；查清就停，查不清再扩大。形成调查结果后，再加载领域 Skill 组织方案并形成决策就绪包。', ['逐级调查循环', '受控 MCP 查询', '企业经验 Skill 化'], 'stage-agent'],
     ['price-case', '05', 'HUMAN DECISION', '人工决策与方案审批', 'Agent 围绕一个价格异常逐级调查并组织多情景方案，但价格、存栏、产能和市场进入决策必须由管理层批准，批准后才允许拆解任务和写回。', ['多方案比较', 'approval_id', '禁止自动拍板'], 'stage-human'],
     ['milestones', '06', 'MILESTONE GATE', '里程碑质量门', '任务下达不等于立即验收。系统先读取 SAP、TMS、WMS、POS 的正式状态，达到业务节点并越过宽限期后，才运行相应质量检测。', ['源状态映射', '宽限窗口', '后置检测'], 'stage-human'],
     ['coaching', '07', 'OWNER ENABLEMENT', '责任到人与岗位辅导', '每项任务绑定负责人、截止时间、完成证据和追问入口。新人可在任务上下文中获得岗位职责、第一步、历史案例和升级路径，但仍对现场事实负责。', ['责任任务', '任务内追问', '案例有来源'], 'stage-human'],
@@ -85,26 +85,32 @@ append_evidence(event_id, evidence_ref)</pre></div>
 
   const nodes = {
     collection: {
-      route: '#node/collection', code: '01 / COLLECTION', title: '信息采集', phase: 'info', output: '原始数据',
-      summary: '从业务系统、飞书和合法外部来源取得经营事实，同时登记来源、时间、权限和质量状态。',
+      route: '#node/collection', code: '01', label: '信息采集', title: '最小信息触发', phase: 'info', output: '原始数据',
+      summary: '程序负责找异常，不负责下结论。源系统只需提供发现问题所需的关键字段，同时登记来源、时间、权限和质量状态。',
+      methods: ['最小信息清单', 'API / Webhook', '来源与时间登记'],
+      basis: '行业方法：只接收当前问题所需的信息；缺失、延迟和无权限分别标明，不把未知补成零。',
       next: 'transport', nextCondition: '带来源和时间的原始数据进入可靠传输',
       source: document.getElementById('collection'),
-      contract: [['输入', 'SAP、POS、CRM、WMS、飞书与合法外部市场的原始记录'], ['输出', 'source、entity、occurred_at、payload、quality、lineage、hash'], ['缺口', '无法取得的券承担方、审批版本和现场证明必须显式标记 unknown'], ['责任', '源系统负责人确认接口；业务人员只补现场证据，不改写原始记录']],
+      contract: [['输入', 'SAP、POS、CRM、WMS、飞书与合法外部市场的原始记录'], ['输出', '原始值、业务对象、发生时间、质量状态和来源追溯信息'], ['缺口', '无法取得的券承担方、审批版本和现场证明必须明确标为未知'], ['责任', '源系统负责人确认接口；业务人员只补现场证据，不改写原始记录']],
       technology: [['接口优先', 'API、Webhook、变更通知；无接口时才使用审计文件或受控轮询'], ['证据保真', '原始快照、schema version、payload hash、访问范围与采集时间同时保存'], ['外部市场', '合法公开源按来源白名单、频率、版权和质量等级进入'], ['实时触发', '到达即生成最小信号，确定性规则只负责暴露，不替 Agent 定性']],
       acceptance: [['可追溯', '任一字段都能回到原始系统、原始时间和原始版本'], ['不补零', '缺失、延迟和无权限分别标记，不把未知写成零'], ['最小权限', '采集账号只读取授权对象与字段'], ['租户事实', '接口名称、字段、频率和 owner 仍需圣农 IT E2E 验证']]
     },
     transport: {
-      route: '#node/transport', code: '02 / TRANSPORT', title: '可靠传输', phase: 'info', output: '可追溯原始记录',
-      summary: '通过企业已有接口和集成方式可靠搬运数据，处理重复、乱序和失败，不承担经营判断。',
+      route: '#node/transport', code: '02', label: '数据传输', title: '原始数据全程留痕', phase: 'info', output: '可追溯原始记录',
+      summary: '原始数据必须送得到、查得回。系统通过企业已有接口可靠传输数据，处理重复、乱序和失败，但不承担经营判断。',
+      methods: ['接口接入', '幂等与失败重试', '数据血缘'],
+      basis: '工程方法：重复数据只记一次，传输失败可以恢复，任何记录都能追溯到原系统和原时间。',
       next: 'foundation', nextCondition: '可追溯原始记录进入经营口径和信号登记',
       source: document.getElementById('transport'),
-      contract: [['输入', '带 hash、schema 与来源的原始证据包'], ['输出', '幂等、排序、可重放并附带 lineage 的标准证据流'], ['失败', '重试、死信、补偿和人工重放状态必须可见'], ['边界', 'AnyCross 是集成通道，不是事实库、语义层或规则引擎']],
-      technology: [['接入网关', 'API Gateway、Webhook Receiver、SFTP、受控 CDC 与内网代理'], ['可靠传输', 'idempotency key、重试退避、死信队列、顺序键与限流'], ['数据合同', 'schema registry、版本兼容、敏感字段脱敏与质量标记'], ['可观测性', '延迟、吞吐、失败率、重放次数与 lineage 全链路记录']],
+      contract: [['输入', '带内容校验值、数据格式版本和来源信息的原始数据包'], ['输出', '去重、有序、可重新传输，并能追溯来源、时间和版本的标准记录'], ['失败', '重试、异常暂存、恢复和人工重放状态必须可见'], ['边界', 'AnyCross 是集成通道，不是事实库、语义层或规则引擎']],
+      technology: [['接入网关', 'API、Webhook、SFTP、受控 CDC 与内网代理'], ['可靠传输', '唯一标识、失败重试、异常暂存、顺序控制与限流'], ['数据格式管理', '格式版本兼容、敏感字段脱敏与质量标记'], ['全程可追溯', '记录延迟、吞吐、失败、重放，以及每个字段的来源、时间和版本']],
       acceptance: [['幂等', '相同证据重复送达不会生成两个经营事实'], ['可重放', '失败批次可以按 event_id 和时间窗重放'], ['不判断', '传输故障不得被解释为经营异常'], ['租户事实', '连接器、吞吐、重试上限和 SLA 必须在目标租户验证']]
     },
     foundation: {
-      route: '#node/foundation', code: '03 / EVIDENCE & SIGNAL', title: '经营证据与信号', phase: 'info', output: '待调查经营事件',
-      summary: '统一经营对象、业务口径、合法例外和判断条件，区分数据问题与值得调查的经营信号。',
+      route: '#node/foundation', code: '03', label: '语义与信号', title: '企业经营语义层', phase: 'info', output: '待调查经营事件',
+      summary: '先统一业务语言，再让 Agent 调查。系统把不同来源的字段翻译成统一的经营对象、指标口径、合法例外和判断规则。',
+      methods: ['企业经营语义层', '规则引擎', '暗知识管理'],
+      basis: '行业共识：先定义企业的业务概念，再映射 SAP、POS 等系统字段；语义、规则和例外都要持续治理。',
       next: 'aily', nextCondition: '统一口径的待调查经营事件交给 Aily 智能研判',
       source: document.getElementById('foundation'),
       contract: [['输入', '可重放的标准证据流和主数据映射'], ['输出', '统一对象、暗知识、规则版本、event_id 与受控动作'], ['语义', 'SKU、门店、区域、到手价、库存、活动、里程碑和责任链统一命名'], ['状态', '事件调查、审批、任务、回读、关闭与重开跨天保存']],
@@ -112,26 +118,32 @@ append_evidence(event_id, evidence_ref)</pre></div>
       acceptance: [['业务概念优先', 'Agent 查询业务工具，不直接理解物理表和字段'], ['版本化', '语义、规则、模型和动作声明均有版本与回归样本'], ['可复算', '相同输入、版本和参数得到相同结果'], ['长期治理', '业务 owner、数据 owner 与 AI owner 共同处理语义变更']]
     },
     aily: {
-      route: '#node/aily', code: '04 / AILY INVESTIGATION', title: 'Aily 智能研判', phase: 'agent', output: '决策就绪材料',
-      summary: '按照企业经验从最小范围开始调查；现有证据解释不了问题时，才扩大范围并继续补证。',
-      next: 'decision', nextCondition: '决策就绪材料进入管理审批与授权',
+      route: '#node/aily', code: '04', label: 'Aily 智能研判', title: '由点及面的逐级调查', phase: 'agent', output: '决策就绪包',
+      summary: '查清就停，查不清再扩大。Aily 按企业经验从单店开始调查，形成调查结果后，再加载领域 Skill 组织方案。',
+      methods: ['统一受理 Skill', '领域 Skill', '受控 MCP 查询'],
+      basis: '行业方法：把老员工经验沉淀成可调用的 Skill；Agent 通过授权工具调查，过程和引用都能检查。',
+      next: 'decision', nextCondition: '调查结果与领域 Skill 生成的方案合并为决策就绪包，进入管理审批',
       source: document.getElementById('agent-config'),
       contract: [['输入', 'event_id、最小异常信号、可见范围与当前语义版本'], ['输出', '事实、未知、原因假设、影响、方案、约束和引用组成的决策就绪包'], ['循环', '局部 → 区域 → 跨域 → 战略；每轮只查询区分当前假设所需的最小证据'], ['并行补数', '系统查询与飞书责任人请求并行，缺失字段、已读状态和预计时间透明']],
-      technology: [['统一受理 Skill', '读取已知/未知、建立互斥假设、选择调查等级和停止条件'], ['领域 Skill', '价格、库存、渠道、供应链和市场风险采用不同处理方法'], ['五域 MCP', '销售、供应、生产、财务/风险、组织知识均通过权限网关查询'], ['中间态', '调查计划、证据请求、事件包版本和工具结果可检查、可回滚']],
-      acceptance: [['有界运行', '达到证据门槛、预算/时间上限或权限阻塞时必须停止'], ['引用事实', '每个结论引用来源、时间、口径和质量状态'], ['不直连', 'Agent 不直接访问数据库，不绕过 MCP 权限与审计'], ['不拍板', '价格、存栏、产能和市场进入只形成方案，不自动批准']]
+      technology: [['统一受理 Skill', '读取已知和未知，按企业经验选择下一项调查'], ['领域 Skill', '价格、库存、渠道、供应链和市场风险采用不同处理方法'], ['受控 MCP 查询', '销售、供应、生产、财务、风险和组织知识均通过权限网关查询'], ['过程留痕', '调查计划、补充信息请求、事件包版本和工具结果都能检查和回看']],
+      acceptance: [['调查有停止条件', '原因查清、达到时间或费用上限、权限受阻时必须停止'], ['引用事实', '每个结论引用来源、时间、口径和质量状态'], ['不直连', 'Agent 不直接访问数据库，不绕过 MCP 权限与审计'], ['不拍板', '价格、存栏、产能和市场进入只形成方案，不自动批准']]
     },
     decision: {
-      route: '#node/decision', code: '05 / MANAGEMENT APPROVAL', title: '管理审批与授权', phase: 'execute', output: '经批准的正式决策版本',
-      summary: '管理者同时查看事实、缺口、方案、代价和恢复办法，决定批准、修改还是驳回。',
+      route: '#node/decision', code: '05', label: '管理审批', title: '人机协同决策', phase: 'execute', output: '经批准的正式决策版本',
+      summary: 'Agent 给选择，管理层来拍板。管理者同时查看事实、缺口、方案、代价和恢复办法，决定批准、修改还是驳回。',
+      methods: ['决策就绪包', '审批权限校验', '决策版本管理'],
+      basis: '管理原则：Agent 负责把事实和方案准备完整；价格、库存、存栏、产能和市场进入仍由有权管理者批准。',
       next: 'execution', nextCondition: '有效的正式决策版本进入责任执行',
       source: document.getElementById('price-case'),
-      contract: [['输入', '决策就绪材料、备选方案、影响范围、预算、停止条件和恢复办法'], ['输出', 'approval_id、decision_version、适用对象、批准人、生效期和执行授权'], ['分支', '批准进入执行；修改或驳回返回调查与方案环节'], ['边界', '所有存栏、产能、价格、库存和市场进入决策必须由管理层批准']],
+      contract: [['输入', '决策就绪包、备选方案、影响范围、预算、停止条件和恢复办法'], ['输出', 'approval_id、decision_version、适用对象、批准人、生效期和执行授权'], ['分支', '批准进入执行；修改或驳回返回调查与方案环节'], ['边界', '所有存栏、产能、价格、库存和市场进入决策必须由管理层批准']],
       technology: [['审批页面', '事实、推断、未知信息、方案比较和风险边界同屏呈现'], ['权限校验', '校验审批人、法人范围、代理关系、预算和适用对象'], ['版本控制', '参数变化或材料过期后不得沿用旧 approval_id'], ['审计恢复', '保留修改、驳回、批准理由、停止条件和恢复办法']],
       acceptance: [['不自动拍板', '系统只组织材料和生成草案，不替管理层承担决策责任'], ['证据不足可见', '缺失信息会改变方案选择时，限制可批准动作'], ['范围明确', '对象、数量、预算、时间和权限均可检查'], ['可恢复', '每个批准方案都包含停止条件和恢复办法']]
     },
     execution: {
-      route: '#node/execution', code: '06 / RESPONSIBLE EXECUTION', title: '责任执行与岗位指导', phase: 'execute', output: '责任任务',
-      summary: '把批准内容拆成负责人、配合人、前置关系、完成标准和升级路径，并在任务内提供岗位指导。',
+      route: '#node/execution', code: '06', label: '责任执行', title: '责任到岗，任务到人', phase: 'execute', output: '责任任务',
+      summary: '决策不是一条通知，而是一组可以验收的责任任务。系统明确负责人、配合人、前置关系、完成标准和升级路径。',
+      methods: ['任务工作流', '责任与权限目录', '岗位辅导 Skill'],
+      basis: '组织方法：任务既交付责任，也交付完成任务所需的职责说明、企业制度和已验证案例。',
       next: 'milestone', nextCondition: '责任任务及其完成依据进入业务里程碑跟踪',
       source: document.getElementById('coaching'),
       contract: [['输入', '有效审批、业务任务模板、组织和权限目录'], ['输出', 'task_id、负责人、配合人、依赖、截止时间、完成标准和升级路径'], ['协作', '跨部门事项经权限校验后建事件群；单人任务只下发任务卡'], ['岗位指导', '责任人可选择“我是新入职人员”，查看职责、步骤、审核案例和求助对象']],
@@ -139,8 +151,10 @@ append_evidence(event_id, evidence_ref)</pre></div>
       acceptance: [['责任到人', '每项任务都有负责人、完成标准、截止时间和升级对象'], ['权限一致', '指导不会扩大岗位的查询或写入权限'], ['来源可查', '岗位建议引用制度或已审核案例，不临时编造规程'], ['事实归位', '群聊用于协作，正式事实仍以授权业务系统为准']]
     },
     milestone: {
-      route: '#node/milestone', code: '07 / BUSINESS MILESTONE', title: '业务里程碑与验收', phase: 'execute', output: '阶段验收',
-      summary: '先等待业务系统确认任务已经走到正确节点，再在企业认可的时间之后检查执行质量。',
+      route: '#node/milestone', code: '07', label: '业务节点验收', title: '按业务节点验收', phase: 'execute', output: '阶段验收',
+      summary: '任务到节点再验收，不提前判失败。系统先等待正式业务状态到达，再在企业认可的时间之后检查执行质量。',
+      methods: ['业务状态映射', '宽限时间', '节点到达后检查'],
+      basis: '管理原则：以 SAP、WMS、TMS、POS 等正式状态判断进度，运输中和登记中只监测，不提前报错。',
       next: 'risk', nextCondition: '阶段验收和执行证据进入结果校准与风险预判',
       source: document.getElementById('milestones'),
       contract: [['输入', '责任任务、正式业务状态、预计时长、宽限期和完成证据'], ['输出', 'milestone_id、阶段验收、进度阻塞、质量异常或重新执行要求'], ['顺序', 'SAP 发运 → TMS 到货 → 门店登记 → 上架或 POS 首销 → 价签与成交价'], ['原则', '节点未到只监测进度；节点到达并超过宽限期后才检查质量']],
@@ -148,8 +162,10 @@ append_evidence(event_id, evidence_ref)</pre></div>
       acceptance: [['零提前误报', '货物仍在运输或登记时不得报告未上架、未标价'], ['正式状态', '不以群聊回复代替 SAP/TMS/WMS/POS 等正式状态'], ['历史完整', '状态回退、取消、重派和人工修正均可追溯'], ['待企业核实', '真实状态码、宽限期、例外和负责人必须由业务确认']]
     },
     risk: {
-      route: '#node/risk', code: '08 / OUTCOME & RISK', title: '结果校准与风险预判', phase: 'risk', output: '经营结果',
-      summary: '用执行后的新数据判断经营目标是否改善，并把多区域变化传导到库存、生产、存栏和市场选择。',
+      route: '#node/risk', code: '08', label: '结果校准', title: '结果回读与自动复查', phase: 'risk', output: '经营结果',
+      summary: '结果不好就重新调查。系统用执行后的新数据判断经营目标是否改善，并把多区域变化传导到库存、生产和市场选择。',
+      methods: ['结果指标回读', '同口径对比', '关闭 / 升级 / 重开'],
+      basis: '闭环方法：不能用“任务已完成”代替“经营目标已改善”；新数据不支持原判断时必须重新调查。',
       next: 'review', nextCondition: '已关闭且结果验证完整的经营事件进入管理复盘',
       source: feedbackSource,
       contract: [['输入', '阶段验收、批准目标、基准、观察周期和新的经营数据'], ['输出', '关闭、继续观察、恢复、重开或重新审批，以及多情景风险建议'], ['结果', '读取价格、销量、毛利、库存、回款、退货和投诉，不以任务完成替代目标达成'], ['传导', '多区域降价、滞销和库存上升联动需求、生产、存栏、产能和海外市场分析']],
@@ -157,8 +173,10 @@ append_evidence(event_id, evidence_ref)</pre></div>
       acceptance: [['结果导向', '经营指标达到批准目标才允许关闭'], ['多情景', '同时展示假设、置信范围、敏感性和未知信息'], ['先可恢复', '长期调整前优先采用有停止条件和恢复办法的措施'], ['不越权', '价格、库存、存栏、产能和市场进入仍由管理层批准']]
     },
     review: {
-      route: '#node/review', code: '09 / MANAGEMENT REVIEW', title: '管理复盘与持续改进', phase: 'feedback', output: '管理改进',
-      summary: '从多个合格事件中识别可能重复出现的管理短板，再由管理层决定是否改制度、流程或经营知识。',
+      route: '#node/review', code: '09', label: '管理复盘', title: '经验反哺规则和 Skill', phase: 'feedback', output: '管理改进',
+      summary: '有效经验才沉淀成企业方法。系统从多个已验证事件中识别重复短板，再由管理层决定是否更新制度、流程、规则和 Skill。',
+      methods: ['合格事件分批', '反例与其他解释', '规则 / Skill 版本治理'],
+      basis: '治理方法：没有稳定规律就不强行归纳；只有管理层批准的经验，才能更新为新的企业规则和 Skill。',
       next: 'foundation', nextCondition: '批准后的新口径和判断条件回流节点 03，并同步更新节点 04 的调查方法',
       source: feedbackSource,
       contract: [['输入', '同领域十个已关闭、结果已验证、证据完整且按根因去重的事件'], ['输出', '零个或多个管理问题候选、反例、替代解释、改进选项和管理层报告'], ['改进', '管理层批准后形成改进任务，并用后续批次检查问题是否减少'], ['回流', '新版口径、判断条件、业务处置模板和案例反馈到节点 03 和 04']],
@@ -213,7 +231,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
     if (!button || !nodes[nodeId]) return;
     const number = String(routeOrder.indexOf(nodeId) + 1).padStart(2, '0');
     const suffix = Number.isFinite(progress) ? `，本节点阅读进度 ${progress}%` : '';
-    button.setAttribute('aria-label', `${number} ${nodes[nodeId].title}${suffix}`);
+    button.setAttribute('aria-label', `${number} ${nodes[nodeId].label}：${nodes[nodeId].title}${suffix}`);
   };
 
   const sceneAtReadingLine = scenes => {
@@ -381,8 +399,17 @@ append_evidence(event_id, evidence_ref)</pre></div>
     stopAilyNarrative();
     const scenes = [...panels.flow.querySelectorAll('[data-aily-scene]')];
     if (!scenes.length) return;
+    const narrative = scenes[0].closest('.aily-narrative');
+    scenes.forEach(scene => scene.classList.remove('is-seen', 'is-entering'));
+    narrative?.classList.add('is-motion-ready');
+    const enterOnce = scene => {
+      if (scene.classList.contains('is-seen')) return;
+      scene.classList.add('is-seen', 'is-entering');
+      window.setTimeout(() => scene.classList.remove('is-entering'), 820);
+    };
     const activate = scene => {
       scenes.forEach(item => item.classList.toggle('is-active', item === scene));
+      enterOnce(scene);
       app.dataset.activeAilyScene = scene.dataset.ailyScene;
       updateAilyCaseThread(scene);
     };
@@ -405,7 +432,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
     const labels = definition.statusLabels || ['当前处理', '已经确认', '仍然未知', '下一步'];
     narrative.innerHTML = `
       <div class="sn-case-thread" aria-label="当前节点处理状态">
-        <div class="sn-case-id"><div><span>PROCESS OBJECT</span><b>${definition.caseId}</b></div></div>
+        <div class="sn-case-id"><div><span>同一个案例贯穿全程</span><b>${definition.caseId}</b><small>门店实付 24.9 元 / 统一价盘 29.9 元</small></div></div>
         ${labels.map((label, index) => `<div class="sn-case-state"><span>${label}</span><b data-sn-state="${['current', 'confirmed', 'unknown', 'next'][index]}">—</b></div>`).join('')}
       </div>
       <div class="sn-scenes">
@@ -414,7 +441,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
             data-state-current="${scene.current}" data-state-confirmed="${scene.confirmed}"
             data-state-unknown="${scene.unknown}" data-state-next="${scene.next}">
             <header class="sn-scene-head sn-reveal">
-              <span class="sn-scene-code">${scene.number} / ${scene.code}</span>
+              <span class="sn-scene-code">步骤 ${scene.number}</span>
               <h3>${scene.title}</h3>
               <p>${scene.description}</p>
             </header>
@@ -422,7 +449,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
           </section>`).join('')}
       </div>
       <div class="sn-handoff">
-        <div><small>HANDOFF / 本节点正式交付</small><h3>${definition.handoff.output}</h3><p>${definition.handoff.condition}</p></div>
+        <div><small>本节点正式交付</small><h3>${definition.handoff.output}</h3><p>${definition.handoff.condition}</p></div>
         <code>→ ${nodes[definition.handoff.nextId]?.title || definition.handoff.nextId}</code>
       </div>`;
     return narrative;
@@ -483,8 +510,17 @@ append_evidence(event_id, evidence_ref)</pre></div>
     stopGenericNarrative();
     const scenes = [...panels.flow.querySelectorAll('[data-sn-scene]')];
     if (!scenes.length) return;
+    const narrative = scenes[0].closest('.sn-narrative');
+    scenes.forEach(scene => scene.classList.remove('is-seen', 'is-entering'));
+    narrative?.classList.add('is-motion-ready');
+    const enterOnce = scene => {
+      if (scene.classList.contains('is-seen')) return;
+      scene.classList.add('is-seen', 'is-entering');
+      window.setTimeout(() => scene.classList.remove('is-entering'), 720);
+    };
     const activate = scene => {
       scenes.forEach(item => item.classList.toggle('is-active', item === scene));
+      enterOnce(scene);
       app.dataset.activeNarrativeScene = scene.dataset.snScene;
       updateGenericThread(scene);
     };
@@ -560,12 +596,18 @@ append_evidence(event_id, evidence_ref)</pre></div>
     }
     const phaseColor = { info: 'blue', agent: 'orange', execute: 'violet', risk: 'amber', feedback: 'green' }[node.phase];
     app.style.setProperty('--active-color', `var(--route-${phaseColor})`);
-    app.querySelector('[data-node-code]').textContent = node.code;
+    app.querySelector('[data-node-code]').textContent = `节点 ${node.code} / ${node.label}`;
     app.querySelector('[data-node-title]').textContent = node.title;
     app.querySelector('[data-node-summary]').textContent = node.summary;
     app.querySelector('[data-node-output]').textContent = node.output;
+    app.querySelector('[data-node-methods]').replaceChildren(...node.methods.map(method => {
+      const item = document.createElement('span');
+      item.textContent = method;
+      return item;
+    }));
+    app.querySelector('[data-node-basis]').textContent = node.basis;
     app.querySelector('[data-node-output-copy]').textContent = isAilyNarrative
-      ? '本节点从决策底座的结构化事件包开始，逐幕呈现有界调查循环，并在最终一幕交付给人工决策。'
+      ? '本节点从待调查经营信号开始，先由点及面查清问题，再加载领域 Skill 组织方案，最终形成管理层可以直接审阅的决策就绪包。'
       : '本页产物是下一节点的正式输入，九个页面共同构成一条连续的经营数据与责任链。';
     if (isAilyNarrative) {
       const template = document.getElementById('aily-narrative-template');
@@ -574,7 +616,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
       panels.flow.replaceChildren(renderGenericNarrative(genericDefinition));
     } else panels.flow.replaceChildren(node.source);
     app.querySelector('[data-next-condition]').textContent = node.nextCondition;
-    app.querySelector('[data-action="next"]').textContent = `进入${nodes[node.next].title} →`;
+    app.querySelector('[data-action="next"]').textContent = `进入${nodes[node.next].label} →`;
     selectTab('flow');
     if (isAilyNarrative) window.requestAnimationFrame(initAilyNarrative);
     if (isGenericNarrative && !genericSceneObserver) window.requestAnimationFrame(initGenericNarrative);
@@ -623,7 +665,7 @@ append_evidence(event_id, evidence_ref)</pre></div>
     stopContactMotion();
     app.dataset.view = 'detail';
     renderNode(route.nodeId);
-    document.title = `${nodes[route.nodeId].title} · 圣农经营智能中枢`;
+    document.title = `${nodes[route.nodeId].label} · ${nodes[route.nodeId].title} · 圣农经营智能中枢`;
     completeRoute(app.querySelector('[data-node-title]'));
   };
 

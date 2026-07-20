@@ -2,7 +2,7 @@ window.ShengnongNodeNarratives = window.ShengnongNodeNarratives || {};
 
 window.ShengnongNodeNarratives.risk = {
   id: 'risk',
-  caseId: 'RESULT-CHECK-001',
+  caseId: 'PRICE-0249',
   bridge: {
     from: '阶段验收',
     to: '执行结果、经营数据和外部市场变化'
@@ -13,18 +13,18 @@ window.ShengnongNodeNarratives.risk = {
       id: 'outcome-gate',
       number: '01',
       code: 'OUTCOME GATE',
-      title: '任务完成不等于经营目标达成',
-      description: '价签已更换、任务已关单，不等于消费者实付价正确，更不等于销量、库存和毛利已经改善。节点 08 从阶段验收继续追到经营结果。',
-      current: '接收阶段验收和批准方案',
-      confirmed: '责任动作已有完成证据',
-      unknown: '经营目标是否真正达成',
-      next: '读取观察期内的经营指标',
+      title: '价签改完了，还要确认经营结果',
+      description: 'PRICE-0249 已完成门店整改并通过里程碑验收，但任务关单不等于问题结束。系统继续回读实付价、销量、库存和投诉，确认价格是否恢复、销量是否受损、库存是否积压。',
+      current: '接收 PRICE-0249 的验收结果',
+      confirmed: '门店已完成批准的价格整改',
+      unknown: '价格、销量、库存和投诉是否恢复',
+      next: '按批准的观察窗口回读四类结果',
       visual: 'outcome-gate',
       body: `<div class="sn-outcome-gate" aria-label="任务完成与经营目标达成的区别">
         <div class="sn-gate-track">
-          <div class="sn-gate-step is-confirmed"><span>01 / 责任动作</span><b>任务已提交完成证据</b><small>verified：只确认动作完成</small></div>
+          <div class="sn-gate-step is-confirmed"><span>01 / PRICE-0249</span><b>门店价格整改已验收</b><small>verified：只确认动作完成</small></div>
           <div class="sn-gate-divider" aria-hidden="true"><span>不等于</span></div>
-          <div class="sn-gate-step is-pending"><span>02 / 经营结果</span><b>目标是否改善仍待回读</b><small>unknown：不能用关单代替结果</small></div>
+          <div class="sn-gate-step is-pending"><span>02 / 经营结果</span><b>价格、销量、库存、投诉待回读</b><small>unknown：不能用关单代替结果</small></div>
         </div>
         <p class="sn-boundary-note"><strong>方案演示 / 待企业核实：</strong>观察周期、目标区间、停止条件和恢复办法应随批准方案一并登记。</p>
       </div>`
@@ -33,21 +33,18 @@ window.ShengnongNodeNarratives.risk = {
       id: 'metric-readback',
       number: '02',
       code: 'READBACK',
-      title: '把八类结果放回同一个观察窗口',
-      description: '系统按批准的时间读取价格、销量、毛利、库存、回款、退货、投诉和任务证据；未取得的数据明确标注缺失，不能当作零。',
-      current: '按观察周期读取八类结果',
-      confirmed: '指标清单和任务证据已关联',
-      unknown: '目标租户的数据完整度与实际口径',
-      next: '统一口径后建立可比基准',
+      title: '沿着同一事件回读四类关键结果',
+      description: '系统用 PRICE-0249 的 event_id 拉回同一观察窗口内的门店实付价、销量、库存和投诉；取不到的数据标为缺失，绝不能把缺失写成零。',
+      current: '回读价格、销量、库存和投诉',
+      confirmed: '四类结果已与 PRICE-0249 关联',
+      unknown: '缺失数据和指标口径是否影响判断',
+      next: '把本次结果与批准基准作同口径比较',
       visual: 'metric-readback',
       body: `<div class="sn-metric-readback" aria-label="经营结果指标回读">
         <div class="sn-metric-strip">
           <span><small>PRICE</small><b>价格</b></span>
           <span><small>VOLUME</small><b>销量</b></span>
-          <span><small>MARGIN</small><b>毛利</b></span>
           <span><small>STOCK</small><b>库存</b></span>
-          <span><small>CASH</small><b>回款</b></span>
-          <span><small>RETURN</small><b>退货</b></span>
           <span><small>VOICE</small><b>投诉</b></span>
           <span><small>PROOF</small><b>任务证据</b></span>
         </div>
@@ -60,15 +57,15 @@ window.ShengnongNodeNarratives.risk = {
       id: 'calibrated-comparison',
       number: '03',
       code: 'CALIBRATE',
-      title: '只和真正可比的结果作比较',
-      description: '试点结果要与同口径基准、对照区域或历史季节性比较。核算方法、并表范围或渠道库存不可见时，页面必须保留限制条件。',
-      current: '校准基准、对照区域和季节性',
-      confirmed: '不同口径不能直接比较',
-      unknown: '变化来自执行、季节还是核算范围',
-      next: '检查是否出现跨区域联动风险',
+      title: '先判断 PRICE-0249 是否真的恢复',
+      description: '把整改后的实付价、销量、库存和投诉与批准时基准、相近门店和历史同期比较。口径不一致或渠道库存不可见时，只能给出部分结论。',
+      current: '比较整改前后与相近门店结果',
+      confirmed: '价格已恢复不代表其余指标同步改善',
+      unknown: '销量和库存变化来自整改还是季节波动',
+      next: '判断事件应关闭、重开还是扩大风险调查',
       visual: 'calibrated-comparison',
       body: `<div class="sn-comparison-board" aria-label="基准对照与季节性比较">
-        <div class="sn-comparison-input"><span>本次试点</span><b>观察期结果</b><small>口径 v? / 待企业确认</small></div>
+          <div class="sn-comparison-input"><span>PRICE-0249</span><b>整改后四项结果</b><small>口径 v? / 待企业确认</small></div>
         <div class="sn-comparison-axis" aria-hidden="true"><span>同口径校准</span></div>
         <div class="sn-comparison-set">
           <div><span>BASELINE</span><b>批准时基准</b><small>目标与停止条件</small></div>
@@ -82,16 +79,16 @@ window.ShengnongNodeNarratives.risk = {
       id: 'cross-domain-propagation',
       number: '04',
       code: 'PROPAGATE',
-      title: '多区域同时走弱，要沿经营链继续追',
-      description: '当多个区域持续出现降价、滞销和库存上升，问题可能从渠道传到生产、养殖和长期产能，也可能来自需求、口径或短期促销。系统同时展开多种解释，不给唯一答案。',
-      current: '分析多区域降价、滞销和库存上升',
-      confirmed: '销售变化需要跨领域联合判断',
-      unknown: '需求、渠道库存或其他解释谁更接近事实',
-      next: '测算短中长期多情景',
+      title: '一个门店异常，不能直接推断全国市场',
+      description: 'PRICE-0249 只能证明一个事件的结果。只有其他区域也持续出现降价、滞销、库存上升或投诉联动，系统才把调查从门店扩到区域和经营链；单一事件绝不能自动推出全国需求下降。',
+      current: '检查 PRICE-0249 是否存在风险外溢证据',
+      confirmed: '单一事件不足以判断全国市场',
+      unknown: '其他区域是否出现同向且可比的持续信号',
+      next: '有外溢证据则测算情景，没有则保留个案边界',
       visual: 'risk-propagation',
       body: `<div class="sn-risk-propagation" aria-label="多区域风险向生产存栏产能和海外市场传导">
         <div class="sn-signal-cluster">
-          <span>区域 A / 降价</span><span>区域 B / 滞销</span><span>区域 C / 库存上升</span>
+          <span>PRICE-0249 / 已核实</span><span>其他区域 / 待核实</span><span>全国需求 / 不可直接推断</span>
         </div>
         <div class="sn-propagation-path">
           <div><small>01</small><b>需求</b><span>真实消费是否放缓</span></div>
@@ -108,12 +105,12 @@ window.ShengnongNodeNarratives.risk = {
       id: 'scenario-governance',
       number: '05',
       code: 'SCENARIOS',
-      title: '先比较多种假设，再选择可恢复动作',
-      description: '预测展示多种假设、敏感性、置信范围和未知信息。面对长周期生产约束，优先采用限定范围、数量和时间的可恢复措施。',
-      current: '测算库存、毛利、现金流和供应风险',
-      confirmed: '预测只能支持决策，不能代替决策',
-      unknown: '计划周期、最小调整幅度和硬性合同',
-      next: '由管理层选择关闭、恢复或重新审批',
+      title: '出现外溢证据，才测算更大范围的风险',
+      description: '若多个可比区域出现同向变化，程序再测算价格、销量、库存、现金流和供应风险，并列出假设与未知信息。调整价格、库存、存栏、产能或市场进入仍必须交回管理层批准。',
+      current: '根据外溢证据比较短中长期情景',
+      confirmed: '测算只支持选择，不能替管理层拍板',
+      unknown: '信号会消退、持续还是传向供应链',
+      next: '形成关闭、重开或重新审批建议',
       visual: 'scenario-governance',
       body: `<div class="sn-scenario-governance" aria-label="多情景与可恢复措施">
         <div class="sn-scenario-table">
@@ -129,18 +126,18 @@ window.ShengnongNodeNarratives.risk = {
       id: 'result-routing',
       number: '06',
       code: 'ROUTE RESULT',
-      title: '把结果带着证据送往正确分支',
-      description: '结果改善则关闭并保留证据；无效或出现新风险，则恢复原方案、重开调查或重新审批。任何分支都保留受影响事件、任务和数据记录。',
-      current: '形成经营结果和风险处置建议',
-      confirmed: '关闭、恢复、重开和重新审批边界明确',
-      unknown: '改善能否在后续观察期持续',
-      next: '合格关单事件进入管理复盘候选池',
+      title: '让 PRICE-0249 进入有证据的处置分支',
+      description: '四项结果达到目标则关闭 PRICE-0249；整改无效或出现新原因则重开调查；重大方案需要改变则重新审批。只有关闭、结果已验证且证据完整的版本，才能进入管理复盘候选池。',
+      current: '为 PRICE-0249 选择结果分支',
+      confirmed: '关闭、重开和重新审批条件已有证据',
+      unknown: '改善能否跨过完整观察窗口',
+      next: '合格关闭后累计同类事件，未合格则继续原事件',
       visual: 'result-routing',
       body: `<div class="sn-result-routing" aria-label="经营结果四类处置分支">
         <div class="sn-result-origin"><span>经营结果</span><b>目标、基准、证据与未知信息</b></div>
         <div class="sn-result-branches">
           <div class="is-close"><small>CLOSE</small><b>关闭</b><span>达到批准目标并保留证据</span></div>
-          <div class="is-restore"><small>RESTORE</small><b>恢复</b><span>触发停止条件，采用恢复办法</span></div>
+          <div class="is-restore"><small>MONITOR</small><b>继续观察</b><span>证据不足，保留事件状态</span></div>
           <div class="is-reopen"><small>REOPEN</small><b>重开</b><span>新风险出现，扩大调查</span></div>
           <div class="is-reapprove"><small>REAPPROVE</small><b>重新审批</b><span>重大动作改变，回到管理层</span></div>
         </div>
@@ -149,7 +146,7 @@ window.ShengnongNodeNarratives.risk = {
     }
   ],
   handoff: {
-    output: '经营结果',
+    output: 'PRICE-0249 的经营结果与风险处置记录',
     nextId: 'review',
     condition: '事件已关闭、结果已验证、证据完整，并满足同领域管理复盘的资格标准'
   }
@@ -157,7 +154,7 @@ window.ShengnongNodeNarratives.risk = {
 
 window.ShengnongNodeNarratives.review = {
   id: 'review',
-  caseId: 'MRB-PILOT-001',
+  caseId: 'PRICE-0249',
   bridge: {
     from: '经营结果',
     to: '十个合格、去重、已验证的同领域事件'
@@ -168,16 +165,16 @@ window.ShengnongNodeNarratives.review = {
       id: 'eligibility',
       number: '01',
       code: 'ELIGIBILITY',
-      title: '先确认这十个事件是否真的合格',
-      description: '管理复盘只接收同一经批准业务领域中已关闭、结果已验证、证据完整的事件。事件数量达到十个只是开始，不自动证明存在普遍问题。',
-      current: '收集同领域已关闭事件',
-      confirmed: '资格标准由业务领域负责人批准',
-      unknown: '当前是否已有十个合格事件',
-      next: '校验资格、统一编号和关闭版本',
+      title: 'PRICE-0249 先进入候选池，不立刻上升为管理问题',
+      description: 'PRICE-0249 关闭且结果验证后，只成为第一个候选样本。管理复盘要等待同一业务领域累计十个已关闭、结果已验证、证据完整的事件；一个个案不能自动证明制度有问题。',
+      current: '登记 PRICE-0249 的合格关闭版本',
+      confirmed: 'PRICE-0249 已满足复盘候选资格',
+      unknown: '是否已累计十个同领域合格事件',
+      next: '继续累计并逐案校验资格',
       visual: 'review-eligibility',
       body: `<div class="sn-review-eligibility" aria-label="十个管理复盘事件资格检查">
         <div class="sn-case-counter">
-          <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span>
+          <span>PRICE-0249</span><span>02</span><span>03</span><span>04</span><span>05</span>
           <span>06</span><span>07</span><span>08</span><span>09</span><span>10</span>
         </div>
         <div class="sn-eligibility-gates">
@@ -193,16 +190,16 @@ window.ShengnongNodeNarratives.review = {
       id: 'deduplicate-and-seal',
       number: '02',
       code: 'DEDUPLICATE',
-      title: '按根因去重，再把批次封存',
-      description: '多条告警、任务或系统记录可能来自同一个根问题。服务端按统一事件编号去重，确认十个不同事件及其关闭版本后才形成批次。',
-      current: '执行资格、排序和根因去重',
-      confirmed: '同一事件不得重复计入不同批次',
-      unknown: '关闭版本是否仍满足资格规则',
-      next: '封存可审计的十案批次',
+      title: '同一价格事件只算一次',
+      description: 'PRICE-0249 产生过告警、整改任务、验收记录和结果回读，但它们都属于同一个根问题。服务端按统一事件编号去重，确认十个不同事件后才封存复盘批次。',
+      current: '对 PRICE-0249 及同类事件做根因去重',
+      confirmed: '告警、任务和重开记录不会重复计数',
+      unknown: '其余九个事件是否满足相同资格标准',
+      next: '封存十个合格且不同根因事件的批次',
       visual: 'batch-seal',
       body: `<div class="sn-batch-seal" aria-label="管理复盘批次去重与封存">
         <div class="sn-duplicate-stream">
-          <span>告警 A</span><span>任务 A-1</span><span>重开 A-2</span><span>事件 B</span><span>事件 C</span>
+          <span>PRICE-0249 告警</span><span>整改任务</span><span>验收记录</span><span>结果回读</span><span>其他事件</span>
         </div>
         <div class="sn-dedup-gate"><span>canonical_case_id</span><b>资格检查 + 去重 + 排序</b><small>由确定性服务执行，指令模板不能放宽约束</small></div>
         <div class="sn-sealed-batch"><span>BATCH / 01</span><b>十个不同根问题</b><small>事件关闭版本、资格规则版本和权限标签一并封存</small></div>
@@ -213,12 +210,12 @@ window.ShengnongNodeNarratives.review = {
       id: 'counterevidence',
       number: '03',
       code: 'COUNTEREVIDENCE',
-      title: '相似现象必须经得起反例挑战',
-      description: '十案比较背景、原因、处置和结果，同时寻找反例与替代解释。渠道、季节、口径或组织范围不同，都可能让“看起来相似”失去可比性。',
-      current: '比较十案的背景、原因、处置和结果',
-      confirmed: '反例和替代解释必须进入报告',
-      unknown: '是否存在稳定、可重复的共同问题',
-      next: '形成零个或多个管理问题候选',
+      title: '用另外九个事件检验 PRICE-0249 是否具有共性',
+      description: '十案比较价格异常的背景、根因、处置和结果，同时主动寻找没有复发的反例。渠道、季节、授权促销或组织范围不同，都可能让表面相似失去可比性。',
+      current: '比较 PRICE-0249 与九个同类合格事件',
+      confirmed: '反例和替代解释必须与支持证据并列',
+      unknown: '是否存在稳定、可重复的管理短板',
+      next: '有证据才形成候选，没有则报告无稳定规律',
       visual: 'counterevidence',
       body: `<div class="sn-counterevidence" aria-label="支持证据反例与替代解释">
         <div class="sn-evidence-columns">
@@ -234,12 +231,12 @@ window.ShengnongNodeNarratives.review = {
       id: 'candidate-issues',
       number: '04',
       code: 'CANDIDATES',
-      title: '复盘可以得出零个，也可以得出多个候选',
-      description: '候选问题可落在制度、流程、组织、系统、培训或风险管理，但它仍是待审议材料，不是既成事实。证据不稳定时，系统必须允许零候选。',
-      current: '归纳管理问题候选及证据边界',
-      confirmed: '候选数量允许为零个或多个',
-      unknown: '管理层是否认可问题、范围和改进选项',
-      next: '提交管理问题上报包',
+      title: '把重复根因写成候选，不把猜测写成结论',
+      description: '如果十案反复显示价盘口径、促销审批、门店执行或培训存在共同缺口，系统形成相应候选；证据不稳定时可以输出零候选。候选仍是待审议材料。',
+      current: '从十案中归纳重复根因和适用边界',
+      confirmed: '候选允许为零个或多个',
+      unknown: '共同缺口是否足以支持制度或流程调整',
+      next: '把证据、反例和改进选项提交管理层',
       visual: 'candidate-issues',
       body: `<div class="sn-candidate-issues" aria-label="零个或多个管理问题候选">
         <div class="sn-candidate-source"><span>十案复盘报告</span><b>证据 + 反例 + 替代解释 + 适用范围</b></div>
@@ -254,12 +251,12 @@ window.ShengnongNodeNarratives.review = {
       id: 'management-approval',
       number: '05',
       code: 'MANAGEMENT REVIEW',
-      title: '候选问题先由管理层审议',
-      description: '管理层可以批准试点、批准变更、要求修改、驳回或暂缓。只有批准分支才能形成改进任务，系统不能自行修改制度、流程或生产知识。',
-      current: '提交复盘报告和改进选项',
-      confirmed: '未取得管理审批不能进入执行',
-      unknown: '候选问题和试点方案将如何处置',
-      next: '把批准内容转成可验收改进任务',
+      title: '制度和流程怎么改，仍由管理层批准',
+      description: '系统可建议更新价格口径、促销审批、门店巡检或岗位指导，但不能自行改制度。管理层可以批准试点、要求修改、驳回或暂缓，只有批准分支才能形成改进任务。',
+      current: '提交 PRICE-0249 十案复盘与改进选项',
+      confirmed: '制度变更必须取得管理层批准',
+      unknown: '候选问题与试点范围将如何处置',
+      next: '把批准版本转成可验收的改进任务',
       visual: 'management-approval',
       body: `<div class="sn-management-approval" aria-label="管理问题候选审批分支">
         <div class="sn-dossier"><span>MANAGEMENT DOSSIER</span><b>候选问题、反例、替代解释、选项与验证条件</b><small>候选 != 已确认管理问题</small></div>
@@ -276,12 +273,12 @@ window.ShengnongNodeNarratives.review = {
       id: 'effectiveness-feedback',
       number: '06',
       code: 'VERIFY & FEEDBACK',
-      title: '让后续批次证明改进是否有效',
-      description: '批准后的改进进入执行和观察，但不能立刻宣称有效。只有达到企业批准的事件数、覆盖量、稳定观察时间和口径可比条件，后续批次才能验证效果。',
-      current: '观察改进任务和后续批次',
-      confirmed: '效果判断条件和知识回流路径已定义',
-      unknown: '后续证据是否足以证明问题减少',
-      next: '发布经验证的新知识并继续下一批复盘',
+      title: '把验证过的新口径和处理经验送回前端',
+      description: '批准后的改进先进入执行和观察，后续批次证明有效后，才把新版价格口径和异常判断条件回流节点 03，把 PRICE-0249 等已审核处理经验回流节点 04。',
+      current: '用后续批次验证改进是否减少同类问题',
+      confirmed: '03 接收新口径，04 接收已审核处理经验',
+      unknown: '后续证据是否达到批准的效果门槛',
+      next: '发布新版本并继续监测下一批事件',
       visual: 'effectiveness-feedback',
       body: `<div class="sn-effectiveness-feedback" aria-label="改进验证与经营知识回流">
         <div class="sn-effectiveness-path">
@@ -291,8 +288,8 @@ window.ShengnongNodeNarratives.review = {
           <div><small>04</small><b>发布知识</b><span>经 owner 审核并保留版本记录</span></div>
         </div>
         <div class="sn-feedback-targets">
-          <div><span>反馈至 03 / FOUNDATION</span><b>新版口径与判断条件</b></div>
-          <div><span>反馈至 04 / AILY</span><b>业务处置模板与已审核案例</b></div>
+          <div><span>反馈至 03 / FOUNDATION</span><b>新版价格口径与异常判断条件</b></div>
+          <div><span>反馈至 04 / AILY</span><b>PRICE-0249 等已审核处理经验</b></div>
         </div>
         <p class="sn-evidence-limit">未达到批准的判断条件时，只能写：<strong>“当前证据不足以判断改进效果”</strong>。这不是成功，也不是失败。</p>
       </div>`

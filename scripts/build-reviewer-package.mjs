@@ -69,6 +69,7 @@ async function main() {
     '圣农经营智能中枢_完整方案母稿.pdf',
     path.join('docs', '圣农经营智能中枢_完整方案母稿.md'),
     'index.html',
+    '圣农经营智能中枢_Aily叙事副本.js',
     'shengnong-nodes',
   ];
 
@@ -89,6 +90,7 @@ async function main() {
     ['圣农经营智能中枢_完整方案母稿.pdf', '03-圣农经营智能中枢_完整方案母稿.pdf'],
     [path.join('docs', '圣农经营智能中枢_完整方案母稿.md'), '04-圣农经营智能中枢_完整方案母稿.md'],
     ['index.html', path.join('demo', 'index.html')],
+    ['圣农经营智能中枢_Aily叙事副本.js', path.join('demo', '圣农经营智能中枢_Aily叙事副本.js')],
   ];
 
   for (const [source, destination] of copies) {

@@ -13,7 +13,7 @@ test('Aily 叙事包含八个业务场景', () => {
 });
 
 test('有界调查的四个出口与人工审批边界存在', () => {
-  for (const text of ['停止', '扩大', '等待补证', '转人工', 'approval_required']) assert.match(html, new RegExp(text));
+  for (const text of ['停止', '扩大', '信息暂时缺失 → 等待', '超出权限范围 → 转人工', 'approval_required']) assert.match(html, new RegExp(text));
 });
 
 test('副本脚本激活 Aily 场景并支持减弱动效', () => {
@@ -23,14 +23,14 @@ test('副本脚本激活 Aily 场景并支持减弱动效', () => {
 
 test('八幕使用业务人员能直接理解的中文动作标题', () => {
   for (const text of [
-    '接到问题',
-    '先列出可能原因',
+    '接到问题：先看清这一个价格差',
+    '先按企业经验排序，再逐一排除',
     '只查最能排除原因的一条信息',
     '把查到的证据放回问题档案',
     '系统查不到，就请责任人补充',
-    '证据支持时，才扩大调查范围',
-    '现在是否足够交给管理层',
-    '把事实、缺口和方案交给人决定'
+    '查清就停，查不清再扩大',
+    '先形成调查结果，再让领域 Skill 组织方案',
+    '把管理者拍板需要的内容放在同一份材料里'
   ]) assert.match(html, new RegExp(text));
 });
 
@@ -48,7 +48,7 @@ test('点线面查询循环具有完整的连续动画阶段', () => {
     assert.match(html, new RegExp(`data-loop-phase="${phase}"`));
   }
   assert.match(html, /@keyframes aily-loop-cycle/);
-  assert.match(html, /没有新证据，不扩大范围/);
+  assert.match(html, /没有新事实，不扩大范围/);
 });
 
 test('04 节点按钮反映 Aily 页面内部阅读进度', () => {
@@ -88,10 +88,10 @@ test('第 03 幕状态条与队首查询保持一致', () => {
 
 test('母稿中的调查资源上限、跨天续查和恢复条件进入可见叙事', () => {
   for (const text of [
-    '查询次数、总时长、可用工具、证据要求和费用上限',
+    '查询次数、总时长、可用工具、信息要求和费用上限',
     '收到新信息后再按 event_id 继续',
-    '何时停止、如何恢复',
-    '由可复算程序测算'
+    '停止条件和恢复办法',
+    '确定性程序负责测算'
   ]) assert.match(html, new RegExp(text));
 });
 
