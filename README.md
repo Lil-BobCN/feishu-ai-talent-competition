@@ -1,6 +1,6 @@
 # 飞书 AI 先锋未来人才大赛｜圣农零售经营智能中枢
 
-**评委审阅提示：请优先下载 [最新 Release 评委交付包](https://github.com/Lil-BobCN/feishu-ai-talent-competition/releases/download/reviewer-package/shengnong-reviewer-package.zip)，后续审阅及材料转交均以最新 Release 版本为准。**
+**评委审阅提示：请优先下载 [最新 Release 评委交付包](https://github.com/Lil-BobCN/feishu-ai-talent-competition/releases/download/reviewer-package/shengnong-reviewer-package.zip)，后续审阅及材料转交均以最新 Release 版本为准。**（以下内容除在线演示之外都是Release包的内容）
 
 本仓库集中提供选题依据、方案正文、验证材料、评委版文件和可复现演示。
 公开网页 Demo 已发布在本仓库的 `gh-pages` 分支；主分支同时保留网站源文件和评委材料，方便一次性审阅。
