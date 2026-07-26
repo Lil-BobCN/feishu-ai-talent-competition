@@ -109,17 +109,32 @@ test('homepage is self-contained and no longer references the archived site asse
   await access(new URL('../assets/sunner-logo-red.png', import.meta.url));
 });
 
-test('welcome gate shows once per browser and lifts away on enter', () => {
+test('welcome gate uses paper style with checkbox-gated enter and staggered rise', () => {
   assert.match(homepage, /<div id="welcome-gate" hidden>/);
-  assert.match(homepage, /id="gate-enter"[^>]*>我已知晓，进入网站 →/);
+  assert.match(homepage, /#welcome-gate \{[^}]*background: #fff/);
+  assert.doesNotMatch(homepage, /#welcome-gate \{[^}]*backdrop-filter/);
+  assert.match(homepage, /<input type="checkbox" id="gate-agree">/);
+  assert.match(homepage, /我已阅读并知晓以上说明/);
+  assert.match(homepage, /<button class="gate-btn" id="gate-enter" type="button" disabled>进入网站 →<\/button>/);
+  assert.match(homepage, /\.gate-btn:disabled \{ opacity: \.35; cursor: not-allowed; \}/);
+  assert.match(homepage, /enter\.disabled = !agree\.checked/);
+  assert.match(homepage, /if \(enter\.disabled\) return;/);
+  assert.match(homepage, /\.gate-card > \* \{ animation: gateRise \.56s/);
+  assert.match(homepage, /@keyframes gateRise \{ from \{ opacity: 0; transform: translateY\(14px\); \}/);
+  assert.match(homepage, /\.gate-card > \*:nth-child\(n\+9\) \{ animation-delay: \.74s; \}/);
   assert.match(homepage, /本说明每个浏览器只出现一次/);
+});
+
+test('homepage entrance animation stays paused until the gate releases', () => {
   assert.match(homepage, /var KEY = 'sn-welcomed-v1'/);
   assert.match(homepage, /localStorage\.getItem\(KEY\) === '1'/);
   assert.match(homepage, /localStorage\.setItem\(KEY, '1'\)/);
+  assert.match(homepage, /document\.documentElement\.classList\.add\('gate-lock'\)/);
+  assert.match(homepage, /document\.documentElement\.classList\.remove\('gate-lock'\)/);
+  assert.match(homepage, /html\.gate-lock #page-veil, html\.gate-lock \.cover-inner > \* \{\s*animation-play-state: paused !important;/);
   assert.match(homepage, /gate\.classList\.add\('leaving'\)/);
   assert.match(homepage, /#welcome-gate\.leaving \{ transform: translateY\(-100%\)/);
-  assert.match(homepage, /gate-lock/);
-  assert.match(homepage, /prefers-reduced-motion: reduce\) \{ #welcome-gate \{ transition: none; \}/);
+  assert.match(homepage, /prefers-reduced-motion: reduce\) \{ #welcome-gate \{ transition: none; \} \.gate-card > \* \{ animation: none; \} \}/);
   assert.match(homepage, /github\.com\/Lil-BobCN\/feishu-ai-talent-competition\/issues/);
   assert.match(homepage, /点一颗 Star/);
   assert.match(homepage, /学生团队/);

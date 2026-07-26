@@ -398,7 +398,22 @@ body { animation: rpt-page-in .5s ease-out both; }
     #welcome-gate.leaving { transform: translateY(-100%); opacity: 0; visibility: hidden; pointer-events: none; }
     #welcome-gate[hidden] { display: none; }
     html.gate-lock, html.gate-lock body { overflow: hidden; }
+    /* 欢迎页在屏时，首页入场动画整体暂停；点「进入网站」后才从 0 到 1 渐进揭幕 */
+    html.gate-lock #page-veil, html.gate-lock .cover-inner > * {
+      animation-play-state: paused !important;
+    }
     .gate-card { width: min(640px, 100%); }
+    .gate-card > * { animation: gateRise .56s cubic-bezier(0.16,1,0.3,1) both; }
+    .gate-card > *:nth-child(1) { animation-delay: .10s; }
+    .gate-card > *:nth-child(2) { animation-delay: .18s; }
+    .gate-card > *:nth-child(3) { animation-delay: .26s; }
+    .gate-card > *:nth-child(4) { animation-delay: .34s; }
+    .gate-card > *:nth-child(5) { animation-delay: .42s; }
+    .gate-card > *:nth-child(6) { animation-delay: .50s; }
+    .gate-card > *:nth-child(7) { animation-delay: .58s; }
+    .gate-card > *:nth-child(8) { animation-delay: .66s; }
+    .gate-card > *:nth-child(n+9) { animation-delay: .74s; }
+    @keyframes gateRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
     .gate-logo { width: 161px; height: 30px; margin-bottom: 28px; }
     .gate-kicker { font: 11px var(--mono); letter-spacing: .26em; color: var(--red); text-transform: uppercase; display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
     .gate-kicker::before { content: ""; width: 26px; height: 3px; background: var(--red); }
@@ -407,15 +422,24 @@ body { animation: rpt-page-in .5s ease-out both; }
     .gate-new { border-top: 1.5px solid var(--ink); border-bottom: 1px solid var(--line); padding: 14px 0 12px; margin: 20px 0 18px; }
     .gate-new .gn-t { font: 10px var(--mono); letter-spacing: .18em; color: var(--red); margin-bottom: 8px; }
     .gate-new p { font-size: 14.5px; }
-    .gate-act { margin-top: 28px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .gate-act { margin-top: 28px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .gate-check { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; user-select: none; font: 13.5px/1.4 -apple-system, "PingFang SC", "Helvetica Neue", sans-serif; color: var(--ink-md); }
+    .gate-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .gate-check .box { width: 17px; height: 17px; flex: none; border: 1.5px solid var(--ink-md); border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; transition: background .18s ease, border-color .18s ease; background: #fff; }
+    .gate-check .box svg { width: 11px; height: 11px; }
+    .gate-check .box svg path { stroke: #fff; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 16; stroke-dashoffset: 16; transition: stroke-dashoffset .22s ease .05s; }
+    .gate-check input:checked + .box { background: var(--red); border-color: var(--red); }
+    .gate-check input:checked + .box svg path { stroke-dashoffset: 0; }
+    .gate-check input:focus-visible + .box { outline: 2px solid var(--red); outline-offset: 2px; }
     .gate-btn {
       font: 700 15px var(--serif); color: var(--ink); cursor: pointer;
       border: 1.5px solid var(--ink); border-radius: 6px; padding: 12px 26px; background: #fff;
-      transition: color .18s ease, background .18s ease, border-color .18s ease;
+      transition: color .18s ease, background .18s ease, border-color .18s ease, opacity .18s ease;
     }
-    .gate-btn:hover { background: var(--red); border-color: var(--red); color: #fff; }
+    .gate-btn:hover:not(:disabled) { background: var(--red); border-color: var(--red); color: #fff; }
+    .gate-btn:disabled { opacity: .35; cursor: not-allowed; }
     .gate-note { font: 10.5px var(--mono); color: var(--ink-lo); letter-spacing: .06em; }
-    @media (prefers-reduced-motion: reduce) { #welcome-gate { transition: none; } }
+    @media (prefers-reduced-motion: reduce) { #welcome-gate { transition: none; } .gate-card > * { animation: none; } }
 
     /* ===== 圣农企业文化元素 ===== */
     .topnav .brand { display: flex; align-items: center; gap: 10px; }
@@ -444,7 +468,8 @@ body { animation: rpt-page-in .5s ease-out both; }
     <p>时间确实有限：7 月 17 日我们才接到学校的赛事通知，调研、设计与制作都从那之后开始。仓促之处，恳请评委老师谅解。</p>
     <p>如果您对任何部分有改进建议，欢迎在 <a href="https://github.com/Lil-BobCN/feishu-ai-talent-competition/issues" target="_blank" rel="noopener">GitHub Issues</a> 中留言告诉我们；若这份方案能入您的眼，也恳请为仓库点一颗 Star，给我们一点继续打磨的鼓励与曝光。</p>
     <div class="gate-act">
-      <button class="gate-btn" id="gate-enter" type="button">我已知晓，进入网站 →</button>
+      <label class="gate-check"><input type="checkbox" id="gate-agree"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5 L5 9.5 L10 3"/></svg></span><span>我已阅读并知晓以上说明</span></label>
+      <button class="gate-btn" id="gate-enter" type="button" disabled>进入网站 →</button>
       <span class="gate-note">本说明每个浏览器只出现一次</span>
     </div>
   </div>
@@ -1295,7 +1320,11 @@ body { animation: rpt-page-in .5s ease-out both; }
       if (seen) { gate.remove(); return; }
       gate.hidden = false;
       document.documentElement.classList.add('gate-lock');
-      document.getElementById('gate-enter').addEventListener('click', function () {
+      var agree = document.getElementById('gate-agree');
+      var enter = document.getElementById('gate-enter');
+      agree.addEventListener('change', function () { enter.disabled = !agree.checked; });
+      enter.addEventListener('click', function () {
+        if (enter.disabled) return;
         try { localStorage.setItem(KEY, '1'); } catch (e) {}
         gate.classList.add('leaving');
         document.documentElement.classList.remove('gate-lock');
