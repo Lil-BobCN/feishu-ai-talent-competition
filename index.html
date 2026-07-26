@@ -388,15 +388,74 @@ body { animation: rpt-page-in .5s ease-out both; }
       *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
       .cover-visual { display: none !important; }
     }
+    /* ===== 进站欢迎页（评委说明 · 每浏览器一次） ===== */
+    #welcome-gate {
+      position: fixed; inset: 0; z-index: 500; background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      overflow-y: auto; padding: 48px 24px;
+      transition: transform .7s cubic-bezier(0.7,0,0.3,1), opacity .7s cubic-bezier(0.7,0,0.3,1), visibility 0s linear .7s;
+    }
+    #welcome-gate.leaving { transform: translateY(-100%); opacity: 0; visibility: hidden; pointer-events: none; }
+    #welcome-gate[hidden] { display: none; }
+    html.gate-lock, html.gate-lock body { overflow: hidden; }
+    .gate-card { width: min(640px, 100%); }
+    .gate-logo { width: 161px; height: 30px; margin-bottom: 28px; }
+    .gate-kicker { font: 11px var(--mono); letter-spacing: .26em; color: var(--red); text-transform: uppercase; display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .gate-kicker::before { content: ""; width: 26px; height: 3px; background: var(--red); }
+    .gate-title { margin: 0 0 22px; font: 700 clamp(30px, 4.4vw, 44px)/1.2 var(--serif); letter-spacing: -0.01em; color: var(--ink); }
+    .gate-card p { margin: 0 0 14px; font-size: 15.5px; line-height: 1.85; color: var(--ink-md); }
+    .gate-new { border-top: 1.5px solid var(--ink); border-bottom: 1px solid var(--line); padding: 14px 0 12px; margin: 20px 0 18px; }
+    .gate-new .gn-t { font: 10px var(--mono); letter-spacing: .18em; color: var(--red); margin-bottom: 8px; }
+    .gate-new p { font-size: 14.5px; }
+    .gate-act { margin-top: 28px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .gate-btn {
+      font: 700 15px var(--serif); color: var(--ink); cursor: pointer;
+      border: 1.5px solid var(--ink); border-radius: 6px; padding: 12px 26px; background: #fff;
+      transition: color .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .gate-btn:hover { background: var(--red); border-color: var(--red); color: #fff; }
+    .gate-note { font: 10.5px var(--mono); color: var(--ink-lo); letter-spacing: .06em; }
+    @media (prefers-reduced-motion: reduce) { #welcome-gate { transition: none; } }
+
+    /* ===== 圣农企业文化元素 ===== */
+    .topnav .brand { display: flex; align-items: center; gap: 10px; }
+    .topnav .brand img { width: 107px; height: 20px; }
+    .cover-brand { width: 182px; height: 34px; margin-bottom: 26px; }
+    .culture-strip { display: flex; align-items: center; gap: 10px; margin-top: 22px; font: 10.5px var(--mono); letter-spacing: .14em; color: var(--ink-lo); }
+    .culture-strip::before { content: ""; width: 22px; height: 1px; background: #c8102e; }
+    header.cover { position: relative; }
+    .cover-feather { position: absolute; right: 5%; top: 14%; width: 150px; opacity: .5; pointer-events: none; }
+    footer.site-footer .culture-foot { color: #c8102e; letter-spacing: .1em; }
+    @media (max-width: 900px) { .cover-feather { display: none; } }
   </style>
 </head>
 <body>
+<div id="welcome-gate" hidden>
+  <div class="gate-card">
+    <img class="gate-logo" src="assets/sunner-logo-red.png" alt="圣农 SUNNER">
+    <div class="gate-kicker">评委说明 · REVIEWER NOTE</div>
+    <h1 class="gate-title">圣农经营智能中枢</h1>
+    <p>本项目仍在持续更新中，您现在看到的是最新版本——您此前保存或收到的链接已自动指向这里，无需更换。</p>
+    <div class="gate-new">
+      <div class="gn-t">相比旧版方案，本次补上了几块过去缺失的内容</div>
+      <p>01 循环补全了“批准之后”的完整操作逻辑——执行任务、结果验证与三类结案（执行成功不等于问题解决），以及失败治理与全过程留痕（哪里报错哪里停止、误报可溯源）；02 能力进化循环从概念落成了完整机制（每案完整复盘、隔离验证、管理审批与回滚）；03 业务扩域形成了带三级证据标注的建议性蓝图。</p>
+    </div>
+    <p>我们是一支学生团队。参加这次竞赛，对我们而言首先是一次学习：把圣农的真实经营问题当作课堂，试着用严谨的方法给出回答。方案中尚未被企业验证的部分，我们都如实标注，也欢迎各位老师批评指正。</p>
+    <p>时间确实有限：7 月 17 日我们才接到学校的赛事通知，调研、设计与制作都从那之后开始。仓促之处，恳请评委老师谅解。</p>
+    <p>如果您对任何部分有改进建议，欢迎在 <a href="https://github.com/Lil-BobCN/feishu-ai-talent-competition/issues" target="_blank" rel="noopener">GitHub Issues</a> 中留言告诉我们；若这份方案能入您的眼，也恳请为仓库点一颗 Star，给我们一点继续打磨的鼓励与曝光。</p>
+    <div class="gate-act">
+      <button class="gate-btn" id="gate-enter" type="button">我已知晓，进入网站 →</button>
+      <span class="gate-note">本说明每个浏览器只出现一次</span>
+    </div>
+  </div>
+</div>
+
 <div id="page-veil" aria-hidden="true"></div>
 
   <div id="progress-bar"></div>
 
   <nav class="topnav">
-    <div class="brand">圣农经营智能中枢<span>SUNNER OPS INTELLIGENCE</span></div>
+    <div class="brand"><img src="assets/sunner-logo-red.png" alt="圣农">圣农经营智能中枢<span>SUNNER OPS INTELLIGENCE</span></div>
     <div class="center">
       <a href="#" class="active" aria-current="page">主页</a>
       <div class="dd nav-item" data-dd>
@@ -419,7 +478,14 @@ body { animation: rpt-page-in .5s ease-out both; }
   </nav>
 
   <header class="cover">
+    <svg class="cover-feather" viewBox="0 0 100 160" fill="none" stroke="#8595a6" stroke-width="1.2" stroke-linecap="round" aria-hidden="true">
+      <path d="M50 150 C48 110 52 60 62 12"/>
+      <path d="M52 130 C40 122 32 112 28 100"/><path d="M53 112 C41 104 34 94 31 82"/><path d="M55 94 C44 86 38 76 36 64"/><path d="M57 76 C48 68 43 58 42 46"/><path d="M59 58 C52 50 49 40 49 28"/>
+      <path d="M51 130 C63 122 71 112 75 100"/><path d="M53 112 C65 104 72 94 75 82"/><path d="M55 94 C66 86 72 76 74 64"/><path d="M57 76 C66 68 71 58 72 46"/><path d="M59 58 C66 50 69 40 69 28"/>
+      <path d="M62 12 C58 18 54 26 52 34"/>
+    </svg>
     <div class="cover-inner">
+      <img class="cover-brand" src="assets/sunner-logo-red.png" alt="圣农 SUNNER">
       <div class="cover-kicker">飞书 AI 先锋未来人才大赛 · 圣农零售赛题</div>
       <h1 class="cover-title">圣农经营<span class="accent">智能中枢</span></h1>
       <p class="cover-sub">把分散的经营事实，持续转化为可追溯的经营行动。</p>
@@ -436,6 +502,7 @@ body { animation: rpt-page-in .5s ease-out both; }
         <span><span class="fact-tag ft-design">方案设计推断</span> 本方案的设计判断</span>
         <span><span class="fact-tag ft-unknown">待企业验证</span> 需圣农现场确认</span>
       </div>
+      <div class="culture-strip">圣农发展 · 白羽肉鸡全产业链 · 从农场到餐桌</div>
       <div class="scroll-hint">SCROLL</div>
       <div class="cover-foot" aria-hidden="true">
         <svg viewBox="0 0 560 130">
@@ -1000,6 +1067,7 @@ body { animation: rpt-page-in .5s ease-out both; }
 
   <footer class="site-footer">
     <span>圣农经营智能中枢 · 三循环在线演示</span>
+    <span class="culture-foot">圣农发展 · 白羽肉鸡全产业链 · 从农场到餐桌</span>
     <span>内容真源：04 薄总览 + 01/02/03 专题工作稿（2026-07-24 快照）</span>
   </footer>
 
@@ -1213,6 +1281,25 @@ body { animation: rpt-page-in .5s ease-out both; }
           }
           if (wasOpen) e.preventDefault();
         });
+      });
+    })();
+  </script>
+  <script>
+    // 进站欢迎页：每浏览器只出现一次（localStorage 记忆）
+    (function () {
+      var gate = document.getElementById('welcome-gate');
+      if (!gate) return;
+      var KEY = 'sn-welcomed-v1';
+      var seen = false;
+      try { seen = localStorage.getItem(KEY) === '1'; } catch (e) {}
+      if (seen) { gate.remove(); return; }
+      gate.hidden = false;
+      document.documentElement.classList.add('gate-lock');
+      document.getElementById('gate-enter').addEventListener('click', function () {
+        try { localStorage.setItem(KEY, '1'); } catch (e) {}
+        gate.classList.add('leaving');
+        document.documentElement.classList.remove('gate-lock');
+        setTimeout(function () { gate.remove(); }, 780);
       });
     })();
   </script>

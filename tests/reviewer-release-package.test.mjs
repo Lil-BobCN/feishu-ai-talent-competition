@@ -34,6 +34,7 @@ async function createFixture(t) {
   await mkdir(path.join(source, 'report', '02'), { recursive: true });
   await mkdir(path.join(source, 'report', '03'), { recursive: true });
   await mkdir(path.join(source, 'dashboard', 'report'), { recursive: true });
+  await mkdir(path.join(source, 'assets'), { recursive: true });
   await mkdir(path.join(source, 'research', 'data'), { recursive: true });
   await mkdir(path.join(source, 'tests'), { recursive: true });
 
@@ -59,6 +60,7 @@ async function createFixture(t) {
   await writeFile(path.join(source, 'report', '03', 'index.html'), '<!doctype html><title>03 业务扩域循环</title>');
   await writeFile(path.join(source, 'dashboard', 'index.html'), '<!doctype html><title>看板</title>');
   await writeFile(path.join(source, 'dashboard', 'report', 'index.html'), '<!doctype html><title>透视</title>');
+  await writeFile(path.join(source, 'assets', 'sunner-logo-red.png'), 'png');
   await writeFile(path.join(source, 'docs', 'superpowers', 'internal.md'), 'internal');
   await writeFile(path.join(source, 'tests', 'internal.test.mjs'), 'internal');
 
@@ -101,6 +103,7 @@ test('builds a complete reviewer-only package with a traceable manifest', async 
     'demo/report/03/index.html',
     'demo/dashboard/index.html',
     'demo/dashboard/report/index.html',
+    'demo/assets/sunner-logo-red.png',
     'manifest.json',
   ];
 

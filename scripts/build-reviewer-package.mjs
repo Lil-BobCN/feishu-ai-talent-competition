@@ -132,6 +132,7 @@ async function main() {
     'index.html',
     'report',
     'dashboard',
+    'assets',
   ];
 
   for (const relativePath of sources) {
@@ -169,8 +170,8 @@ async function main() {
 
   await copyFile(path.join(sourceRoot, 'index.html'), path.join(output, 'demo', 'index.html'));
 
-  // demo/ 与线上发布内容保持一致：三循环新首页 + 三份循环交互报告 + 飞书看板与数据透视。
-  for (const directory of ['report', 'dashboard']) {
+  // demo/ 与线上发布内容保持一致：三循环新首页 + 三份循环交互报告 + 飞书看板与数据透视 + 站点资源。
+  for (const directory of ['report', 'dashboard', 'assets']) {
     await cp(
       path.join(sourceRoot, directory),
       path.join(output, 'demo', directory),

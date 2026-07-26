@@ -18,7 +18,7 @@ test('homepage cover carries the approved product identity', () => {
   assert.match(homepage, /<title>圣农经营智能中枢<\/title>/);
   assert.match(homepage, /<h1 class="cover-title">圣农经营<span class="accent">智能中枢<\/span><\/h1>/);
   assert.match(homepage, /把分散的经营事实，持续转化为可追溯的经营行动/);
-  assert.match(homepage, /class="brand">圣农经营智能中枢/);
+  assert.match(homepage, /class="brand"><img src="assets\/sunner-logo-red\.png" alt="圣农">圣农经营智能中枢/);
 });
 
 test('homepage declares the three loops with their approved titles and sizes', () => {
@@ -102,9 +102,41 @@ test('published pages carry no draft labels or internal process markers', () => 
   }
 });
 
-test('homepage is self-contained and no longer references the archived site assets', () => {
+test('homepage is self-contained and no longer references the archived site assets', async () => {
   assert.doesNotMatch(homepage, /<script[^>]+\bsrc=/);
-  assert.doesNotMatch(homepage, /shengnong-nodes|sunner-logo/);
+  assert.doesNotMatch(homepage, /shengnong-nodes/);
+  assert.doesNotMatch(homepage, /sunner-logo-ink/);
+  await access(new URL('../assets/sunner-logo-red.png', import.meta.url));
+});
+
+test('welcome gate shows once per browser and lifts away on enter', () => {
+  assert.match(homepage, /<div id="welcome-gate" hidden>/);
+  assert.match(homepage, /id="gate-enter"[^>]*>我已知晓，进入网站 →/);
+  assert.match(homepage, /本说明每个浏览器只出现一次/);
+  assert.match(homepage, /var KEY = 'sn-welcomed-v1'/);
+  assert.match(homepage, /localStorage\.getItem\(KEY\) === '1'/);
+  assert.match(homepage, /localStorage\.setItem\(KEY, '1'\)/);
+  assert.match(homepage, /gate\.classList\.add\('leaving'\)/);
+  assert.match(homepage, /#welcome-gate\.leaving \{ transform: translateY\(-100%\)/);
+  assert.match(homepage, /gate-lock/);
+  assert.match(homepage, /prefers-reduced-motion: reduce\) \{ #welcome-gate \{ transition: none; \}/);
+  assert.match(homepage, /github\.com\/Lil-BobCN\/feishu-ai-talent-competition\/issues/);
+  assert.match(homepage, /点一颗 Star/);
+  assert.match(homepage, /学生团队/);
+  assert.match(homepage, /7 月 17 日我们才接到学校的赛事通知/);
+  assert.doesNotMatch(allReports, /welcome-gate/);
+});
+
+test('sunner culture elements appear in nav, cover and footer', () => {
+  assert.match(homepage, /<div class="brand"><img src="assets\/sunner-logo-red\.png" alt="圣农">/);
+  assert.match(homepage, /<img class="cover-brand" src="assets\/sunner-logo-red\.png" alt="圣农 SUNNER">/);
+  assert.match(homepage, /<img class="gate-logo" src="assets\/sunner-logo-red\.png" alt="圣农 SUNNER">/);
+  assert.match(homepage, /<svg class="cover-feather"/);
+  assert.equal(
+    (homepage.match(/圣农发展 · 白羽肉鸡全产业链 · 从农场到餐桌/g) || []).length,
+    2,
+  );
+  assert.match(homepage, /<span class="culture-foot">圣农发展 · 白羽肉鸡全产业链 · 从农场到餐桌<\/span>/);
 });
 
 test('loop reports use their approved titles and relative-root home links', () => {
