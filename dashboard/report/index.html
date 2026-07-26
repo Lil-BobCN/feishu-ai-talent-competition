@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据与接口透视 · 飞书看板 · 圣农经营智能中枢</title>
+  <link rel="stylesheet" href="../../report/css/fonts.css">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #ffffff;
+      --paper-hi: #f7f9fc;
+      --ink: #051c2c;
+      --ink-md: #42566a;
+      --ink-lo: #8595a6;
+      --line: #dbe2ea;
+      --line-lo: #eef1f6;
+      --accent: #2251ff;
+      --accent-deep: #1233b8;
+      --accent-soft: #eef3ff;
+      --accent-line: #c2d1ff;
+      --copper: #b07a10;
+      --copper-ink: #8a5f0c;
+      --copper-soft: #faf3e2;
+      --green: #008a6d;
+      --green-ink: #006e57;
+      --green-soft: #e6f5f1;
+      --neg: #c22f4e;
+      --neg-soft: #fbeef1;
+      --serif: "et-book", "Iowan Old Style", "Songti SC", "Noto Serif CJK SC", Palatino, Georgia, serif;
+      --mono: Menlo, Consolas, "SF Mono", ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 15px/1.72 var(--serif);
+      letter-spacing: 0.001em;
+    }
+    a { color: var(--accent-deep); text-decoration: none; }
+    a:hover { color: var(--accent); }
+    a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    ::selection { background: rgba(34, 81, 255, .15); }
+    code { color: var(--accent-deep); font-family: var(--mono); font-size: .92em; overflow-wrap: anywhere; }
+
+    .topnav {
+      position: sticky; top: 0; z-index: 100;
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+      padding: 0 28px; min-height: 58px;
+      background: rgba(255, 255, 255, .92); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line-lo);
+    }
+    .topnav .brand { font: 700 14px var(--serif); color: var(--ink); }
+    .topnav .brand span { color: var(--ink-lo); font: 11px var(--mono); margin-left: 10px; }
+    .topnav .center { display: flex; gap: 18px; }
+    .topnav .center > a, .topnav .nav-item > a {
+      min-height: 44px; display: inline-flex; align-items: center;
+      padding: 8px 14px; color: var(--ink-md); font: 700 13.5px var(--serif);
+      border-bottom: 2px solid transparent;
+    }
+    .topnav .center > a:hover, .topnav .nav-item > a:hover { color: var(--ink); }
+    .topnav .center > a.active, .topnav .nav-item > a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .dd { position: relative; }
+    .dd .menu {
+      position: absolute; z-index: 120;
+      background: #fff; border: 1.5px solid var(--ink); border-radius: 8px;
+      box-shadow: 0 14px 34px rgba(5, 28, 44, .12);
+      opacity: 0; visibility: hidden;
+      transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1) 120ms, transform 180ms cubic-bezier(0.16, 1, 0.3, 1) 120ms, visibility 0s linear 320ms;
+    }
+    .dd:hover .menu,
+    .dd .trigger:focus-visible + .menu,
+    .dd:focus-within .menu,
+    .dd.open .menu {
+      opacity: 1; visibility: visible;
+      transition-delay: 0s, 0s, 0s;
+    }
+    .dd.esc-closed .menu { opacity: 0 !important; visibility: hidden !important; }
+    .dd:hover .trigger, .dd:focus-within .trigger, .dd.open .trigger { color: var(--ink); }
+    .menu a.mi {
+      display: flex; align-items: baseline; gap: 10px;
+      padding: 10px 12px; border-radius: 5px;
+      color: var(--ink); font: 700 14px var(--serif); white-space: nowrap;
+    }
+    .menu a.mi:hover, .menu a.mi:focus-visible { background: var(--paper-hi); color: var(--accent); outline: none; }
+    .menu a.mi .no { font: 10px var(--mono); color: var(--accent); letter-spacing: .12em; }
+    .menu a.mi small { display: block; margin-top: 2px; font: 400 11.5px var(--serif); color: var(--ink-lo); white-space: nowrap; }
+    .menu a.mi:hover small, .menu a.mi:focus-visible small { color: var(--ink-md); }
+    .vb-menu { top: calc(100% + 4px); left: 50%; transform: translate(-50%, 6px); min-width: 250px; padding: 8px; }
+    .dd:hover .vb-menu, .dd .trigger:focus-visible + .vb-menu, .dd:focus-within .vb-menu, .dd.open .vb-menu { transform: translate(-50%, 0); }
+    .topnav .contact-link {
+      justify-self: end; min-width: 104px; min-height: 44px;
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 8px 18px; border: 1px solid var(--ink); border-radius: 999px;
+      color: var(--ink); font: 700 13.5px var(--serif);
+      transition: color 180ms ease, background 180ms ease;
+    }
+    .topnav .contact-link:hover { color: #fff; background: var(--ink); }
+
+    /* ── 封面 ── */
+    #cover { position: relative; overflow: hidden; border-bottom: 1px solid var(--line-lo); }
+    #cover-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .cover-inner {
+      position: relative; z-index: 2; max-width: 920px;
+      margin: 0 auto; padding: 76px 24px 72px;
+    }
+    .cover-kicker { font: 11.5px var(--mono); letter-spacing: .28em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .cover-title { margin: 0; font: 700 clamp(38px, 5.6vw, 62px)/1.1 var(--serif); letter-spacing: -0.008em; }
+    .cover-title .hl { color: var(--accent); }
+    .cover-sub { margin: 16px 0 0; font: 700 clamp(17px, 2vw, 22px)/1.45 var(--serif); color: var(--ink-md); max-width: 640px; }
+    .cover-lede { margin: 16px 0 0; max-width: 660px; font-size: 14.5px; color: var(--ink-md); line-height: 1.8; }
+    .cover-lede strong { color: var(--ink); }
+    .cover-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+    .chip {
+      font: 600 11px var(--mono); letter-spacing: .04em;
+      padding: 5px 10px; border-radius: 4px; border: 1px solid;
+    }
+    .chip-blue { color: var(--accent-deep); background: var(--accent-soft); border-color: var(--accent-line); }
+    .chip-green { color: var(--green-ink); background: var(--green-soft); border-color: #9fd4c6; }
+    .chip-copper { color: var(--copper-ink); background: var(--copper-soft); border-color: #e6d3a8; }
+    .chip-neg { color: var(--neg); background: var(--neg-soft); border-color: #eec4cd; }
+    .scroll-hint {
+      margin-top: 44px; display: flex; align-items: center; gap: 12px;
+      color: var(--ink-lo); font: 11px var(--mono); letter-spacing: .3em;
+    }
+    .scroll-hint::after {
+      content: ""; width: 1px; height: 40px;
+      background: linear-gradient(to bottom, transparent 0%, var(--accent) 45%, var(--accent) 65%, transparent 100%);
+      background-size: 100% 220%;
+      animation: hintDrip 1.9s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes hintDrip { 0% { background-position: 50% -110%; } 100% { background-position: 50% 110%; } }
+
+    /* ── 章节 ── */
+    .band { padding: 56px 0 46px; border-bottom: 1px solid var(--line-lo); }
+    .prose { width: min(920px, 100% - 48px); margin: 0 auto; }
+    .sec-no { display: flex; align-items: center; gap: 10px; font: 11px var(--mono); letter-spacing: .24em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+    .sec-no::before { content: ""; width: 26px; height: 3px; background: var(--accent); }
+    .band h2 { margin: 0 0 10px; font: 700 clamp(23px, 2.8vw, 30px)/1.25 var(--serif); }
+    .dek { margin: 0 0 22px; font: italic 16.5px/1.65 var(--serif); color: var(--ink-md); max-width: 640px; }
+    .dek strong, .dek b { color: var(--ink); font-style: normal; }
+    .band p { margin: 0 0 12px; }
+    .muted { color: var(--ink-md); font-size: 13.5px; }
+
+    .quote-card { margin: 18px 0; padding: 16px 0 12px; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--line); }
+    .quote-card .q-text { margin: 0 0 8px; font: italic 18.5px/1.6 var(--serif); color: var(--ink); }
+    .quote-card .q-why { margin: 0; font-size: 13.5px; color: var(--ink-md); }
+
+    table.dt { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 16px 0 8px; }
+    table.dt th { font: 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-lo); text-align: left; padding: 8px 10px; border-bottom: 1.5px solid var(--ink); }
+    table.dt td { padding: 8px 10px; border-bottom: 1px solid var(--line-lo); vertical-align: top; }
+    table.dt td.k { font-weight: 700; white-space: nowrap; }
+
+    .st { display: inline-block; font: 600 10px var(--mono); letter-spacing: .03em; padding: 1px 6px; border: 1px solid; border-radius: 3px; white-space: nowrap; }
+    .st-verified { color: var(--green-ink); border-color: var(--green); }
+    .st-partial { color: var(--copper-ink); border-color: var(--copper); }
+    .st-unknown { color: var(--neg); border-color: var(--neg); }
+    .st-contract { color: var(--accent-deep); border-color: var(--accent); }
+
+    .fig { margin: 22px 0 8px; }
+    .fig svg { display: block; width: 100%; height: auto; }
+    .fig-cap { margin-top: 8px; color: var(--ink-lo); font: 11px var(--mono); letter-spacing: .04em; }
+
+    .flow-line { stroke: var(--accent); stroke-width: 1.6; fill: none; stroke-dasharray: 5 6; animation: flowDash 1.6s linear infinite; }
+    @keyframes flowDash { to { stroke-dashoffset: -22; } }
+    .flow-node rect { fill: #fff; stroke: var(--ink); stroke-width: 1.4; }
+    .flow-node.hl rect { stroke: var(--accent); fill: var(--accent-soft); }
+    .flow-node .t { fill: var(--ink); font: 700 12px var(--serif); }
+    .flow-node .s { fill: var(--ink-md); font: 9px var(--mono); }
+    .flow-pulse { fill: var(--accent); animation: nodePulse 3.2s ease-in-out infinite; }
+    @keyframes nodePulse { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
+
+    .prose pre {
+      font: 12px/1.75 var(--mono); color: var(--ink-md);
+      border: 1px solid var(--line-lo); border-radius: 6px;
+      padding: 14px 16px; margin: 16px 0 18px;
+      overflow-x: auto; white-space: pre; background: var(--paper);
+    }
+
+    .role-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 18px 0 8px; }
+    .role-card { padding: 16px 16px 14px; background: var(--paper); border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: 8px; }
+    .role-card svg { display: block; margin-bottom: 10px; }
+    .role-card h3 { margin: 0 0 6px; font: 700 15px var(--serif); }
+    .role-card p { margin: 0; font-size: 13px; color: var(--ink-md); }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 14px 0 6px; font-size: 12.5px; color: var(--ink-md); }
+    .legend .st { margin-right: 5px; }
+
+    .cant { margin: 14px 0 0; padding: 0; list-style: none; }
+    .cant li { position: relative; padding: 8px 0 8px 22px; border-bottom: 1px solid var(--line-lo); font-size: 13.5px; color: var(--ink-md); }
+    .cant li::before { content: ""; position: absolute; left: 0; top: 15px; width: 7px; height: 7px; background: var(--neg); }
+
+    .sim-banner {
+      border: 0; background: transparent;
+      border-top: 2px solid var(--neg);
+      border-bottom: 1px solid var(--line);
+      margin: 24px 0 20px; padding: 12px 0 14px;
+      font-size: 13.5px; color: var(--ink-md); line-height: 1.8;
+    }
+    .sim-banner::before {
+      content: "边界声明 · NOT PRODUCTION READY";
+      display: block; font: 700 9.5px var(--mono);
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--neg); margin-bottom: 6px;
+    }
+    .sim-banner p { margin: 0; }
+
+    .brief-footer { padding: 40px 0 60px; }
+    .brief-footer .go {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border: 1.5px solid var(--ink); border-radius: 6px;
+      color: var(--ink); font: 700 14px var(--serif);
+      transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+    }
+    .brief-footer .go:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .brief-footer .src { margin-top: 18px; color: var(--ink-lo); font: 11.5px var(--mono); line-height: 1.9; }
+
+    /* ── 入场与滚动动效 ── */
+    @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes pageRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    body { animation: pageFadeIn 420ms ease-out both; }
+    .topnav { animation: pageFadeIn 480ms ease-out both; }
+    .cover-inner > * { animation: pageRise 600ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .cover-inner > *:nth-child(1) { animation-delay: .06s; }
+    .cover-inner > *:nth-child(2) { animation-delay: .13s; }
+    .cover-inner > *:nth-child(3) { animation-delay: .2s; }
+    .cover-inner > *:nth-child(4) { animation-delay: .27s; }
+    .cover-inner > *:nth-child(5) { animation-delay: .34s; }
+    .cover-inner > *:nth-child(n+6) { animation-delay: .42s; }
+    #cover-canvas { animation: pageFadeIn 700ms ease-out .18s both; }
+    .band { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+    .band.in { opacity: 1; transform: none; }
+    .band .stagger > * { opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; }
+    .band.in .stagger > * { opacity: 1; transform: none; }
+    .band.in .stagger > *:nth-child(2) { transition-delay: 70ms; }
+    .band.in .stagger > *:nth-child(3) { transition-delay: 140ms; }
+    .band.in .stagger > *:nth-child(4) { transition-delay: 210ms; }
+
+    @media (max-width: 760px) {
+      .topnav { grid-template-columns: 1fr auto; padding: 0 16px; }
+      .topnav .center { display: none; }
+      .role-grid { grid-template-columns: minmax(0, 1fr); }
+      .cover-inner { padding: 52px 24px 56px; }
+      table.dt { display: block; overflow-x: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation: none !important;
+        transition: none !important;
+      }
+      .band, .band .stagger > * { opacity: 1 !important; transform: none !important; }
+      .flow-line { stroke-dasharray: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topnav">
+    <div class="brand">圣农经营智能中枢<span>SUNNER OPS INTELLIGENCE</span></div>
+    <div class="center">
+      <a href="../../">主页</a>
+      <div class="dd nav-item" data-dd>
+        <a class="trigger" href="../../report/" data-trigger aria-haspopup="true" aria-expanded="false">详细方案</a>
+        <div class="menu vb-menu" role="navigation" aria-label="详细方案三个循环入口">
+          <a class="mi" href="../../report/"><span class="no">01</span><span><span>经营事件循环</span><small>事实到结果的完整闭环</small></span></a>
+          <a class="mi" href="../../report/02/"><span class="no">02</span><span><span>能力进化循环</span><small>案件沉淀为可复用能力</small></span></a>
+          <a class="mi" href="../../report/03/"><span class="no">03</span><span><span>业务扩域循环</span><small>试点经验复制到全域</small></span></a>
+        </div>
+      </div>
+      <div class="dd nav-item" data-dd>
+        <a class="trigger active" href="./" data-trigger aria-haspopup="true" aria-expanded="false" aria-current="page">飞书能力看板</a>
+        <div class="menu vb-menu" role="navigation" aria-label="飞书能力看板两个入口">
+          <a class="mi" href="../"><span class="no">01</span><span><span>飞书看板</span><small>同一案件数据 · 三角色视图</small></span></a>
+          <a class="mi" href="./"><span class="no">02</span><span><span>数据与接口透视</span><small>数据合同 · 接口 · 权限一页速览</small></span></a>
+        </div>
+      </div>
+    </div>
+    <a class="contact-link" href="../../#contact">联系我们</a>
+  </nav>
+
+  <header id="cover">
+    <canvas id="cover-canvas" aria-hidden="true"></canvas>
+    <div class="cover-inner">
+      <div class="cover-kicker">飞书看板 · 数据与接口透视 · FEISHU PROJECTION BRIEF</div>
+      <h1 class="cover-title">数据与<span class="hl">接口</span>透视</h1>
+      <p class="cover-sub">一份 5 分钟读完的机制说明：后端数据合同 → 接口 → 飞书角色化投影，01 经营事件循环如何诚实地落到飞书。</p>
+      <p class="cover-lede"><strong>内容真源：</strong>本页全部内容取自《飞书看板能力》台账（docs/方案合并副本_2026-07-21/飞书看板能力.md，状态 <code>design_audit_in_progress</code>），状态词沿用原文。台账记录的是「平台公开能力 + 方案数据合同 + 待企业确认事实」——<strong>不代表圣农租户已经开通或完成联调</strong>。</p>
+      <div class="cover-chips">
+        <span class="chip chip-blue">01 business_logic_final / pilot_design / not_production_ready</span>
+        <span class="chip chip-green">协作投影 · 不是第二套权威账</span>
+        <span class="chip chip-copper">designed_contract</span>
+        <span class="chip chip-neg">target-tenant unknown 单独记录</span>
+      </div>
+      <div class="scroll-hint">SCROLL</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="band">
+      <div class="prose">
+        <div class="sec-no">01 · 一句话定位</div>
+        <h2>统一事件页面 / 角色化视图</h2>
+        <p class="dek">飞书页面不是系统本身，而是经营事件与证据库在协作侧的<strong>一面镜子</strong>。</p>
+        <div class="quote-card">
+          <p class="q-text">统一事件页面 / 角色化视图 ＋ 飞书原生任务、审批、消息和 Agent 追问入口 ＋ 企业后台事件库、证据库、语义服务和确定性计算服务。</p>
+          <p class="q-why">推荐产品形态，原文照录。不推荐把所有内容硬塞进多维表格，也不推荐重做飞书任务和审批。</p>
+        </div>
+        <p>三个模块共用一个飞书入口，但不共用一套虚构数据：01 投影经营事件与证据库，02 未来投影能力进化记录，03 未来投影扩域治理记录。<strong>飞书页面始终是协作投影，不是 SAP、POS、经营事件库或未来能力/扩域记录的第二套权威账。</strong></p>
+        <figure class="fig">
+          <svg viewBox="0 0 880 168" role="img" aria-label="协作投影与唯一权威账关系图">
+            <g class="flow-node hl">
+              <rect x="20" y="40" width="240" height="72" rx="8"></rect>
+              <text class="t" x="140" y="70" text-anchor="middle">经营事件与证据库</text>
+              <text class="s" x="140" y="92" text-anchor="middle">唯一业务真相 · 唯一审计账</text>
+            </g>
+            <path class="flow-line" d="M268 76 L 416 76"></path>
+            <text class="s" x="342" y="64" text-anchor="middle" fill="#8595a6" font-family="Menlo, monospace" font-size="9">按权限投影</text>
+            <g class="flow-node">
+              <rect x="424" y="40" width="220" height="72" rx="8"></rect>
+              <text class="t" x="534" y="70" text-anchor="middle">飞书看板 · 协作投影</text>
+              <text class="s" x="534" y="92" text-anchor="middle">不是第二套权威账</text>
+            </g>
+            <path class="flow-line" d="M652 76 L 800 76"></path>
+            <g class="flow-node">
+              <rect x="640" y="118" width="220" height="0" rx="0" opacity="0"></rect>
+              <text class="t" x="534" y="140" text-anchor="middle" font-size="11">写回只经接口、任务与审批回调</text>
+            </g>
+            <circle class="flow-pulse" cx="268" cy="76" r="4"></circle>
+            <circle class="flow-pulse" cx="416" cy="76" r="4" style="animation-delay:1.1s"></circle>
+            <circle class="flow-pulse" cx="652" cy="76" r="4" style="animation-delay:2.2s"></circle>
+            <g class="flow-node hl">
+              <rect x="700" y="40" width="160" height="72" rx="8"></rect>
+              <text class="t" x="780" y="70" text-anchor="middle">三种身份</text>
+              <text class="s" x="780" y="92" text-anchor="middle">一线 · 区域 · 集团</text>
+            </g>
+          </svg>
+          <figcaption class="fig-cap">图 1 · 协作投影关系：左为唯一权威账，右为飞书角色化视图；投影不复制权威，写回不绕过接口。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="prose">
+        <div class="sec-no">02 · 数据主链</div>
+        <h2>从权威事实到案件状态，再到决策与验证</h2>
+        <p class="dek">一条主链走完全程；任何一环都不允许页面或 Agent 替权威系统<strong>补写事实</strong>。</p>
+        <figure class="fig">
+          <svg viewBox="0 0 880 120" role="img" aria-label="数据主链流程图">
+            <g class="flow-node"><rect x="8" y="34" width="128" height="52" rx="7"></rect><text class="t" x="72" y="56" text-anchor="middle">权威事实</text><text class="s" x="72" y="74" text-anchor="middle" font-size="8">SAP/POS/WMS/CRM/飞书</text></g>
+            <path class="flow-line" d="M140 60 L 184 60"></path>
+            <g class="flow-node"><rect x="188" y="34" width="128" height="52" rx="7"></rect><text class="t" x="252" y="56" text-anchor="middle">语义层</text><text class="s" x="252" y="74" text-anchor="middle">语义对象和关系 · 异常检测</text></g>
+            <path class="flow-line" d="M320 60 L 364 60"></path>
+            <g class="flow-node"><rect x="368" y="34" width="128" height="52" rx="7"></rect><text class="t" x="432" y="56" text-anchor="middle">CandidateSignal</text><text class="s" x="432" y="74" text-anchor="middle">事件解析</text></g>
+            <path class="flow-line" d="M500 60 L 544 60"></path>
+            <g class="flow-node hl"><rect x="548" y="34" width="128" height="52" rx="7"></rect><text class="t" x="612" y="56" text-anchor="middle">EventPackage v1</text><text class="s" x="612" y="74" text-anchor="middle">case_id · CaseState</text></g>
+            <path class="flow-line" d="M680 60 L 724 60"></path>
+            <g class="flow-node hl"><rect x="728" y="34" width="144" height="52" rx="7"></rect><text class="t" x="800" y="56" text-anchor="middle">飞书看板</text><text class="s" x="800" y="74" text-anchor="middle">决策 · 执行 · 验证 · 关闭复盘</text></g>
+          </svg>
+          <figcaption class="fig-cap">图 2 · 数据主链（简化）。完整链路以《飞书看板能力》§4.1 为准，如下：</figcaption>
+        </figure>
+        <pre>SAP/POS/WMS/CRM/飞书等权威事实
+→ 数据更新通道 → 语义对象和关系 → 异常检测规则
+→ CandidateSignal → 事件解析 → EventPackage v1
+→ case_id / CaseState.current_case_state
+→ Agent 查询与证据
+├─ 事件语义未变化：继续当前案件
+└─ 新增/修正事实或新证据提示语义可能变化：Agent 只提交重新解析请求
+   → KWeaver 语义层重新解析
+   → 确认变化后才输出 EventPackage v2/v3 并更新当前版本
+→ DecisionPackage / Approval / Task
+→ Milestone / Verification
+→ 关闭、重开和复盘</pre>
+        <p class="muted"><strong>版本边界（已确认）：</strong>Agent 只能提交新证据或重新解析请求，不得自行生成、改写或覆盖经营事件包；<code>v2/v3</code> 只能由 KWeaver 语义层重解析后输出并保留旧版本。</p>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="prose">
+        <div class="sec-no">03 · 页面区域 → 数据合同</div>
+        <h2>每个页面区域读什么合同，状态如何</h2>
+        <p class="dek">「流程状态、证据摘要、责任和审批」已有数据合同；「经营影响」还是合同缺口，<strong>不能从事件数量推断</strong>。</p>
+        <table class="dt">
+          <thead><tr><th>页面区域</th><th>方案合同 / 来源</th><th>当前状态</th></tr></thead>
+          <tbody class="stagger">
+            <tr><td class="k">生命周期计数</td><td>按同一时间点读取每个案件唯一的 <code>CaseState.current_case_state</code> 再按页面阶段聚合，一个 case_id 只计一次；<code>CaseState</code>、案件主记录、追加式案件日志</td><td><span class="st st-contract">designed_contract</span></td></tr>
+            <tr><td class="k">事件列表</td><td><code>EventPackage v1</code>、<code>CaseState</code>、<code>Task</code>、责任路由</td><td><span class="st st-contract">designed_contract</span></td></tr>
+            <tr><td class="k">事件摘要</td><td><code>EventPackage</code>、<code>StandardQueryResult</code>、证据档案</td><td><span class="st st-contract">designed_contract</span></td></tr>
+            <tr><td class="k">调查进度</td><td><code>CaseState</code>、Skill 运行记录、查询记录</td><td><span class="st st-contract">designed_contract</span></td></tr>
+            <tr><td class="k">证据时间线</td><td><code>StandardQueryResult</code>、证据档案</td><td><span class="st st-contract">designed_contract</span></td></tr>
+            <tr><td class="k">待人工介入</td><td>查询状态合同、开放请求、飞书通知记录</td><td><span class="st st-contract">designed_contract</span></td></tr>
+            <tr><td class="k">管理决策</td><td><code>Approval</code>、决策治理档案、案件状态</td><td><span class="st st-contract">designed_contract</span></td></tr>
+            <tr><td class="k">责任任务</td><td><code>Task</code> 合同</td><td><span class="st st-contract">designed_contract</span></td></tr>
+            <tr><td class="k">新员工指导</td><td>五个 <code>guidance_*</code> 字段；岗位/责任路由、任务合同、已授权历史案件引用</td><td><span class="st st-contract">designed_contract</span> <span class="st st-unknown">target-tenant unknown</span></td></tr>
+            <tr><td class="k">业务验证</td><td><code>MilestoneRegistry</code>、执行验证档案</td><td><span class="st st-contract">designed_contract</span></td></tr>
+            <tr><td class="k">关闭/重开</td><td>归档重开档案</td><td><span class="st st-contract">designed_contract</span></td></tr>
+            <tr><td class="k">治理汇总</td><td>案件日志、任务、里程碑、复盘指标</td><td><span class="st st-partial">needs_metric_service</span></td></tr>
+            <tr><td class="k">经营影响汇总</td><td><code>decision-model</code>、权威事实查询、影响评估对象</td><td><span class="st st-unknown">contract_gap</span></td></tr>
+          </tbody>
+        </table>
+        <p class="muted">原文结论：经营影响还需要补充独立的 <code>ImpactAssessment</code> 合同，不能直接从事件数量推断。</p>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="prose">
+        <div class="sec-no">04 · 组件 → 接口映射精选</div>
+        <h2>看板组件到接口的最低映射，以及不能做的事</h2>
+        <p class="dek">每个组件都回答三个问题：读什么、写什么、<strong>永远不能做什么</strong>。</p>
+        <table class="dt">
+          <thead><tr><th>看板组件</th><th>读取接口 / 服务</th><th>写入动作</th><th>不能做的事</th></tr></thead>
+          <tbody class="stagger">
+            <tr><td class="k">角色首页</td><td><code>get_current_user</code>、组织范围、责任路由、案件查询</td><td>保存视图偏好</td><td>不能扩大用户数据权限</td></tr>
+            <tr><td class="k">生命周期条</td><td><code>get_case_counts(current_case_state, scope, time_window)</code></td><td>记录筛选与访问审计</td><td>不能把任务状态直接当案件当前状态</td></tr>
+            <tr><td class="k">事件列表</td><td><code>search_events</code>、<code>get_case_state</code>、<code>get_task_state</code></td><td>记录打开、筛选和下钻审计</td><td>不能绕过案件权限读取全集，也不能用旧事件状态对象替代 <code>CaseState.current_case_state</code></td></tr>
+            <tr><td class="k">案件详情</td><td><code>get_case_context</code>、<code>get_case_state</code>、<code>get_related_events</code></td><td><code>append_evidence</code>、<code>request_event_reparse</code></td><td>不能由 Agent 或页面生成、改写、覆盖 EventPackage</td></tr>
+            <tr><td class="k">证据时间线</td><td><code>get_evidence_timeline</code>、标准查询结果</td><td><code>append_evidence</code></td><td>不能把 no_data 解释为 0</td></tr>
+            <tr><td class="k">补证任务</td><td><code>create_task</code> 或飞书任务 MCP</td><td>任务回执、补证和状态</td><td>不能让「已完成任务」直接关闭事件</td></tr>
+            <tr><td class="k">审批入口</td><td><code>create_approval_draft</code>、飞书 Approval API</td><td><code>approval_id</code>、审批回调</td><td>未审批不能写入高风险动作</td></tr>
+            <tr><td class="k">执行验证</td><td><code>get_task_state</code>、<code>get_milestone_state</code>、源系统状态适配器</td><td><code>schedule_recheck</code>、结果证据</td><td>未到里程碑不能提前判定质量异常</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="prose">
+        <div class="sec-no">05 · 三角色看见什么</div>
+        <h2>同一套案件数据，三种身份首页</h2>
+        <p class="dek">三角色身份投影，而不是三套数据；摘要默认可见，<strong>原始证据按权限下钻</strong>。</p>
+        <div class="role-grid stagger">
+          <div class="role-card">
+            <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="12" r="6" fill="none" stroke="#2251ff" stroke-width="2"></circle><path d="M5 29 C 5 21, 29 21, 29 29" fill="none" stroke="#2251ff" stroke-width="2" stroke-linecap="round"></path></svg>
+            <h3>一线责任人</h3>
+            <p>本人责任任务与授权案件；只看履责所需摘要，敏感经营原始证据无权查看。</p>
+          </div>
+          <div class="role-card">
+            <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 4 C 10 4, 6 9, 6 14 C 6 22, 17 30, 17 30 C 17 30, 28 22, 28 14 C 28 9, 24 4, 17 4 Z" fill="none" stroke="#2251ff" stroke-width="2"></path><circle cx="17" cy="14" r="4" fill="none" stroke="#2251ff" stroke-width="2"></circle></svg>
+            <h3>区域负责人</h3>
+            <p>所辖区域案件、区域责任、补证进度和升级动作；跨区数据不进入本视图。</p>
+          </div>
+          <div class="role-card">
+            <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="6" y="12" width="22" height="18" fill="none" stroke="#2251ff" stroke-width="2"></rect><path d="M12 12 V 7 h10 v5" fill="none" stroke="#2251ff" stroke-width="2"></path><path d="M12 20 h10 M12 25 h6" stroke="#2251ff" stroke-width="2" stroke-linecap="round"></path></svg>
+            <h3>集团管理层</h3>
+            <p>案件全局摘要、管理决定、影响状态和跨区汇总；原始证据仍按源系统权限控制。</p>
+          </div>
+        </div>
+        <p>已确认决策（<span class="st st-verified">confirmed</span>）：同一套案件数据按登录身份呈现一线、区域、集团三种首页；管理层汇总<strong>并列展示案件治理线和经营影响线</strong>。</p>
+        <p>默认分类（<span class="st st-verified">confirmed</span>）：以每个案件唯一的 <code>current_case_state</code> 为主——调查取证中、待人工补证、待补证事实汇总已形成、补证材料完整性确认、分析中、决策就绪、已知悉暂不处理、风险接受、执行中、未解决专项协作、待结果验证、已正式关闭。「案件已建立」、管理决定、任务完成/失败/超时、正式关闭和重开作为里程碑进入时间线，不另造当前状态。</p>
+        <p>状态分离（<span class="st st-contract">confirmed_design</span>）：<code>current_case_state</code>、<code>milestone_code</code>、<code>task_completion_status</code>、<code>collaboration_status</code>、<code>resolution_status</code>、<code>projection_status</code> 分别保存，任一字段不能替代其他字段；页面只投影经营事件与证据库，不能用任务完成冒充经营结果达成。</p>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="prose">
+        <div class="sec-no">06 · 平台能力三层状态</div>
+        <h2>公开依据成立 ≠ 目标租户已开通</h2>
+        <p class="dek">公开证据只更新 <code>public_capability_status</code>；圣农实际套餐、开关、授权和端到端结果单独记录，<strong>二者不得互相推导</strong>。</p>
+        <div class="legend">
+          <span><span class="st st-verified">verified</span>官方文档或目标租户测试直接证明</span>
+          <span><span class="st st-partial">partial</span>组成能力有公开证据，完整业务组合或端到端效果尚未证明</span>
+          <span><span class="st st-unknown">target-tenant unknown</span>目标租户版本、套餐、开关、授权或可用性尚未验证</span>
+        </div>
+        <table class="dt">
+          <thead><tr><th>能力</th><th>对本方案的结论</th><th>状态</th></tr></thead>
+          <tbody class="stagger">
+            <tr><td class="k">Aily Agent 调查</td><td>可承接 01 循环的调查运行时，但不承载事件库和确定性计算</td><td><span class="st st-verified">verified</span></td></tr>
+            <tr><td class="k">自定义 MCP</td><td>可接领域查询网关，不能据此证明 SAP 现场接口已通</td><td><span class="st st-verified">verified</span></td></tr>
+            <tr><td class="k">Custom Agent OpenAPI</td><td><code>agent_chat_id（单轮对话编号）</code>、<code>session_id（多轮会话编号）</code> 可关联案件与运行、多轮复用前文；公开 API 不返回完整节点 Trace、Token、Skill 版本或 MCP 原始请求响应</td><td><span class="st st-verified">verified</span> <span class="st st-partial">partial</span></td></tr>
+            <tr><td class="k">Aily 日志</td><td>对话日志可持续同步到多维表格，用于运行观察、运营分析和对账；不等于完整 MCP 请求响应、Skill 版本或不可变经营审计</td><td><span class="st st-partial">partial</span></td></tr>
+            <tr><td class="k">审批</td><td>可创建审批实例；审批定义、权限和回调仍需租户配置</td><td><span class="st st-verified">verified</span></td></tr>
+            <tr><td class="k">消息通知</td><td>可做关键里程碑通知；已读不等于已知悉，已读查询有 7 天和单消息限制</td><td><span class="st st-verified">verified</span></td></tr>
+          </tbody>
+        </table>
+        <h2 style="margin-top:30px">当前不能宣称</h2>
+        <ul class="cant stagger">
+          <li>圣农租户已开通 Aily、Workflow、MCP 或自定义应用。</li>
+          <li>圣农 SAP、POS、CRM、WMS 已按本方案字段和状态码暴露。</li>
+          <li>Aily 能跨天持续挂起并自动恢复一个 Agent Run。</li>
+          <li>飞书任务完成会自动证明经营事件已解决。</li>
+          <li>页面展示的经营影响金额已经由真实模型和权威数据计算。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="prose">
+        <div class="sec-no">07 · 当前范围声明</div>
+        <h2>本轮交付到哪里为止</h2>
+        <p class="dek">01 详细投影、02 只概述、03 占位；治理效率与经营影响，<strong>没有 model_run_id 就不造数</strong>。</p>
+        <p><strong>01 经营事件：</strong>形成详细人员同步合同，可进入页面试点设计（非生产就绪）；当前页面只展示可由同一案件数组可靠计算的生命周期阶段、正式状态、角色范围与影响证据状态，不展示未经依据计算的治理效率或经营影响数值。</p>
+        <p><strong>02 能力进化：</strong>业务逻辑已冻结（<code>02_logic_final</code>）；本次只展示已冻结逻辑的概述、待验证项和未实施原因，详细看板、真实接口和 E2E 本次不实施。</p>
+        <p><strong>03 业务扩域：</strong><code>03_in_progress</code>——专题仍在独立修改，本轮不读取、不复述、不补写、不冻结其流程、字段、触发条件或治理结论，页面只保留统一入口和标识。</p>
+        <div class="sim-banner">
+          <p><strong>治理效率与经营影响：</strong>仍是目标汇总结构，但需待企业指标口径、真实接口及经营影响计算的 <code>model_run_id</code> 确认后再投影，当前页面不能造数。经营影响数字允许展示模型估算时必须标注 <code>modeled</code>，并保留 <code>model_run_id</code>、输入版本和假设；不能与 <code>confirmed</code> 混淆，证据不足则为 <code>unknown</code>。</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="prose brief-footer">
+      <a class="go" href="../">打开飞书看板 →</a>
+      <p class="src">内容真源：docs/方案合并副本_2026-07-21/飞书看板能力.md（design_audit_in_progress）<br>本页为方案设计叙述，全部数据为脱敏演示口径；不代表圣农租户已开通或完成联调。</p>
+    </div>
+  </main>
+
+  <script>
+    // 封面画布：数据自后端系统经语义层与接口流入飞书看板的粒子流（纯 JS，无外部资源）
+    (function () {
+      var canvas = document.getElementById('cover-canvas');
+      if (!canvas) return;
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var ctx = canvas.getContext('2d');
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var W = 0, H = 0, raf = null, t0 = null;
+
+      var LANES = 5;
+      var NODE_LABELS = ['权威系统', '语义层', '接口 · 案件服务', '飞书看板'];
+
+      function resize() {
+        W = canvas.clientWidth; H = canvas.clientHeight;
+        canvas.width = W * dpr; canvas.height = H * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function nodeX(i) { return W * (0.14 + i * 0.24); }
+
+      function draw(ts) {
+        if (t0 === null) t0 = ts;
+        var t = (ts - t0) / 1000;
+        ctx.clearRect(0, 0, W, H);
+
+        var midY = H * 0.62;
+        // 节点与连线
+        ctx.strokeStyle = 'rgba(34,81,255,.22)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(nodeX(0), midY);
+        ctx.lineTo(nodeX(3), midY);
+        ctx.stroke();
+
+        for (var i = 0; i < 4; i++) {
+          var x = nodeX(i);
+          var pulse = 0.5 + 0.5 * Math.sin(t * 1.6 + i * 1.3);
+          ctx.beginPath();
+          ctx.arc(x, midY, 5 + pulse * 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = i === 3 ? 'rgba(34,81,255,.9)' : 'rgba(5,28,44,.75)';
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(x, midY, 11 + pulse * 5, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(34,81,255,' + (0.12 + pulse * 0.15) + ')';
+          ctx.stroke();
+          ctx.fillStyle = 'rgba(66,86,106,.85)';
+          ctx.font = '10px Menlo, Consolas, monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(NODE_LABELS[i], x, midY + 28);
+        }
+
+        // 粒子流
+        for (var lane = 0; lane < LANES; lane++) {
+          var yOff = (lane - (LANES - 1) / 2) * 7;
+          for (var p = 0; p < 4; p++) {
+            var speed = 0.05 + lane * 0.006;
+            var u = ((t * speed) + p / 4 + lane * 0.13) % 1;
+            var px = nodeX(0) + (nodeX(3) - nodeX(0)) * u;
+            var py = midY + yOff + Math.sin(u * Math.PI * 4 + lane) * 3;
+            var fade = Math.sin(u * Math.PI);
+            ctx.beginPath();
+            ctx.arc(px, py, 1.6, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(34,81,255,' + (0.14 + fade * 0.5) + ')';
+            ctx.fill();
+          }
+        }
+        raf = requestAnimationFrame(draw);
+      }
+
+      function drawStatic() {
+        if (t0 === null) t0 = 0;
+        ctx.clearRect(0, 0, W, H);
+        var midY = H * 0.62;
+        ctx.strokeStyle = 'rgba(34,81,255,.22)';
+        ctx.beginPath(); ctx.moveTo(nodeX(0), midY); ctx.lineTo(nodeX(3), midY); ctx.stroke();
+        for (var i = 0; i < 4; i++) {
+          var x = nodeX(i);
+          ctx.beginPath(); ctx.arc(x, midY, 6, 0, Math.PI * 2);
+          ctx.fillStyle = i === 3 ? 'rgba(34,81,255,.9)' : 'rgba(5,28,44,.75)';
+          ctx.fill();
+          ctx.fillStyle = 'rgba(66,86,106,.85)';
+          ctx.font = '10px Menlo, Consolas, monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(NODE_LABELS[i], x, midY + 28);
+        }
+        for (var lane = 0; lane < LANES; lane++) {
+          var yOff = (lane - (LANES - 1) / 2) * 7;
+          for (var p = 0; p < 8; p++) {
+            var u = (p + 0.5) / 8;
+            var px = nodeX(0) + (nodeX(3) - nodeX(0)) * u;
+            var py = midY + yOff;
+            ctx.beginPath(); ctx.arc(px, py, 1.6, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(34,81,255,.4)';
+            ctx.fill();
+          }
+        }
+      }
+
+      function start() {
+        resize();
+        if (raf) cancelAnimationFrame(raf);
+        if (reduced.matches) { raf = null; drawStatic(); }
+        else { t0 = null; raf = requestAnimationFrame(draw); }
+      }
+      window.addEventListener('resize', start);
+      if (typeof reduced.addEventListener === 'function') reduced.addEventListener('change', start);
+      start();
+    })();
+  </script>
+  <script>
+    // 章节滚动入场（reduced-motion 直接呈现）
+    (function () {
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var bands = document.querySelectorAll('.band');
+      if (reduced || !('IntersectionObserver' in window)) {
+        bands.forEach(function (band) { band.classList.add('in'); });
+        return;
+      }
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08 });
+      bands.forEach(function (band) { observer.observe(band); });
+    })();
+  </script>
+  <script>
+    // 整站导航：详细方案与飞书能力看板下拉（与首页一致）：hover/focus 展开，Esc 关闭，触屏首次点展开二次点跳转
+    (function () {
+      var COARSE = window.matchMedia('(hover: none), (pointer: coarse)');
+
+      function open(dd, trigger) {
+        dd.classList.remove('esc-closed');
+        dd.classList.add('open');
+        if (trigger) trigger.setAttribute('aria-expanded', 'true');
+      }
+      function close(dd) {
+        dd.classList.remove('open');
+        var t = dd.querySelector('[data-trigger]');
+        if (t) t.setAttribute('aria-expanded', 'false');
+      }
+
+      document.querySelectorAll('[data-dd]').forEach(function (dd) {
+        var trigger = dd.querySelector('[data-trigger]');
+        if (!trigger) return;
+
+        trigger.addEventListener('click', function (e) {
+          if (trigger.tagName === 'BUTTON') {
+            e.preventDefault();
+            if (dd.classList.contains('open')) { close(dd); } else { open(dd, trigger); }
+            return;
+          }
+          if (COARSE.matches && !dd.classList.contains('open')) {
+            e.preventDefault();
+            open(dd, trigger);
+          }
+        });
+
+        dd.addEventListener('pointerenter', function () { dd.classList.remove('esc-closed'); });
+        dd.addEventListener('focusout', function (e) {
+          if (!dd.contains(e.relatedTarget)) dd.classList.remove('esc-closed');
+        });
+      });
+
+      document.addEventListener('pointerdown', function (e) {
+        document.querySelectorAll('[data-dd].open').forEach(function (dd) {
+          if (!dd.contains(e.target)) close(dd);
+        });
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        document.querySelectorAll('[data-dd]').forEach(function (dd) {
+          var active = dd.classList.contains('open') ||
+                       dd.contains(document.activeElement) ||
+                       dd.matches(':hover');
+          if (!active) return;
+          var wasOpen = dd.classList.contains('open');
+          close(dd);
+          dd.classList.add('esc-closed');
+          if (dd.contains(document.activeElement) && document.activeElement !== dd.querySelector('[data-trigger]')) {
+            var t = dd.querySelector('[data-trigger]');
+            if (t) t.focus();
+          }
+          if (wasOpen) e.preventDefault();
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

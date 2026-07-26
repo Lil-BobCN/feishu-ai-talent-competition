@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>圣农经营智能中枢 · 业务扩域循环｜评委交互研究报告</title>
+<meta name="description" content="价格试点形成可参考结果后，怎样与企业共同判断下一步扩向哪里、为什么值得扩、如何逐步放大经营价值和治理效能——建议性蓝图（logic_confirmed / advisory_blueprint / enterprise_validation_pending），扩域建议由企业确认、调整、暂缓或否决。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='12'%20fill='%23faf8f4'/%3E%3Crect%20x='9'%20y='12'%20width='46'%20height='36'%20rx='4'%20fill='none'%20stroke='%232251ff'%20stroke-width='4'/%3E%3Crect%20x='18'%20y='21'%20width='28'%20height='24'%20rx='3'%20fill='none'%20stroke='%232251ff'%20stroke-width='3'/%3E%3Crect%20x='27'%20y='28'%20width='12'%20height='12'%20rx='2'%20fill='%232251ff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="page-veil" aria-hidden="true"></div>
+
+
+<nav class="loop-nav" aria-label="循环切换">
+  <a href="../../">← 首页</a>
+  <a href="../">01 经营事件循环</a>
+  <a href="../02/">02 能力进化循环</a>
+  <a href="./" class="cur" aria-current="page">03 业务扩域循环</a>
+</nav>
+
+<!-- ═══ 封面 · 三态画布（A 版图递归 / B 蓝图展开 / C 蓝图） ═══ -->
+<header id="cover">
+  <canvas id="cover-canvas"></canvas>
+  <canvas id="cover-canvas-x" style="display:none"></canvas>
+  <canvas id="cover-canvas-w" style="display:none"></canvas>
+  <div class="cover-inner">
+    <p class="cover-kicker">圣农经营智能中枢 · 评委交互研究报告 · 2026-07 · 03 业务扩域循环</p>
+    <h1 class="cover-title">试点之后，<br><span class="cover-num">与企业共议下一站</span></h1>
+    <p class="cover-sub">业务扩域循环：从首个试点结果到分阶段蓝图的建议性设计</p>
+    <p class="cover-lede">价格试点形成可参考结果后，怎样与企业共同判断下一步扩向哪里、为什么值得扩，以及如何逐步放大经营价值和治理效能——这是 03 业务扩域循环要回答的问题。03 由人主导：它不是自动运行的业务系统、评分制度或实施合同，而是一份建议性蓝图。扩域选择与实施路径均为建议，最终由企业确认、调整、暂缓或否决。本报告不虚构实施合同和试验结果，真实痛点、数据可得性与内部优先级全部待企业核验。</p>
+    <div class="cover-chips">
+      <button class="chip" data-goto="#sec-summary">§0 摘要</button>
+      <button class="chip" data-goto="#sec-premise">§1 启动前提</button>
+      <button class="chip" data-goto="#sec-cocreate">§2 共创顺序</button>
+      <button class="chip" data-goto="#sec-method">§3 五步法</button>
+      <button class="chip" data-goto="#sec-criteria">§4 判断维度</button>
+      <button class="chip" data-goto="#sec-candidates">§5 候选场景</button>
+      <button class="chip" data-goto="#sec-scenario">§6 案例构思</button>
+      <button class="chip" data-goto="#sec-roadmap">§7 分阶段建议</button>
+      <button class="chip" data-goto="#sec-boundary">§8 跨循环边界</button>
+      <button class="chip" data-goto="#sec-evidence">§9 资料依据</button>
+    </div>
+    <p class="cover-anchor">证据分级：圣农公开事实 &gt; 官方技术依据 &gt; 行业验证经验 &gt; 本方案设计判断 &gt; 待企业验证 · 候选场景顺序是方案推断，不是圣农批准的路线 · 建议性蓝图（advisory_blueprint），企业可确认、调整、暂缓或否决</p>
+    <div class="cover-mode" id="cover-mode" aria-label="封面视觉变体">
+      <button data-mode="rec" class="on">A · 版图递归</button>
+      <button data-mode="x">B · 蓝图展开</button>
+      <button data-mode="w">C · 蓝图</button>
+    </div>
+    <div class="scroll-hint"><span></span>SCROLL</div>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══ §0 摘要 ═══ -->
+<section id="sec-summary" class="band" data-win="win-evidence">
+  <div class="prose">
+    <p class="sec-no">§0 · 卷首摘要</p>
+    <h2>一份建议性蓝图，等企业来答</h2>
+    <p class="dek">扩向哪里、为什么值得扩、如何逐步放大价值——03 只提供建议，采纳与否由企业决定。</p>
+    <p><b>03 回答什么。</b>业务扩域循环不是“一次性建设全集团智能平台”，而是回答一个问题：<b>价格试点形成可参考结果后，我们可以怎样与企业共同判断下一步扩向哪里、为什么值得扩，以及如何逐步放大经营价值和治理效能？</b><span class="fact-tag ft-design">本方案设计判断</span></p>
+    <p><b>人主导性质。</b>03 由人主导——它不是自动运行的业务系统、评分制度或实施合同；扩域选择与实施路径均为建议，最终由企业确认、调整、暂缓或否决。<span class="fact-tag ft-design">本方案设计判断</span></p>
+    <p><b>启动前提。</b>建议在首个试点已经产生可核验结果、关键流程经过重复运行、主要风险已有说明时，再启动扩域讨论——这只是大致参考，不是固定门槛；企业也可以认为条件尚不成熟，暂不扩域。<span class="fact-tag ft-design">本方案设计判断</span></p>
+    <p><b>有意留白。</b>数据接口、字段、权限、责任人、指标阈值、预算周期和部署验证并非没有考虑，而是已识别为真实扩域需要补充的事项；本报告有意停留在建议性蓝图与案例构思层，<b>不虚构实施合同和试验结果</b>。<span class="fact-tag ft-design">本方案设计判断</span><span class="fact-tag ft-unknown">待企业验证</span></p>
+    <p><b>与 01 / 02 的衔接。</b>01 经营事件循环（一次异常从发现到结果验证的完整闭环）与 02 能力进化循环（正式关闭案件如何变成可复用的 Agent 能力）的机制见各自报告：<a href="../">01 · 经营事件循环</a> · <a href="../02/">02 · 能力进化循环</a>（02 报告另行交付）。本报告只展开 03。</p>
+    <div class="note-box">
+      <p><b>事实标记约定。</b>正文关键事实主张按五类标注——<span class="fact-tag ft-public">圣农公开事实</span><span class="fact-tag ft-official">官方技术依据</span><span class="fact-tag ft-industry">行业验证经验</span><span class="fact-tag ft-design">本方案设计判断</span><span class="fact-tag ft-unknown">待企业验证</span>。03 全篇只用到其中三类：圣农公开事实（年报与官方赛题）、本方案设计判断（建议、顺序与蓝图）、待企业验证（真实痛点与内部信息）。未标注的判断均为方案内部的逻辑陈述。</p>
+      <p><b>总原则。</b>候选场景顺序是方案推断，不是圣农批准的路线；企业可以调整顺序，也可以暂不选择任何场景。</p>
+    </div>
+    <table class="dt">
+      <thead><tr><th>关键事实</th><th>内容</th><th>事实级别</th></tr></thead>
+      <tbody>
+        <tr><td class="k">循环性质</td><td>人主导的建议性蓝图——不是自动运行的业务系统、评分制度或实施合同</td><td><span class="fact-tag ft-design">本方案设计判断</span></td></tr>
+        <tr><td class="k">企业选择权</td><td>确认 / 调整 / 暂缓 / 否决——扩域建议由企业定夺</td><td><span class="fact-tag ft-design">本方案设计判断</span></td></tr>
+        <tr><td class="k">启动参考条件</td><td>3 项：可核验结果 / 重复运行 / 风险已说明——大致参考，不是固定门槛</td><td><span class="fact-tag ft-design">本方案设计判断</span></td></tr>
+        <tr><td class="k">共创手段</td><td>5 步：沟通目标 → 核验痛点 → 复查试点 → 情景推演 → 分阶段建议</td><td><span class="fact-tag ft-design">本方案设计判断</span></td></tr>
+        <tr><td class="k">共创角色</td><td>4 方：管理层 / 业务域负责人与一线 / IT·数据·安全 / FDE·方案团队</td><td><span class="fact-tag ft-design">本方案设计判断</span></td></tr>
+        <tr class="hl"><td class="k">候选场景</td><td>3 个——首选建议：渠道库存与动销协同；顺序为方案推断，非圣农批准的路线</td><td><span class="fact-tag ft-design">本方案设计判断</span></td></tr>
+        <tr><td class="k">年报方向支撑</td><td>7 个方向：精准预测、高效生产、精益仓储、智能物流、产销协同、全渠道策略、B 端客户全周期管理</td><td><span class="fact-tag ft-public">圣农公开事实</span></td></tr>
+        <tr><td class="k">待企业核验</td><td>13 项：六项事实核验 + 七类有意留白，完整清单见附录 A</td><td><span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ §1 启动前提与有意留白 ═══ -->
+<section id="sec-premise" class="band" data-win="win-evidence">
+  <div class="prose">
+    <p class="sec-no">§1 · 启动前提与有意留白</p>
+    <h2>先有条件，再谈扩域——但条件不是门槛</h2>
+    <p class="dek">三条参考条件只是大致参考；企业也可以说“现在还不行”。</p>
+    <p>建议在以下条件大致具备时再启动扩域讨论——只是大致参考，不是固定门槛；企业也可以认为条件尚不成熟，暂不扩域：<span class="fact-tag ft-design">本方案设计判断</span></p>
+    <table class="dt">
+      <thead><tr><th>参考条件</th><th>含义</th></tr></thead>
+      <tbody>
+        <tr><td class="k">可核验结果</td><td>首个试点已经产生可核验的真实结果</td></tr>
+        <tr><td class="k">重复运行</td><td>关键流程经过重复运行，不靠一次偶然成功</td></tr>
+        <tr><td class="k">风险已说明</td><td>主要风险已有说明，企业清楚自己在采纳什么</td></tr>
+      </tbody>
+    </table>
+    <div class="note-box">
+      <p><b>有意留白。</b>数据接口、字段、权限、责任人、指标阈值、预算周期和部署验证并非没有考虑，而是已识别为真实扩域需要补充的事项。受本轮设计时间以及企业内部流程、数据、目标环境和组织授权信息不足的限制，继续细化会产生无证据假设——本报告有意停留在建议性蓝图与案例构思层，<b>不虚构实施合同和试验结果</b>。<span class="fact-tag ft-design">本方案设计判断</span><span class="fact-tag ft-unknown">待企业验证</span></p>
+      <p><b>本稿已讨论范围。</b>扩域目的、企业共创方式、候选场景、首选下一试点建议、分阶段方向及与 01、02 的衔接；其余留给企业与 FDE 在现场共同补全。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ §2 共创顺序 ═══ -->
+<section id="sec-cocreate" class="band" data-win="win-cocreate">
+  <div class="prose">
+    <p class="sec-no">§2 · 共创顺序</p>
+    <h2>从试点结果到企业选择</h2>
+    <p class="dek">一条建议性的共创路线——箭头表达讨论顺序，不表达自动化。</p>
+    <pre>已有试点形成可参考结果
+→ 与企业沟通经营目标与治理诉求
+→ 共同盘点资料、已有能力与现实约束
+→ 提出候选场景与首选建议
+→ 共同形成分阶段业务扩域蓝图
+→ 企业选择
+   ├─ 采纳：建议开展小范围新场景试点
+   │   → 新场景重新进入 01 经营事件循环
+   │   → 真实结果形成后回到 03 更新建议
+   ├─ 调整：回到共同盘点
+   └─ 暂缓或否决：保留依据，待条件变化后再讨论</pre>
+    <p>箭头只表达<b>建议的共创顺序</b>，不代表自动化工作流：03 不设计自动触发、自动评分、自动选场景、自动审批或自动扩域；未来即使增加工具，也建议先用于资料整理和证据汇总，不替企业作经营决策。<span class="fact-tag ft-design">本方案设计判断</span></p>
+  </div>
+  <!-- 共创顺序流（cocreate-flow.js） -->
+  <div class="wide xl"><div id="cocreate-chart" class="chart-frame"></div></div>
+</section>
+
+<!-- ═══ §3 五步法与角色分工 ═══ -->
+<section id="sec-method" class="band" data-win="win-cocreate">
+  <div class="prose">
+    <p class="sec-no">§3 · 五步法与角色分工</p>
+    <h2>FDE 不替企业拍板</h2>
+    <p class="dek">五步共创手段，四方各就各位；信息不足时，可以建议暂缓。</p>
+    <h3>3.1 五步共创手段</h3>
+    <table class="dt">
+      <thead><tr><th>步骤</th><th>共创手段</th></tr></thead>
+      <tbody>
+        <tr><td class="k">第一步</td><td>与管理层沟通经营目标和治理诉求</td></tr>
+        <tr><td class="k">第二步</td><td>与候选业务域负责人及一线人员核验真实痛点</td></tr>
+        <tr><td class="k">第三步</td><td>共同复查首个试点的结果、已有能力和未解决问题</td></tr>
+        <tr><td class="k">第四步</td><td>结合企业资料，用简要情景推演讨论候选场景的数据、协作和风险</td></tr>
+        <tr><td class="k">第五步</td><td>形成分阶段扩域建议，由企业选择采纳、调整或暂缓</td></tr>
+      </tbody>
+    </table>
+    <h3 class="sub-h">3.2 四方角色分工</h3>
+    <table class="dt">
+      <thead><tr><th>角色</th><th>分工</th></tr></thead>
+      <tbody>
+        <tr><td class="k">企业管理层</td><td>提供经营方向</td></tr>
+        <tr><td class="k">候选业务域负责人 · 一线人员</td><td>核验真实痛点与现实做法</td></tr>
+        <tr><td class="k">IT · 数据 · 安全团队</td><td>说明可行性与约束</td></tr>
+        <tr class="hl"><td class="k">FDE · 方案团队</td><td>负责资料分析、能力盘点和建议整理——<b>不替企业拍板</b>；没有明确业务负责人或关键信息不足时，可以建议暂缓</td></tr>
+      </tbody>
+    </table>
+    <div class="note-box"><p><b>这对企业意味着什么。</b>扩域讨论不是方案团队单方面“交方案”：方向来自管理层，现实来自一线，约束来自 IT 与数据安全，FDE 只负责把资料、能力和建议整理清楚——决定权始终在企业手里。</p></div>
+  </div>
+</section>
+
+<!-- ═══ §4 判断维度 ═══ -->
+<section id="sec-criteria" class="band" data-win="win-cocreate">
+  <div class="prose">
+    <p class="sec-no">§4 · 判断维度</p>
+    <h2>先价值，后能力</h2>
+    <p class="dek">先问值不值得，再问能不能——不打分、不设阈值、不定强制规则。</p>
+    <table class="dt">
+      <thead><tr><th>次序</th><th>建议关注的维度</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td class="k">先关注</td><td>场景能否创造重要经营价值、改善跨部门协同或提升治理效能</td></tr>
+        <tr><td class="k">再讨论</td><td>已有能力可以复用多少、还需补充哪些数据与能力、风险是否可控</td></tr>
+      </tbody>
+    </table>
+    <p>上述内容用于帮助企业讨论，<b>不形成分数、权重、固定阈值或强制选择规则</b>。<span class="fact-tag ft-design">本方案设计判断</span></p>
+    <div class="note-box"><p><b>为什么是先价值后能力。</b>先看能力容易把扩域讨论变成“现有工具能做什么就做什么”；先看价值，才能把讨论锚在经营问题上，再回头清点已有能力够不够用。</p></div>
+  </div>
+</section>
+
+<!-- ═══ §5 候选场景 ═══ -->
+<section id="sec-candidates" class="band" data-win="win-decide">
+  <div class="prose">
+    <p class="sec-no">§5 · 候选场景</p>
+    <h2>三个建议，等待企业的答案</h2>
+    <p class="dek">顺序为方案推断，不是圣农批准的路线——每行标注三级证据状态。</p>
+    <p>事实边界先行：官方赛题披露零售业务覆盖多区域、多人员和多渠道，相关数据分散在多个系统；2025 年年报提出精准预测、高效生产、精益仓储、智能物流、产销协同、全渠道策略和 B 端客户全周期管理等方向。<span class="fact-tag ft-public">圣农公开事实</span>这些方向说明价格试点之后可以优先讨论渠道、库存、促销和履约等相邻场景，但不能证明企业已经存在某个具体异常。<span class="fact-tag ft-design">本方案设计判断</span>真实痛点、数据可得性、业务负责人、资源投入、优先顺序和试点价值，均需结合企业内部信息共同确认。<span class="fact-tag ft-unknown">待企业验证</span></p>
+    <table class="dt">
+      <thead><tr><th>建议顺序</th><th>候选场景</th><th>简要建议</th><th>证据状态</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td class="k">1 · 首选建议</td><td>渠道库存与动销协同</td><td>建议作为首选下一试点。与价格、产品、区域、客户和渠道等已有对象较相邻，也与年报中的产销协同、精益仓储和智能物流方向相符</td><td><span class="fact-tag ft-public">圣农公开事实</span>年报方向相符<br><span class="fact-tag ft-design">本方案设计判断</span>首选与相邻性为推断<br><span class="fact-tag ft-unknown">待企业验证</span>真实痛点与数据可得性</td></tr>
+        <tr><td class="k">2</td><td>全渠道促销执行与毛利治理</td><td>价格政策和渠道能力可能较容易复用，但需由企业判断它是价格域继续深化，还是值得形成独立扩域场景</td><td><span class="fact-tag ft-design">本方案设计判断</span>复用可能性为推断<br><span class="fact-tag ft-unknown">待企业验证</span>是否独立成域由企业判断</td></tr>
+        <tr><td class="k">3 · 后续备选</td><td>B 端客户全周期履约治理</td><td>年报已有明确战略方向，但预计需要补充订单、合同、履约和物流等更多信息，建议作为后续备选</td><td><span class="fact-tag ft-public">圣农公开事实</span>年报战略方向<br><span class="fact-tag ft-design">本方案设计判断</span>信息补充需求为推断<br><span class="fact-tag ft-unknown">待企业验证</span>内部优先级</td></tr>
+      </tbody>
+    </table>
+    <p><b>首选建议不等于企业结论。</b>候选顺序是方案推断，不是圣农批准的路线；公开资料尚不足以证明三个场景的真实收益、建设成本和内部优先级——<b>企业可以调整顺序，也可以暂不选择任何场景</b>。<span class="fact-tag ft-design">本方案设计判断</span><span class="fact-tag ft-unknown">待企业验证</span></p>
+  </div>
+  <!-- 候选场景三级证据榜（candidate-odds.js） -->
+  <div class="wide xl"><div id="candidate-chart" class="chart-frame"></div></div>
+</section>
+
+<!-- ═══ §6 案例构思 ═══ -->
+<section id="sec-scenario" class="band" data-win="win-decide">
+  <div class="prose">
+    <p class="sec-no">§6 · 案例构思</p>
+    <h2>一个说明性情景</h2>
+    <p class="dek">用来说明“试点形成的对象和经验怎样支持相邻场景讨论”——不是已发现的经营异常。</p>
+    <div class="sim-banner concept">
+      <p><b>⚠ 案例构思（说明性情景，非圣农经营异常）：</b>假设某区域产品在价格或促销策略执行后，经销商进货量增加，但终端动销没有同步变化——企业可以进一步核验这是正常备货，还是值得关注的产销协同问题。该情景只用于说明“价格试点形成的对象和经验怎样支持相邻场景讨论”，<b>不是已经发现的圣农经营异常</b>；正常备货、季节性储备和其他合法经营安排都需要保留。<span class="fact-tag ft-design">本方案设计判断</span></p>
+    </div>
+    <p>这个情景刻意停在“值得核验”而不是“已经异常”：与 01 的候选异常信号同理，扩域讨论的起点是证据边界清楚的疑问，不是预设结论。<span class="fact-tag ft-design">本方案设计判断</span></p>
+  </div>
+</section>
+
+<!-- ═══ §7 分阶段建议 ═══ -->
+<section id="sec-roadmap" class="band" data-win="win-decide">
+  <div class="prose">
+    <p class="sec-no">§7 · 分阶段建议</p>
+    <h2>不设时间表的路带</h2>
+    <p class="dek">按证据成熟度和业务邻近程度排列——不承诺企业一定按此顺序实施。</p>
+    <pre>第一阶段建议：渠道库存与动销协同
+后续相邻阶段：根据真实结果，再讨论促销毛利治理或 B 端履约治理
+远期探索方向：生产、仓储物流、采购、养殖育种或海外业务</pre>
+    <p>以上按现有证据成熟度和业务邻近程度排列，<b>不设置具体时间表，也不承诺企业一定按此顺序实施</b>；每完成一个真实试点，都可以回到 03 重新讨论下一阶段建议。<span class="fact-tag ft-design">本方案设计判断</span></p>
+  </div>
+  <!-- 分阶段建议路带（phase-road.js） -->
+  <div class="wide xl"><div id="road-chart" class="chart-frame"></div></div>
+</section>
+
+<!-- ═══ §8 跨循环边界 ═══ -->
+<section id="sec-boundary" class="band" data-win="win-return">
+  <div class="prose">
+    <p class="sec-no">§8 · 跨循环边界</p>
+    <h2>03 不改变已确认的分工</h2>
+    <p class="dek">新场景回到 01 独立成案，可控问题回到 02 能力进化——03 只提供建议。</p>
+    <table class="dt">
+      <thead><tr><th>边界</th><th>规则</th></tr></thead>
+      <tbody>
+        <tr><td class="k">新场景仍走 01</td><td>企业采纳某个新场景后，建议先把它作为独立业务域的小范围试点；其中的新经营事件仍按 01 建立独立事件、案件和 Agent 上下文——不让价格案件直接切换成库存或履约 Skill（机制见 <a href="../">01 报告</a>）</td></tr>
+        <tr><td class="k">可控问题仍走 02</td><td>真实案件关闭后，如果暴露的是 Agent 接案后可控的 Skill、Prompt、MCP 或工作流问题，再按 02 进入能力进化（机制见 <a href="../02/">02 报告</a>）</td></tr>
+        <tr class="hl"><td class="k">03 只提供建议</td><td>不直接修改生产能力，不执行真实审批，也不承担扩域项目管理</td></tr>
+      </tbody>
+    </table>
+    <div class="note-box"><p><b>这对企业意味着什么。</b>采纳一个新场景不等于买一套新系统：调查、决策、执行与验证仍然走 01 已经确认的闭环，能力改进仍然走 02 已经确认的进化链——03 只是决定“下一步去哪”的那张地图。</p></div>
+  </div>
+</section>
+
+<!-- ═══ §9 边界与资料依据 ═══ -->
+<section id="sec-evidence" class="band" data-win="win-return">
+  <div class="prose">
+    <p class="sec-no">§9 · 边界与资料依据</p>
+    <h2>每条建议都能回到出处</h2>
+    <p class="dek">媒体信息与行业类比只作线索——圣农事实优先年报、赛题与企业内部资料核验。</p>
+    <ul class="laws">
+      <li>官方赛题汇总（圣农条目，K3）：用于确认官方赛题披露的零售组织、渠道与数据分散背景。<span class="fact-tag ft-public">圣农公开事实</span></li>
+      <li>圣农发展 2025 年年度报告（K2）：用于确认产销协同、精益仓储、智能物流、全渠道与 B 端履约方向。<span class="fact-tag ft-public">圣农公开事实</span></li>
+      <li>库存与经销商调研（K4）：用于补充候选场景线索与证据边界。<span class="fact-tag ft-design">本方案设计判断</span></li>
+      <li>跨部门协作与决策调研（K5）：用于补充候选场景线索与证据边界。<span class="fact-tag ft-design">本方案设计判断</span></li>
+    </ul>
+    <p>调研文件中的媒体信息、搜索摘要和行业类比<b>只能作为线索</b>；圣农事实优先以年报、官方赛题和企业后续提供的内部资料核验。<span class="fact-tag ft-design">本方案设计判断</span></p>
+    <p>01 解决一次问题，02 留下能力，03 与企业共议下一站——三个循环构成完整方案叙事：可回放的证据、可复用的能力、可讨论的方向。全部事实依据连同日期逐条列于页尾来源。<span class="fact-tag ft-design">本方案设计判断</span></p>
+  </div>
+</section>
+
+<!-- ═══ 附录 · 可折叠 ═══ -->
+<section id="sec-appendix" class="band" data-win="win-return">
+  <div class="prose">
+    <p class="sec-no">附录 · 备查</p>
+    <h2>待企业核验清单与蓝图产物</h2>
+    <p class="dek">留白不是遗漏，而是进入企业现场后要共同确认的工作项。</p>
+
+    <details class="appendix" id="app-unknowns">
+      <summary>附录 A · 待企业核验与有意留白清单（13 项）</summary>
+      <div class="app-body">
+        <h3>A.1 六项事实核验（候选场景生效前）</h3>
+        <table class="dt">
+          <thead><tr><th>核验项</th><th>当前状态</th></tr></thead>
+          <tbody>
+            <tr><td class="k">真实痛点</td><td>需结合企业内部信息共同确认 <span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+            <tr><td class="k">数据可得性</td><td>需结合企业内部信息共同确认 <span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+            <tr><td class="k">业务负责人</td><td>需结合企业内部信息共同确认 <span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+            <tr><td class="k">资源投入</td><td>需结合企业内部信息共同确认 <span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+            <tr><td class="k">优先顺序</td><td>需结合企业内部信息共同确认 <span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+            <tr><td class="k">试点价值</td><td>需结合企业内部信息共同确认 <span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+          </tbody>
+        </table>
+        <h3 class="sub-h">A.2 七类有意留白（真实扩域需要补充的事项）</h3>
+        <table class="dt">
+          <thead><tr><th>留白项</th><th>留白原因</th></tr></thead>
+          <tbody>
+            <tr><td class="k">数据接口</td><td>继续细化会产生无证据假设，待企业现场共同补全 <span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+            <tr><td class="k">字段</td><td>同上 <span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+            <tr><td class="k">权限</td><td>同上 <span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+            <tr><td class="k">责任人</td><td>同上 <span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+            <tr><td class="k">指标阈值</td><td>同上 <span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+            <tr><td class="k">预算周期</td><td>同上 <span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+            <tr><td class="k">部署验证</td><td>同上 <span class="fact-tag ft-unknown">待企业验证</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details class="appendix" id="app-outputs">
+      <summary>附录 B · 分阶段蓝图的建议产物（企业可继续修订）</summary>
+      <div class="app-body">
+        <p>业务扩域讨论可以形成一份企业可继续修订的分阶段蓝图，简要包含：<span class="fact-tag ft-design">本方案设计判断</span></p>
+        <ul class="laws">
+          <li>候选场景及推荐顺序；</li>
+          <li>首选下一试点建议与主要依据；</li>
+          <li>可以复用的已有能力和需要补充的条件；</li>
+          <li>建议参与角色、后续阶段及可以暂缓的原因；</li>
+          <li>公开资料支持、方案推断和待企业核验项。</li>
+        </ul>
+      </div>
+    </details>
+
+    <p class="muted" style="margin-top:22px">候选顺序是方案推断，不是圣农批准的路线；企业可以调整顺序，也可以暂不选择任何场景。本报告在真实痛点、数据可得性与内部优先级经企业核验前，整体为建议性蓝图（advisory_blueprint），不能称为实施合同。</p>
+  </div>
+</section>
+
+<!-- ═══ Sources footer ═══ -->
+<footer id="sec-sources" data-win="win-return">
+  <div class="prose">
+    <p class="sec-no">Sources &amp; method</p>
+    <h2>方法、纪律与来源</h2>
+    <div class="note-box">
+      <p><b>证据分级。</b>圣农公开事实 &gt; 官方技术依据 &gt; 行业验证经验 &gt; 本方案设计判断 &gt; 待企业验证。未标注的判断均为方案内部的逻辑陈述；本报告全篇只用其中三类：圣农公开事实、本方案设计判断、待企业验证。</p>
+      <p><b>来源分类，每条带日期。</b><span class="src-cat company">公司披露</span><span class="src-cat industry">行业 &amp; 官方</span><span class="src-cat kimi">研究整理</span>（本报告不使用 broker 类来源）。</p>
+      <p><b>度量纪律。</b>不虚构收益、建设成本、时间表与实施合同；候选场景不含任何数字承诺；媒体信息与行业类比只作线索，圣农事实优先年报、官方赛题与企业内部资料核验。</p>
+    </div>
+  </div>
+  <div class="wide xl">
+    <div style="margin-top:26px">
+      <p class="chart-title">锚点台账 · K1–K5</p>
+      <p class="chart-sub">本报告倚重的每一项事实，连同其带日期的出处</p>
+    </div>
+    <div id="source-list"></div>
+  </div>
+  <div class="prose">
+    <p class="colophon">圣农经营智能中枢 · 业务扩域循环 · 交互研究版 · 汇编 2026-07-25 · 建议性蓝图（logic_confirmed / advisory_blueprint / enterprise_validation_pending），非实施合同 · 事实源：03 业务扩域循环专题工作稿（K1）、圣农发展 2025 年年度报告（K2）、官方赛题汇总圣农条目（K3）与圣农调研 04a / 06b（K4、K5）· 01 / 02 循环的机制见各自报告</p>
+  </div>
+</footer>
+
+</main>
+
+<!-- 常驻右栏（dashboard.js） -->
+<aside id="dash-rail" aria-label="循环阶段仪表"><canvas id="dash-canvas"></canvas></aside>
+
+<!-- 下钻卡片 -->
+<div id="drill-card" hidden></div>
+
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/cover.js"></script>
+<script src="js/cover-exploded.js"></script>
+<script src="js/cover-wire.js"></script><!-- 三态封面切换：必须在另两个封面之后加载 -->
+<script src="js/dashboard.js"></script>
+<script src="js/cocreate-flow.js"></script>
+<script src="js/candidate-odds.js"></script>
+<script src="js/phase-road.js"></script>
+<script src="js/sources.js"></script>
+<script src="js/main.js"></script><!-- 滚动引擎 · 入场动画 · win-change · 进度条 -->
+</body>
+</html>

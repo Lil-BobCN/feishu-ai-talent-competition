@@ -130,9 +130,8 @@ async function main() {
     ...RESEARCH_FILES.map((name) => path.join('research', name)),
     path.join('output', '方案图_2026-07-23'),
     'index.html',
-    '圣农经营智能中枢_Aily叙事副本.js',
-    'shengnong-nodes',
-    path.join('output', 'html', '圣农经营智能中枢_飞书经营看板.html'),
+    'report',
+    'dashboard',
   ];
 
   for (const relativePath of sources) {
@@ -168,21 +167,16 @@ async function main() {
     );
   }
 
-  const demoCopies = [
-    ['index.html', 'index.html'],
-    ['圣农经营智能中枢_Aily叙事副本.js', '圣农经营智能中枢_Aily叙事副本.js'],
-    [path.join('output', 'html', '圣农经营智能中枢_飞书经营看板.html'), '圣农经营智能中枢_飞书经营看板.html'],
-  ];
+  await copyFile(path.join(sourceRoot, 'index.html'), path.join(output, 'demo', 'index.html'));
 
-  for (const [source, destination] of demoCopies) {
-    await copyFile(path.join(sourceRoot, source), path.join(output, 'demo', destination));
+  // demo/ 与线上发布内容保持一致：三循环新首页 + 三份循环交互报告 + 飞书看板与数据透视。
+  for (const directory of ['report', 'dashboard']) {
+    await cp(
+      path.join(sourceRoot, directory),
+      path.join(output, 'demo', directory),
+      { recursive: true },
+    );
   }
-
-  await cp(
-    path.join(sourceRoot, 'shengnong-nodes'),
-    path.join(output, 'demo', 'shengnong-nodes'),
-    { recursive: true },
-  );
 
   const startPage = `# 圣农经营智能中枢｜评委交付包
 
@@ -198,7 +192,7 @@ async function main() {
 - \`06-证据与参考资料索引.md\`：每条主张的事实状态与来源边界
 - \`07-方案图/\`：五张正式方案图（PNG/SVG）
 - \`08-选题研究/\`：赛事规则、108 项挑战适配、候选方向、评分与飞书集成研究
-- \`demo/\`：在线演示离线副本与经营事件协作台（脱敏演示数据）
+- \`demo/\`：在线演示离线副本（三循环首页、循环交互报告与飞书经营看板；看板为脱敏演示数据）
 
 ## 更新说明
 

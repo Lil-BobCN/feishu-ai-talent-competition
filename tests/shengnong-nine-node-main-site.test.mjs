@@ -1,166 +1,156 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 
-const root = new URL('../output/html/', import.meta.url);
-const html = await readFile(new URL('圣农经营智能中枢_Aily叙事副本.html', root), 'utf8');
-const js = await readFile(new URL('圣农经营智能中枢_Aily叙事副本.js', root), 'utf8');
-const fragments = await Promise.all([
-  'shengnong-nodes/data-evidence.js',
-  'shengnong-nodes/approval-execution.js',
-  'shengnong-nodes/risk-review.js'
-].map(path => readFile(new URL(path, root), 'utf8')));
-const all = [html, js, ...fragments].join('\n');
+// 主站（2026-07-27 起）= 根 index.html（三循环新首页）+ report/ 三份循环交互报告
+// + dashboard/ 飞书看板与数据与接口透视。
+// LOOP01 经营事件循环为九节点轨道，延续本测试文件的 nine-node 语义。
 
-test('main route contains the approved nine-node operating flow', () => {
-  assert.equal((html.match(/class="hash-route-node/g) || []).length, 9);
-  for (const id of ['collection', 'transport', 'foundation', 'aily', 'decision', 'execution', 'milestone', 'risk', 'review']) {
-    assert.match(all, new RegExp(`(?:data-node|id|nextId)[=:"'\\s]+${id}`));
+const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
+
+const homepage = await read('index.html');
+const report01 = await read('report/index.html');
+const report02 = await read('report/02/index.html');
+const report03 = await read('report/03/index.html');
+const allReports = [report01, report02, report03].join('\n');
+
+test('homepage cover carries the approved product identity', () => {
+  assert.match(homepage, /<title>圣农经营智能中枢<\/title>/);
+  assert.match(homepage, /<h1 class="cover-title">圣农经营<span class="accent">智能中枢<\/span><\/h1>/);
+  assert.match(homepage, /把分散的经营事实，持续转化为可追溯的经营行动/);
+  assert.match(homepage, /class="brand">圣农经营智能中枢/);
+});
+
+test('homepage declares the three loops with their approved titles and sizes', () => {
+  for (const token of ['lv-no">LOOP 01', 'lv-no">LOOP 02', 'lv-no">LOOP 03']) {
+    assert.match(homepage, new RegExp(token));
   }
-  assert.match(js, /const routeOrder = \['collection', 'transport', 'foundation', 'aily', 'decision', 'execution', 'milestone', 'risk', 'review'\]/);
+  assert.match(homepage, /lv-title">经营事件循环 · 事实 → 经营结果/);
+  assert.match(homepage, /lv-title">能力进化循环 · 案件 → 可复用能力/);
+  assert.match(homepage, /lv-title">业务扩域循环 · 试点经验 → 扩域建议/);
+  assert.match(homepage, /lv-sub">9 个节点 · 点击看详情/);
+  assert.match(homepage, /lv-sub">11 个环节 · 点击看详情/);
+  assert.match(homepage, /lv-sub">5 个环节 · 点击看详情/);
 });
 
-test('three isolated registries and shared narrative design are loaded', () => {
-  for (const asset of ['data-evidence.js', 'approval-execution.js', 'risk-review.js', 'narrative-core.css']) {
-    assert.match(html, new RegExp(asset.replace('.', '\\.')));
+test('LOOP01 keeps the approved nine-node operating flow in four phases', () => {
+  assert.equal((homepage.match(/kicker: 'NODE \d{2} · /g) || []).length, 9);
+  assert.match(homepage, /aria-label="经营事件循环九节点"/);
+  for (const phase of ['阶段一 · 发现与成案', '阶段二 · 调查与补证', '阶段三 · 决策与执行', '阶段四 · 验证与沉淀']) {
+    assert.match(homepage, new RegExp(phase));
   }
-  assert.match(js, /renderGenericNarrative/);
-  assert.match(js, /initGenericNarrative/);
-  assert.match(js, /stopGenericNarrative/);
-});
-
-test('homepage entrance asset is synchronized without replacing Aily narrative', () => {
-  assert.match(html, /hash-home-entering/);
-  assert.match(js, /triggerHomeEntrance/);
-  assert.match(html, /id="aily-narrative-template"/);
-  assert.match(js, /initAilyNarrative/);
-});
-
-test('mother-document management boundaries remain visible', () => {
-  for (const text of ['证据不足', '必须由管理层批准', '我是新入职人员', '宽限期', '十个', '反例', '恢复办法']) {
-    assert.match(all, new RegExp(text));
-  }
-});
-
-test('handoff vocabulary is consistent across all nodes', () => {
-  for (const term of ['原始数据', '可追溯原始记录', '待调查经营事件', '决策就绪包', '正式决策版本', '责任任务', '阶段验收', '经营结果', '管理改进']) {
-    assert.match(all, new RegExp(term));
-  }
-});
-
-test('homepage and node openings use the approved Chinese management language', () => {
-  for (const term of [
-    '脚本找异常，Agent 查原因',
-    '最小信息触发',
-    '原始数据全程留痕',
-    '企业经营语义层',
-    '由点及面的逐级调查',
-    '人机协同决策',
-    '责任到岗，任务到人',
-    '按业务节点验收',
-    '结果回读与自动复查',
-    '经验反哺规则和 Skill'
-  ]) assert.match(all, new RegExp(term));
-  assert.doesNotMatch(all, /证据门|可信事件管道|Human-in-the-Loop|知识飞轮|有界查询循环|人工责任门|最终判断门|通过上述硬门|while 调查|while 循环/);
-});
-
-test('Aily separates investigation, domain Skill planning, and decision readiness', () => {
-  assert.match(js, /从待调查经营信号开始/);
-  assert.match(html, /查清就停，查不清再扩大/);
-  const handoff = html.slice(html.indexOf('07 \/ 调查结束，进入方案生成'), html.indexOf('</template>'));
-  const orderedTerms = ['调查结果包', '领域 Skill', '决策就绪包', '管理审批'];
+  const orderedTitles = [
+    '候选异常识别',
+    '事件解析',
+    '经营事件包 v1 与原子建案',
+    'Agent 选择领域 Skill',
+    '按 Skill 渐进取证',
+    '形成决策就绪包',
+    '管理决策与责任执行',
+    '按真实里程碑验证',
+    '关闭、归档与交接 02',
+  ];
   let cursor = -1;
-  for (const term of orderedTerms) {
-    const next = handoff.indexOf(term, cursor + 1);
-    assert.ok(next > cursor, `${term} should appear after the previous Aily stage`);
+  for (const title of orderedTitles) {
+    const next = homepage.indexOf(`title: '${title}'`, cursor + 1);
+    assert.ok(next > cursor, `${title} should appear in the LOOP01 data after the previous node`);
     cursor = next;
   }
 });
 
-test('scheme detail uses the same investigation-to-decision sequence as the main narrative', () => {
-  const priceCase = html.slice(html.indexOf('<section id="price-case"'), html.indexOf('<section id="milestones"'));
-  const orderedTerms = ['形成调查结果包', '领域 Skill 生成方案', '形成决策就绪包', '管理层审批'];
+test('homepage keeps the seven-section narrative order', () => {
+  const sections = [
+    '01 · 为什么需要',
+    '02 · 三个循环（分）',
+    '03 · 三个循环怎样接力（总）',
+    '04 · 共同能力底座',
+    '05 · 深入阅读与演示',
+    '06 · 事实边界',
+    '07 · 联系我们',
+  ];
   let cursor = -1;
-  for (const term of orderedTerms) {
-    const next = priceCase.indexOf(term, cursor + 1);
-    assert.ok(next > cursor, `${term} should follow the previous price-case stage`);
+  for (const section of sections) {
+    const next = homepage.indexOf(`sec-no">${section}`, cursor + 1);
+    assert.ok(next > cursor, `${section} should follow the previous section`);
     cursor = next;
   }
-  assert.match(all, /每个字段的来源、时间和版本/);
 });
 
-test('proposal and verified-current language are not mixed', () => {
-  assert.match(all, /待企业核实|目标租户|方案建议/);
-  assert.doesNotMatch(all, /圣农已经完成全部|当前已经全面实现/);
+test('top navigation links the three loop reports, the dashboard and its tech brief', () => {
+  assert.match(homepage, /aria-label="详细方案三个循环入口"/);
+  for (const href of ['href="report/"', 'href="report/02/"', 'href="report/03/"', 'href="dashboard/"', 'href="dashboard/report/"']) {
+    assert.match(homepage, new RegExp(href.replace(/[/.]/g, '\\$&')));
+  }
+  assert.match(homepage, />详细方案</);
+  assert.match(homepage, />飞书看板</);
+  assert.match(homepage, />数据与接口透视</);
 });
 
-test('the former copy now identifies itself as the single nine-node main site', () => {
-  assert.match(html, /九节点经营主站/);
-  assert.doesNotMatch(html, /版式精修副本 · Aily 单节点滚动叙事/);
+test('contact section keeps the public team profile without private channels', () => {
+  assert.match(homepage, /id="contact"/);
+  for (const text of ['刘清源', '南昌航空大学', '梁小清', '杜欣宇', '丁铭浩']) {
+    assert.match(homepage, new RegExp(text));
+  }
+  assert.match(homepage, /github\.com\/Lil-BobCN\/feishu-ai-talent-competition/);
+  assert.doesNotMatch(homepage, /mailto:/);
+  assert.doesNotMatch(homepage, /tel:/);
 });
 
-test('approval and management-review handoffs follow their actual branches', () => {
-  assert.match(fragments[1], /output: 'PRICE-0249 经批准的价格整改版本',[\s\S]*?nextId: 'execution'/);
-  assert.doesNotMatch(fragments[1], /output: '正式决策版本或退回意见'/);
-  assert.match(js, /review:\s*\{[\s\S]*?next: 'foundation'/);
-  assert.match(js, /同步更新节点 04 的调查方法/);
+test('published pages carry no draft labels or internal process markers', () => {
+  for (const page of [homepage, allReports]) {
+    assert.doesNotMatch(page, /设计稿 v5|变体 B|homepage-design-draft/);
+  }
 });
 
-test('route navigation keeps complete accessible names and manages focus after hash changes', () => {
-  assert.equal((html.match(/class="hash-node-button"[^>]+aria-label="\d{2} [^"]+"/g) || []).length, 9);
-  assert.match(js, /const setRouteButtonLabel/);
-  assert.match(js, /completeRoute\(app\.querySelector\('\[data-node-title\]'\)\)/);
-  assert.match(html, /<h2 data-node-title tabindex="-1">/);
+test('homepage is self-contained and no longer references the archived site assets', () => {
+  assert.doesNotMatch(homepage, /<script[^>]+\bsrc=/);
+  assert.doesNotMatch(homepage, /shengnong-nodes|sunner-logo/);
 });
 
-test('touch targets and landmarks follow the delivery design contract', () => {
-  assert.match(html, /\.hash-node-button\s*\{[\s\S]*?width: 44px;[\s\S]*?height: 44px;/);
-  assert.doesNotMatch(html, /<main class="contact-resume-main">/);
-  assert.match(html, /<div class="contact-resume-main">/);
+test('loop reports use their approved titles and relative-root home links', () => {
+  assert.match(report01, /<title>圣农经营智能中枢 · 经营事件循环｜评委交互研究报告<\/title>/);
+  assert.match(report02, /<title>圣农经营智能中枢 · 能力进化循环｜评委交互研究报告<\/title>/);
+  assert.match(report03, /<title>圣农经营智能中枢 · 业务扩域循环｜评委交互研究报告<\/title>/);
+  assert.match(report01, /<a href="\.\.\/">← 首页<\/a>/);
+  assert.match(report02, /<a href="\.\.\/\.\.\/">← 首页<\/a>/);
+  assert.match(report03, /<a href="\.\.\/\.\.\/">← 首页<\/a>/);
 });
 
-test('scene activation uses the full visible scene set instead of observer entry order', () => {
-  assert.match(js, /const sceneAtReadingLine/);
-  assert.match(js, /sceneAtReadingLine\(scenes\)/);
-  assert.doesNotMatch(js, /entries\.filter\(entry => entry\.isIntersecting\)\.sort/);
+test('loop reports keep the honesty and fact-grading language', () => {
+  for (const term of ['待企业验证', '本方案设计判断', '圣农公开事实', '试点设计稿', '非生产就绪声明']) {
+    assert.match(allReports, new RegExp(term));
+  }
+  assert.doesNotMatch(allReports, /已接入圣农|生产已上线|当前已经全面实现/);
 });
 
-test('scene reveals play once while active state remains free to track reading progress', () => {
-  assert.match(js, /classList\.contains\('is-seen'\)/);
-  assert.match(js, /classList\.add\('is-seen', 'is-entering'\)/);
-  assert.match(html, /\.aily-scene\.is-entering \.aily-reveal/);
-  assert.doesNotMatch(html, /\.aily-scene\.is-active \.aily-reveal\s*\{\s*animation:/);
+test('loop reports load their local scripts and diagram assets', async () => {
+  for (const asset of [
+    'report/css/style.css',
+    'report/css/fonts.css',
+    'report/js/main.js',
+    'report/js/data.js',
+    'report/assets/01_经营事件循环_总体逻辑图.svg',
+    'report/assets/01_经营事件循环_持续留痕图.svg',
+    'report/02/css/style.css',
+    'report/02/js/main.js',
+    'report/02/assets/02_能力进化循环_逻辑骨架.svg',
+    'report/03/css/style.css',
+    'report/03/js/main.js',
+  ]) {
+    await access(new URL(`../${asset}`, import.meta.url));
+  }
+  assert.match(report01, /src="js\/main\.js"/);
+  assert.match(report01, /assets\/01_经营事件循环_总体逻辑图\.svg/);
+  assert.match(report02, /assets\/02_能力进化循环_逻辑骨架\.svg/);
 });
 
-test('primary narrative motion avoids the forbidden neon glow effects', () => {
-  assert.doesNotMatch(html, /box-shadow: 0 0 18px currentColor/);
-  assert.doesNotMatch(html, /box-shadow: 0 0 42px/);
-});
-
-test('all node pages remove the detail tab strip and redundant handoff bridge', () => {
-  assert.doesNotMatch(html, /data-node-tab=/);
-  assert.doesNotMatch(html, /data-node-panel="(?:contract|technology|acceptance)"/);
-  assert.doesNotMatch(js, /sn-narrative-bridge/);
-  assert.doesNotMatch(html, /class="aily-intro"/);
-});
-
-test('sticky case threads sit below the measured route bar and show full text', () => {
-  assert.match(js, /const syncStickyOffset/);
-  assert.match(all, /top: var\(--route-sticky-offset/);
-  assert.match(all, /overflow-wrap: anywhere;[\s\S]*?text-overflow: clip;[\s\S]*?white-space: normal;/);
-});
-
-test('every node has a full-screen opening and a linear print reading mode', () => {
-  assert.match(html, /\.hash-node-hero \{[^}]*min-height: calc\(100svh - var\(--route-sticky-offset/);
-  assert.match(html, /\.hash-node-hero > div:first-child \{ align-self: start; \}/);
-  assert.match(html, /\.hash-node-output \{[\s\S]*?align-self: end;/);
-  assert.match(html, /@media print/);
-  assert.match(html, /\.aily-scene, \.sn-scene \{ min-height: 94vh/);
-});
-
-test('PRICE-0249 is the single case thread across all nine nodes', () => {
-  assert.equal(fragments.reduce((count, source) => count + (source.match(/caseId: 'PRICE-0249'/g) || []).length, 0), 8);
-  assert.doesNotMatch(fragments.join('\n'), /caseId: '(?:FACT|RECORD|SIGNAL|DECISION|EXECUTION|MILESTONE|RESULT-CHECK|MRB)-/);
-  assert.match(js, /同一个案例贯穿全程/);
-  assert.match(js, /门店实付 24\.9 元 \/ 统一价盘 29\.9 元/);
+test('dashboard pages keep their identity and cross-links', async () => {
+  const dashboard = await read('dashboard/index.html');
+  const brief = await read('dashboard/report/index.html');
+  assert.match(dashboard, /<h1>飞书看板<\/h1>/);
+  assert.match(dashboard, /脱敏演示数据/);
+  assert.match(dashboard, /href="report\/"/);
+  assert.match(brief, /数据与接口透视/);
+  assert.match(brief, /EventPackage v1/);
+  assert.match(brief, /target-tenant unknown/);
 });

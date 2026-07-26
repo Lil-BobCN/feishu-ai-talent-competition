@@ -31,9 +31,10 @@ async function createFixture(t) {
   await mkdir(path.join(source, 'docs', '评委材料'), { recursive: true });
   await mkdir(path.join(source, 'docs', 'superpowers'), { recursive: true });
   await mkdir(path.join(source, 'output', '方案图_2026-07-23'), { recursive: true });
-  await mkdir(path.join(source, 'output', 'html'), { recursive: true });
+  await mkdir(path.join(source, 'report', '02'), { recursive: true });
+  await mkdir(path.join(source, 'report', '03'), { recursive: true });
+  await mkdir(path.join(source, 'dashboard', 'report'), { recursive: true });
   await mkdir(path.join(source, 'research', 'data'), { recursive: true });
-  await mkdir(path.join(source, 'shengnong-nodes'), { recursive: true });
   await mkdir(path.join(source, 'tests'), { recursive: true });
 
   await writeFile(path.join(source, 'README.md'), '# Repository\n');
@@ -53,9 +54,11 @@ async function createFixture(t) {
     await writeFile(path.join(source, 'research', name), `${name}\n`);
   }
   await writeFile(path.join(source, 'index.html'), '<!doctype html><title>Demo</title>');
-  await writeFile(path.join(source, '圣农经营智能中枢_Aily叙事副本.js'), 'console.log("narrative");\n');
-  await writeFile(path.join(source, 'shengnong-nodes', 'app.js'), 'console.log("demo");\n');
-  await writeFile(path.join(source, 'output', 'html', '圣农经营智能中枢_飞书经营看板.html'), '<!doctype html><title>看板</title>');
+  await writeFile(path.join(source, 'report', 'index.html'), '<!doctype html><title>01 经营事件循环</title>');
+  await writeFile(path.join(source, 'report', '02', 'index.html'), '<!doctype html><title>02 能力进化循环</title>');
+  await writeFile(path.join(source, 'report', '03', 'index.html'), '<!doctype html><title>03 业务扩域循环</title>');
+  await writeFile(path.join(source, 'dashboard', 'index.html'), '<!doctype html><title>看板</title>');
+  await writeFile(path.join(source, 'dashboard', 'report', 'index.html'), '<!doctype html><title>透视</title>');
   await writeFile(path.join(source, 'docs', 'superpowers', 'internal.md'), 'internal');
   await writeFile(path.join(source, 'tests', 'internal.test.mjs'), 'internal');
 
@@ -93,9 +96,11 @@ test('builds a complete reviewer-only package with a traceable manifest', async 
     '08-选题研究/README.md',
     '08-选题研究/data/official-challenges.json',
     'demo/index.html',
-    'demo/圣农经营智能中枢_Aily叙事副本.js',
-    'demo/圣农经营智能中枢_飞书经营看板.html',
-    'demo/shengnong-nodes/app.js',
+    'demo/report/index.html',
+    'demo/report/02/index.html',
+    'demo/report/03/index.html',
+    'demo/dashboard/index.html',
+    'demo/dashboard/report/index.html',
     'manifest.json',
   ];
 
