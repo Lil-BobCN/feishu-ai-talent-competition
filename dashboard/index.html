@@ -1,856 +1,897 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>飞书看板 · 圣农经营智能中枢</title>
-  <style data-visual-language="sunner-editorial">
-    :root {
-      color-scheme: light;
-      --paper: #ffffff;
-      --paper-hi: #f7f9fc;
-      --ink: #051c2c;
-      --ink-md: #42566a;
-      --ink-lo: #8595a6;
-      --line: #dbe2ea;
-      --line-lo: #eef1f6;
-      --accent: #2251ff;
-      --accent-deep: #1233b8;
-      --accent-wash: #e9efff;
-      --accent-soft: #eef3ff;
-      --accent-line: #c2d1ff;
-      --copper: #b07a10;
-      --copper-ink: #8a5f0c;
-      --copper-soft: #faf3e2;
-      --copper-line: #e6d3a8;
-      --green: #008a6d;
-      --green-ink: #006e57;
-      --green-soft: #e6f5f1;
-      --green-line: #9fd4c6;
-      --neg: #c22f4e;
-      --neg-soft: #fbeef1;
-      --neg-line: #eec4cd;
-      --neutral-action: #9a9690;
-      --serif: "et-book", "Iowan Old Style", "Songti SC", "Noto Serif CJK SC", Palatino, Georgia, serif;
-      --mono: Menlo, Consolas, "SF Mono", ui-monospace, monospace;
-      --shadow: 0 14px 34px rgba(5, 28, 44, .12);
-      --radius: 8px;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>飞书看板 · 圣农经营智能中枢</title>
+<link rel="stylesheet" href="../report/css/fonts.css">
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #ffffff;
+    --paper-hi: #f7f9fc;
+    --ink: #051c2c;
+    --ink-md: #42566a;
+    --ink-lo: #8595a6;
+    --line: #dbe2ea;
+    --line-lo: #eef1f6;
+    --red: #2251ff;
+    --red-hi: #1233b8;
+    --blue: #1233b8;
+    --acc: #2251ff;
+    --acc-deep: #1233b8;
+    --acc-soft: #eef3ff;
+    --acc-wash: #e9efff;
+    --acc-line: #c2d1ff;
+    --copper: #b07a10;
+    --copper-ink: #8a5f0c;
+    --copper-soft: #faf3e2;
+    --copper-line: #e6d3a8;
+    --green: #008a6d;
+    --green-ink: #006e57;
+    --green-soft: #e6f5f1;
+    --green-line: #9fd4c6;
+    --neg: #c22f4e;
+    --neg-soft: #fbeef1;
+    --neg-line: #eec4cd;
+    --label: #5a6f83;
+    --serif: "et-book", "Iowan Old Style", "Songti SC", "Noto Serif CJK SC", Palatino, Georgia, serif;
+    --mono: Menlo, Consolas, "SF Mono", ui-monospace, monospace;
+    --shadow: 0 14px 34px rgba(5, 28, 44, .12);
+    --r: 8px;
+  }
 
-    * { box-sizing: border-box; }
-    html { min-width: 0; background: var(--paper); scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      min-width: 0;
-      color: var(--ink);
-      background: var(--paper);
-      font: 15px/1.65 var(--serif);
-      letter-spacing: 0.001em;
-    }
-    a { color: var(--accent-deep); text-decoration: none; }
-    a:hover { color: var(--accent); }
-    button, select, input { font: inherit; letter-spacing: inherit; }
-    button { cursor: pointer; }
-    button:focus-visible, select:focus-visible, input:focus-visible, [tabindex]:focus-visible, a:focus-visible, summary:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-    ::selection { background: rgba(34, 81, 255, .15); }
-    [hidden] { display: none !important; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    min-width: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 14.5px/1.65 var(--serif);
+    letter-spacing: 0.001em;
+  }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { color: var(--red-hi); }
+  button, select { font: inherit; letter-spacing: inherit; }
+  button { cursor: pointer; }
+  button:focus-visible, select:focus-visible, a:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--acc);
+    outline-offset: 2px;
+  }
+  ::selection { background: rgba(34, 81, 255, .15); }
+  [hidden] { display: none !important; }
 
-    #progress-bar {
-      position: fixed; top: 0; left: 0; right: 0; height: 2px;
-      background: var(--accent); transform-origin: 0 50%; transform: scaleX(0);
-      z-index: 120;
-    }
+  * { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; border: 2px solid transparent; background-clip: content-box; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--ink-lo); border: 2px solid transparent; background-clip: content-box; }
 
-    .topnav {
-      position: sticky; top: 0; z-index: 100;
-      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
-      padding: 0 28px; min-height: 58px;
-      background: rgba(255, 255, 255, .92); backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--line-lo);
-    }
-    .topnav .brand { font: 700 14px var(--serif); color: var(--ink); }
-    .topnav .brand span { color: var(--ink-lo); font: 11px var(--mono); margin-left: 10px; }
-    .topnav .center { display: flex; gap: 18px; }
-    .topnav .center > a, .topnav .nav-item > a {
-      min-height: 44px; display: inline-flex; align-items: center;
-      padding: 8px 14px; color: var(--ink-md); font: 700 13.5px var(--serif);
-      border-bottom: 2px solid transparent;
-    }
-    .topnav .center > a:hover, .topnav .nav-item > a:hover { color: var(--ink); }
-    .topnav .center > a.active, .topnav .nav-item > a.active { color: var(--accent); border-bottom-color: var(--accent); }
+  #progress-bar {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--red); transform-origin: 0 50%; transform: scaleX(0);
+    z-index: 120;
+  }
 
-    .dd { position: relative; }
-    .dd .menu {
-      position: absolute; z-index: 120;
-      background: #fff; border: 1.5px solid var(--ink); border-radius: 8px;
-      box-shadow: 0 14px 34px rgba(5, 28, 44, .12);
-      opacity: 0; visibility: hidden;
-      transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1) 120ms, transform 180ms cubic-bezier(0.16, 1, 0.3, 1) 120ms, visibility 0s linear 320ms;
-    }
-    .dd:hover .menu,
-    .dd .trigger:focus-visible + .menu,
-    .dd:focus-within .menu,
-    .dd.open .menu {
-      opacity: 1; visibility: visible;
-      transition-delay: 0s, 0s, 0s;
-    }
-    .dd.esc-closed .menu { opacity: 0 !important; visibility: hidden !important; }
-    .dd:hover .trigger, .dd:focus-within .trigger, .dd.open .trigger { color: var(--ink); }
-    .menu a.mi {
-      display: flex; align-items: baseline; gap: 10px;
-      padding: 10px 12px; border-radius: 5px;
-      color: var(--ink); font: 700 14px var(--serif); white-space: nowrap;
-    }
-    .menu a.mi:hover, .menu a.mi:focus-visible { background: var(--paper-hi); color: var(--accent); outline: none; }
-    .menu a.mi .no { font: 10px var(--mono); color: var(--accent); letter-spacing: .12em; }
-    .menu a.mi small { display: block; margin-top: 2px; font: 400 11.5px var(--serif); color: var(--ink-lo); white-space: nowrap; }
-    .menu a.mi:hover small, .menu a.mi:focus-visible small { color: var(--ink-md); }
-    .vb-menu { top: calc(100% + 4px); left: 50%; transform: translate(-50%, 6px); min-width: 250px; padding: 8px; }
-    .dd:hover .vb-menu, .dd .trigger:focus-visible + .vb-menu, .dd:focus-within .vb-menu, .dd.open .vb-menu { transform: translate(-50%, 0); }
-    .topnav .contact-link {
-      justify-self: end; min-width: 104px; min-height: 44px;
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 8px 18px; border: 1px solid var(--ink); border-radius: 999px;
-      color: var(--ink); font: 700 13.5px var(--serif);
-      transition: color 180ms ease, background 180ms ease;
-    }
-    .topnav .contact-link:hover { color: #fff; background: var(--ink); }
+  /* ===== 整站 topnav（与首页一致） ===== */
+  .topnav {
+    position: sticky; top: 0; z-index: 100;
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    padding: 0 28px; min-height: 58px;
+    background: rgba(255, 255, 255, .92); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line-lo);
+  }
+  .topnav .brand { font: 700 14px var(--serif); color: var(--ink); }
+  .topnav .brand span { color: var(--ink-lo); font: 11px var(--mono); margin-left: 10px; }
+  .topnav .center { display: flex; gap: 18px; }
+  .topnav .center > a, .topnav .nav-item > a {
+    min-height: 44px; display: inline-flex; align-items: center;
+    padding: 8px 14px; color: var(--ink-md); font: 700 13.5px var(--serif);
+    border-bottom: 2px solid transparent;
+  }
+  .topnav .center > a:hover, .topnav .nav-item > a:hover { color: var(--ink); }
+  .topnav .center > a.active, .topnav .nav-item > a.active { color: var(--red); border-bottom-color: var(--red); }
 
-    .app-shell { min-width: 0; background: var(--paper); }
+  .dd { position: relative; }
+  .dd .menu {
+    position: absolute; z-index: 120;
+    background: #fff; border: 1.5px solid var(--ink); border-radius: 8px;
+    box-shadow: 0 14px 34px rgba(5, 28, 44, .12);
+    opacity: 0; visibility: hidden;
+    transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1) 120ms, transform 180ms cubic-bezier(0.16, 1, 0.3, 1) 120ms, visibility 0s linear 320ms;
+  }
+  .dd:hover .menu,
+  .dd .trigger:focus-visible + .menu,
+  .dd:focus-within .menu,
+  .dd.open .menu {
+    opacity: 1; visibility: visible;
+    transition-delay: 0s, 0s, 0s;
+  }
+  .dd.esc-closed .menu { opacity: 0 !important; visibility: hidden !important; }
+  .dd:hover .trigger, .dd:focus-within .trigger, .dd.open .trigger { color: var(--ink); }
+  .menu a.mi {
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 10px 12px; border-radius: 5px;
+    color: var(--ink); font: 700 14px var(--serif); white-space: nowrap;
+  }
+  .menu a.mi:hover, .menu a.mi:focus-visible { background: var(--paper-hi); color: var(--red); outline: none; }
+  .menu a.mi.active { color: var(--red); }
+  .menu a.mi .no { font: 10px var(--mono); color: var(--red); letter-spacing: .12em; }
+  .menu a.mi small { display: block; margin-top: 2px; font: 400 11.5px var(--serif); color: var(--ink-lo); white-space: nowrap; }
+  .menu a.mi:hover small, .menu a.mi:focus-visible small { color: var(--ink-md); }
+  .vb-menu { top: calc(100% + 4px); left: 50%; transform: translate(-50%, 6px); min-width: 250px; padding: 8px; }
+  .dd:hover .vb-menu, .dd .trigger:focus-visible + .vb-menu, .dd:focus-within .vb-menu, .dd.open .vb-menu { transform: translate(-50%, 0); }
+  .topnav .contact-link {
+    justify-self: end; min-width: 104px; min-height: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 8px 18px; border: 1px solid var(--ink); border-radius: 999px;
+    color: var(--ink); font: 700 13.5px var(--serif);
+    transition: color 180ms ease, background 180ms ease;
+  }
+  .topnav .contact-link:hover { color: #fff; background: var(--ink); }
 
-    @keyframes pageFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-    .topnav { animation: pageFadeIn 480ms ease-out both; }
-    .app-shell { animation: pageFadeIn 620ms ease-out 80ms both; }
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 22px 28px;
-      color: var(--ink);
-      background: var(--paper);
-      border-bottom: 1px solid var(--line-lo);
-    }
-    .topbar .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
-    .brand-mark {
-      display: grid;
-      place-items: center;
-      width: 38px;
-      height: 38px;
-      flex: 0 0 38px;
-      color: #fff;
-      background: var(--ink);
-      border-radius: 6px;
-      font-weight: 700;
-    }
-    .topbar .brand h1 { margin: 0; font: 700 20px/1.3 var(--serif); }
-    .topbar .brand p { margin: 2px 0 0; color: var(--ink-md); font-size: 12.5px; }
-    .environment {
-      flex: 0 0 auto;
-      padding: 6px 10px;
-      color: var(--copper-ink);
-      background: var(--copper-soft);
-      border: 1px solid var(--copper-line);
-      border-radius: 4px;
-      font: 600 11px var(--mono);
-    }
+  /* ===== 微字号工程标签 ===== */
+  .el { font: 10px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--label); }
 
-    .module-bar {
-      display: flex;
-      align-items: stretch;
-      gap: 0;
-      overflow-x: auto;
-      background: var(--paper);
-      border-bottom: 1px solid var(--line);
-    }
-    .module-tab {
-      min-width: 180px;
-      padding: 13px 18px;
-      color: var(--ink-md);
-      background: transparent;
-      border: 0;
-      border-right: 1px solid var(--line-lo);
-      border-bottom: 3px solid transparent;
-      text-align: left;
-    }
-    .module-tab strong { display: block; color: inherit; font-size: 14px; }
-    .module-tab span { display: block; margin-top: 1px; font-size: 11px; font-family: var(--mono); }
-    .module-tab:hover { color: var(--ink); background: var(--paper-hi); }
-    .module-tab[data-module="evolution"],
-    .module-tab[data-module="expansion"] { color: var(--accent-deep); }
-    .module-tab[aria-selected="true"] {
-      color: var(--accent);
-      background: var(--paper);
-      border-bottom-color: var(--accent);
-      box-shadow: inset 0 -3px var(--accent);
-    }
-    .module-tab[data-module="evolution"][aria-selected="true"],
-    .module-tab[data-module="expansion"][aria-selected="true"] {
-      color: var(--accent-deep);
-      background: var(--paper);
-      border-bottom-color: var(--accent-deep);
-      box-shadow: inset 0 -3px var(--accent-deep);
-    }
+  /* ===== 签名元素：值守状态条 ===== */
+  .dutystrip {
+    position: sticky; top: 58px; z-index: 90;
+    display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: stretch;
+    background: rgba(255, 255, 255, .95); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .ds-role {
+    min-width: 218px; padding: 9px 18px 8px;
+    border-right: 1px solid var(--line-lo);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .ds-role .who { margin-top: 2px; font: 700 14.5px/1.3 var(--serif); color: var(--ink); }
+  .ds-role .scope { margin-top: 1px; font: 9.5px var(--mono); letter-spacing: .08em; color: var(--ink-md); text-transform: uppercase; }
 
-    main { min-width: 0; padding: 18px 28px 44px; background: var(--paper-hi); }
-    .pane { min-width: 0; max-width: 1600px; margin: 0 auto; }
-    .identity-strip {
-      display: grid;
-      grid-template-columns: minmax(330px, 1.35fr) repeat(3, minmax(150px, .7fr));
-      gap: 1px;
-      overflow: hidden;
-      background: var(--line);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .identity-cell { min-width: 0; padding: 14px 16px; background: var(--paper); }
-    .eyebrow { color: var(--ink-md); font: 700 10.5px var(--mono); letter-spacing: .06em; }
-    .identity-value { margin-top: 3px; font-weight: 700; overflow-wrap: anywhere; }
-    .identity-value small { color: var(--ink-md); font-weight: 500; }
-    .identity-value [data-projection-badge] { font-family: var(--mono); }
-    .identity-lead .identity-value { font: 700 22px/1.3 var(--serif); }
-    .identity-lead .identity-value small { font: 500 12px var(--serif); }
-    .identity-note { margin: 5px 0 12px; color: var(--ink-md); font-size: 12.5px; }
-    .identity-lead .segmented { margin-top: 6px; }
+  .viewfinder { display: flex; min-width: 0; overflow-x: auto; }
+  .vf-cell {
+    position: relative; flex: 1 0 88px; min-width: 88px;
+    padding: 7px 10px 6px 12px;
+    border: 0; border-right: 1px solid var(--line-lo);
+    background: transparent; text-align: left;
+    color: var(--ink-md); font-family: var(--mono);
+    transition: background 180ms ease, color 180ms ease;
+  }
+  .vf-cell:last-child { border-right: 0; }
+  .vf-cell .vf-no { display: block; font: 9px var(--mono); letter-spacing: .18em; color: var(--label); }
+  .vf-cell .vf-count { display: block; margin-top: 1px; font: 700 21px/1.15 var(--serif); color: var(--ink); }
+  .vf-cell .vf-name { display: block; margin-top: 1px; font: 9px/1.3 var(--mono); letter-spacing: .01em; color: var(--ink-md); white-space: nowrap; }
+  .vf-cell::before, .vf-cell::after {
+    content: ""; position: absolute; top: 5px; bottom: 5px; width: 7px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 160ms ease;
+  }
+  .vf-cell::before { left: 5px; border-left: 2px solid var(--acc); border-top: 2px solid var(--acc); border-bottom: 2px solid var(--acc); }
+  .vf-cell::after { right: 5px; border-right: 2px solid var(--acc); border-top: 2px solid var(--acc); border-bottom: 2px solid var(--acc); }
+  .vf-cell:hover { background: var(--paper-hi); }
+  .vf-cell:hover::before, .vf-cell:hover::after { opacity: .3; border-color: var(--ink-lo); }
+  .vf-cell[aria-pressed="true"] { background: var(--acc-soft); }
+  .vf-cell[aria-pressed="true"] .vf-no { color: var(--acc); }
+  .vf-cell[aria-pressed="true"] .vf-count { color: var(--acc); }
+  .vf-cell[aria-pressed="true"] .vf-name { color: var(--acc-deep); }
+  .vf-cell[aria-pressed="true"]::before, .vf-cell[aria-pressed="true"]::after { opacity: 1; }
+  .vf-cell:disabled { cursor: not-allowed; opacity: .55; }
+  .vf-cell:disabled::before, .vf-cell:disabled::after { opacity: 0; }
 
-    .controls-row {
-      display: flex;
-      align-items: flex-end;
-      gap: 24px;
-      flex-wrap: wrap;
-      margin: 0;
-      padding: 4px 14px 14px;
-    }
-    .control-group { min-width: 0; }
-    .control-label { display: block; margin-bottom: 6px; color: var(--ink-md); font: 700 10.5px var(--mono); letter-spacing: .06em; }
-    .segmented { display: inline-flex; max-width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; }
-    .segmented button {
-      min-height: 36px;
-      padding: 7px 12px;
-      white-space: nowrap;
-      color: var(--ink-md);
-      background: var(--paper);
-      border: 0;
-      border-right: 1px solid var(--line-lo);
-    }
-    .segmented button:last-child { border-right: 0; }
-    .segmented button:hover { color: var(--ink); background: var(--paper-hi); }
-    .segmented button[aria-pressed="true"] { color: #fff; background: var(--accent); font-weight: 700; }
-    .runtime-select {
-      min-height: 36px;
-      min-width: 190px;
-      padding: 6px 32px 6px 10px;
-      color: var(--ink);
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 6px;
-    }
+  .ds-meta {
+    min-width: 230px; padding: 7px 18px 7px 14px;
+    border-left: 1px solid var(--line-lo);
+    display: flex; flex-direction: column; justify-content: center; gap: 3px;
+  }
+  .ds-snap { display: flex; align-items: center; justify-content: flex-end; gap: 8px; font: 11px var(--mono); letter-spacing: .06em; color: var(--ink); }
+  .ds-proj { display: flex; align-items: center; justify-content: flex-end; gap: 7px; font: 9.5px var(--mono); letter-spacing: .1em; color: var(--ink-md); text-transform: uppercase; }
+  .demo-tag {
+    display: inline-flex; align-items: center; min-height: 18px;
+    padding: 1px 7px; border: 1px solid var(--copper-line); border-radius: 3px;
+    background: var(--copper-soft); color: var(--copper-ink);
+    font: 9px var(--mono); letter-spacing: .1em; white-space: nowrap;
+  }
 
-    .demo-controls {
-      margin: 0 0 16px;
-      background: var(--paper);
-      border: 1px dashed var(--line);
-      border-radius: var(--radius);
-    }
-    .demo-controls > summary {
-      display: flex; align-items: center; gap: 10px;
-      min-height: 40px; padding: 9px 14px;
-      color: var(--ink-md); font: 700 12.5px var(--serif);
-      cursor: pointer; list-style: none;
-      border-radius: var(--radius);
-    }
-    .demo-controls > summary::-webkit-details-marker { display: none; }
-    .demo-controls > summary::before {
-      content: ""; width: 7px; height: 7px; flex: 0 0 7px;
-      border-right: 2px solid var(--ink-lo); border-bottom: 2px solid var(--ink-lo);
-      transform: rotate(45deg); margin-top: -3px;
-      transition: transform 160ms ease;
-    }
-    .demo-controls[open] > summary::before { transform: rotate(225deg); margin-top: 3px; }
-    .demo-controls > summary:hover { color: var(--ink); background: var(--paper-hi); }
-    .demo-controls-hint { margin-left: auto; color: var(--ink-lo); font: 10.5px var(--mono); }
-    .demo-controls > .controls-row { border-top: 1px solid var(--line-lo); padding-top: 12px; }
-    .demo-controls-note { max-width: 560px; margin: 0; color: var(--ink-md); font-size: 12px; }
+  .led {
+    flex: 0 0 7px; width: 7px; height: 7px; border-radius: 50%;
+    color: var(--green); background: currentColor;
+    animation: ledPulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  .led.tone-acc { color: var(--acc); }
+  .led.tone-warn { color: var(--copper); }
+  .led.tone-neg { color: var(--neg); }
+  @keyframes ledPulse {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 45%, transparent); }
+    70% { box-shadow: 0 0 0 6px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
 
-    .runtime-banner {
-      margin: 14px 0;
-      padding: 10px 12px;
-      color: var(--green-ink);
-      background: var(--green-soft);
-      border-left: 4px solid var(--green);
-      border-radius: 4px;
-    }
-    .runtime-banner[data-tone="warn"] { color: var(--copper-ink); background: var(--copper-soft); border-left-color: var(--copper); }
-    .runtime-banner[data-tone="danger"] { color: var(--neg); background: var(--neg-soft); border-left-color: var(--neg); }
-    body:has(#runtimeState option[value="loading"]:checked) .runtime-banner {
-      color: var(--ink-md);
-      background: var(--paper-hi);
-      border-left-color: var(--ink-lo);
-    }
-    .runtime-blocker {
-      min-height: 220px;
-      margin: 14px 0;
-      padding: 34px 24px;
-      color: var(--ink);
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-top: 4px solid var(--copper);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .runtime-blocker strong { display: block; margin-bottom: 8px; font-size: 17px; }
-    .runtime-blocker p { max-width: 760px; margin: 0; color: var(--ink-md); }
-    body:has(#runtimeState option[value="empty"]:checked) .runtime-blocker,
-    body:has(#runtimeState option[value="stale"]:checked) .runtime-blocker { border-top-color: var(--copper); }
-    body:has(#runtimeState option[value="forbidden"]:checked) .runtime-blocker,
-    body:has(#runtimeState option[value="conflict"]:checked) .runtime-blocker,
-    body:has(#runtimeState option[value="unavailable"]:checked) .runtime-blocker,
-    body:has(#runtimeState option[value="projection_failed"]:checked) .runtime-blocker { border-top-color: var(--neg); }
-    .pill.state[data-projection-badge] {
-      color: var(--green-ink);
-      background: var(--green-soft);
-      border: 1px solid var(--green-line);
-    }
-    body:has(#runtimeState option[value="loading"]:checked) .pill.state[data-projection-badge] {
-      color: var(--ink-md);
-      background: var(--paper-hi);
-      border-color: var(--line);
-    }
-    body:has(#runtimeState option[value="empty"]:checked) .pill.state[data-projection-badge],
-    body:has(#runtimeState option[value="stale"]:checked) .pill.state[data-projection-badge] {
-      color: var(--copper-ink);
-      background: var(--copper-soft);
-      border-color: var(--copper-line);
-    }
-    body:has(#runtimeState option[value="forbidden"]:checked) .pill.state[data-projection-badge],
-    body:has(#runtimeState option[value="conflict"]:checked) .pill.state[data-projection-badge],
-    body:has(#runtimeState option[value="unavailable"]:checked) .pill.state[data-projection-badge],
-    body:has(#runtimeState option[value="projection_failed"]:checked) .pill.state[data-projection-badge] {
-      color: var(--neg);
-      background: var(--neg-soft);
-      border-color: var(--neg-line);
-    }
+  /* ===== 模块页签 ===== */
+  .modulebar { display: flex; align-items: stretch; gap: 0; padding: 0 28px; background: var(--paper); border-bottom: 1px solid var(--line); overflow-x: auto; }
+  .mtab {
+    padding: 10px 18px 9px; border: 0; border-bottom: 2px solid transparent;
+    background: none; color: var(--ink-md); font: 700 13px var(--serif); white-space: nowrap;
+    transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+  }
+  .mtab span { margin-left: 8px; font: 9.5px var(--mono); letter-spacing: .1em; color: var(--label); text-transform: uppercase; }
+  .mtab:hover { color: var(--ink); background: var(--paper-hi); }
+  .mtab[aria-selected="true"] { color: var(--acc); border-bottom-color: var(--acc); }
+  .mtab[aria-selected="true"] span { color: var(--acc-deep); }
 
-    .role-home {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin: 0 0 18px;
-    }
-    .rh-card {
-      min-width: 0;
-      display: flex; flex-direction: column;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-    .rh-head {
-      display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
-      padding: 12px 14px 9px;
-      border-bottom: 1px solid var(--line-lo);
-    }
-    .rh-head h3 { margin: 0; font: 700 14px var(--serif); }
-    .rh-count { font: 700 22px var(--mono); color: var(--accent); }
-    .rh-tone-warn .rh-count { color: var(--copper); }
-    .rh-tone-neg .rh-count { color: var(--neg); }
-    .rh-sub { margin: 0; padding: 8px 14px 0; color: var(--ink-md); font-size: 12px; }
-    .rh-list { display: grid; gap: 2px; padding: 8px; }
-    .queue-row {
-      display: block; width: 100%; min-width: 0;
-      padding: 8px 10px;
-      color: var(--ink);
-      background: var(--paper);
-      border: 0;
-      border-left: 3px solid var(--accent);
-      border-radius: 4px;
-      text-align: left;
-    }
-    .rh-tone-warn .queue-row { border-left-color: var(--copper); }
-    .rh-tone-neg .queue-row { border-left-color: var(--neg); }
-    .queue-row:hover { background: var(--paper-hi); }
-    .queue-row .q-id { color: var(--ink-md); font: 600 10px var(--mono); }
-    .queue-row .q-title { display: block; margin: 2px 0; font: 700 13px var(--serif); overflow-wrap: anywhere; }
-    .queue-row .q-meta { color: var(--ink-md); font-size: 11px; }
-    .rh-empty {
-      margin: 10px 12px 14px;
-      padding: 10px 12px;
-      color: var(--ink-md);
-      background: var(--paper-hi);
-      border: 1px dashed var(--line);
-      border-radius: 6px;
-      font-size: 12.5px;
-    }
-    .rh-note {
-      margin: 10px 12px 0;
-      padding: 9px 11px;
-      color: var(--ink-md);
-      background: var(--accent-soft);
-      border-left: 4px solid var(--accent);
-      border-radius: 4px;
-      font-size: 12.5px;
-    }
-    .rh-note:last-child { margin-bottom: 14px; }
-    .rh-note strong { color: var(--accent-deep); }
-    .rh-actions { margin-top: auto; padding: 12px 14px 14px; }
-    .rh-dist { display: grid; padding: 8px 14px 4px; }
-    .rh-dist-row {
-      display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
-      padding: 5px 0;
-      border-bottom: 1px solid var(--line-lo);
-      font-size: 12.5px;
-    }
-    .rh-dist-row:last-child { border-bottom: 0; }
-    .rh-dist-row b { font: 700 13px var(--mono); color: var(--accent); }
+  /* ===== 躯干三列 ===== */
+  main { min-width: 0; background: var(--paper); }
+  .console {
+    display: grid; grid-template-columns: 264px minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 16px; align-items: start;
+    max-width: 1640px; margin: 0 auto; padding: 18px 28px 60px;
+  }
+  .rail {
+    position: sticky; top: 136px;
+    max-height: calc(100vh - 156px);
+    overflow-y: auto; overscroll-behavior: contain;
+    display: grid; gap: 12px; padding-bottom: 6px;
+  }
+  .panel { min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); }
+  .panel-h { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px 8px; border-bottom: 1px solid var(--line-lo); }
+  .panel-b { padding: 10px 12px 12px; }
 
-    .section-title { margin: 0; font: 700 17px/1.4 var(--serif); }
-    .section-help { margin: 2px 0 10px; color: var(--ink-md); font-size: 12.5px; }
-    .stage-nav {
-      display: grid;
-      grid-template-columns: repeat(9, minmax(0, 1fr));
-      gap: 0;
-      overflow: hidden;
-      padding-bottom: 0;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .stage-button {
-      position: relative;
-      min-width: 0;
-      min-height: 76px;
-      padding: 10px 12px 9px;
-      color: var(--ink-md);
-      background: var(--paper);
-      border: 0;
-      border-right: 1px solid var(--line-lo);
-      border-radius: 0;
-      text-align: left;
-    }
-    .stage-button:last-child { border-right: 0; }
-    .stage-button:not(:last-child)::after {
-      content: "›";
-      position: absolute; right: 4px; top: 8px;
-      color: var(--line); font: 12px var(--mono);
-    }
-    .stage-button:hover { color: var(--ink); background: var(--paper-hi); }
-    .stage-button[aria-pressed="true"] {
-      color: var(--accent);
-      background: var(--accent-soft);
-      box-shadow: inset 0 -3px var(--accent);
-    }
-    .stage-index { display: block; color: var(--ink-lo); font: 10px var(--mono); letter-spacing: .1em; }
-    .stage-button[aria-pressed="true"] .stage-index { color: var(--accent); }
-    .stage-name { display: block; margin: 2px 0 4px; font-size: 12px; font-weight: 700; color: var(--ink); overflow-wrap: anywhere; }
-    .stage-button[aria-pressed="true"] .stage-name { color: var(--accent); }
-    .stage-count { font: 600 11px var(--mono); }
-    .stage-button:disabled { cursor: not-allowed; opacity: .55; }
-    .substate-panel {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 8px;
-      padding: 9px 10px;
-      background: var(--copper-soft);
-      border: 1px solid var(--copper-line);
-      border-radius: 6px;
-    }
-    .substate-panel > span { color: var(--copper-ink); font-size: 12px; font-weight: 700; }
-    .substate-panel button {
-      padding: 6px 10px;
-      color: var(--copper-ink);
-      background: #fff;
-      border: 1px solid #d9c48f;
-      border-radius: 4px;
-    }
-    .substate-panel button:hover { background: var(--paper-hi); }
-    .substate-panel button[aria-pressed="true"] { color: #fff; background: var(--copper); border-color: var(--copper); }
+  .rolebtn {
+    display: block; width: 100%; text-align: left;
+    padding: 11px 12px; border: 1px solid var(--line); border-radius: 6px;
+    background: var(--paper); color: var(--ink);
+    transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+  }
+  .rolebtn + .rolebtn { margin-top: 8px; }
+  .rolebtn:hover { border-color: var(--ink-lo); background: var(--paper-hi); }
+  .rolebtn[aria-pressed="true"] { border-color: var(--acc); background: var(--acc-soft); box-shadow: inset 3px 0 0 var(--acc); }
+  .rolebtn .rb-name { display: flex; align-items: center; gap: 8px; font: 700 14px var(--serif); color: var(--ink); }
+  .rolebtn .rb-name svg { flex: 0 0 15px; width: 15px; height: 15px; color: var(--acc-deep); }
+  .rolebtn .rb-desc { margin-top: 3px; font: 11px/1.55 var(--serif); color: var(--ink-md); }
+  .rolebtn .rb-scope { margin-top: 4px; font: 9px var(--mono); letter-spacing: .1em; color: var(--label); text-transform: uppercase; }
 
-    .case-workspace {
-      display: grid;
-      grid-template-columns: minmax(330px, 38fr) minmax(0, 62fr);
-      gap: 0;
-      margin-top: 16px;
-      min-width: 0;
-      align-items: start;
-      overflow: hidden;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .case-list-shell, .case-detail {
-      min-width: 0;
-      background: var(--paper);
-    }
-    .case-list-shell { border-right: 1px solid var(--line); }
-    .case-detail-col { min-width: 0; display: flex; flex-direction: column; }
-    .detail-anchor {
-      display: flex; align-items: center; gap: 2px;
-      overflow-x: auto;
-      padding: 8px 10px;
-      background: var(--paper);
-      border-bottom: 1px solid var(--line);
-      position: sticky; top: 60px; z-index: 20;
-    }
-    .detail-anchor a {
-      flex: 0 0 auto;
-      padding: 5px 10px; border-radius: 999px;
-      color: var(--ink-md); font: 700 11.5px var(--serif);
-    }
-    .detail-anchor a:hover, .detail-anchor a:focus-visible { color: var(--accent); background: var(--accent-soft); outline: none; }
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding: 12px 14px;
-      background: var(--paper-hi);
-      border-bottom: 1px solid var(--line);
-    }
-    .panel-header h3 { margin: 0; font: 700 14px var(--serif); }
-    .panel-header span { color: var(--ink-md); font-size: 11px; }
-    .case-list { display: grid; max-height: 980px; overflow-y: auto; background: var(--paper); }
-    .case-row {
-      display: block;
-      width: 100%;
-      min-width: 0;
-      padding: 12px 14px;
-      color: inherit;
-      background: var(--paper);
-      border: 0;
-      border-bottom: 1px solid var(--line-lo);
-      text-align: left;
-    }
-    .case-row:last-child { border-bottom: 0; }
-    .case-row:hover { background: var(--paper-hi); }
-    .case-row[aria-current="true"] { background: var(--accent-wash); box-shadow: inset 4px 0 var(--accent); }
-    .case-id { color: var(--ink-md); font: 600 10px var(--mono); }
-    .case-title { margin: 3px 0 7px; font-weight: 700; overflow-wrap: anywhere; }
-    .case-meta { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; color: var(--ink-md); font-size: 11px; }
-    .pill {
-      display: inline-flex; align-items: center; min-height: 22px;
-      padding: 2px 7px;
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      font-size: 10px;
-      font-weight: 700;
-    }
-    .pill.state { color: var(--accent-deep); background: var(--accent-soft); border-color: var(--accent-line); }
-    .case-row[data-case-state="closed"] .pill.state { color: var(--green-ink); background: var(--green-soft); border-color: var(--green-line); }
-    .pill.risk-high { color: var(--neg); background: var(--neg-soft); border-color: var(--neg-line); }
-    .pill.risk-medium { color: var(--copper-ink); background: var(--copper-soft); border-color: var(--copper-line); }
-    .pill.risk-low { color: var(--ink-md); background: var(--paper-hi); border-color: var(--line); }
+  .drawer-btn {
+    display: flex; align-items: center; gap: 9px; width: 100%;
+    padding: 10px 12px; border: 0; background: var(--paper); border-radius: var(--r);
+    color: var(--ink-md); font: 700 12.5px var(--serif); text-align: left;
+    transition: color 160ms ease, background 160ms ease;
+  }
+  .drawer-btn:hover { color: var(--ink); background: var(--paper-hi); }
+  .drawer-btn::before {
+    content: ""; width: 7px; height: 7px; flex: 0 0 7px;
+    border-right: 2px solid var(--ink-lo); border-bottom: 2px solid var(--ink-lo);
+    transform: rotate(45deg); margin-top: -3px;
+    transition: transform 200ms ease;
+  }
+  .drawer.open .drawer-btn::before { transform: rotate(225deg); margin-top: 3px; }
+  .drawer-btn .hint { margin-left: auto; font: 9px var(--mono); letter-spacing: .08em; color: var(--label); }
+  .drawer-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 420ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .drawer.open .drawer-wrap { grid-template-rows: 1fr; }
+  .drawer-inner { min-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: opacity 240ms ease, visibility 0s linear 420ms; }
+  .drawer.open .drawer-inner { opacity: 1; visibility: visible; transition: opacity 240ms ease 120ms, visibility 0s linear 0s; }
+  .drawer-body { padding: 10px 12px 12px; border-top: 1px solid var(--line-lo); }
+  .rt-select {
+    width: 100%; min-height: 36px; padding: 6px 30px 6px 10px;
+    border: 1px solid var(--line); border-radius: 6px;
+    background: var(--paper); color: var(--ink); font: 12px var(--serif);
+  }
+  .drawer-note { margin: 8px 0 0; font: 11px/1.6 var(--serif); color: var(--ink-md); }
 
-    .case-detail { overflow: hidden; }
-    .case-hero {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 16px;
-      background: var(--paper);
-      border-bottom: 1px solid var(--line);
-    }
-    .case-hero h2 { margin: 4px 0 7px; font: 700 20px/1.35 var(--serif); overflow-wrap: anywhere; }
-    .case-hero p { margin: 0; color: var(--ink-md); }
-    .case-state-box { flex: 0 0 165px; padding: 10px; background: var(--accent-soft); border-left: 4px solid var(--accent); border-radius: 4px; }
-    .case-state-box small { display: block; color: var(--ink-md); font-family: var(--mono); }
-    .case-state-box strong { display: block; margin-top: 2px; color: var(--accent-deep); overflow-wrap: anywhere; }
-    .truth-note {
-      margin: 12px 16px 0;
-      padding: 9px 11px;
-      color: var(--copper-ink);
-      background: var(--copper-soft);
-      border-left: 4px solid var(--copper);
-    }
-    .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px 16px 18px; }
-    .detail-section {
-      min-width: 0;
-      padding: 14px 16px;
-      background: var(--paper);
-      border: 1px solid var(--line-lo);
-      border-radius: 8px;
-      scroll-margin-top: 132px;
-    }
-    .detail-section.full { grid-column: 1 / -1; }
-    .detail-section h3 { margin: 0 0 8px; font: 700 14px var(--serif); }
-    .detail-section p { margin: 6px 0; color: var(--ink-md); }
-    .detail-section:nth-child(2) > strong:first-of-type { color: var(--green-ink); }
-    .detail-section:nth-child(2) > strong:nth-of-type(2) { color: var(--accent-deep); }
-    .detail-section:nth-child(2) > .fact-list:first-of-type {
-      padding-left: 14px;
-      border-left: 2px solid var(--green);
-    }
-    .detail-section:nth-child(2) > .fact-list:nth-of-type(2) {
-      padding-left: 14px;
-      border-left: 2px solid var(--accent);
-    }
-    .fact-list, .mini-list { margin: 0; padding-left: 18px; }
-    .fact-list li, .mini-list li { margin: 4px 0; overflow-wrap: anywhere; }
-    .kv-grid { display: grid; grid-template-columns: minmax(105px, .7fr) minmax(0, 1.3fr); gap: 6px 10px; }
-    .kv-grid dt { color: var(--ink-md); }
-    .kv-grid dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
-    .timeline { display: grid; gap: 9px; }
-    .timeline-item { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 10px; }
-    .timeline-item time { color: var(--accent-deep); font: 11px var(--mono); }
-    .timeline-item div { padding-left: 10px; border-left: 2px solid var(--line); color: var(--ink-md); overflow-wrap: anywhere; }
-    .action-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-    .action-button {
-      min-height: 36px;
-      padding: 7px 11px;
-      color: #fff;
-      background: var(--accent);
-      border: 1px solid var(--accent);
-      border-radius: 4px;
-      font-weight: 700;
-    }
-    .action-button:hover { background: var(--accent-deep); border-color: var(--accent-deep); }
-    .action-button.secondary {
-      color: var(--neutral-action);
-      background: var(--paper);
-      border-color: var(--line);
-    }
-    .action-button.secondary:hover { color: var(--ink-md); border-color: var(--ink-lo); }
-    .action-button[aria-disabled="true"] { cursor: default; opacity: .72; }
-    .permission-box { padding: 9px 10px; color: var(--neg); background: var(--neg-soft); border: 1px solid var(--neg-line); border-radius: 4px; }
-    .code-table { width: 100%; border-collapse: collapse; font-size: 11.5px; background: var(--paper); }
-    .code-table th, .code-table td { padding: 7px 8px; border: 1px solid var(--line); text-align: left; vertical-align: top; overflow-wrap: anywhere; }
-    .code-table th { color: var(--ink-md); background: var(--paper-hi); font: 10px var(--mono); letter-spacing: .06em; }
-    code { color: var(--accent-deep); font-family: var(--mono); overflow-wrap: anywhere; }
+  .fsel {
+    width: 100%; min-height: 34px; margin-top: 4px; padding: 5px 8px;
+    border: 1px solid var(--line); border-radius: 5px;
+    background: var(--paper); color: var(--ink); font: 12px var(--serif);
+  }
+  .f-group + .f-group { margin-top: 9px; }
+  .f-note { margin: 10px 0 0; font: 10.5px/1.6 var(--serif); color: var(--ink-md); }
+  .bound-note { margin: 0; font: 11px/1.65 var(--serif); color: var(--ink-md); }
+  .bound-note strong { color: var(--ink); }
 
-    .boundary-page { max-width: 1050px; margin: 0 auto; }
-    .boundary-header {
-      padding: 22px;
-      background: var(--paper);
-      border: 1.5px solid var(--ink);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .boundary-header h2 { margin: 4px 0 8px; font: 700 23px/1.3 var(--serif); }
-    .boundary-header p { margin: 0; color: var(--ink-md); }
-    .status-ribbon {
-      display: inline-block; padding: 5px 8px;
-      color: var(--accent-deep);
-      background: var(--accent-soft);
-      border: 1px solid var(--accent-line);
-      border-radius: 4px;
-      font: 600 11px var(--mono);
-    }
-    .logic-flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
-    .logic-node {
-      position: relative; min-height: 76px; padding: 11px;
-      color: var(--ink);
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-top: 4px solid var(--accent);
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .logic-node small { display: block; margin-top: 4px; color: var(--ink-md); font-weight: 500; }
-    .boundary-band {
-      margin-top: 14px; padding: 16px 18px;
-      color: var(--ink-md);
-      background: var(--accent-soft);
-      border-left: 4px solid var(--accent);
-    }
-    .boundary-band strong { color: var(--accent-deep); }
+  /* ===== 中栏 ===== */
+  .mid { min-width: 0; display: grid; gap: 12px; align-content: start; }
+  .rt-line {
+    display: flex; align-items: flex-start; gap: 9px;
+    padding: 9px 12px; border: 1px solid var(--green-line); border-radius: 6px;
+    background: var(--green-soft); color: var(--green-ink);
+    font: 10.5px/1.6 var(--mono); letter-spacing: .05em;
+  }
+  .rt-line .led { margin-top: 5px; }
+  .rt-line[data-tone="info"] { border-color: var(--line); background: var(--paper); color: var(--ink-md); }
+  .rt-line[data-tone="warn"] { border-color: var(--copper-line); background: var(--copper-soft); color: var(--copper-ink); }
+  .rt-line[data-tone="danger"] { border-color: var(--neg-line); background: var(--neg-soft); color: var(--neg); }
 
-    .dialog-backdrop {
-      position: fixed; inset: 0; z-index: 200;
-      display: grid; place-items: center; padding: 18px;
-      background: rgba(5, 28, 44, .45);
-    }
-    .dialog {
-      width: min(680px, 100%);
-      max-height: calc(100vh - 36px);
-      overflow-y: auto;
-      color: var(--ink);
-      background: var(--paper);
-      border: 1.5px solid var(--ink);
-      border-radius: 8px;
-      box-shadow: 0 24px 60px rgba(5, 28, 44, .2);
-    }
-    .dialog-header { display: flex; justify-content: space-between; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
-    .dialog-header h2 { margin: 0; font: 700 18px var(--serif); }
-    .icon-button {
-      display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 34px;
-      color: var(--ink);
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      font-size: 18px;
-    }
-    .icon-button:hover { color: var(--accent); border-color: var(--accent); }
-    .dialog-body { padding: 16px 18px 20px; }
-    .guidance-block { padding: 10px 0; border-bottom: 1px solid var(--line-lo); }
-    .guidance-block:last-child { border-bottom: 0; }
-    .guidance-block strong { display: block; margin-bottom: 3px; }
-    .guidance-block p, .dialog-body > p { margin: 0; color: var(--ink-md); }
+  .queues { display: grid; gap: 12px; }
+  .qcard { min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+  .qcard-h { display: flex; align-items: center; gap: 9px; padding: 10px 14px 9px; border-bottom: 1px solid var(--line-lo); }
+  .qcard-h h3 { margin: 0; font: 700 14px var(--serif); color: var(--ink); }
+  .qcount { margin-left: auto; font: 700 27px/1 var(--serif); color: var(--acc); border-radius: 4px; padding: 0 4px; }
+  .tone-warn .qcount { color: var(--copper-ink); }
+  .tone-neg .qcount { color: var(--neg); }
+  .tone-ok .qcount { color: var(--green-ink); }
+  .qsub { margin: 0; padding: 7px 14px 0; font: 11px/1.6 var(--serif); color: var(--ink-md); }
+  .qlist { display: grid; gap: 3px; padding: 8px; }
+  .qrow {
+    display: block; width: 100%; min-width: 0; text-align: left;
+    padding: 8px 10px; border: 0; border-left: 3px solid var(--line); border-radius: 0 4px 4px 0;
+    background: var(--paper); color: var(--ink);
+    transition: background 150ms ease;
+  }
+  .qrow:hover { background: var(--paper-hi); }
+  .qrow[aria-current="true"] { background: var(--acc-wash); }
+  .sev-acc { border-left-color: var(--acc); }
+  .sev-warn { border-left-color: var(--copper); }
+  .sev-neg { border-left-color: var(--neg); }
+  .sev-ok { border-left-color: var(--green); }
+  .sev-mute { border-left-color: var(--line); }
+  .qrow .qid { font: 600 9.5px var(--mono); letter-spacing: .04em; color: var(--ink-md); }
+  .qrow .qt { display: block; margin: 2px 0; font: 700 12.5px/1.45 var(--serif); color: var(--ink); overflow-wrap: anywhere; }
+  .qrow .qm { display: block; font: 10.5px/1.5 var(--serif); color: var(--ink-md); }
+  .qempty {
+    margin: 10px 12px 12px; padding: 11px 12px;
+    border: 1px dashed var(--line); border-radius: 6px; background: var(--paper-hi);
+    font: 12px/1.6 var(--serif); color: var(--ink-md);
+  }
+  .qnote {
+    margin: 9px 12px 0; padding: 8px 10px;
+    border-left: 3px solid var(--acc); border-radius: 0 4px 4px 0;
+    background: var(--acc-soft); font: 11.5px/1.6 var(--serif); color: var(--ink-md);
+  }
+  .qnote:last-child { margin-bottom: 12px; }
+  .qnote strong { color: var(--acc-deep); }
+  .qnote.tone-copper { border-left-color: var(--copper); background: var(--copper-soft); }
+  .qnote.tone-copper strong { color: var(--copper-ink); }
+  .qactions { padding: 10px 14px 14px; }
+  .dist { display: grid; gap: 2px; padding: 8px 14px 4px; }
+  .dist-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: baseline; padding: 5px 0; border-bottom: 1px solid var(--line-lo); font: 12px var(--serif); color: var(--ink-md); }
+  .dist-row:last-child { border-bottom: 0; }
+  .dist-row b { font: 700 13px var(--mono); color: var(--acc); border-radius: 3px; padding: 0 3px; }
+  .dist-bar { grid-column: 1 / -1; height: 3px; border-radius: 2px; background: var(--line-lo); overflow: hidden; }
+  .dist-bar i { display: block; height: 100%; background: var(--acc); border-radius: 2px; transition: width 420ms cubic-bezier(0.16, 1, 0.3, 1); }
 
-    @media (max-width: 1120px) {
-      .identity-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .identity-lead { grid-column: 1 / -1; }
-      .stage-nav { grid-template-columns: repeat(5, minmax(120px, 1fr)); }
-      .logic-flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    }
-    @media (max-width: 960px) {
-      .case-workspace { grid-template-columns: minmax(0, 1fr); }
-      .case-list-shell { border-right: 0; border-bottom: 1px solid var(--line); }
-      .case-list { max-height: 420px; }
-    }
-    @media (max-width: 860px) {
-      .topbar { align-items: flex-start; padding: 16px 18px; }
-      main { padding: 12px 12px 32px; }
-      .controls-row { align-items: stretch; flex-direction: column; }
-      .runtime-select { width: 100%; }
-      .role-home { grid-template-columns: minmax(0, 1fr); }
-      .case-hero { flex-direction: column; }
-      .case-state-box { width: 100%; flex-basis: auto; }
-      .detail-grid { grid-template-columns: minmax(0, 1fr); }
-      .logic-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-    @media (max-width: 760px) {
-      .topnav { grid-template-columns: 1fr auto; padding: 0 16px; }
-      .topnav .center { display: none; }
-    }
-    @media (max-width: 620px) {
-      .topbar { flex-direction: column; gap: 10px; }
-      .environment { align-self: flex-start; }
-      .module-bar { display: grid; grid-template-columns: minmax(0, 1fr); overflow-x: visible; }
-      .module-tab {
-        min-width: 0;
-        border-right: 0;
-        border-bottom: 1px solid var(--line-lo);
-      }
-      .module-tab:last-child { border-bottom: 0; }
-      .identity-strip, .detail-grid { grid-template-columns: minmax(0, 1fr); }
-      .stage-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .stage-button { border-right: 1px solid var(--line-lo); border-bottom: 1px solid var(--line-lo); }
-      .stage-button:nth-child(2n) { border-right: 0; }
-      .stage-button:nth-last-child(-n + 2) { border-bottom: 0; }
-      .stage-button::after { content: none !important; }
-      .demo-controls-hint { display: none; }
-      .detail-anchor { position: static; }
-      .substate-panel { align-items: stretch; flex-direction: column; }
-      .substate-panel button { width: 100%; text-align: left; }
-      .case-hero, .truth-note { margin-left: 0; margin-right: 0; }
-      .truth-note { margin-top: 10px; }
-      .detail-grid { padding-left: 12px; padding-right: 12px; }
-      .kv-grid { grid-template-columns: minmax(0, 1fr); }
-      .kv-grid dd { margin-bottom: 5px; }
-      .timeline-item { grid-template-columns: minmax(0, 1fr); gap: 2px; }
-      .logic-flow { grid-template-columns: minmax(0, 1fr); }
-      .code-table, .code-table thead, .code-table tbody,
-      .code-table tr, .code-table th, .code-table td {
-        display: block;
-        width: 100%;
-      }
-      .code-table { overflow-x: visible; }
-      .code-table tr { border-bottom: 1px solid var(--line); }
-      .code-table tr:last-child { border-bottom: 0; }
-      .code-table th, .code-table td { border: 0; border-bottom: 1px solid var(--line-lo); }
-      .code-table tr > :last-child { border-bottom: 0; }
-    }
+  .listcard { min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+  .listcard-h { display: flex; align-items: baseline; gap: 10px; padding: 11px 14px 9px; border-bottom: 1px solid var(--line); }
+  .listcard-h h3 { margin: 0; font: 700 14.5px var(--serif); }
+  .listcard-h .lc-count { margin-left: auto; font: 10.5px var(--mono); letter-spacing: .06em; color: var(--ink-md); white-space: nowrap; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px; border-bottom: 1px solid var(--line-lo); }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 6px 3px 9px; border: 1px solid var(--acc-line); border-radius: 999px;
+    background: var(--acc-soft); color: var(--acc-deep);
+    font: 10.5px var(--serif);
+  }
+  .chip button {
+    display: grid; place-items: center; width: 16px; height: 16px;
+    border: 0; border-radius: 50%; background: transparent; color: var(--acc-deep);
+    font: 11px/1 var(--mono); padding: 0;
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .chip button:hover { background: var(--acc); color: #fff; }
+  .substates { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 8px 14px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: transparent; }
+  .substates > span { font: 11px var(--serif); font-weight: 700; color: var(--copper-ink); }
+  .substates button {
+    padding: 4px 10px; border: 1px solid var(--copper-line); border-radius: 4px;
+    background: #fff; color: var(--copper-ink); font: 11px var(--serif);
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .substates button b { font-family: var(--mono); }
+  .substates button:hover { background: var(--paper-hi); }
+  .substates button[aria-pressed="true"] { background: var(--copper); border-color: var(--copper); color: #fff; }
+  .caselist { display: grid; max-height: 640px; overflow-y: auto; }
+  .caserow {
+    display: block; width: 100%; min-width: 0; text-align: left;
+    padding: 10px 14px 10px 11px;
+    border: 0; border-bottom: 1px solid var(--line-lo); border-left: 3px solid var(--line);
+    background: var(--paper); color: var(--ink);
+    transition: background 150ms ease;
+  }
+  .caserow:last-child { border-bottom: 0; }
+  .caserow:hover { background: var(--paper-hi); }
+  .caserow[aria-current="true"] { background: var(--acc-wash); }
+  .caserow .qid { font: 600 9.5px var(--mono); letter-spacing: .04em; color: var(--ink-md); }
+  .caserow .qt { display: block; margin: 3px 0 6px; font: 700 13px/1.5 var(--serif); overflow-wrap: anywhere; }
+  .cmeta { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; font: 10.5px var(--serif); color: var(--ink-md); }
+  .pill {
+    display: inline-flex; align-items: center; min-height: 20px;
+    padding: 1px 7px; border: 1px solid var(--line); border-radius: 4px;
+    font: 700 10px var(--serif); white-space: nowrap;
+  }
+  .pill.state { color: var(--acc-deep); background: var(--acc-soft); border-color: var(--acc-line); }
+  .pill.state.st-closed { color: var(--green-ink); background: var(--green-soft); border-color: var(--green-line); }
+  .pill.state.st-watch { color: var(--copper-ink); background: var(--copper-soft); border-color: var(--copper-line); }
+  .pill.risk-high { color: var(--neg); background: var(--neg-soft); border-color: var(--neg-line); }
+  .pill.risk-medium { color: var(--copper-ink); background: var(--copper-soft); border-color: var(--copper-line); }
+  .pill.risk-low { color: var(--ink-md); background: var(--paper-hi); border-color: var(--line); }
+  .caserow .due { font-family: var(--mono); font-size: 9.5px; letter-spacing: .04em; }
+  .caserow .due.overdue { color: var(--neg); font-weight: 700; }
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
+  /* ===== 右栏：案件详情 ===== */
+  .detail {
+    position: sticky; top: 136px;
+    max-height: calc(100vh - 156px);
+    overflow-y: auto; overscroll-behavior: contain;
+    min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r);
+  }
+  .d-top { position: sticky; top: 0; z-index: 10; background: rgba(255, 255, 255, .97); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+  .d-hero { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding: 13px 16px 11px; }
+  .d-hero .qid { font: 600 9.5px var(--mono); letter-spacing: .05em; color: var(--ink-md); }
+  .d-hero h2 { margin: 4px 0 5px; font: 700 18px/1.4 var(--serif); overflow-wrap: anywhere; }
+  .d-hero p { margin: 0; font: 11px var(--serif); color: var(--ink-md); }
+  .d-state { flex: 0 0 auto; min-width: 128px; padding: 8px 10px; border: 1px solid var(--acc); border-radius: 4px; background: transparent; }
+  .d-state small { display: block; font: 8.5px var(--mono); letter-spacing: .1em; color: var(--ink-md); }
+  .d-state strong { display: block; margin-top: 2px; font: 700 12.5px/1.4 var(--serif); color: var(--acc-deep); overflow-wrap: anywhere; }
+  .d-anchors { display: flex; gap: 2px; overflow-x: auto; padding: 6px 10px 8px; border-top: 1px solid var(--line-lo); }
+  .d-anchors a {
+    flex: 0 0 auto; padding: 4px 9px; border-radius: 999px;
+    color: var(--ink-md); font: 700 11px var(--serif);
+    transition: color 150ms ease, background 150ms ease;
+  }
+  .d-anchors a:hover, .d-anchors a:focus-visible { color: var(--acc); background: var(--acc-soft); outline: none; }
+  .truth-note {
+    margin: 12px 16px 0; padding: 8px 11px;
+    border-left: 3px solid var(--copper); border-radius: 0 4px 4px 0;
+    background: var(--copper-soft); color: var(--copper-ink);
+    font: 11.5px/1.6 var(--serif);
+  }
+  .d-sec { padding: 14px 16px 15px; border-bottom: 1px solid var(--line-lo); scroll-margin-top: 128px; }
+  .d-sec:last-child { border-bottom: 0; }
+  .d-sec .sec-h { display: flex; align-items: baseline; gap: 9px; margin: 0 0 8px; }
+  .d-sec .sec-no { font: 9px var(--mono); letter-spacing: .16em; color: var(--acc); }
+  .d-sec h3 { margin: 0; font: 700 13.5px var(--serif); }
+  .d-sec p { margin: 6px 0; color: var(--ink-md); font-size: 12.5px; }
+  .d-sec > strong { display: block; margin: 8px 0 3px; font-size: 12px; }
+  .d-sec > strong:first-of-type { color: var(--green-ink); }
+  .d-sec > strong:nth-of-type(2) { color: var(--acc-deep); }
+  .fact-list, .mini-list { margin: 0; padding-left: 17px; font-size: 12.5px; color: var(--ink-md); }
+  .fact-list li, .mini-list li { margin: 4px 0; overflow-wrap: anywhere; }
+  .kv-grid { display: grid; grid-template-columns: minmax(96px, .62fr) minmax(0, 1.38fr); gap: 5px 10px; font-size: 12.5px; }
+  .kv-grid dt { color: var(--ink-md); }
+  .kv-grid dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+  .timeline { display: grid; gap: 8px; font-size: 12px; }
+  .timeline-item { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; }
+  .timeline-item time { color: var(--acc-deep); font: 10.5px var(--mono); }
+  .timeline-item div { padding-left: 10px; border-left: 2px solid var(--line); color: var(--ink-md); overflow-wrap: anywhere; }
+  .action-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 9px; }
+  .action-button {
+    min-height: 34px; padding: 6px 12px;
+    border: 1.5px solid var(--ink); border-radius: 6px;
+    background: transparent; color: var(--ink); font: 700 12px var(--serif);
+    transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+  }
+  .action-button:hover { background: var(--acc); border-color: var(--acc); color: #fff; }
+  .action-button.secondary { border: 1px solid var(--line); color: var(--ink-md); }
+  .action-button.secondary:hover { background: var(--paper-hi); color: var(--ink); border-color: var(--ink-lo); }
+  .action-button[aria-disabled="true"] { cursor: default; opacity: .72; }
+  .permission-box { padding: 9px 0 10px; border: 0; border-top: 2px solid var(--neg); border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; color: var(--neg); font-size: 12px; }
+  .tablewrap { overflow-x: auto; }
+  .code-table { width: 100%; border-collapse: collapse; font-size: 11px; background: var(--paper); }
+  .code-table th, .code-table td { padding: 6px 8px; border: 1px solid var(--line); text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+  .code-table th { color: var(--ink-md); background: var(--paper-hi); font: 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+  code { color: var(--acc-deep); font-family: var(--mono); overflow-wrap: anywhere; }
+
+  /* ===== 异常阻断 / 骨架 ===== */
+  .blocker {
+    max-width: 860px; margin: 40px auto 80px; padding: 24px 0 28px;
+    background: transparent; border: 0; border-top: 3px solid var(--copper); border-bottom: 1px solid var(--line);
+    border-radius: 0; box-shadow: none;
+  }
+  .blocker.tone-neg { border-top-color: var(--neg); }
+  .blocker .el { display: block; margin-bottom: 8px; }
+  .blocker strong { display: block; margin-bottom: 8px; font: 700 17px/1.5 var(--serif); }
+  .blocker p { max-width: 720px; margin: 0; color: var(--ink-md); font-size: 13px; }
+  .skel {
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--line-lo) 25%, #f5f8fb 50%, var(--line-lo) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s linear infinite;
+  }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+  .skel-row { display: grid; gap: 6px; padding: 11px 14px; border-bottom: 1px solid var(--line-lo); }
+  .skel-cards { display: grid; gap: 12px; }
+  .skel-card { padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--r); background: var(--paper); display: grid; gap: 8px; }
+
+  /* ===== 02 / 03 页签 ===== */
+  .boundary-page { max-width: 1050px; margin: 0 auto; padding: 26px 28px 70px; }
+  .boundary-header { padding: 22px; background: var(--paper); border: 1.5px solid var(--ink); border-radius: var(--r); }
+  .boundary-header h2 { margin: 6px 0 8px; font: 700 22px/1.35 var(--serif); }
+  .boundary-header p { margin: 0; color: var(--ink-md); font-size: 13.5px; }
+  .status-ribbon {
+    display: inline-block; padding: 4px 8px;
+    color: var(--acc-deep); background: var(--acc-soft);
+    border: 1px solid var(--acc-line); border-radius: 4px;
+    font: 600 10.5px var(--mono); letter-spacing: .06em;
+  }
+  .logic-flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
+  .logic-node {
+    position: relative; min-height: 74px; padding: 11px;
+    background: var(--paper); border: 1px solid var(--line); border-top: 4px solid var(--acc);
+    border-radius: 6px; font-size: 12px; font-weight: 700;
+  }
+  .logic-node small { display: block; margin-top: 4px; color: var(--ink-md); font-weight: 500; }
+  .boundary-band { margin-top: 14px; padding: 12px 0 13px; background: transparent; border-top: 2px solid var(--acc); border-bottom: 1px solid var(--line); color: var(--ink-md); font-size: 13px; }
+  .boundary-band strong { color: var(--acc-deep); }
+
+  /* ===== 新人指导对话框 ===== */
+  .dialog-backdrop {
+    position: fixed; inset: 0; z-index: 200;
+    display: grid; place-items: center; padding: 18px;
+    background: rgba(5, 28, 44, .45);
+  }
+  .dialog {
+    width: min(680px, 100%); max-height: calc(100vh - 36px); overflow-y: auto;
+    background: var(--paper); border: 1.5px solid var(--ink); border-radius: 8px;
+    box-shadow: 0 24px 60px rgba(5, 28, 44, .2);
+  }
+  .dialog-header { display: flex; justify-content: space-between; gap: 12px; padding: 15px 18px; border-bottom: 1px solid var(--line); }
+  .dialog-header h2 { margin: 2px 0 0; font: 700 17px var(--serif); }
+  .icon-button {
+    display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 34px;
+    border: 1px solid var(--line); border-radius: 6px; background: var(--paper);
+    color: var(--ink); font-size: 18px;
+    transition: color 150ms ease, border-color 150ms ease;
+  }
+  .icon-button:hover { color: var(--acc); border-color: var(--acc); }
+  .dialog-body { padding: 15px 18px 20px; }
+  .guidance-block { padding: 10px 0; border-bottom: 1px solid var(--line-lo); }
+  .guidance-block:last-child { border-bottom: 0; }
+  .guidance-block strong { display: block; margin-bottom: 3px; font-size: 13px; }
+  .guidance-block p, .dialog-body > p { margin: 0; color: var(--ink-md); font-size: 12.5px; }
+
+  /* ===== 数字变化高亮 ===== */
+  @keyframes numFlash { 0% { background: var(--acc-wash); box-shadow: 0 0 0 3px var(--acc-wash); } 100% { background: transparent; box-shadow: 0 0 0 3px transparent; } }
+  .flash { animation: numFlash 900ms ease-out; }
+
+  /* ===== 加载编排 0→1 ===== */
+  @keyframes riseIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  [data-rise] { animation: riseIn 560ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: calc(var(--d, 0) * 95ms); }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 1240px) {
+    .console { grid-template-columns: 240px minmax(0, 1fr); }
+    .detail-col { grid-column: 1 / -1; }
+    .detail { position: static; max-height: none; }
+  }
+  @media (max-width: 1080px) {
+    .dutystrip { grid-template-columns: auto minmax(0, 1fr); }
+    .ds-meta { display: none; }
+  }
+  @media (max-width: 900px) {
+    .console { grid-template-columns: minmax(0, 1fr); padding: 14px 14px 48px; }
+    .rail { position: static; max-height: none; overflow: visible; }
+    .logic-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 760px) {
+    .topnav { grid-template-columns: 1fr auto; padding: 0 16px; }
+    .topnav .center { display: none; }
+    .dutystrip { top: 58px; grid-template-columns: minmax(0, 1fr); }
+    .ds-role { border-right: 0; border-bottom: 1px solid var(--line-lo); min-width: 0; }
+    .vf-cell { flex: 0 0 84px; min-width: 84px; }
+    .modulebar { padding: 0 14px; }
+    .boundary-page { padding: 18px 14px 56px; }
+  }
+  @media (max-width: 620px) {
+    .console { padding: 12px 10px 44px; }
+    .d-hero { flex-direction: column; }
+    .d-state { width: 100%; }
+    .kv-grid { grid-template-columns: minmax(0, 1fr); }
+    .kv-grid dd { margin-bottom: 5px; }
+    .timeline-item { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+    .logic-flow { grid-template-columns: minmax(0, 1fr); }
+    .d-sec { scroll-margin-top: 150px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
-  </style>
+    [data-rise] { animation: none; opacity: 1; transform: none; }
+  }
+
+  /* ═══ R2 · 灵动报告家族换皮 ═══ */
+  .panel, .qcard, .listcard, .detail, .blocker, .rolebtn { box-shadow: none; }
+
+  /* kicker 小题（灵动 sec-no 语法：mono + 电蓝短划） */
+  .panel-h .el, .ds-role .el {
+    display: inline-flex; align-items: center; gap: 7px;
+    color: var(--acc); letter-spacing: .18em;
+  }
+  .panel-h .el::before, .ds-role .el::before {
+    content: ""; width: 13px; height: 2px; background: var(--acc);
+  }
+
+  /* 状态词徽标（数据与接口透视 .st 同款：mono 10px、1px 描边、无底色） */
+  .st {
+    display: inline-flex; align-items: center; min-height: 18px;
+    padding: 0 6px; border: 1px solid; border-radius: 3px; background: transparent;
+    font: 600 10px var(--mono); letter-spacing: .03em; white-space: nowrap;
+  }
+  .st-verified { color: var(--green-ink); border-color: var(--green); }
+  .st-partial { color: var(--copper-ink); border-color: var(--copper); }
+  .st-unknown { color: var(--neg); border-color: var(--neg); }
+  .st-contract { color: var(--acc-deep); border-color: var(--acc); }
+
+  /* pill 与 demo-tag 归入同款描边徽标（去底色） */
+  .pill { min-height: 18px; padding: 0 6px; border-radius: 3px; font: 600 10px var(--mono); letter-spacing: .02em; background: transparent; }
+  .pill.state { color: var(--acc-deep); background: transparent; border-color: var(--acc); }
+  .pill.state.st-closed { color: var(--green-ink); background: transparent; border-color: var(--green); }
+  .pill.state.st-watch { color: var(--copper-ink); background: transparent; border-color: var(--copper); }
+  .pill.risk-high { color: var(--neg); background: transparent; border-color: var(--neg); }
+  .pill.risk-medium { color: var(--copper-ink); background: transparent; border-color: var(--copper); }
+  .pill.risk-low { color: var(--ink-md); background: transparent; border-color: var(--line); }
+  .demo-tag {
+    min-height: 18px; padding: 0 6px;
+    background: transparent; border: 1px solid var(--copper); border-radius: 3px;
+    color: var(--copper-ink); font: 600 10px var(--mono); letter-spacing: .06em;
+  }
+  .status-ribbon {
+    padding: 1px 6px; background: transparent; border: 1px solid var(--acc); border-radius: 3px;
+    color: var(--acc-deep); font: 600 10px var(--mono); letter-spacing: .06em;
+  }
+  .status-ribbon.st-partial { color: var(--copper-ink); border-color: var(--copper); }
+
+  /* runtime 状态行：编辑式提示条（粗上规 + 细下规，无底色） */
+  .rt-line {
+    border: 0; border-radius: 0; background: transparent;
+    border-top: 2px solid var(--green); border-bottom: 1px solid var(--line);
+    padding: 10px 2px; font: 11px/1.7 var(--mono); letter-spacing: .04em;
+  }
+  .rt-line[data-tone="info"] { background: transparent; border-top-color: var(--ink-lo); }
+  .rt-line[data-tone="warn"] { background: transparent; border-top-color: var(--copper); }
+  .rt-line[data-tone="danger"] { background: transparent; border-top-color: var(--neg); }
+  .rt-line .imk { margin-left: auto; }
+
+  /* 队列注（note-box 语法：发丝线 + mono 小题，无底色） */
+  .qnote {
+    margin: 9px 14px 0; padding: 8px 0 9px;
+    border: 0; border-radius: 0; background: transparent;
+    border-top: 1px solid var(--line);
+    font: 12px/1.7 var(--serif); color: var(--ink-md);
+  }
+  .qnote:last-child { margin-bottom: 12px; }
+  .qnote .qnote-k { display: block; margin-bottom: 3px; font: 700 9px var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--acc-deep); }
+  .qnote.tone-copper { background: transparent; }
+  .qnote.tone-copper .qnote-k { color: var(--copper-ink); }
+  .qguide { display: block; margin: 2px 14px 12px; font: 10px var(--mono); letter-spacing: .04em; color: var(--ink-lo); }
+  .qempty .qguide { margin: 6px 0 0; }
+
+  /* 真相提示条（sim-banner 语法） */
+  .truth-note {
+    margin: 13px 16px 0; padding: 9px 0 11px;
+    border: 0; border-radius: 0; background: transparent;
+    border-top: 2px solid var(--copper); border-bottom: 1px solid var(--line);
+    color: var(--ink-md); font: 12.5px/1.7 var(--serif);
+  }
+  .truth-note::before {
+    content: "状态分离 · STATE SEPARATION";
+    display: block; margin-bottom: 4px;
+    font: 700 9px var(--mono); letter-spacing: .2em; text-transform: uppercase;
+    color: var(--copper-ink);
+  }
+
+  /* 详情段小题（§ 编号语法） */
+  .d-sec .sec-no { font: 9.5px var(--mono); letter-spacing: .2em; color: var(--acc); text-transform: uppercase; }
+  .d-sec .sec-h .imk { margin-left: auto; }
+
+  /* 接口映射表（table.dt 语法：1.5px 墨线表头 + 发丝线行） */
+  .code-table th { border: 0; border-bottom: 1.5px solid var(--ink); background: transparent; padding: 7px 10px 7px 0; font: 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-md); }
+  .code-table td { border: 0; border-bottom: 1px solid var(--line-lo); padding: 8px 10px 8px 0; }
+  .code-table tr:last-child td { border-bottom: 0; }
+
+  .blocker { border-top-width: 3px; }
+
+  /* 自解释标记（下钻 chip 语法） */
+  .imk {
+    position: relative;
+    display: inline-grid; place-items: center;
+    width: 17px; height: 17px; flex: 0 0 17px; padding: 0;
+    border: 1px solid var(--line); border-radius: 4px;
+    background: var(--paper); color: var(--ink-md);
+    font: 700 9.5px/1 var(--mono); cursor: help;
+    transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+  }
+  .imk::after { content: ""; position: absolute; inset: -8px; }
+  .imk:hover, .imk:focus-visible { color: var(--acc); border-color: var(--acc); background: var(--acc-soft); }
+  .dr-k { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+
+  /* 自解释浮层（编辑式：1.5px 墨框 + 电蓝上规） */
+  #infoPop {
+    position: fixed; z-index: 300; width: max-content; max-width: min(320px, calc(100vw - 16px));
+    padding: 10px 13px 11px;
+    background: var(--paper); border: 1.5px solid var(--ink); border-top: 3px solid var(--acc);
+    border-radius: 6px; box-shadow: 0 12px 34px rgba(5, 28, 44, .18);
+    font: 12px/1.65 var(--serif); color: var(--ink-md);
+    pointer-events: none;
+  }
+  #infoPop .ip-k { margin-bottom: 5px; font: 700 9px var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--acc); }
+  #infoPop p { margin: 0 0 5px; }
+  #infoPop p:last-child { margin-bottom: 0; }
+  #infoPop .ip-lab { display: block; font: 700 8.5px var(--mono); letter-spacing: .12em; color: var(--label); }
+
+  /* 一次性发现提示 */
+  #howto {
+    position: fixed; right: 18px; bottom: 16px; z-index: 250;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 13px; border: 1.5px solid var(--ink); border-radius: 999px;
+    background: var(--paper); color: var(--ink); font: 700 11px var(--serif);
+    box-shadow: 0 12px 30px rgba(5, 28, 44, .16); cursor: pointer;
+    animation: riseIn 480ms cubic-bezier(0.16, 1, 0.3, 1) 1.3s both;
+    transition: color 150ms ease, border-color 150ms ease;
+  }
+  #howto:hover { color: var(--acc); border-color: var(--acc); }
+  #howto .imk { pointer-events: none; color: var(--acc); border-color: var(--acc); }
+  #howto .hx { color: var(--ink-lo); font: 11px var(--mono); margin-left: 2px; }
+
+  /* ═══ R4 · 家族字体阶梯与留白节奏系统对齐 ═══ */
+  body { font-size: 15px; line-height: 1.68; }
+
+  /* kicker：家族宽字距 */
+  .el, .panel-h .el, .ds-role .el { letter-spacing: .2em; }
+
+  /* 标题阶梯向家族取齐 */
+  .qcard-h h3 { font-size: 15px; }
+  .listcard-h h3 { font-size: 15.5px; }
+  .d-hero h2 { font-size: 21px; }
+  .d-hero p { font-size: 12px; }
+  .d-sec h3 { font-size: 15.5px; }
+  .d-sec .sec-no { font-size: 10px; letter-spacing: .2em; }
+  .boundary-header h2 { font-size: 26px; }
+  .dialog-header h2 { font-size: 19px; }
+  .rolebtn .rb-name { font-size: 14.5px; }
+  .d-state strong { font-size: 13px; }
+
+  /* 正文字号与行高向家族取齐（13px/1.7–1.8 档） */
+  .d-sec p, .fact-list, .mini-list, .kv-grid { font-size: 13px; line-height: 1.7; }
+  .timeline { font-size: 12.5px; line-height: 1.7; }
+  .code-table { font-size: 12px; }
+  .truth-note { font-size: 13px; line-height: 1.8; }
+  .qsub { font-size: 12px; line-height: 1.6; }
+  .qrow .qt { font-size: 13px; }
+  .qrow .qm { font-size: 11.5px; line-height: 1.55; }
+  .caserow .qt { font-size: 13.5px; }
+  .qnote { font-size: 13px; line-height: 1.75; }
+  .qempty { font-size: 12.5px; line-height: 1.65; }
+  .dist-row { font-size: 12.5px; }
+  .rolebtn .rb-desc { font-size: 11.5px; line-height: 1.6; }
+  .f-note, .drawer-note, .bound-note { font-size: 12px; line-height: 1.7; }
+  .blocker strong { font-size: 19px; }
+  .blocker p { font-size: 13.5px; line-height: 1.8; }
+  .boundary-band { font-size: 13.5px; line-height: 1.8; }
+  .boundary-header p { font-size: 14px; }
+  .logic-node { font-size: 12.5px; }
+  .dialog-body > p, .guidance-block p { font-size: 13px; line-height: 1.7; }
+  .guidance-block strong { font-size: 13.5px; }
+  .d-anchors a { font-size: 11.5px; padding: 5px 10px; }
+  .rt-line { font-size: 11.5px; line-height: 1.75; }
+  .mtab { font-size: 13.5px; }
+  .ds-role .who { font-size: 15px; }
+  .ds-role .scope { font-size: 10px; }
+  .vf-cell .vf-name { font-size: 9.5px; }
+  .drawer-btn { font-size: 13px; }
+  .fsel, .rt-select { font-size: 12.5px; }
+  .substates > span, .substates button { font-size: 11.5px; }
+
+  /* 按钮取家族 .go 参数 */
+  .action-button { min-height: 36px; padding: 8px 16px; border-radius: 6px; font-size: 12.5px; }
+
+  /* 留白节奏向家族 band 呼吸感取齐 */
+  .console { gap: 18px; padding-top: 24px; padding-bottom: 72px; }
+  .mid, .queues, .rail { gap: 14px; }
+  .qcard-h { padding: 12px 16px 10px; }
+  .qsub { padding: 8px 16px 0; }
+  .qlist { padding: 10px; gap: 4px; }
+  .qrow { padding: 9px 11px; }
+  .qnote { margin: 10px 16px 0; padding: 9px 0 10px; }
+  .qempty { margin: 10px 14px 14px; padding: 12px 13px; }
+  .qguide { margin: 2px 16px 12px; }
+  .dist { padding: 9px 16px 5px; }
+  .qactions { padding: 10px 16px 15px; }
+  .listcard-h { padding: 12px 16px 10px; }
+  .caserow { padding: 12px 14px 12px 11px; }
+  .chips, .substates { padding: 9px 16px; }
+  .panel-h { padding: 11px 14px 9px; }
+  .panel-b { padding: 12px 14px 13px; }
+  .drawer-body { padding: 11px 14px 13px; }
+  .d-hero { padding: 15px 18px 12px; }
+  .d-sec { padding: 16px 18px 17px; }
+  .d-sec .sec-h { margin-bottom: 10px; }
+  .kv-grid { gap: 7px 10px; }
+  .truth-note { margin: 14px 18px 0; }
+  .boundary-header { padding: 24px; }
+  .boundary-page { padding-top: 30px; }
+
+  /* 可访问性：仅辅助技术可见 */
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+</style>
 </head>
 <body data-current-role="group">
-  <div id="progress-bar"></div>
+<div id="progress-bar"></div>
 
-  <nav class="topnav">
-    <div class="brand">圣农经营智能中枢<span>SUNNER OPS INTELLIGENCE</span></div>
-    <div class="center">
-      <a href="../">主页</a>
-      <div class="dd nav-item" data-dd>
-        <a class="trigger" href="../report/" data-trigger aria-haspopup="true" aria-expanded="false">详细方案</a>
-        <div class="menu vb-menu" role="navigation" aria-label="详细方案三个循环入口">
-          <a class="mi" href="../report/"><span class="no">01</span><span><span>经营事件循环</span><small>事实到结果的完整闭环</small></span></a>
-          <a class="mi" href="../report/02/"><span class="no">02</span><span><span>能力进化循环</span><small>案件沉淀为可复用能力</small></span></a>
-          <a class="mi" href="../report/03/"><span class="no">03</span><span><span>业务扩域循环</span><small>试点经验复制到全域</small></span></a>
-        </div>
-      </div>
-      <div class="dd nav-item" data-dd>
-        <a class="trigger active" href="./" data-trigger aria-haspopup="true" aria-expanded="false" aria-current="page">飞书能力看板</a>
-        <div class="menu vb-menu" role="navigation" aria-label="飞书能力看板两个入口">
-          <a class="mi" href="./"><span class="no">01</span><span><span>飞书看板</span><small>同一案件数据 · 三角色视图</small></span></a>
-          <a class="mi" href="report/"><span class="no">02</span><span><span>数据与接口透视</span><small>数据合同 · 接口 · 权限一页速览</small></span></a>
-        </div>
+<nav class="topnav">
+  <div class="brand">圣农经营智能中枢<span>SUNNER OPS INTELLIGENCE</span></div>
+  <div class="center">
+    <a href="../">主页</a>
+    <div class="dd nav-item" data-dd>
+      <a class="trigger" href="../report/" data-trigger aria-haspopup="true" aria-expanded="false">详细方案</a>
+      <div class="menu vb-menu" role="navigation" aria-label="详细方案三个循环入口">
+        <a class="mi" href="../report/"><span class="no">01</span><span><span>经营事件循环</span><small>事实到结果的完整闭环</small></span></a>
+        <a class="mi" href="../report/02/"><span class="no">02</span><span><span>能力进化循环</span><small>案件沉淀为可复用能力</small></span></a>
+        <a class="mi" href="../report/03/"><span class="no">03</span><span><span>业务扩域循环</span><small>试点经验复制到全域</small></span></a>
       </div>
     </div>
-    <a class="contact-link" href="../#contact">联系我们</a>
-  </nav>
-
-  <div class="app-shell">
-    <header class="topbar">
-      <div class="brand">
-        <div class="brand-mark" aria-hidden="true">圣</div>
-        <div>
-          <h1>飞书看板</h1>
-          <p>圣农经营事件协作台 · 经营事实、调查、决策、执行与验证的同一案件视图</p>
-        </div>
+    <div class="dd nav-item" data-dd>
+      <a class="trigger active" href="./" data-trigger aria-haspopup="true" aria-expanded="false" aria-current="page">飞书能力看板</a>
+      <div class="menu vb-menu" role="navigation" aria-label="飞书能力看板两个入口">
+        <a class="mi active" href="./" aria-current="page"><span class="no">01</span><span><span>飞书看板</span><small>同一案件数据 · 三角色视图</small></span></a>
+        <a class="mi" href="report/"><span class="no">02</span><span><span>数据与接口透视</span><small>数据合同 · 接口 · 权限一页速览</small></span></a>
       </div>
-      <div class="environment">脱敏演示数据 · target_tenant_unknown</div>
-    </header>
+    </div>
+  </div>
+  <a class="contact-link" href="../#contact">联系我们</a>
+</nav>
 
-    <nav class="module-bar" aria-label="循环模块">
-      <button class="module-tab" data-module="events" aria-selected="true"><strong>01 经营事件</strong><span>完整可审阅投影</span></button>
-      <button class="module-tab" data-module="evolution" aria-selected="false"><strong>02 能力进化</strong><span>冻结逻辑概述</span></button>
-      <button class="module-tab" data-module="expansion" aria-selected="false"><strong>03 业务扩域</strong><span>仍在修改</span></button>
-    </nav>
+<div class="sr-only"><h1>飞书看板</h1></div>
 
-    <main>
-      <section class="pane" data-pane="events">
-        <section class="identity-strip" aria-label="当前身份与数据范围">
-          <div class="identity-cell identity-lead">
-            <div class="eyebrow">当前用户与岗位</div>
-            <div class="identity-value" id="identityUser">集团经营管理者 <small>演示身份</small></div>
-            <p class="identity-note">同一套案件数据，按身份呈现不同范围（演示切换，非真实登录）。</p>
-            <span class="control-label">按岗位检查同一案件的可见范围</span>
-            <div class="segmented" aria-label="演示角色">
-              <button data-role="group" aria-pressed="true">集团管理层</button>
-              <button data-role="regional" aria-pressed="false">区域负责人</button>
-              <button data-role="frontline" aria-pressed="false">一线责任人</button>
-            </div>
-          </div>
-          <div class="identity-cell">
-            <div class="eyebrow">组织与区域范围</div>
-            <div class="identity-value" data-scope-label>集团汇总 · 全国六区</div>
-          </div>
-          <div class="identity-cell">
-            <div class="eyebrow">数据快照</div>
-            <div class="identity-value" data-snapshot-label>2026-07-24 09:30 <small>演示</small></div>
-          </div>
-          <div class="identity-cell">
-            <div class="eyebrow">投影状态</div>
-            <div class="identity-value"><span class="pill state" data-projection-badge>projection_status: synced_demo</span></div>
-          </div>
-        </section>
+<!-- 签名元素：值守状态条 -->
+<header class="dutystrip" data-rise style="--d:0" aria-label="值守状态条">
+  <div class="ds-role">
+    <span class="el">Duty · 当前身份</span><button class="imk" data-info="strip" aria-label="说明：值守状态条在监视什么" style="margin-left:7px">i</button>
+    <span class="who" id="stripUser">集团经营管理者</span>
+    <span class="scope" id="stripScope">集团汇总 · 全国六区</span>
+    <span class="demo-tag" style="margin-top:4px;align-self:flex-start">脱敏演示数据 · target_tenant_unknown</span>
+  </div>
+  <div class="viewfinder" id="viewfinder" role="group" aria-label="按01经营事件循环的页面阶段筛选"></div>
+  <div class="ds-meta">
+    <div class="ds-snap">
+      <span id="stripSnapshot">SNAP 2026-07-24 09:30</span>
+    </div>
+    <div class="ds-proj">
+      <span class="led" id="stripLed" aria-hidden="true"></span>
+      <span id="stripProjection">projection_status: synced_demo</span>
+    </div>
+  </div>
+</header>
 
-        <div class="runtime-banner" data-runtime-banner data-tone="info" role="status" aria-live="polite">当前显示脱敏演示快照；页面数字由同一案件数组按唯一 case_id 计算。</div>
-        <section class="runtime-blocker" data-runtime-blocker role="status" aria-live="polite" hidden></section>
+<nav class="modulebar" aria-label="循环模块" data-rise style="--d:1">
+  <button class="mtab" data-module="events" aria-selected="true">01 经营事件<span>完整可审阅投影</span></button>
+  <button class="mtab" data-module="evolution" aria-selected="false">02 能力进化<span>冻结逻辑概述</span></button>
+  <button class="mtab" data-module="expansion" aria-selected="false">03 业务扩域<span>仍在修改</span></button>
+</nav>
 
-        <details class="demo-controls">
-          <summary>演示控制 · 八种异常状态检查器<span class="demo-controls-hint">脱敏演示数据 · target_tenant_unknown</span></summary>
-          <div class="controls-row">
-            <label class="control-group" for="runtimeState">
-              <span class="control-label">检查数据与投影异常状态</span>
-              <select class="runtime-select" id="runtimeState">
+<main>
+  <!-- 01 经营事件 -->
+  <div class="console" data-pane="events">
+    <!-- 左栏 -->
+    <aside class="rail" data-rise style="--d:2" aria-label="值守控制栏">
+      <section class="panel" aria-label="演示角色">
+        <div class="panel-h"><span class="el">Role · 演示身份</span><button class="imk" data-info="role" aria-label="说明：演示身份在监视什么">i</button></div>
+        <div class="panel-b" id="roleSwitch">
+          <button class="rolebtn" data-role="group" aria-pressed="true">
+            <span class="rb-name"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="2" y="5" width="12" height="9"/><path d="M5.5 5V3.2h5V5M2 9h12"/></svg>集团管理层</span>
+            <span class="rb-desc">全局摘要 · 管理决定 · 影响状态 · 跨区汇总</span>
+            <span class="rb-scope">集团汇总 · 全国六区</span>
+          </button>
+          <button class="rolebtn" data-role="regional" aria-pressed="false">
+            <span class="rb-name"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M8 14.2s-5-4.7-5-8.1a5 5 0 0 1 10 0c0 3.4-5 8.1-5 8.1z"/><circle cx="8" cy="6.1" r="1.8"/></svg>区域负责人</span>
+            <span class="rb-desc">所辖案件 · 补证进度 · 升级动作</span>
+            <span class="rb-scope">华东区 · 所辖组织</span>
+          </button>
+          <button class="rolebtn" data-role="frontline" aria-pressed="false">
+            <span class="rb-name"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="8" cy="5.2" r="2.6"/><path d="M2.8 14a5.2 5.2 0 0 1 10.4 0"/></svg>一线责任人</span>
+            <span class="rb-desc">本人任务 · 所需证据 · 下一里程碑</span>
+            <span class="rb-scope">本人责任任务 · 授权案件</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="panel drawer" id="demoDrawer">
+        <button class="drawer-btn" id="drawerBtn" aria-expanded="false" aria-controls="drawerBody">演示控制 · 异常状态检查器<span class="hint">8 态</span></button>
+        <div class="drawer-wrap">
+          <div class="drawer-inner">
+            <div class="drawer-body" id="drawerBody">
+              <div class="dr-k"><label class="el" for="runtimeState">Runtime · 数据与投影异常</label><button class="imk" data-info="drawer" aria-label="说明：异常状态检查器在监视什么">i</button></div>
+              <select class="rt-select" id="runtimeState" style="margin-top:6px">
                 <option value="normal">normal · 正常</option>
                 <option value="loading">loading · 正在读取</option>
                 <option value="empty">empty · 当前范围无记录</option>
@@ -860,765 +901,1157 @@
                 <option value="unavailable">unavailable · 来源不可用</option>
                 <option value="projection_failed">projection_failed · 投影失败</option>
               </select>
-            </label>
-            <p class="demo-controls-note">切换异常状态后，页面停止展示正常案件列表、阶段数量和案件详情，避免把旧快照、无权结果或失败投影冒充当前经营事实。</p>
+              <p class="drawer-note">异常时停止展示正常内容，不冒充当前经营事实。</p>
+            </div>
           </div>
-        </details>
-
-        <section class="role-home" data-role-home aria-label="角色首页"></section>
-
-        <section aria-labelledby="stageHeading">
-          <h2 class="section-title" id="stageHeading">按01经营事件循环的正式处理阶段查看</h2>
-          <p class="section-help">一级阶段只负责聚合与筛选，不改变案件的 current_case_state。点击任一阶段查看对应案件。</p>
-          <div class="stage-nav" id="stageNav"></div>
-          <div class="substate-panel" data-substate-panel hidden>
-            <span>持续监督的两个正式状态：</span>
-            <button data-substate="known_no_action" aria-pressed="false">已知悉暂不处理 <b id="knownCount">0</b></button>
-            <button data-substate="risk_accepted" aria-pressed="false">风险接受 <b id="acceptedCount">0</b></button>
-          </div>
-        </section>
-
-        <section class="case-workspace">
-          <aside class="case-list-shell" aria-label="案件列表">
-            <div class="panel-header"><h3 id="listTitle">全部在办与近期关闭</h3><span id="listCount">0 个案件</span></div>
-            <div class="case-list" id="caseList"></div>
-          </aside>
-
-          <div class="case-detail-col">
-            <nav class="detail-anchor" aria-label="案件详情分段导航" data-detail-anchor hidden></nav>
-            <article class="case-detail" data-active-case-id="" id="caseDetail" aria-live="polite"></article>
-          </div>
-        </section>
+        </div>
       </section>
 
-      <section class="pane boundary-page" data-pane="evolution" hidden>
-        <div class="boundary-header">
-          <span class="status-ribbon">02_logic_final / implementation_pending</span>
-          <h2>能力进化循环：冻结逻辑概述</h2>
-          <p>此页只说明已确认的业务顺序，不展示伪造队列、评分、版本、审批按钮或目标租户运行结果。</p>
+      <section class="panel" aria-label="辅助筛选">
+        <div class="panel-h"><span class="el">Filter · 辅助筛选</span><button class="imk" data-info="filter" aria-label="说明：辅助筛选在监视什么">i</button></div>
+        <div class="panel-b">
+          <div class="f-group">
+            <label class="el" for="fRisk">风险</label>
+            <select class="fsel" id="fRisk">
+              <option value="all">全部风险</option>
+              <option value="高">高风险</option>
+              <option value="中">中风险</option>
+              <option value="低">低风险</option>
+            </select>
+          </div>
+          <div class="f-group">
+            <label class="el" for="fDomain">事件类型</label>
+            <select class="fsel" id="fDomain"><option value="all">全部类型</option></select>
+          </div>
+          <div class="f-group">
+            <label class="el" for="fRegion">组织/区域</label>
+            <select class="fsel" id="fRegion"><option value="all">全部区域</option></select>
+          </div>
+          <p class="f-note">只缩列表与阶段计数，不扩大数据权限。</p>
         </div>
-        <div class="logic-flow" aria-label="02能力进化循环">
-          <div class="logic-node">正式关闭案件<small>01循环的正式入口</small></div>
-          <div class="logic-node">每个正式关闭案件完整复盘<small>每案复盘，不做抽样替代</small></div>
-          <div class="logic-node">交互式报告<small>形成可追问、可核对的复盘材料</small></div>
-          <div class="logic-node">FDE与一线核实<small>补足模型不知道的现实边界</small></div>
-          <div class="logic-node">诊断与现实补全<small>区分语义、Skill、工具、权限与流程问题</small></div>
-          <div class="logic-node">隔离试验<small>候选改动不直接进入经营运行</small></div>
-          <div class="logic-node">历史回放、留出案例、专家审查<small>验证效果并防止能力退化</small></div>
-          <div class="logic-node">隔离验证<small>结果必须可复现、可审计</small></div>
-          <div class="logic-node">隔离验证通过后提交管理审批<small>管理层批准后才能进入01</small></div>
-          <div class="logic-node">回01受控运行<small>小范围、可停止、可回滚</small></div>
-          <div class="logic-node">再次完整复盘验证<small>用新案件验证是否真正改善</small></div>
-        </div>
-        <div class="boundary-band"><strong>本轮边界：</strong>02详细字段、接口、隔离环境、样本门槛和目标租户能力仍待企业共同验证，因此不在本看板制作可操作页面。</div>
       </section>
 
-      <section class="pane boundary-page" data-pane="expansion" hidden>
-        <div class="boundary-header">
-          <span class="status-ribbon">03_in_progress</span>
-          <h2>03专题仍在修改</h2>
-          <p>本轮看板不读取、不补写、不冻结03内容，也不展示旧流程、模拟评分、候选业务域或可操作按钮。</p>
+      <section class="panel" aria-label="页面边界">
+        <div class="panel-h"><span class="el">Boundary · 页面边界</span></div>
+        <div class="panel-b">
+          <p class="bound-note"><strong>飞书页面始终是协作投影，不是第二套权威账。</strong></p>
         </div>
-        <div class="boundary-band"><strong>当前只保留入口：</strong>待03专题独立完成并通过审阅后，再另行制定看板字段与接口合同。</div>
       </section>
-    </main>
-  </div>
+    </aside>
 
-  <div class="dialog-backdrop" id="guidanceBackdrop" hidden>
-    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="guidanceTitle" tabindex="-1">
-      <div class="dialog-header">
-        <div><div class="eyebrow">Agent岗位辅助 · 不自动决策</div><h2 id="guidanceTitle">新入职人员任务指导</h2></div>
-        <button class="icon-button" id="closeGuidance" aria-label="关闭指导">×</button>
-      </div>
-      <div class="dialog-body" id="guidanceBody"></div>
+    <!-- 中栏 -->
+    <section class="mid" data-rise style="--d:3" aria-label="值守队列与案件列表">
+      <div class="rt-line" data-rt-line data-tone="ok" role="status" aria-live="polite"><span class="led" data-rt-led aria-hidden="true"></span><span data-rt-text>当前显示脱敏演示快照；页面数字由同一案件数组按唯一 case_id 计算。</span><button class="imk" data-info="rt" aria-label="说明：投影状态行在监视什么">i</button></div>
+      <div class="queues" id="roleHome" aria-label="角色首页队列"></div>
+      <section class="listcard" aria-label="案件列表">
+        <div class="listcard-h">
+          <h3 id="listTitle">全部在办与近期关闭</h3>
+          <button class="imk" data-info="list" aria-label="说明：案件列表在监视什么">i</button>
+          <span class="lc-count" id="listCount">0 个案件</span>
+        </div>
+        <div class="chips" id="filterChips" hidden></div>
+        <div class="substates" id="substatePanel" hidden>
+          <span>持续监督的两个正式状态：</span>
+          <button data-substate="known_no_action" aria-pressed="false">已知悉暂不处理 <b id="knownCount">0</b></button>
+          <button data-substate="risk_accepted" aria-pressed="false">风险接受 <b id="acceptedCount">0</b></button>
+        </div>
+        <div class="caselist" id="caseList"></div>
+      </section>
     </section>
+
+    <!-- 右栏 -->
+    <div class="detail-col" data-rise style="--d:4">
+      <article class="detail" id="caseDetail" aria-live="polite" aria-label="选中案件详情"></article>
+    </div>
   </div>
 
-  <script>
-    // Static selector contract: data-stage="governance_watch".
-    const sourceStateLabels = {
-      investigating: '调查取证中',
-      awaiting_human_evidence: '待人工补证',
-      evidence_fact_summary_ready: '待补证事实汇总已形成',
-      evidence_completeness_review: '补证材料完整性确认',
-      analyzing: '分析中',
-      decision_ready: '决策就绪',
-      known_no_action: '已知悉暂不处理',
-      risk_accepted: '风险接受',
-      executing: '执行中',
-      unresolved_collaboration: '未解决专项协作',
-      awaiting_result_verification: '待结果验证',
-      closed: '已正式关闭'
-    };
+  <!-- 异常阻断面板 -->
+  <section class="blocker" id="blocker" role="status" aria-live="polite" hidden></section>
 
-    const stages = [
-      { code: 'investigation', label: '调查取证中', states: ['investigating'] },
-      { code: 'evidence', label: '待人工补证', states: ['awaiting_human_evidence', 'evidence_fact_summary_ready', 'evidence_completeness_review'] },
-      { code: 'analysis', label: '分析中', states: ['analyzing'] },
-      { code: 'decision', label: '决策就绪', states: ['decision_ready'] },
-      { code: 'governance_watch', label: '持续监督', states: ['known_no_action', 'risk_accepted'] },
-      { code: 'execution', label: '执行中', states: ['executing'] },
-      { code: 'verification', label: '待结果验证', states: ['awaiting_result_verification'] },
-      { code: 'unresolved', label: '未解决专项协作', states: ['unresolved_collaboration'] },
-      { code: 'closed', label: '已正式关闭', states: ['closed'] }
+  <!-- 02 能力进化 -->
+  <section class="boundary-page" data-pane="evolution" hidden>
+    <div class="boundary-header">
+      <span class="st st-contract">02_logic_final / implementation_pending</span>
+      <h2>能力进化循环：冻结逻辑概述</h2>
+      <p>此页只说明已确认的业务顺序，不展示伪造队列、评分、版本、审批按钮或目标租户运行结果。</p>
+    </div>
+    <div class="logic-flow" aria-label="02能力进化循环">
+      <div class="logic-node">正式关闭案件<small>01循环的正式入口</small></div>
+      <div class="logic-node">每个正式关闭案件完整复盘<small>每案复盘，不做抽样替代</small></div>
+      <div class="logic-node">交互式报告<small>形成可追问、可核对的复盘材料</small></div>
+      <div class="logic-node">FDE与一线核实<small>补足模型不知道的现实边界</small></div>
+      <div class="logic-node">诊断与现实补全<small>区分语义、Skill、工具、权限与流程问题</small></div>
+      <div class="logic-node">隔离试验<small>候选改动不直接进入经营运行</small></div>
+      <div class="logic-node">历史回放、留出案例、专家审查<small>验证效果并防止能力退化</small></div>
+      <div class="logic-node">隔离验证<small>结果必须可复现、可审计</small></div>
+      <div class="logic-node">隔离验证通过后提交管理审批<small>管理层批准后才能进入01</small></div>
+      <div class="logic-node">回01受控运行<small>小范围、可停止、可回滚</small></div>
+      <div class="logic-node">再次完整复盘验证<small>用新案件验证是否真正改善</small></div>
+    </div>
+    <div class="boundary-band"><strong>本轮边界：</strong>02详细字段、接口、隔离环境、样本门槛和目标租户能力仍待企业共同验证，因此不在本看板制作可操作页面。</div>
+  </section>
+
+  <!-- 03 业务扩域 -->
+  <section class="boundary-page" data-pane="expansion" hidden>
+    <div class="boundary-header">
+      <span class="st st-partial">03_in_progress</span>
+      <h2>03专题仍在修改</h2>
+      <p>本轮看板不读取、不补写、不冻结03内容，也不展示旧流程、模拟评分、候选业务域或可操作按钮。</p>
+    </div>
+    <div class="boundary-band"><strong>当前只保留入口：</strong>待03专题独立完成并通过审阅后，再另行制定看板字段与接口合同。</div>
+  </section>
+</main>
+
+<div id="infoPop" role="note" hidden></div>
+
+<button id="howto" type="button" aria-label="知道了：点区块旁的 i 标记可查看该区块在监视什么"><span class="imk" aria-hidden="true">i</span>点 i 看每个区块在监视什么<span class="hx" aria-hidden="true">×</span></button>
+
+<div class="dialog-backdrop" id="guidanceBackdrop" hidden>
+  <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="guidanceTitle" tabindex="-1">
+    <div class="dialog-header">
+      <div><span class="el">Agent岗位辅助 · 不自动决策</span><h2 id="guidanceTitle">新入职人员任务指导</h2></div>
+      <button class="icon-button" id="closeGuidance" aria-label="关闭指导">×</button>
+    </div>
+    <div class="dialog-body" id="guidanceBody"></div>
+  </section>
+</div>
+
+<script>
+  // ===== 数据层：与 dashboard-hybrid-role-prototype 同一案件数组与业务口径（逐字保留） =====
+  const sourceStateLabels = {
+    investigating: '调查取证中',
+    awaiting_human_evidence: '待人工补证',
+    evidence_fact_summary_ready: '待补证事实汇总已形成',
+    evidence_completeness_review: '补证材料完整性确认',
+    analyzing: '分析中',
+    decision_ready: '决策就绪',
+    known_no_action: '已知悉暂不处理',
+    risk_accepted: '风险接受',
+    executing: '执行中',
+    unresolved_collaboration: '未解决专项协作',
+    awaiting_result_verification: '待结果验证',
+    closed: '已正式关闭'
+  };
+
+  const stages = [
+    { code: 'investigation', label: '调查取证中', states: ['investigating'] },
+    { code: 'evidence', label: '待人工补证', states: ['awaiting_human_evidence', 'evidence_fact_summary_ready', 'evidence_completeness_review'] },
+    { code: 'analysis', label: '分析中', states: ['analyzing'] },
+    { code: 'decision', label: '决策就绪', states: ['decision_ready'] },
+    { code: 'governance_watch', label: '持续监督', states: ['known_no_action', 'risk_accepted'] },
+    { code: 'execution', label: '执行中', states: ['executing'] },
+    { code: 'verification', label: '待结果验证', states: ['awaiting_result_verification'] },
+    { code: 'unresolved', label: '未解决专项协作', states: ['unresolved_collaboration'] },
+    { code: 'closed', label: '已正式关闭', states: ['closed'] }
+  ];
+
+  const demoCases = [
+    makeCase('C-260724-001', 'E-260724-011', '华东门店到手价低于批准价格', 'investigating', '华东区', '高', '价格与渠道', '赵宁', '区域销售负责人', '核验平台券、促销审批与承担方', '2026-07-24 12:00', 'SAP价格主数据、POS成交、飞书促销审批'),
+    makeCase('C-260724-002', 'E-260724-014', '华南两家门店库存差异待人工核对', 'awaiting_human_evidence', '华南区', '中', '库存', '林雨', '门店运营专员', '提交盘点表与货架照片', '2026-07-24 15:00', 'WMS库存、门店盘点、签收记录'),
+    makeCase('C-260724-003', 'E-260724-018', '经销商返利事实汇总已形成', 'evidence_fact_summary_ready', '西南区', '中', '渠道政策', '陈钢', '渠道管理专员', '等待财务补充返利凭证', '2026-07-25 10:00', 'CRM客户、返利政策、财务凭证'),
+    makeCase('C-260724-004', 'E-260724-021', '门店价签与POS价格补证材料待确认', 'evidence_completeness_review', '华中区', '中', '价格执行', '周晴', '区域价格专员', '确认补证材料完整性', '2026-07-24 16:30', 'POS价格、价签巡检、人工补证'),
+    makeCase('C-260724-005', 'E-260724-026', '六区销量回落与竞品降价关联分析', 'analyzing', '全国', '高', '市场风险', '王岚', '集团经营分析师', '完成原因与影响边界分析', '2026-07-25 09:00', '六区销量、库存、竞品价格、市场情报'),
+    makeCase('C-260724-006', 'E-260724-031', '华北滞销库存调拨方案待管理决定', 'decision_ready', '华北区', '高', '库存与销售', '刘峻', '集团供应链负责人', '审阅三套调拨与促销方案', '2026-07-24 17:00', 'WMS库存、预测、毛利模型、运输产能'),
+    makeCase('C-260724-007', 'E-260724-035', '直营网点降价影响已知悉，待周五复核', 'known_no_action', '华东区', '中', '价格治理', '孙敏', '区域销售经理', '按复核时间重新读取销量和价格', '2026-07-26 09:00', '管理决定、复核计划、POS销量'),
+    makeCase('C-260724-008', 'E-260724-039', '短期库存暴露风险经授权接受', 'risk_accepted', '西北区', '高', '风险治理', '郭海', '集团经营负责人', '监控阈值并在触发后重启调查', '2026-07-25 18:00', '风险接受记录、阈值、库存与订单'),
+    makeCase('C-260724-009', 'E-260724-042', '批准的门店调价与物料更换执行中', 'executing', '华中区', '中', '门店执行', '彭洁', '门店督导', '完成价签更换并提交回执', '2026-07-24 18:00', '审批、任务、门店登记、价签证据'),
+    makeCase('C-260724-010', 'E-260724-047', '运输受阻进入同案专项协作', 'unresolved_collaboration', '华南区', '高', '供应链', '何峰', '物流协调员', '补充运输阻塞事实并返回调查', '2026-07-24 14:30', 'TMS运输、承运商回执、门店到货'),
+    makeCase('C-260724-011', 'E-260724-052', '调拨任务完成，等待销量结果验证', 'awaiting_result_verification', '西南区', '中', '结果验证', '罗宁', '区域运营负责人', '到 next_check_at 后回读权威销量', '2026-07-27 09:00', '任务回执、POS销量、WMS库存'),
+    makeCase('C-260724-012', 'E-260724-057', '未授权低价已整改并通过事实验证', 'closed', '华东区', '低', '价格治理', '沈言', '区域销售经理', '归档并交接02完整复盘', '已关闭', 'POS价格、审批记录、验证结果、关闭记录')
+  ];
+
+  function makeCase(caseId, eventId, title, currentCaseState, region, risk, domain, ownerName, ownerRole, nextAction, dueAt, sourceRefs) {
+    const milestones = [
+      { code: 'case_created', at: '2026-07-24 09:09', label: '案件可靠落库并启动受控调查' }
     ];
-
-    const demoCases = [
-      makeCase('C-260724-001', 'E-260724-011', '华东门店到手价低于批准价格', 'investigating', '华东区', '高', '价格与渠道', '赵宁', '区域销售负责人', '核验平台券、促销审批与承担方', '2026-07-24 12:00', 'SAP价格主数据、POS成交、飞书促销审批'),
-      makeCase('C-260724-002', 'E-260724-014', '华南两家门店库存差异待人工核对', 'awaiting_human_evidence', '华南区', '中', '库存', '林雨', '门店运营专员', '提交盘点表与货架照片', '2026-07-24 15:00', 'WMS库存、门店盘点、签收记录'),
-      makeCase('C-260724-003', 'E-260724-018', '经销商返利事实汇总已形成', 'evidence_fact_summary_ready', '西南区', '中', '渠道政策', '陈钢', '渠道管理专员', '等待财务补充返利凭证', '2026-07-25 10:00', 'CRM客户、返利政策、财务凭证'),
-      makeCase('C-260724-004', 'E-260724-021', '门店价签与POS价格补证材料待确认', 'evidence_completeness_review', '华中区', '中', '价格执行', '周晴', '区域价格专员', '确认补证材料完整性', '2026-07-24 16:30', 'POS价格、价签巡检、人工补证'),
-      makeCase('C-260724-005', 'E-260724-026', '六区销量回落与竞品降价关联分析', 'analyzing', '全国', '高', '市场风险', '王岚', '集团经营分析师', '完成原因与影响边界分析', '2026-07-25 09:00', '六区销量、库存、竞品价格、市场情报'),
-      makeCase('C-260724-006', 'E-260724-031', '华北滞销库存调拨方案待管理决定', 'decision_ready', '华北区', '高', '库存与销售', '刘峻', '集团供应链负责人', '审阅三套调拨与促销方案', '2026-07-24 17:00', 'WMS库存、预测、毛利模型、运输产能'),
-      makeCase('C-260724-007', 'E-260724-035', '直营网点降价影响已知悉，待周五复核', 'known_no_action', '华东区', '中', '价格治理', '孙敏', '区域销售经理', '按复核时间重新读取销量和价格', '2026-07-26 09:00', '管理决定、复核计划、POS销量'),
-      makeCase('C-260724-008', 'E-260724-039', '短期库存暴露风险经授权接受', 'risk_accepted', '西北区', '高', '风险治理', '郭海', '集团经营负责人', '监控阈值并在触发后重启调查', '2026-07-25 18:00', '风险接受记录、阈值、库存与订单'),
-      makeCase('C-260724-009', 'E-260724-042', '批准的门店调价与物料更换执行中', 'executing', '华中区', '中', '门店执行', '彭洁', '门店督导', '完成价签更换并提交回执', '2026-07-24 18:00', '审批、任务、门店登记、价签证据'),
-      makeCase('C-260724-010', 'E-260724-047', '运输受阻进入同案专项协作', 'unresolved_collaboration', '华南区', '高', '供应链', '何峰', '物流协调员', '补充运输阻塞事实并返回调查', '2026-07-24 14:30', 'TMS运输、承运商回执、门店到货'),
-      makeCase('C-260724-011', 'E-260724-052', '调拨任务完成，等待销量结果验证', 'awaiting_result_verification', '西南区', '中', '结果验证', '罗宁', '区域运营负责人', '到 next_check_at 后回读权威销量', '2026-07-27 09:00', '任务回执、POS销量、WMS库存'),
-      makeCase('C-260724-012', 'E-260724-057', '未授权低价已整改并通过事实验证', 'closed', '华东区', '低', '价格治理', '沈言', '区域销售经理', '归档并交接02完整复盘', '已关闭', 'POS价格、审批记录、验证结果、关闭记录')
-    ];
-
-    function makeCase(caseId, eventId, title, currentCaseState, region, risk, domain, ownerName, ownerRole, nextAction, dueAt, sourceRefs) {
-      const milestones = [
-        { code: 'case_created', at: '2026-07-24 09:09', label: '案件可靠落库并启动受控调查' }
-      ];
-      const tasks = [];
-      if (['awaiting_human_evidence', 'evidence_fact_summary_ready', 'evidence_completeness_review'].includes(currentCaseState)) {
-        milestones.push({ code: 'human_evidence_requested', at: '2026-07-24 09:20', label: '人工补证请求已发送并登记责任' });
-      }
-      if (currentCaseState === 'evidence_fact_summary_ready') milestones.push({ code: 'evidence_summary_ready', at: '2026-07-24 10:15', label: '待补证事实汇总报告已形成' });
-      if (currentCaseState === 'decision_ready') milestones.push({ code: 'decision_package_ready', at: '2026-07-24 11:40', label: '决策就绪包已达到送审门槛' });
-      if (['known_no_action', 'risk_accepted', 'executing', 'awaiting_result_verification', 'closed'].includes(currentCaseState)) {
-        milestones.push({ code: 'management_decision_recorded', at: '2026-07-24 11:50', label: '管理决定已追加留痕' });
-      }
-      if (['executing', 'awaiting_result_verification', 'unresolved_collaboration', 'closed'].includes(currentCaseState)) {
-        const taskState = currentCaseState === 'executing' ? 'in_progress' : currentCaseState === 'unresolved_collaboration' ? 'blocked' : 'completed';
-        tasks.push({ taskId: 'T-' + caseId.slice(-3), action: nextAction, owner: ownerName, status: taskState, completionCriteria: '动作完成、规定证据提交、权威系统达到业务里程碑' });
-        milestones.push({ code: `task_state_changed/${taskState}`, at: '2026-07-24 12:10', label: `责任任务状态已记录：${taskState}` });
-      }
-      if (currentCaseState === 'awaiting_result_verification') milestones.push({ code: 'verification_due', at: '2026-07-27 09:00', label: '到达允许结果验证的时间' });
-      if (currentCaseState === 'unresolved_collaboration') milestones.push({ code: 'verification_result_recorded/not_met', at: '2026-07-24 12:30', label: '执行受阻或验证未达标，进入同案协作' });
-      if (currentCaseState === 'closed') milestones.push({ code: 'case_closed', at: '2026-07-24 13:00', label: '关闭依据完整并正式结案' });
-
-      const verificationStatus = currentCaseState === 'closed' ? 'met' : currentCaseState === 'unresolved_collaboration' ? 'not_met' : currentCaseState === 'awaiting_result_verification' ? 'pending' : 'not_started';
-      const resolutionStatus = currentCaseState === 'closed' ? 'resolved' : currentCaseState === 'awaiting_result_verification' ? 'pending_verification' : 'unresolved';
-      return {
-        caseId, eventId, title, currentCaseState, region, risk, domain, ownerName, ownerRole, nextAction, dueAt, sourceRefs,
-        eventPackageVersion: 'EventPackage v1', stateVersion: 'sv-' + caseId.slice(-3),
-        confirmedFacts: [
-          '权威来源已返回异常字段，并保留业务时间、接收时间和源版本。',
-          '本案件与既有信号完成去重，仍保持一个 case_id 与一个 Agent 上下文。'
-        ],
-        unknownItems: ['业务例外是否有效仍需按当前案件证据确认。', '影响范围不得在缺少权威事实时扩大推断。'],
-        evidence: [
-          { time: '09:08', text: '规则服务暴露候选信号，保存原始证据引用。' },
-          { time: '09:09', text: 'case_created：案件可靠落库并启动受控调查。' },
-          { time: '09:18', text: 'Agent完成当前证据范围的查询，并记录缺口与停止条件。' }
-        ],
-        decision: currentCaseState === 'decision_ready' ? '三套方案已形成，影响分为 confirmed / modeled / unknown，等待授权管理者选择。' : '当前状态尚未形成新的管理决定；历史决定只作为不可覆盖记录展示。',
-        milestones: milestones,
-        tasks: tasks,
-        verification: {
-          status: verificationStatus,
-          nextCheckAt: currentCaseState === 'awaiting_result_verification' ? '2026-07-27 09:00' : '按案件状态与里程碑决定',
-          source: '权威业务系统回读（演示合同）',
-          resultRefs: currentCaseState === 'closed' ? 'VR-DEMO-' + caseId.slice(-3) : '尚未形成有效结果证据',
-          resolutionStatus
-        },
-        collaboration: {
-          deliveredAt: '2026-07-24 09:10',
-          readAt: '2026-07-24 09:16',
-          acknowledgedAt: currentCaseState === 'awaiting_human_evidence' ? null : '2026-07-24 09:22',
-          acceptedAt: ['executing', 'awaiting_result_verification', 'closed'].includes(currentCaseState) ? '2026-07-24 12:00' : null
-        },
-        impact: {
-          status: ['decision_ready', 'known_no_action', 'risk_accepted', 'executing', 'awaiting_result_verification', 'closed'].includes(currentCaseState) ? 'modeled' : 'unknown',
-          summary: '只展示影响证据状态，不以案件数量推断销量、毛利或库存影响。'
-        },
-        approval: {
-          recordId: ['known_no_action', 'risk_accepted', 'executing', 'awaiting_result_verification', 'closed'].includes(currentCaseState) ? 'APR-DEMO-' + caseId.slice(-3) : null,
-          decisionType: currentCaseState === 'known_no_action' ? 'known_no_action' : currentCaseState === 'risk_accepted' ? 'risk_accepted' : ['executing', 'awaiting_result_verification', 'closed'].includes(currentCaseState) ? 'approved_execution' : 'pending_or_not_required',
-          approver: '脱敏授权管理角色',
-          decidedAt: ['known_no_action', 'risk_accepted', 'executing', 'awaiting_result_verification', 'closed'].includes(currentCaseState) ? '2026-07-24 11:50' : null
-        },
-        closure: {
-          type: currentCaseState === 'closed' ? 'resolved' : 'not_closed',
-          basisRefs: currentCaseState === 'closed' ? '关闭记录与权威验证结果（脱敏引用）' : '关闭依据尚未满足',
-          reopenedAt: null
-        },
-        guidance: {
-          guidance_role_duties: `${ownerRole}需围绕“${nextAction}”完成当前责任，并在超出权限时停止。`,
-          guidance_required_evidence: `本案必须核对：${sourceRefs}；提交时保留来源、业务时间和版本。`,
-          guidance_next_milestone: milestones[milestones.length - 1].label + '之后，按当前状态推进下一项正式里程碑。',
-          guidance_escalation_path: `先报告${ownerRole}直属负责人；跨部门、超时或超权限时升级案件负责人。`,
-          guidance_case_refs: `按${domain}与${ownerRole}检索当前身份有权查看的正式关闭案件。`
-        },
-        projectionStatus: 'synced_demo'
-      };
+    const tasks = [];
+    if (['awaiting_human_evidence', 'evidence_fact_summary_ready', 'evidence_completeness_review'].includes(currentCaseState)) {
+      milestones.push({ code: 'human_evidence_requested', at: '2026-07-24 09:20', label: '人工补证请求已发送并登记责任' });
     }
+    if (currentCaseState === 'evidence_fact_summary_ready') milestones.push({ code: 'evidence_summary_ready', at: '2026-07-24 10:15', label: '待补证事实汇总报告已形成' });
+    if (currentCaseState === 'decision_ready') milestones.push({ code: 'decision_package_ready', at: '2026-07-24 11:40', label: '决策就绪包已达到送审门槛' });
+    if (['known_no_action', 'risk_accepted', 'executing', 'awaiting_result_verification', 'closed'].includes(currentCaseState)) {
+      milestones.push({ code: 'management_decision_recorded', at: '2026-07-24 11:50', label: '管理决定已追加留痕' });
+    }
+    if (['executing', 'awaiting_result_verification', 'unresolved_collaboration', 'closed'].includes(currentCaseState)) {
+      const taskState = currentCaseState === 'executing' ? 'in_progress' : currentCaseState === 'unresolved_collaboration' ? 'blocked' : 'completed';
+      tasks.push({ taskId: 'T-' + caseId.slice(-3), action: nextAction, owner: ownerName, status: taskState, completionCriteria: '动作完成、规定证据提交、权威系统达到业务里程碑' });
+      milestones.push({ code: `task_state_changed/${taskState}`, at: '2026-07-24 12:10', label: `责任任务状态已记录：${taskState}` });
+    }
+    if (currentCaseState === 'awaiting_result_verification') milestones.push({ code: 'verification_due', at: '2026-07-27 09:00', label: '到达允许结果验证的时间' });
+    if (currentCaseState === 'unresolved_collaboration') milestones.push({ code: 'verification_result_recorded/not_met', at: '2026-07-24 12:30', label: '执行受阻或验证未达标，进入同案协作' });
+    if (currentCaseState === 'closed') milestones.push({ code: 'case_closed', at: '2026-07-24 13:00', label: '关闭依据完整并正式结案' });
 
-    const ui = {
-      activeModule: 'events',
-      activeStage: null,
-      activeSubstate: null,
-      activeCaseId: demoCases[0].caseId,
-      role: 'group',
-      runtime: 'normal'
+    const verificationStatus = currentCaseState === 'closed' ? 'met' : currentCaseState === 'unresolved_collaboration' ? 'not_met' : currentCaseState === 'awaiting_result_verification' ? 'pending' : 'not_started';
+    const resolutionStatus = currentCaseState === 'closed' ? 'resolved' : currentCaseState === 'awaiting_result_verification' ? 'pending_verification' : 'unresolved';
+    return {
+      caseId, eventId, title, currentCaseState, region, risk, domain, ownerName, ownerRole, nextAction, dueAt, sourceRefs,
+      eventPackageVersion: 'EventPackage v1', stateVersion: 'sv-' + caseId.slice(-3),
+      confirmedFacts: [
+        '权威来源已返回异常字段，并保留业务时间、接收时间和源版本。',
+        '本案件与既有信号完成去重，仍保持一个 case_id 与一个 Agent 上下文。'
+      ],
+      unknownItems: ['业务例外是否有效仍需按当前案件证据确认。', '影响范围不得在缺少权威事实时扩大推断。'],
+      evidence: [
+        { time: '09:08', text: '规则服务暴露候选信号，保存原始证据引用。' },
+        { time: '09:09', text: 'case_created：案件可靠落库并启动受控调查。' },
+        { time: '09:18', text: 'Agent完成当前证据范围的查询，并记录缺口与停止条件。' }
+      ],
+      decision: currentCaseState === 'decision_ready' ? '三套方案已形成，影响分为 confirmed / modeled / unknown，等待授权管理者选择。' : '当前状态尚未形成新的管理决定；历史决定只作为不可覆盖记录展示。',
+      milestones: milestones,
+      tasks: tasks,
+      verification: {
+        status: verificationStatus,
+        nextCheckAt: currentCaseState === 'awaiting_result_verification' ? '2026-07-27 09:00' : '按案件状态与里程碑决定',
+        source: '权威业务系统回读（演示合同）',
+        resultRefs: currentCaseState === 'closed' ? 'VR-DEMO-' + caseId.slice(-3) : '尚未形成有效结果证据',
+        resolutionStatus
+      },
+      collaboration: {
+        deliveredAt: '2026-07-24 09:10',
+        readAt: '2026-07-24 09:16',
+        acknowledgedAt: currentCaseState === 'awaiting_human_evidence' ? null : '2026-07-24 09:22',
+        acceptedAt: ['executing', 'awaiting_result_verification', 'closed'].includes(currentCaseState) ? '2026-07-24 12:00' : null
+      },
+      impact: {
+        status: ['decision_ready', 'known_no_action', 'risk_accepted', 'executing', 'awaiting_result_verification', 'closed'].includes(currentCaseState) ? 'modeled' : 'unknown',
+        summary: '只展示影响证据状态，不以案件数量推断销量、毛利或库存影响。'
+      },
+      approval: {
+        recordId: ['known_no_action', 'risk_accepted', 'executing', 'awaiting_result_verification', 'closed'].includes(currentCaseState) ? 'APR-DEMO-' + caseId.slice(-3) : null,
+        decisionType: currentCaseState === 'known_no_action' ? 'known_no_action' : currentCaseState === 'risk_accepted' ? 'risk_accepted' : ['executing', 'awaiting_result_verification', 'closed'].includes(currentCaseState) ? 'approved_execution' : 'pending_or_not_required',
+        approver: '脱敏授权管理角色',
+        decidedAt: ['known_no_action', 'risk_accepted', 'executing', 'awaiting_result_verification', 'closed'].includes(currentCaseState) ? '2026-07-24 11:50' : null
+      },
+      closure: {
+        type: currentCaseState === 'closed' ? 'resolved' : 'not_closed',
+        basisRefs: currentCaseState === 'closed' ? '关闭记录与权威验证结果（脱敏引用）' : '关闭依据尚未满足',
+        reopenedAt: null
+      },
+      guidance: {
+        guidance_role_duties: `${ownerRole}需围绕“${nextAction}”完成当前责任，并在超出权限时停止。`,
+        guidance_required_evidence: `本案必须核对：${sourceRefs}；提交时保留来源、业务时间和版本。`,
+        guidance_next_milestone: milestones[milestones.length - 1].label + '之后，按当前状态推进下一项正式里程碑。',
+        guidance_escalation_path: `先报告${ownerRole}直属负责人；跨部门、超时或超权限时升级案件负责人。`,
+        guidance_case_refs: `按${domain}与${ownerRole}检索当前身份有权查看的正式关闭案件。`
+      },
+      projectionStatus: 'synced_demo'
     };
+  }
 
-    const frontlineCaseIds = new Set(['C-260724-001', 'C-260724-002', 'C-260724-009']);
-    const roleProfiles = {
-      group: {
-        user: '集团经营管理者', scope: '集团汇总 · 全国六区', permission: '可查看集团摘要；原始证据仍按源系统权限控制。',
-        fieldProfile: '集团管理层：案件全局摘要、管理决定、影响状态和跨区汇总。',
-        caseFilter: () => true
-      },
-      regional: {
-        user: '华东区域负责人', scope: '华东区 · 所辖组织', permission: '只查看华东区案件与授权证据；跨区数据不进入本视图。',
-        fieldProfile: '区域负责人：所辖案件、区域责任、补证进度和升级动作。',
-        caseFilter: item => item.region === '华东区'
-      },
-      frontline: {
-        user: '门店与业务责任人', scope: '本人责任任务 · 授权案件', permission: '只查看本人履责所需摘要；敏感经营原始证据无权查看。',
-        fieldProfile: '一线责任人：本人任务、完成标准、所需证据和下一里程碑。',
-        caseFilter: item => frontlineCaseIds.has(item.caseId)
+  const frontlineCaseIds = new Set(['C-260724-001', 'C-260724-002', 'C-260724-009']);
+  const roleProfiles = {
+    group: {
+      user: '集团经营管理者', scope: '集团汇总 · 全国六区', permission: '可查看集团摘要；原始证据仍按源系统权限控制。',
+      fieldProfile: '集团管理层：案件全局摘要、管理决定、影响状态和跨区汇总。',
+      caseFilter: () => true
+    },
+    regional: {
+      user: '华东区域负责人', scope: '华东区 · 所辖组织', permission: '只查看华东区案件与授权证据；跨区数据不进入本视图。',
+      fieldProfile: '区域负责人：所辖案件、区域责任、补证进度和升级动作。',
+      caseFilter: item => item.region === '华东区'
+    },
+    frontline: {
+      user: '门店与业务责任人', scope: '本人责任任务 · 授权案件', permission: '只查看本人履责所需摘要；敏感经营原始证据无权查看。',
+      fieldProfile: '一线责任人：本人任务、完成标准、所需证据和下一里程碑。',
+      caseFilter: item => frontlineCaseIds.has(item.caseId)
+    }
+  };
+
+  const stateRoleActions = {
+    investigating: {
+      group: ['打开案件', '按权限追问Agent', '查看授权证据'],
+      regional: ['打开案件', '按权限追问Agent', '查看所辖授权证据'],
+      frontline: ['打开案件', '按权限追问Agent', '查看本人可见证据摘要']
+    },
+    awaiting_human_evidence: {
+      group: ['打开案件', '监督补证进度', '按权限追问Agent'],
+      regional: ['打开案件', '发起或退回补证', '申请权限'],
+      frontline: ['提交材料', '说明无法提供', '申请权限']
+    },
+    evidence_fact_summary_ready: {
+      group: ['打开案件', '查看事实汇总', '监督补证进度'],
+      regional: ['打开案件', '补充材料', '申请权限'],
+      frontline: ['补充材料', '说明无法提供', '申请权限']
+    },
+    evidence_completeness_review: {
+      group: ['打开案件', '查看完整性记录', '监督补证进度'],
+      regional: ['打开案件', '确认完整性或退回', '申请权限'],
+      frontline: ['查看补证记录', '补充材料', '说明无法提供']
+    },
+    analyzing: {
+      group: ['打开案件', '按权限追问Agent'],
+      regional: ['打开案件', '按权限追问Agent'],
+      frontline: ['打开案件', '按权限追问Agent']
+    },
+    decision_ready: {
+      group: ['要求补证或重查', '审阅经营方案', '提交管理审批'],
+      regional: ['打开案件', '补充区域事实', '提交集团审阅'],
+      frontline: ['打开案件', '补充授权证据', '按权限追问Agent']
+    },
+    known_no_action: {
+      group: ['查看决定依据', '到期复核', '恢复调查'],
+      regional: ['查看决定依据', '请求到期复核', '报告新证据'],
+      frontline: ['查看授权摘要', '报告新证据']
+    },
+    risk_accepted: {
+      group: ['查看风险接受记录', '到期复核', '恢复调查'],
+      regional: ['查看适用范围', '请求到期复核', '报告风险变化'],
+      frontline: ['查看授权摘要', '报告风险变化']
+    },
+    executing: {
+      group: ['查看执行进度', '查看授权证据'],
+      regional: ['更新区域进度', '提交完成证据', '报告失败或受阻'],
+      frontline: ['提交任务进展', '提交完成证据', '报告失败或受阻']
+    },
+    awaiting_result_verification: {
+      group: ['查看验证计划', '查看授权结果'],
+      regional: ['查看验证计划', '到期后发起受控验证'],
+      frontline: ['查看本人验证任务', '到期后发起受控验证']
+    },
+    unresolved_collaboration: {
+      group: ['加入同案协作', '查看协作结论', '返回调查'],
+      regional: ['加入同案协作', '补充证据', '记录协作结论'],
+      frontline: ['加入同案协作', '补充证据', '报告受阻']
+    },
+    closed: {
+      group: ['查看归档', '有新证据时发起重开'],
+      regional: ['查看授权归档', '报告新证据'],
+      frontline: ['查看本人可见归档', '报告新证据']
+    }
+  };
+
+  const runtimeMessages = {
+    normal: { text: '当前显示脱敏演示快照；页面数字由同一案件数组按唯一 case_id 计算。', tone: 'ok' },
+    loading: { text: '正在读取案件投影，请稍候。此状态不代表没有经营事件。', tone: 'info' },
+    empty: { text: '当前身份与筛选范围内没有可展示记录；不能据此判断企业没有异常。', tone: 'warn' },
+    forbidden: { text: '当前身份无权读取该字段或原始证据；权限不足不能解释为事实不存在。', tone: 'danger' },
+    stale: { text: '数据已过期，页面暂停把旧快照作为当前事实；请等待权威来源更新。', tone: 'warn' },
+    conflict: { text: '检测到案件状态版本冲突，已停止写入并要求读取最新 state_version。', tone: 'danger' },
+    unavailable: { text: '权威来源当前不可用，已保留失败与重试记录；不能把不可用解释为零。', tone: 'danger' },
+    projection_failed: { text: '飞书投影失败或同步失败；权威案件仍保留在事件库，正在重试和告警。', tone: 'danger' }
+  };
+</script>
+
+<script>
+  // ===== 视图层：值守台渲染 =====
+  const SNAPSHOT_AT = '2026-07-24 09:30';
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const ui = {
+    module: 'events',
+    role: 'group',
+    stage: null,
+    substate: null,
+    caseId: demoCases[0].caseId,
+    runtime: 'normal',
+    fRisk: 'all', fDomain: 'all', fRegion: 'all'
+  };
+
+  const $ = sel => document.querySelector(sel);
+  const strip = $('.dutystrip');
+  const consoleEl = $('[data-pane="events"]');
+  const blocker = $('#blocker');
+
+  function uniqueCases(items) {
+    return [...new Map(items.map(item => [item.caseId, item])).values()];
+  }
+  function roleCases() {
+    return uniqueCases(demoCases.filter(roleProfiles[ui.role].caseFilter));
+  }
+  function effectiveRoleCases() {
+    return ui.runtime === 'empty' ? [] : roleCases();
+  }
+  function scopedCases() {
+    let items = effectiveRoleCases();
+    if (ui.fRisk !== 'all') items = items.filter(i => i.risk === ui.fRisk);
+    if (ui.fDomain !== 'all') items = items.filter(i => i.domain === ui.fDomain);
+    if (ui.fRegion !== 'all') items = items.filter(i => i.region === ui.fRegion);
+    return items;
+  }
+  function viewCases() {
+    let items = scopedCases();
+    if (ui.stage) {
+      const stage = stages.find(s => s.code === ui.stage);
+      items = items.filter(i => stage.states.includes(i.currentCaseState));
+    }
+    if (ui.substate) items = items.filter(i => i.currentCaseState === ui.substate);
+    return items;
+  }
+  const isOverdue = item => /^\d{4}-\d{2}-\d{2}/.test(item.dueAt) && item.dueAt < SNAPSHOT_AT;
+  const stageLabel = item => (stages.find(s => s.states.includes(item.currentCaseState)) || {}).label || item.currentCaseState;
+  const displayTime = value => value || '尚未发生';
+
+  function severityOf(item) {
+    if (isOverdue(item)) return 'sev-neg';
+    if (item.currentCaseState === 'decision_ready') return 'sev-acc';
+    if (['awaiting_human_evidence', 'evidence_fact_summary_ready', 'evidence_completeness_review'].includes(item.currentCaseState)) return 'sev-warn';
+    if (item.currentCaseState === 'unresolved_collaboration' || item.risk === '高') return 'sev-neg';
+    if (item.currentCaseState === 'closed') return 'sev-ok';
+    return 'sev-mute';
+  }
+
+  // 数字变化短暂高亮：同一键位跨渲染比对
+  const prevNums = new Map();
+  function syncNums(root) {
+    root.querySelectorAll('[data-num-key]').forEach(el => {
+      const k = el.dataset.numKey, v = el.textContent.trim();
+      if (prevNums.has(k) && prevNums.get(k) !== v && !REDUCED.matches) {
+        el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
       }
-    };
-
-    const stateRoleActions = {
-      investigating: {
-        group: ['打开案件', '按权限追问Agent', '查看授权证据'],
-        regional: ['打开案件', '按权限追问Agent', '查看所辖授权证据'],
-        frontline: ['打开案件', '按权限追问Agent', '查看本人可见证据摘要']
-      },
-      awaiting_human_evidence: {
-        group: ['打开案件', '监督补证进度', '按权限追问Agent'],
-        regional: ['打开案件', '发起或退回补证', '申请权限'],
-        frontline: ['提交材料', '说明无法提供', '申请权限']
-      },
-      evidence_fact_summary_ready: {
-        group: ['打开案件', '查看事实汇总', '监督补证进度'],
-        regional: ['打开案件', '补充材料', '申请权限'],
-        frontline: ['补充材料', '说明无法提供', '申请权限']
-      },
-      evidence_completeness_review: {
-        group: ['打开案件', '查看完整性记录', '监督补证进度'],
-        regional: ['打开案件', '确认完整性或退回', '申请权限'],
-        frontline: ['查看补证记录', '补充材料', '说明无法提供']
-      },
-      analyzing: {
-        group: ['打开案件', '按权限追问Agent'],
-        regional: ['打开案件', '按权限追问Agent'],
-        frontline: ['打开案件', '按权限追问Agent']
-      },
-      decision_ready: {
-        group: ['要求补证或重查', '审阅经营方案', '提交管理审批'],
-        regional: ['打开案件', '补充区域事实', '提交集团审阅'],
-        frontline: ['打开案件', '补充授权证据', '按权限追问Agent']
-      },
-      known_no_action: {
-        group: ['查看决定依据', '到期复核', '恢复调查'],
-        regional: ['查看决定依据', '请求到期复核', '报告新证据'],
-        frontline: ['查看授权摘要', '报告新证据']
-      },
-      risk_accepted: {
-        group: ['查看风险接受记录', '到期复核', '恢复调查'],
-        regional: ['查看适用范围', '请求到期复核', '报告风险变化'],
-        frontline: ['查看授权摘要', '报告风险变化']
-      },
-      executing: {
-        group: ['查看执行进度', '查看授权证据'],
-        regional: ['更新区域进度', '提交完成证据', '报告失败或受阻'],
-        frontline: ['提交任务进展', '提交完成证据', '报告失败或受阻']
-      },
-      awaiting_result_verification: {
-        group: ['查看验证计划', '查看授权结果'],
-        regional: ['查看验证计划', '到期后发起受控验证'],
-        frontline: ['查看本人验证任务', '到期后发起受控验证']
-      },
-      unresolved_collaboration: {
-        group: ['加入同案协作', '查看协作结论', '返回调查'],
-        regional: ['加入同案协作', '补充证据', '记录协作结论'],
-        frontline: ['加入同案协作', '补充证据', '报告受阻']
-      },
-      closed: {
-        group: ['查看归档', '有新证据时发起重开'],
-        regional: ['查看授权归档', '报告新证据'],
-        frontline: ['查看本人可见归档', '报告新证据']
-      }
-    };
-
-    const runtimeMessages = {
-      normal: { text: '当前显示脱敏演示快照；页面数字由同一案件数组按唯一 case_id 计算。', tone: 'info' },
-      loading: { text: '正在读取案件投影，请稍候。此状态不代表没有经营事件。', tone: 'info' },
-      empty: { text: '当前身份与筛选范围内没有可展示记录；不能据此判断企业没有异常。', tone: 'warn' },
-      forbidden: { text: '当前身份无权读取该字段或原始证据；权限不足不能解释为事实不存在。', tone: 'danger' },
-      stale: { text: '数据已过期，页面暂停把旧快照作为当前事实；请等待权威来源更新。', tone: 'warn' },
-      conflict: { text: '检测到案件状态版本冲突，已停止写入并要求读取最新 state_version。', tone: 'danger' },
-      unavailable: { text: '权威来源当前不可用，已保留失败与重试记录；不能把不可用解释为零。', tone: 'danger' },
-      projection_failed: { text: '飞书投影失败或同步失败；权威案件仍保留在事件库，正在重试和告警。', tone: 'danger' }
-    };
-
-    function uniqueCases(items) {
-      return [...new Map(items.map(item => [item.caseId, item])).values()];
-    }
-
-    function casesForView() {
-      let items = uniqueCases(demoCases.filter(roleProfiles[ui.role].caseFilter));
-      if (ui.activeStage) {
-        const stage = stages.find(item => item.code === ui.activeStage);
-        items = items.filter(item => stage.states.includes(item.currentCaseState));
-      }
-      if (ui.activeSubstate) items = items.filter(item => item.currentCaseState === ui.activeSubstate);
-      return items;
-    }
-
-    function renderStages() {
-      const nav = document.getElementById('stageNav');
-      const roleCases = uniqueCases(demoCases.filter(roleProfiles[ui.role].caseFilter));
-      nav.innerHTML = stages.map((stage, index) => {
-        const count = ui.runtime === 'normal' ? uniqueCases(roleCases.filter(item => stage.states.includes(item.currentCaseState))).length : '—';
-        return `<button class="stage-button" data-stage="${stage.code}" aria-pressed="${ui.activeStage === stage.code}" ${ui.runtime === 'normal' ? '' : 'disabled'}>
-          <span class="stage-index">${String(index + 1).padStart(2, '0')}</span>
-          <span class="stage-name">${stage.label}</span>
-          <span class="stage-count">${count}${ui.runtime === 'normal' ? ' 个案件' : ' 暂不可用'}</span>
-        </button>`;
-      }).join('');
-      nav.querySelectorAll('[data-stage]').forEach(button => button.addEventListener('click', () => {
-        const stageCode = button.dataset.stage;
-        ui.activeStage = ui.activeStage === stageCode ? null : stageCode;
-        ui.activeSubstate = null;
-        renderAll();
-        document.querySelector(`[data-stage="${stageCode}"]`)?.focus();
-      }));
-      const substatePanel = document.querySelector('[data-substate-panel]');
-      substatePanel.hidden = ui.runtime !== 'normal' || ui.activeStage !== 'governance_watch';
-      document.getElementById('knownCount').textContent = roleCases.filter(item => item.currentCaseState === 'known_no_action').length;
-      document.getElementById('acceptedCount').textContent = roleCases.filter(item => item.currentCaseState === 'risk_accepted').length;
-      substatePanel.querySelectorAll('[data-substate]').forEach(button => {
-        button.setAttribute('aria-pressed', String(ui.activeSubstate === button.dataset.substate));
-        button.onclick = () => { ui.activeSubstate = button.dataset.substate; renderAll(); };
-      });
-    }
-
-    function renderCaseList() {
-      const items = casesForView();
-      if (!items.length) ui.activeCaseId = null;
-      else if (!items.some(item => item.caseId === ui.activeCaseId)) ui.activeCaseId = items[0].caseId;
-      document.getElementById('listCount').textContent = `${items.length} 个案件`;
-      const currentStage = stages.find(item => item.code === ui.activeStage);
-      document.getElementById('listTitle').textContent = ui.activeSubstate ? sourceStateLabels[ui.activeSubstate] : currentStage ? currentStage.label : '全部在办与近期关闭';
-      const list = document.getElementById('caseList');
-      list.innerHTML = items.map(item => `<button class="case-row" data-case-id="${item.caseId}" data-case-state="${item.currentCaseState}" aria-current="${item.caseId === ui.activeCaseId}">
-        <span class="case-id">${item.caseId} · ${item.eventId}</span>
-        <span class="case-title">${item.title}</span>
-        <span class="case-meta"><span class="pill state">${sourceStateLabels[item.currentCaseState]}</span><span class="pill risk-${item.risk === '高' ? 'high' : item.risk === '中' ? 'medium' : 'low'}">${item.risk}风险</span><span>${item.region}</span></span>
-      </button>`).join('') || '<div class="permission-box" style="margin:12px">当前筛选没有脱敏演示案件。empty 不等于没有经营风险。</div>';
-      list.querySelectorAll('[data-case-id]').forEach(button => button.addEventListener('click', () => {
-        const caseId = button.dataset.caseId;
-        ui.activeCaseId = caseId;
-        renderCaseList();
-        renderCaseDetail();
-        document.querySelector(`[data-case-id="${caseId}"]`)?.focus();
-      }));
-    }
-
-    function permissionContent(item) {
-      const profile = roleProfiles[ui.role];
-      if (ui.role === 'frontline') return `<div data-evidence-access class="permission-box">无权查看原始证据。当前只显示完成本人任务所需的摘要与证据要求；这不是“没有证据”。</div>`;
-      return `<div data-evidence-access><p>${profile.permission}</p><p><strong>来源引用：</strong>${item.sourceRefs}</p></div>`;
-    }
-
-    function renderRoleActions(item) {
-      const actions = stateRoleActions[item.currentCaseState]?.[ui.role];
-      if (!Array.isArray(actions)) {
-        return '<div class="permission-box" data-action-config-unavailable role="status">动作配置不可用，已停止显示操作入口。</div>';
-      }
-      return actions.map(action => `<button class="action-button secondary" aria-disabled="true" title="演示动作，不执行业务写入">${action}</button>`).join('');
-    }
-
-    function displayTime(value) {
-      return value || '尚未发生';
-    }
-
-    function renderCaseDetail() {
-      const detail = document.getElementById('caseDetail');
-      const item = casesForView().find(entry => entry.caseId === ui.activeCaseId);
-      if (!item) {
-        detail.dataset.activeCaseId = '';
-        detail.innerHTML = '<div class="permission-box" data-empty-case-detail role="status" style="margin:16px">当前角色与筛选条件下没有可显示案件，已清空案件详情。empty 不等于没有经营风险。</div>';
-        return;
-      }
-      detail.dataset.activeCaseId = item.caseId;
-      detail.innerHTML = `
-        <header class="case-hero">
-          <div><div class="case-id">${item.caseId} · ${item.eventId} · ${item.eventPackageVersion}</div><h2>${item.title}</h2><p>${item.domain} · ${item.region} · state_version ${item.stateVersion}</p></div>
-          <div class="case-state-box"><small>current_case_state</small><strong>${sourceStateLabels[item.currentCaseState]}</strong></div>
-        </header>
-        <div class="truth-note">任务完成不等于经营结果达成；案件已建立是里程碑，不是案件当前状态。</div>
-        <div class="detail-grid">
-          <section class="detail-section"><h3>案件总览</h3><dl class="kv-grid"><dt>当前责任</dt><dd>${item.ownerRole} · ${item.ownerName}</dd><dt>下一动作</dt><dd>${item.nextAction}</dd><dt>期限/复核</dt><dd>${item.dueAt}</dd><dt>风险</dt><dd>${item.risk}风险</dd><dt>当前视图</dt><dd data-role-field-profile>${roleProfiles[ui.role].fieldProfile}</dd></dl></section>
-          <section class="detail-section"><h3>经营事实与未知项</h3><strong>已确认事实</strong><ul class="fact-list">${item.confirmedFacts.map(text => `<li>${text}</li>`).join('')}</ul><strong>未知项</strong><ul class="fact-list">${item.unknownItems.map(text => `<li>${text}</li>`).join('')}</ul></section>
-          <section class="detail-section"><h3>Agent调查循环</h3><dl class="kv-grid"><dt>统一受理</dt><dd>按案件状态、证据完整度与停止条件推进</dd><dt>当前Skill</dt><dd>领域经营调查 Skill v0.1（演示）</dd><dt>查询预算</dt><dd>受控查询 8 次 / 当前已用 3 次</dd><dt>停止条件</dt><dd>必需信息不足、无权、冲突或来源不可用时暂停分析</dd></dl></section>
-          <section class="detail-section"><h3>证据与查询轨迹</h3><div class="timeline">${item.evidence.map(row => `<div class="timeline-item"><time>${row.time}</time><div>${row.text}</div></div>`).join('')}</div></section>
-          <section class="detail-section"><h3>责任人与下一动作</h3><p><strong>${item.ownerName}</strong> · ${item.ownerRole}</p><p>${item.nextAction}</p><p>监督人：案件负责人（圣农实际人员映射待企业配置）</p><div class="action-row" data-role-actions>${renderRoleActions(item)}</div><div class="action-row"><button class="action-button secondary" data-action="new-hire-guidance">我是新入职人员，请告诉我该怎么处理</button></div></section>
-          <section class="detail-section"><h3>管理决定</h3><p>${item.decision}</p><dl class="kv-grid"><dt>审批记录</dt><dd>${item.approval.recordId || '尚未形成'}</dd><dt>决定类型</dt><dd>${item.approval.decisionType}</dd><dt>授权角色</dt><dd>${item.approval.approver}</dd><dt>影响状态</dt><dd>${item.impact.status} · ${item.impact.summary}</dd></dl><p>所有存栏、产能、价格和市场进入决定均需管理层批准，Agent不能自动拍板。</p></section>
-          <section class="detail-section"><h3>责任任务与业务里程碑</h3><strong>任务</strong>${item.tasks.length ? `<ul class="mini-list">${item.tasks.map(task => `<li><code>${task.taskId}</code> · ${task.action} · task_completion_status=${task.status}<br>${task.completionCriteria}</li>`).join('')}</ul>` : '<p>当前阶段尚未创建执行任务；不能把空任务解释为案件已解决。</p>'}<strong>里程碑</strong><div class="timeline">${item.milestones.map(milestone => `<div class="timeline-item"><time>${milestone.at}</time><div><code>${milestone.code}</code><br>${milestone.label}</div></div>`).join('')}</div></section>
-          <section class="detail-section"><h3>结果验证与关闭</h3><dl class="kv-grid"><dt>verification_status</dt><dd>${item.verification.status}</dd><dt>next_check_at</dt><dd>${item.verification.nextCheckAt}</dd><dt>结果来源</dt><dd>${item.verification.source}</dd><dt>验证证据</dt><dd>${item.verification.resultRefs}</dd><dt>resolution_status</dt><dd>${item.verification.resolutionStatus}</dd><dt>closure_type</dt><dd>${item.closure.type}</dd><dt>关闭/重开记录</dt><dd>${item.closure.basisRefs}；重开时间：${displayTime(item.closure.reopenedAt)}</dd></dl><p>仅成功解决、合法例外、系统误报三类可关闭；其余保持打开。</p></section>
-          <section class="detail-section"><h3>飞书协同送达状态</h3><dl class="kv-grid"><dt>已送达</dt><dd>${displayTime(item.collaboration.deliveredAt)}</dd><dt>已读</dt><dd>${displayTime(item.collaboration.readAt)}</dd><dt>已知悉</dt><dd>${displayTime(item.collaboration.acknowledgedAt)}</dd><dt>已接受责任</dt><dd>${displayTime(item.collaboration.acceptedAt)}</dd><dt>projection_status</dt><dd>${item.projectionStatus}</dd><dt>权限说明</dt><dd>${roleProfiles[ui.role].permission}</dd></dl></section>
-          <section class="detail-section"><h3>原始证据与权限</h3>${permissionContent(item)}</section>
-          <section class="detail-section full"><h3>接口与字段映射</h3><table class="code-table"><thead><tr><th>维度</th><th>字段/接口</th><th>页面责任</th></tr></thead><tbody>
-            <tr><td>案件状态</td><td><code>CaseState.current_case_state</code> / <code>get_case_state</code></td><td>决定当前阶段，不由前端按钮推断</td></tr>
-            <tr><td>里程碑</td><td><code>milestone_code</code> / <code>get_milestone_state</code></td><td>形成不可变时间线和通知触发</td></tr>
-            <tr><td>任务</td><td><code>task_completion_status</code> / <code>get_task_state</code></td><td>完成只进入待结果验证</td></tr>
-            <tr><td>协同</td><td><code>collaboration_status</code> / 飞书消息、任务、审批回执</td><td>送达、已读、知悉与接受责任分别保存</td></tr>
-            <tr><td>解决</td><td><code>resolution_status</code> / 权威来源回读</td><td>决定经营目标是否达成</td></tr>
-            <tr><td>投影</td><td><code>projection_status</code></td><td>失败只说明同步失败，不改写案件事实</td></tr>
-          </tbody></table></section>
-        </div>`;
-      detail.querySelector('[data-action="new-hire-guidance"]').addEventListener('click', () => openGuidance(item));
-    }
-
-    let guidanceOpener = null;
-
-    function openGuidance(item) {
-      guidanceOpener = document.activeElement && typeof document.activeElement.focus === 'function' ? document.activeElement : null;
-      const profile = roleProfiles[ui.role];
-      const similarCases = demoCases
-        .filter(candidate => candidate.caseId !== item.caseId && candidate.currentCaseState === 'closed' && candidate.domain === item.domain && profile.caseFilter(candidate))
-        .slice(0, 2)
-        .map(candidate => `${candidate.caseId}（${sourceStateLabels[candidate.currentCaseState]}）`);
-      const fields = [
-        ['岗位职责', 'guidance_role_duties', `${profile.user}：${item.guidance.guidance_role_duties}`],
-        ['所需证据', 'guidance_required_evidence', item.guidance.guidance_required_evidence],
-        ['下一里程碑', 'guidance_next_milestone', item.guidance.guidance_next_milestone],
-        ['升级路径', 'guidance_escalation_path', `${item.guidance.guidance_escalation_path} 当前视图升级边界：${profile.scope}。`],
-        ['历史同类案件', 'guidance_case_refs', similarCases.length ? similarCases.join('、') : `${item.guidance.guidance_case_refs} 当前演示范围暂无可见同类关闭案。`]
-      ];
-      document.getElementById('guidanceBody').innerHTML = `<p>当前案件：<strong>${item.caseId} · ${item.title}</strong><br>当前岗位：<strong>${profile.user}</strong>。以下内容按当前任务和权限生成，只帮助责任人熟悉业务，不替代制度、审批或管理决定。</p>` + fields.map(([label, code, value]) => `<div class="guidance-block"><strong>${label} · <code>${code}</code></strong><p>${value}</p></div>`).join('');
-      const backdrop = document.getElementById('guidanceBackdrop');
-      backdrop.hidden = false;
-      document.getElementById('closeGuidance').focus();
-    }
-
-    function closeGuidance() {
-      const backdrop = document.getElementById('guidanceBackdrop');
-      if (backdrop.hidden) return;
-      backdrop.hidden = true;
-      const opener = guidanceOpener;
-      guidanceOpener = null;
-      if (opener && document.contains(opener) && typeof opener.focus === 'function') opener.focus();
-    }
-
-    function keepGuidanceFocus(event) {
-      const backdrop = document.getElementById('guidanceBackdrop');
-      if (backdrop.hidden || event.key !== 'Tab') return;
-      const dialog = backdrop.querySelector('[role="dialog"]');
-      const focusable = [...dialog.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
-        .filter(element => !element.hidden && element.getClientRects().length > 0);
-      if (!focusable.length) {
-        event.preventDefault();
-        dialog.focus();
-        return;
-      }
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      const active = document.activeElement;
-      if (event.shiftKey && (active === first || !dialog.contains(active))) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && (active === last || !dialog.contains(active))) {
-        event.preventDefault();
-        first.focus();
-      }
-    }
-
-    function renderRole() {
-      const profile = roleProfiles[ui.role];
-      document.body.dataset.currentRole = ui.role;
-      document.getElementById('identityUser').innerHTML = `${profile.user} <small>演示身份</small>`;
-      document.querySelector('[data-scope-label]').textContent = profile.scope;
-      document.querySelectorAll('[data-role]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.role === ui.role)));
-    }
-
-    function renderRuntime() {
-      const message = runtimeMessages[ui.runtime];
-      const banner = document.querySelector('[data-runtime-banner]');
-      const blocker = document.querySelector('[data-runtime-blocker]');
-      const workspace = document.querySelector('.case-workspace');
-      const projectionBadge = document.querySelector('[data-projection-badge]');
-      const snapshotLabel = document.querySelector('[data-snapshot-label]');
-      banner.textContent = message.text;
-      banner.dataset.tone = message.tone;
-      const isNormal = ui.runtime === 'normal';
-      workspace.hidden = !isNormal;
-      blocker.hidden = isNormal;
-      projectionBadge.textContent = `projection_status: ${isNormal ? 'synced_demo' : ui.runtime}`;
-      snapshotLabel.innerHTML = isNormal ? '2026-07-24 09:30 <small>演示</small>' : '当前事实不可用 <small>保留状态原因</small>';
-      if (!isNormal) blocker.innerHTML = `<strong>${message.text}</strong><p>正常案件列表、阶段数量和案件详情已停止展示，避免把旧快照、无权结果或失败投影冒充当前经营事实。权威案件不会因此被删除。</p>`;
-    }
-
-    function renderAll() {
-      renderStages();
-      renderCaseList();
-      renderCaseDetail();
-      renderRole();
-      renderRuntime();
-    }
-
-    document.querySelectorAll('[data-module]').forEach(button => button.addEventListener('click', () => {
-      ui.activeModule = button.dataset.module;
-      document.querySelectorAll('[data-module]').forEach(tab => tab.setAttribute('aria-selected', String(tab.dataset.module === ui.activeModule)));
-      document.querySelectorAll('[data-pane]').forEach(pane => pane.hidden = pane.dataset.pane !== ui.activeModule);
-    }));
-    document.querySelectorAll('[data-role]').forEach(button => button.addEventListener('click', () => { ui.role = button.dataset.role; renderAll(); }));
-    document.getElementById('runtimeState').addEventListener('change', event => { ui.runtime = event.target.value; renderAll(); });
-    document.getElementById('closeGuidance').addEventListener('click', closeGuidance);
-    document.getElementById('guidanceBackdrop').addEventListener('click', event => { if (event.target.id === 'guidanceBackdrop') closeGuidance(); });
-    document.addEventListener('keydown', event => {
-      if (event.key === 'Escape') {
-        if (document.getElementById('guidanceBackdrop').hidden) return;
-        event.preventDefault();
-        closeGuidance();
-        return;
-      }
-      keepGuidanceFocus(event);
+      prevNums.set(k, v);
     });
-    renderAll();
-  </script>
-  <script>
-    // 呈现层增强：案件详情段内锚点导航（只读呈现增强，不改业务计算逻辑）
-    (function () {
-      const detail = document.getElementById('caseDetail');
-      const anchor = document.querySelector('[data-detail-anchor]');
-      if (!detail || !anchor) return;
-      const groups = [
-        ['总览', '案件总览'],
-        ['调查', 'Agent调查循环'],
-        ['行动', '责任人与下一动作'],
-        ['决策', '管理决定'],
-        ['验证', '责任任务与业务里程碑'],
-        ['协同', '飞书协同送达状态'],
-        ['接口', '接口与字段映射']
-      ];
-      function syncDetailAnchor() {
-        const sections = [...detail.querySelectorAll('.detail-section')];
-        if (!sections.length) {
-          anchor.hidden = true;
-          anchor.innerHTML = '';
-          return;
-        }
-        const byTitle = new Map();
-        sections.forEach((section, index) => {
-          const heading = section.querySelector('h3');
-          if (!heading) return;
-          section.id = 'detail-sec-' + (index + 1);
-          byTitle.set(heading.textContent.trim(), section.id);
-        });
-        anchor.innerHTML = groups
-          .map(([label, title]) => {
-            const target = byTitle.get(title);
-            return target ? `<a href="#${target}">${label}</a>` : '';
-          })
-          .join('');
-        anchor.hidden = false;
-      }
-      new MutationObserver(syncDetailAnchor).observe(detail, { childList: true });
-      syncDetailAnchor();
-    })();
-  </script>
-  <script>
-    // 呈现层增强：三角色首页队列（只读呈现增强；队列与计数全部由既有案件数组按既有口径过滤得出，不改业务计算逻辑）
-    (function () {
-      const home = document.querySelector('[data-role-home]');
-      if (!home || typeof demoCases === 'undefined') return;
-      const SNAPSHOT_AT = '2026-07-24 09:30';
-      const EMPTY_COPY = '当前没有待你处理的事项；empty 不等于没有经营风险。';
-      const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
+  }
 
-      const casesForRole = () => demoCases.filter(roleProfiles[ui.role].caseFilter);
-      const isOverdue = item => /^\d{4}-\d{2}-\d{2}/.test(item.dueAt) && item.dueAt < SNAPSHOT_AT;
-      const stageLabel = item => (stages.find(stage => stage.states.includes(item.currentCaseState)) || {}).label || item.currentCaseState;
+  function renderModule() {
+    const isEvents = ui.module === 'events';
+    document.querySelectorAll('[data-module]').forEach(tab => tab.setAttribute('aria-selected', String(tab.dataset.module === ui.module)));
+    strip.hidden = !isEvents;
+    consoleEl.hidden = !isEvents;
+    $('[data-pane="evolution"]').hidden = ui.module !== 'evolution';
+    $('[data-pane="expansion"]').hidden = ui.module !== 'expansion';
+    if (!isEvents) blocker.hidden = true;
+  }
 
-      function queueRows(cases, meta) {
-        if (!cases.length) return `<div class="rh-empty">${EMPTY_COPY}</div>`;
-        return '<div class="rh-list">' + cases.map(item => `<button class="queue-row" data-queue-case="${item.caseId}">
-          <span class="q-id">${item.caseId} · ${item.eventId}</span>
-          <span class="q-title">${item.title}</span>
-          <span class="q-meta">${meta(item)}</span>
-        </button>`).join('') + '</div>';
-      }
+  function renderStrip() {
+    $('#stripUser').textContent = roleProfiles[ui.role].user;
+    $('#stripScope').textContent = roleProfiles[ui.role].scope;
+    const countable = ui.runtime === 'normal' || ui.runtime === 'empty';
+    const scoped = scopedCases();
+    $('#viewfinder').innerHTML = stages.map((stage, index) => {
+      const count = countable ? uniqueCases(scoped.filter(i => stage.states.includes(i.currentCaseState))).length : '—';
+      return `<button class="vf-cell" data-stage="${stage.code}" data-info-stage="${stage.code}" aria-pressed="${ui.stage === stage.code}" ${countable ? '' : 'disabled'}>
+        <span class="vf-no">${String(index + 1).padStart(2, '0')}</span>
+        <span class="vf-count" data-num-key="vf:${stage.code}">${count}</span>
+        <span class="vf-name">${stage.label}</span>
+      </button>`;
+    }).join('');
+  }
 
-      function queueCard(title, count, sub, body, tone) {
-        return `<article class="rh-card${tone ? ' ' + tone : ''}">
-          <div class="rh-head"><h3>${title}</h3><span class="rh-count">${count}</span></div>
-          ${sub ? `<p class="rh-sub">${sub}</p>` : ''}
-          ${body}
-        </article>`;
-      }
+  function renderRole() {
+    document.body.dataset.currentRole = ui.role;
+    document.querySelectorAll('#roleSwitch [data-role]').forEach(btn => btn.setAttribute('aria-pressed', String(btn.dataset.role === ui.role)));
+  }
 
-      function renderGroupHome(cases) {
-        const decision = cases.filter(item => item.currentCaseState === 'decision_ready');
-        const collaboration = cases.filter(item => item.currentCaseState === 'unresolved_collaboration');
-        const known = cases.filter(item => item.currentCaseState === 'known_no_action').length;
-        const accepted = cases.filter(item => item.currentCaseState === 'risk_accepted').length;
-        const watch = known + accepted;
-        const overdue = cases.filter(isOverdue).length;
-        const open = cases.filter(item => item.currentCaseState !== 'closed').length;
-        return queueCard('待我决策', decision.length, '决策就绪队列 · 等待授权管理者选择',
-            queueRows(decision, item => `期限/复核 ${item.dueAt} · ${item.region}`))
-          + queueCard('需要关注', collaboration.length + watch + overdue,
-            `未解决专项协作 ${collaboration.length} · 已知悉暂不处理 ${known} · 风险接受 ${accepted} · 逾期 ${overdue}`,
-            queueRows(collaboration, item => `${stageLabel(item)} · ${item.region} · ${item.dueAt}`), 'rh-tone-neg')
-          + `<article class="rh-card">
-            <div class="rh-head"><h3>治理线与经营影响线</h3></div>
-            <div class="rh-note"><strong>治理线：</strong>开放案件 ${open} · 未解决专项协作 ${collaboration.length} · 持续监督 ${watch}；由同一案件数组按唯一 case_id 计算。</div>
-            <div class="rh-note"><strong>经营影响线：</strong>需待企业指标口径、真实接口与 model_run_id 确认后再投影；当前影响证据状态为 unknown / modeled，本页不显示数值。</div>
-          </article>`;
-      }
-
-      function renderRegionalHome(cases) {
-        const evidence = cases.filter(item => item.currentCaseState === 'awaiting_human_evidence');
-        const verify = cases.filter(item => item.currentCaseState === 'awaiting_result_verification');
-        const overdue = cases.filter(isOverdue);
-        const distribution = stages
-          .map(stage => ({ label: stage.label, count: cases.filter(item => stage.states.includes(item.currentCaseState)).length }))
-          .filter(entry => entry.count > 0);
-        return queueCard('本区域待办', evidence.length + verify.length,
-            `待人工补证 ${evidence.length}（我为监督人）· 待结果验证 ${verify.length}`,
-            queueRows([...evidence, ...verify], item => `${stageLabel(item)} · ${item.nextAction}`))
-          + queueCard('升级事项', overdue.length, '逾期或高影响事项逐级即时升级',
-            queueRows(overdue, item => `逾期 · 期限 ${item.dueAt}`), 'rh-tone-warn')
-          + `<article class="rh-card">
-            <div class="rh-head"><h3>本区域阶段分布</h3><span class="rh-count">${cases.length}</span></div>
-            <div class="rh-dist">${distribution.map(entry => `<div class="rh-dist-row"><span>${entry.label}</span><b>${entry.count}</b></div>`).join('')}</div>
-            <p class="rh-sub">按当前区域范围的唯一 case_id 计数。</p>
-          </article>`;
-      }
-
-      function renderFrontlineHome(cases) {
-        const mine = cases.filter(item => ['awaiting_human_evidence', 'evidence_fact_summary_ready', 'evidence_completeness_review', 'executing'].includes(item.currentCaseState));
-        return queueCard('我的任务', mine.length, '待我补证与我名下执行任务',
-            queueRows(mine, item => `${stageLabel(item)} · ${item.nextAction} · 期限 ${item.dueAt}`))
-          + `<article class="rh-card">
-            <div class="rh-head"><h3>新人指导</h3></div>
-            <p class="rh-sub">按当前案件与岗位生成岗位职责、所需证据、下一里程碑、升级路径和授权相似案件；只帮助熟悉业务，不替代制度、审批或管理决定。</p>
-            <div class="rh-actions"><button class="action-button" data-role-home-guidance>我是新入职人员，请告诉我该怎么处理</button></div>
-          </article>`
-          + `<article class="rh-card">
-            <div class="rh-head"><h3>权限说明</h3></div>
-            <div class="rh-note">只查看本人履责所需摘要；敏感经营原始证据无权查看。无权查看不等于没有证据，可按权限申请。</div>
-          </article>`;
-      }
-
-      function syncRoleHome() {
-        if (ui.runtime !== 'normal') {
-          home.hidden = true;
-          home.innerHTML = '';
-          return;
-        }
-        home.hidden = false;
-        const cases = casesForRole();
-        home.innerHTML = ui.role === 'regional' ? renderRegionalHome(cases)
-          : ui.role === 'frontline' ? renderFrontlineHome(cases)
-          : renderGroupHome(cases);
-      }
-
-      home.addEventListener('click', event => {
-        const queue = event.target.closest('[data-queue-case]');
-        if (queue) {
-          ui.activeStage = null;
-          ui.activeSubstate = null;
-          ui.activeCaseId = queue.dataset.queueCase;
-          renderAll();
-          document.getElementById('caseDetail').scrollIntoView({ behavior: REDUCED.matches ? 'auto' : 'smooth', block: 'start' });
-          document.querySelector(`[data-case-id="${queue.dataset.queueCase}"]`)?.focus();
-          return;
-        }
-        if (event.target.closest('[data-role-home-guidance]')) {
-          const view = casesForView();
-          const item = view.find(entry => entry.caseId === ui.activeCaseId) || view[0];
-          if (item) openGuidance(item);
-        }
-      });
-
-      new MutationObserver(syncRoleHome).observe(document.body, { attributes: true, attributeFilter: ['data-current-role'] });
-      document.getElementById('runtimeState').addEventListener('change', syncRoleHome);
-      syncRoleHome();
-    })();
-  </script>
-  <script>
-    // 整站导航：顶部阅读进度条（与首页一致）
-    const progressBar = document.getElementById('progress-bar');
-    function updateProgress() {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      progressBar.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
+  function renderRuntime() {
+    const msg = runtimeMessages[ui.runtime];
+    const line = $('[data-rt-line]');
+    line.dataset.tone = msg.tone;
+    $('[data-rt-text]').textContent = msg.text;
+    const ledTone = ui.runtime === 'normal' ? '' : ui.runtime === 'loading' ? 'tone-acc' : (ui.runtime === 'empty' || ui.runtime === 'stale') ? 'tone-warn' : 'tone-neg';
+    $('[data-rt-led]').className = 'led' + (ledTone ? ' ' + ledTone : '');
+    $('#stripLed').className = 'led' + (ledTone ? ' ' + ledTone : '');
+    $('#stripProjection').textContent = `projection_status: ${ui.runtime === 'normal' ? 'synced_demo' : ui.runtime}`;
+    $('#stripSnapshot').textContent = ui.runtime === 'normal' ? 'SNAP 2026-07-24 09:30' : '当前事实不可用';
+    const blocked = !['normal', 'loading', 'empty'].includes(ui.runtime);
+    consoleEl.hidden = blocked || ui.module !== 'events';
+    blocker.hidden = !blocked || ui.module !== 'events';
+    if (blocked) {
+      blocker.className = 'blocker' + (msg.tone === 'danger' ? ' tone-neg' : '');
+      blocker.innerHTML = `<span class="el">Runtime · ${ui.runtime}</span><strong>${msg.text}</strong><p>正常案件列表、阶段数量和案件详情已停止展示，避免把旧快照、无权结果或失败投影冒充当前经营事实。权威案件不会因此被删除。</p><div class="action-row" style="margin-top:14px"><button class="action-button" data-runtime-recover>恢复正常演示 · normal</button></div>`;
     }
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    updateProgress();
-  </script>
-  <script>
-    // 整站导航：详细方案下拉（与首页一致）：hover/focus 展开，Esc 关闭，触屏首次点展开二次点跳转
-    (function () {
-      var COARSE = window.matchMedia('(hover: none), (pointer: coarse)');
+  }
 
-      function open(dd, trigger) {
-        dd.classList.remove('esc-closed');
-        dd.classList.add('open');
-        if (trigger) trigger.setAttribute('aria-expanded', 'true');
-      }
-      function close(dd) {
-        dd.classList.remove('open');
-        var t = dd.querySelector('[data-trigger]');
-        if (t) t.setAttribute('aria-expanded', 'false');
-      }
+  function queueRows(cases, meta, guide) {
+    if (!cases.length) return `<div class="qempty">当前没有待你处理的事项；empty 不等于没有经营风险。${guide ? `<span class="qguide">${guide}</span>` : ''}</div>`;
+    return '<div class="qlist">' + cases.map(item => `<button class="qrow ${severityOf(item)}" data-queue-case="${item.caseId}" aria-current="${item.caseId === ui.caseId}">
+      <span class="qid">${item.caseId} · ${item.eventId}</span>
+      <span class="qt">${item.title}</span>
+      <span class="qm">${meta(item)}</span>
+    </button>`).join('') + '</div>';
+  }
+  function queueCard(title, count, sub, body, tone, numKey, infoKey) {
+    const ledClass = tone === 'tone-neg' ? 'tone-neg' : tone === 'tone-warn' ? 'tone-warn' : '';
+    return `<article class="qcard ${tone || ''}">
+      <div class="qcard-h">${count > 0 ? `<span class="led ${ledClass}" aria-hidden="true"></span>` : ''}<h3>${title}</h3><button class="imk" data-info="${infoKey}" aria-label="说明：${title}在监视什么">i</button><span class="qcount" data-num-key="${numKey}">${count}</span></div>
+      ${sub ? `<p class="qsub">${sub}</p>` : ''}
+      ${body}
+    </article>`;
+  }
 
+  function renderGroupHome(cases) {
+    const decision = cases.filter(i => i.currentCaseState === 'decision_ready');
+    const collaboration = cases.filter(i => i.currentCaseState === 'unresolved_collaboration');
+    const known = cases.filter(i => i.currentCaseState === 'known_no_action').length;
+    const accepted = cases.filter(i => i.currentCaseState === 'risk_accepted').length;
+    const watch = known + accepted;
+    const overdue = cases.filter(isOverdue).length;
+    const open = cases.filter(i => i.currentCaseState !== 'closed').length;
+    return queueCard('待我决策', decision.length, '决策就绪队列 · 等待授权管理者选择',
+        queueRows(decision, i => `期限/复核 ${i.dueAt} · ${i.region}`), '', 'q:decision', 'q-decision')
+      + queueCard('需要关注', collaboration.length + watch + overdue,
+        `未解决专项协作 ${collaboration.length} · 已知悉暂不处理 ${known} · 风险接受 ${accepted} · 逾期 ${overdue}`,
+        queueRows(collaboration, i => `${stageLabel(i)} · ${i.region} · ${i.dueAt}`) + '<span class="qguide">已知悉暂不处理与风险接受案件见 05 持续监督格。</span>', 'tone-neg', 'q:attention', 'q-attention')
+      + `<article class="qcard">
+        <div class="qcard-h"><h3>治理线与经营影响线</h3><button class="imk" data-info="q-lines" aria-label="说明：治理线与经营影响线在监视什么">i</button></div>
+        <div class="qnote"><span class="qnote-k">治理线 · Governance</span>开放案件 ${open} · 未解决专项协作 ${collaboration.length} · 持续监督 ${watch}</div>
+        <div class="qnote tone-copper"><span class="qnote-k">经营影响线 · Impact</span>影响证据状态 unknown / modeled · 需 model_run_id · 本页不显示数值</div>
+      </article>`;
+  }
+
+  function renderRegionalHome(cases) {
+    const evidence = cases.filter(i => i.currentCaseState === 'awaiting_human_evidence');
+    const verify = cases.filter(i => i.currentCaseState === 'awaiting_result_verification');
+    const overdue = cases.filter(isOverdue);
+    const distribution = stages
+      .map(s => ({ label: s.label, count: cases.filter(i => s.states.includes(i.currentCaseState)).length }))
+      .filter(e => e.count > 0);
+    const maxCount = Math.max(1, ...distribution.map(e => e.count));
+    return queueCard('本区域待办', evidence.length + verify.length,
+        `待人工补证 ${evidence.length}（我为监督人）· 待结果验证 ${verify.length}`,
+        queueRows([...evidence, ...verify], i => `${stageLabel(i)} · ${i.nextAction}`, '切回集团管理层可见待办队列演示。'), 'tone-warn', 'q:todo', 'q-todo')
+      + queueCard('升级事项', overdue.length, '逾期事项逐级即时升级；高影响判定待企业阈值配置。',
+        queueRows(overdue, i => `逾期 · 期限 ${i.dueAt}`, '切回集团管理层可见待办队列演示。'), 'tone-neg', 'q:escal', 'q-escal')
+      + `<article class="qcard">
+        <div class="qcard-h"><h3>本区域阶段分布</h3><button class="imk" data-info="q-dist" aria-label="说明：本区域阶段分布在监视什么">i</button><span class="qcount" data-num-key="q:dist-total">${cases.length}</span></div>
+        <div class="dist">${distribution.map(e => `<div class="dist-row"><span>${e.label}</span><b data-num-key="dist:${e.label}">${e.count}</b><span class="dist-bar"><i style="width:${Math.round(e.count / maxCount * 100)}%"></i></span></div>`).join('')}</div>
+        <p class="qsub" style="padding-bottom:10px">按当前区域范围的唯一 case_id 计数。</p>
+      </article>`;
+  }
+
+  function renderFrontlineHome(cases) {
+    const mine = cases.filter(i => ['awaiting_human_evidence', 'evidence_fact_summary_ready', 'evidence_completeness_review', 'executing'].includes(i.currentCaseState));
+    return queueCard('我的任务', mine.length, '待我补证与我名下执行任务',
+        queueRows(mine, i => `${stageLabel(i)} · ${i.nextAction} · 期限 ${i.dueAt}`), 'tone-warn', 'q:mine', 'q-mine')
+      + `<article class="qcard">
+        <div class="qcard-h"><h3>新人指导</h3><button class="imk" data-info="q-guidance" aria-label="说明：新人指导在监视什么">i</button></div>
+        <p class="qsub">生成五段岗位指导；不替代制度与审批。</p>
+        <div class="qactions"><button class="action-button" data-role-home-guidance>我是新入职人员，请告诉我该怎么处理</button></div>
+      </article>`
+      + `<article class="qcard">
+        <div class="qcard-h"><h3>权限说明</h3><button class="imk" data-info="q-perm" aria-label="说明：权限说明在监视什么">i</button></div>
+        <div class="qnote tone-copper"><span class="qnote-k">权限 · Permission</span>只查看本人履责所需摘要；敏感经营原始证据无权查看。</div>
+      </article>`;
+  }
+
+  function skeletonQueues() {
+    return `<div class="skel-cards">${[1, 2, 3].map(() => `<div class="skel-card">
+      <div class="skel" style="height:14px;width:38%"></div>
+      <div class="skel" style="height:9px;width:88%"></div>
+      <div class="skel" style="height:9px;width:72%"></div>
+    </div>`).join('')}</div>`;
+  }
+
+  function renderQueues() {
+    const home = $('#roleHome');
+    if (ui.runtime === 'loading') { home.innerHTML = skeletonQueues(); return; }
+    const cases = effectiveRoleCases();
+    home.innerHTML = ui.role === 'regional' ? renderRegionalHome(cases)
+      : ui.role === 'frontline' ? renderFrontlineHome(cases)
+      : renderGroupHome(cases);
+  }
+
+  function renderChips() {
+    const box = $('#filterChips');
+    const chips = [];
+    if (ui.stage) chips.push({ key: 'stage', label: `阶段：${stages.find(s => s.code === ui.stage).label}` });
+    if (ui.substate) chips.push({ key: 'substate', label: `状态：${sourceStateLabels[ui.substate]}` });
+    if (ui.fRisk !== 'all') chips.push({ key: 'fRisk', label: `风险：${ui.fRisk}` });
+    if (ui.fDomain !== 'all') chips.push({ key: 'fDomain', label: `类型：${ui.fDomain}` });
+    if (ui.fRegion !== 'all') chips.push({ key: 'fRegion', label: `区域：${ui.fRegion}` });
+    box.hidden = !chips.length;
+    box.innerHTML = chips.map(c => `<span class="chip">${c.label}<button data-clear="${c.key}" aria-label="清除筛选 ${c.label}">×</button></span>`).join('');
+    const panel = $('#substatePanel');
+    const roleScoped = effectiveRoleCases();
+    panel.hidden = ui.runtime !== 'normal' || ui.stage !== 'governance_watch';
+    $('#knownCount').textContent = roleScoped.filter(i => i.currentCaseState === 'known_no_action').length;
+    $('#acceptedCount').textContent = roleScoped.filter(i => i.currentCaseState === 'risk_accepted').length;
+    panel.querySelectorAll('[data-substate]').forEach(btn => btn.setAttribute('aria-pressed', String(ui.substate === btn.dataset.substate)));
+  }
+
+  function riskClass(risk) { return risk === '高' ? 'high' : risk === '中' ? 'medium' : 'low'; }
+  function statePillClass(state) {
+    return state === 'closed' ? 'st-closed' : ['known_no_action', 'risk_accepted'].includes(state) ? 'st-watch' : '';
+  }
+  function caseRow(item) {
+    const overdue = isOverdue(item);
+    return `<button class="caserow ${severityOf(item)}" data-case-id="${item.caseId}" aria-current="${item.caseId === ui.caseId}">
+      <span class="qid">${item.caseId} · ${item.eventId}</span>
+      <span class="qt">${item.title}</span>
+      <span class="cmeta">
+        <span class="pill state ${statePillClass(item.currentCaseState)}">${sourceStateLabels[item.currentCaseState]}</span>
+        <span class="pill risk-${riskClass(item.risk)}">${item.risk}风险</span>
+        <span>${item.region}</span>
+        <span class="due ${overdue ? 'overdue' : ''}">${overdue ? '逾期 · ' : ''}${item.dueAt}</span>
+      </span>
+    </button>`;
+  }
+
+  function renderList() {
+    const list = $('#caseList');
+    if (ui.runtime === 'loading') {
+      $('#listCount').textContent = '读取中…';
+      $('#listTitle').textContent = '案件投影';
+      list.innerHTML = [1, 2, 3, 4, 5, 6].map(() => `<div class="skel-row">
+        <div class="skel" style="height:9px;width:42%"></div>
+        <div class="skel" style="height:13px;width:86%"></div>
+        <div class="skel" style="height:9px;width:64%"></div>
+      </div>`).join('');
+      return;
+    }
+    const items = viewCases();
+    if (!items.length) ui.caseId = null;
+    else if (!items.some(i => i.caseId === ui.caseId)) ui.caseId = items[0].caseId;
+    const currentStage = stages.find(s => s.code === ui.stage);
+    $('#listTitle').textContent = ui.substate ? sourceStateLabels[ui.substate] : currentStage ? currentStage.label : '全部在办与近期关闭';
+    $('#listCount').innerHTML = `<span data-num-key="lc">${items.length}</span> 个案件`;
+    list.innerHTML = items.map(caseRow).join('') || '<div class="qempty" style="margin:12px">当前筛选没有脱敏演示案件。empty 不等于没有经营风险。</div>';
+  }
+
+  function permissionContent(item) {
+    const profile = roleProfiles[ui.role];
+    if (ui.role === 'frontline') return '<div data-evidence-access class="permission-box">无权查看原始证据。当前只显示完成本人任务所需的摘要与证据要求；这不是“没有证据”。</div>';
+    return `<div data-evidence-access><p>${profile.permission}</p><p><strong>来源引用：</strong>${item.sourceRefs}</p></div>`;
+  }
+
+  function renderRoleActions(item) {
+    const actions = stateRoleActions[item.currentCaseState]?.[ui.role];
+    if (!Array.isArray(actions)) {
+      return '<div class="permission-box" data-action-config-unavailable role="status">动作配置不可用，已停止显示操作入口。</div>';
+    }
+    return actions.map(action => `<button class="action-button secondary" aria-disabled="true" title="演示动作，不执行业务写入">${action}</button>`).join('');
+  }
+
+  const detailGroups = [
+    ['总览', '案件总览'], ['事实', '经营事实与未知项'], ['调查', 'Agent调查循环'], ['轨迹', '证据与查询轨迹'],
+    ['行动', '责任人与下一动作'], ['决策', '管理决定'], ['任务', '责任任务与业务里程碑'], ['验证', '结果验证与关闭'],
+    ['协同', '飞书协同送达状态'], ['权限', '原始证据与权限'], ['接口', '接口与字段映射']
+  ];
+  const secNo = n => `§ ${String(n).padStart(2, '0')}`;
+
+  function skeletonDetail() {
+    return `<div class="d-top"><div class="d-hero">
+      <div style="flex:1;min-width:0">
+        <div class="skel" style="height:9px;width:44%"></div>
+        <div class="skel" style="height:18px;width:80%;margin-top:8px"></div>
+        <div class="skel" style="height:9px;width:56%;margin-top:8px"></div>
+      </div>
+      <div class="skel" style="flex:0 0 128px;height:46px"></div>
+    </div></div>` + [1, 2, 3, 4, 5, 6].map(() => `<div class="d-sec">
+      <div class="skel" style="height:12px;width:28%"></div>
+      <div class="skel" style="height:9px;width:92%;margin-top:9px"></div>
+      <div class="skel" style="height:9px;width:84%;margin-top:6px"></div>
+      <div class="skel" style="height:9px;width:70%;margin-top:6px"></div>
+    </div>`).join('');
+  }
+
+  function renderDetail() {
+    const detail = $('#caseDetail');
+    if (ui.runtime === 'loading') { detail.innerHTML = skeletonDetail(); return; }
+    const item = viewCases().find(entry => entry.caseId === ui.caseId);
+    if (!item) {
+      detail.innerHTML = '<div style="padding:16px"><div class="qempty" style="margin:0">当前角色与筛选条件下没有可显示案件，已清空案件详情。empty 不等于没有经营风险。</div></div>';
+      return;
+    }
+    detail.innerHTML = `
+      <div class="d-top">
+        <header class="d-hero">
+          <div style="min-width:0">
+            <span class="qid">${item.caseId} · ${item.eventId} · ${item.eventPackageVersion}</span>
+            <h2>${item.title}</h2>
+            <p>${item.domain} · ${item.region} · state_version ${item.stateVersion}</p>
+          </div>
+          <div class="d-state"><small>current_case_state</small><strong>${sourceStateLabels[item.currentCaseState]}</strong></div>
+        </header>
+        <nav class="d-anchors" aria-label="案件详情分段导航"></nav>
+      </div>
+      <div class="truth-note">任务完成不等于经营结果达成；案件已建立是里程碑，不是案件当前状态。</div>
+      <section class="d-sec"><div class="sec-h"><span class="sec-no">${secNo(1)}</span><h3>案件总览</h3><button class="imk" data-info="d1" aria-label="说明：案件总览在监视什么">i</button></div><dl class="kv-grid"><dt>当前责任</dt><dd>${item.ownerRole} · ${item.ownerName}</dd><dt>下一动作</dt><dd>${item.nextAction}</dd><dt>期限/复核</dt><dd>${item.dueAt}</dd><dt>风险</dt><dd>${item.risk}风险</dd><dt>当前视图</dt><dd data-role-field-profile>${roleProfiles[ui.role].fieldProfile}</dd></dl></section>
+      <section class="d-sec"><div class="sec-h"><span class="sec-no">${secNo(2)}</span><h3>经营事实与未知项</h3><button class="imk" data-info="d2" aria-label="说明：经营事实与未知项在监视什么">i</button></div><strong>已确认事实</strong><ul class="fact-list">${item.confirmedFacts.map(t => `<li>${t}</li>`).join('')}</ul><strong>未知项</strong><ul class="fact-list">${item.unknownItems.map(t => `<li>${t}</li>`).join('')}</ul></section>
+      <section class="d-sec"><div class="sec-h"><span class="sec-no">${secNo(3)}</span><h3>Agent调查循环</h3><button class="imk" data-info="d3" aria-label="说明：Agent调查循环在监视什么">i</button></div><dl class="kv-grid"><dt>统一受理</dt><dd>按案件状态、证据完整度与停止条件推进</dd><dt>当前Skill</dt><dd>领域经营调查 Skill v0.1（演示）</dd><dt>查询预算</dt><dd>受控查询 8 次 / 当前已用 3 次（演示）</dd><dt>停止条件</dt><dd>必需信息不足、无权、冲突或来源不可用时暂停分析</dd></dl></section>
+      <section class="d-sec"><div class="sec-h"><span class="sec-no">${secNo(4)}</span><h3>证据与查询轨迹</h3><button class="imk" data-info="d4" aria-label="说明：证据与查询轨迹在监视什么">i</button></div><div class="timeline">${item.evidence.map(row => `<div class="timeline-item"><time>${row.time}</time><div>${row.text}</div></div>`).join('')}</div></section>
+      <section class="d-sec"><div class="sec-h"><span class="sec-no">${secNo(5)}</span><h3>责任人与下一动作</h3><button class="imk" data-info="d5" aria-label="说明：责任人与下一动作在监视什么">i</button></div><p><strong>${item.ownerName}</strong> · ${item.ownerRole}</p><p>${item.nextAction}</p><p>监督人：案件负责人（圣农实际人员映射待企业配置）</p><div class="action-row" data-role-actions>${renderRoleActions(item)}</div><div class="action-row"><button class="action-button secondary" data-action="new-hire-guidance">我是新入职人员，请告诉我该怎么处理</button></div></section>
+      <section class="d-sec"><div class="sec-h"><span class="sec-no">${secNo(6)}</span><h3>管理决定</h3><button class="imk" data-info="d6" aria-label="说明：管理决定在监视什么">i</button></div><p>${item.decision}</p><dl class="kv-grid"><dt>审批记录</dt><dd>${item.approval.recordId || '尚未形成'}</dd><dt>决定类型</dt><dd>${item.approval.decisionType}</dd><dt>授权角色</dt><dd>${item.approval.approver}</dd><dt>影响状态</dt><dd>${item.impact.status} · ${item.impact.summary}</dd></dl><p>所有存栏、产能、价格和市场进入决定均需管理层批准，Agent不能自动拍板。</p></section>
+      <section class="d-sec"><div class="sec-h"><span class="sec-no">${secNo(7)}</span><h3>责任任务与业务里程碑</h3><button class="imk" data-info="d7" aria-label="说明：责任任务与业务里程碑在监视什么">i</button></div><strong>任务</strong>${item.tasks.length ? `<ul class="mini-list">${item.tasks.map(task => `<li><code>${task.taskId}</code> · ${task.action} · task_completion_status=${task.status}<br>${task.completionCriteria}</li>`).join('')}</ul>` : '<p>当前阶段尚未创建执行任务；不能把空任务解释为案件已解决。</p>'}<strong>里程碑</strong><div class="timeline">${item.milestones.map(m => `<div class="timeline-item"><time>${m.at}</time><div><code>${m.code}</code><br>${m.label}</div></div>`).join('')}</div></section>
+      <section class="d-sec"><div class="sec-h"><span class="sec-no">${secNo(8)}</span><h3>结果验证与关闭</h3><button class="imk" data-info="d8" aria-label="说明：结果验证与关闭在监视什么">i</button></div><dl class="kv-grid"><dt>verification_status</dt><dd>${item.verification.status}</dd><dt>next_check_at</dt><dd>${item.verification.nextCheckAt}</dd><dt>结果来源</dt><dd>${item.verification.source}</dd><dt>验证证据</dt><dd>${item.verification.resultRefs}</dd><dt>resolution_status</dt><dd>${item.verification.resolutionStatus}</dd><dt>closure_type</dt><dd>${item.closure.type}</dd><dt>关闭/重开记录</dt><dd>${item.closure.basisRefs}；重开时间：${displayTime(item.closure.reopenedAt)}</dd></dl><p>仅成功解决、合法例外、系统误报三类可关闭；其余保持打开。</p></section>
+      <section class="d-sec"><div class="sec-h"><span class="sec-no">${secNo(9)}</span><h3>飞书协同送达状态</h3><button class="imk" data-info="d9" aria-label="说明：飞书协同送达状态在监视什么">i</button></div><dl class="kv-grid"><dt>已送达</dt><dd>${displayTime(item.collaboration.deliveredAt)}</dd><dt>已读</dt><dd>${displayTime(item.collaboration.readAt)}</dd><dt>已知悉</dt><dd>${displayTime(item.collaboration.acknowledgedAt)}</dd><dt>已接受责任</dt><dd>${displayTime(item.collaboration.acceptedAt)}</dd><dt>projection_status</dt><dd>${item.projectionStatus}</dd><dt>权限说明</dt><dd>${roleProfiles[ui.role].permission}</dd></dl></section>
+      <section class="d-sec"><div class="sec-h"><span class="sec-no">${secNo(10)}</span><h3>原始证据与权限</h3><button class="imk" data-info="d10" aria-label="说明：原始证据与权限在监视什么">i</button></div>${permissionContent(item)}</section>
+      <section class="d-sec"><div class="sec-h"><span class="sec-no">${secNo(11)}</span><h3>接口与字段映射</h3><button class="imk" data-info="d11" aria-label="说明：接口与字段映射在监视什么">i</button></div><div class="tablewrap"><table class="code-table"><thead><tr><th>维度</th><th>字段/接口</th><th>页面责任</th></tr></thead><tbody>
+        <tr><td>案件状态</td><td><code>CaseState.current_case_state</code> / <code>get_case_state</code></td><td>决定当前阶段，不由前端按钮推断</td></tr>
+        <tr><td>里程碑</td><td><code>milestone_code</code> / <code>get_milestone_state</code></td><td>形成不可变时间线和通知触发</td></tr>
+        <tr><td>任务</td><td><code>task_completion_status</code> / <code>get_task_state</code></td><td>完成只进入待结果验证</td></tr>
+        <tr><td>协同</td><td><code>collaboration_status</code> / 飞书消息、任务、审批回执</td><td>送达、已读、知悉与接受责任分别保存</td></tr>
+        <tr><td>解决</td><td><code>resolution_status</code> / 权威来源回读</td><td>决定经营目标是否达成</td></tr>
+        <tr><td>投影</td><td><code>projection_status</code></td><td>失败只说明同步失败，不改写案件事实</td></tr>
+      </tbody></table></div></section>`;
+    // 段内锚点导航
+    const sections = [...detail.querySelectorAll('.d-sec')];
+    const byTitle = new Map();
+    sections.forEach((sec, i) => {
+      const h = sec.querySelector('h3');
+      if (!h) return;
+      sec.id = 'd-sec-' + (i + 1);
+      byTitle.set(h.textContent.trim(), sec.id);
+    });
+    detail.querySelector('.d-anchors').innerHTML = detailGroups
+      .map(([label, title]) => byTitle.has(title) ? `<a href="#${byTitle.get(title)}" data-anchor="${byTitle.get(title)}">${label}</a>` : '')
+      .join('');
+    detail.querySelector('[data-action="new-hire-guidance"]').addEventListener('click', () => openGuidance(item));
+  }
+
+  // ===== 新人指导对话框 =====
+  let guidanceOpener = null;
+  function openGuidance(item) {
+    guidanceOpener = document.activeElement && typeof document.activeElement.focus === 'function' ? document.activeElement : null;
+    const profile = roleProfiles[ui.role];
+    const similarCases = demoCases
+      .filter(c => c.caseId !== item.caseId && c.currentCaseState === 'closed' && c.domain === item.domain && profile.caseFilter(c))
+      .slice(0, 2)
+      .map(c => `${c.caseId}（${sourceStateLabels[c.currentCaseState]}）`);
+    const fields = [
+      ['岗位职责', 'guidance_role_duties', `${profile.user}：${item.guidance.guidance_role_duties}`],
+      ['所需证据', 'guidance_required_evidence', item.guidance.guidance_required_evidence],
+      ['下一里程碑', 'guidance_next_milestone', item.guidance.guidance_next_milestone],
+      ['升级路径', 'guidance_escalation_path', `${item.guidance.guidance_escalation_path} 当前视图升级边界：${profile.scope}。`],
+      ['历史同类案件', 'guidance_case_refs', similarCases.length ? similarCases.join('、') : `${item.guidance.guidance_case_refs} 当前演示范围暂无可见同类关闭案。`]
+    ];
+    $('#guidanceBody').innerHTML = `<p>当前案件：<strong>${item.caseId} · ${item.title}</strong><br>当前岗位：<strong>${profile.user}</strong>。以下内容按当前任务和权限生成，只帮助责任人熟悉业务，不替代制度、审批或管理决定。</p>` + fields.map(([label, code, value]) => `<div class="guidance-block"><strong>${label} · <code>${code}</code></strong><p>${value}</p></div>`).join('');
+    $('#guidanceBackdrop').hidden = false;
+    $('#closeGuidance').focus();
+  }
+  function closeGuidance() {
+    const backdrop = $('#guidanceBackdrop');
+    if (backdrop.hidden) return;
+    backdrop.hidden = true;
+    const opener = guidanceOpener;
+    guidanceOpener = null;
+    if (opener && document.contains(opener) && typeof opener.focus === 'function') opener.focus();
+  }
+  function keepGuidanceFocus(event) {
+    const backdrop = $('#guidanceBackdrop');
+    if (backdrop.hidden || event.key !== 'Tab') return;
+    const dialog = backdrop.querySelector('[role="dialog"]');
+    const focusable = [...dialog.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+      .filter(el => !el.hidden && el.getClientRects().length > 0);
+    if (!focusable.length) { event.preventDefault(); dialog.focus(); return; }
+    const first = focusable[0], last = focusable[focusable.length - 1], active = document.activeElement;
+    if (event.shiftKey && (active === first || !dialog.contains(active))) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && (active === last || !dialog.contains(active))) { event.preventDefault(); first.focus(); }
+  }
+
+  // ===== 辅助筛选选项（按当前身份可见范围生成） =====
+  function fillSelect(sel, values, allLabel, current) {
+    sel.innerHTML = `<option value="all">${allLabel}</option>` + values.map(v => `<option value="${v}">${v}</option>`).join('');
+    sel.value = values.includes(current) ? current : 'all';
+    return sel.value;
+  }
+  function rebuildFilterOptions() {
+    const cases = roleCases();
+    ui.fDomain = fillSelect($('#fDomain'), [...new Set(cases.map(i => i.domain))], '全部类型', ui.fDomain);
+    ui.fRegion = fillSelect($('#fRegion'), [...new Set(cases.map(i => i.region))], '全部区域', ui.fRegion);
+  }
+
+  function renderAll() {
+    hideInfo();
+    renderModule();
+    renderRole();
+    renderRuntime();
+    renderStrip();
+    renderChips();
+    renderQueues();
+    renderList();
+    renderDetail();
+    syncNums(document);
+    mouseAtRender = { x: mousePos.x, y: mousePos.y };
+  }
+
+  // ===== 事件接线 =====
+  $('#viewfinder').addEventListener('click', event => {
+    const cell = event.target.closest('[data-stage]');
+    if (!cell || cell.disabled) return;
+    const code = cell.dataset.stage;
+    ui.stage = ui.stage === code ? null : code;
+    ui.substate = null;
+    hoverMuteUntil = Date.now() + 700;
+    renderAll();
+    document.querySelector(`[data-stage="${code}"]`)?.focus();
+  });
+  $('#roleSwitch').addEventListener('click', event => {
+    const btn = event.target.closest('[data-role]');
+    if (!btn || btn.dataset.role === ui.role) return;
+    ui.role = btn.dataset.role;
+    rebuildFilterOptions();
+    renderAll();
+  });
+  $('#drawerBtn').addEventListener('click', () => {
+    const drawer = $('#demoDrawer');
+    const open = !drawer.classList.contains('open');
+    drawer.classList.toggle('open', open);
+    $('#drawerBtn').setAttribute('aria-expanded', String(open));
+  });
+  $('#runtimeState').addEventListener('change', e => { ui.runtime = e.target.value; renderAll(); });
+  blocker.addEventListener('click', event => {
+    if (!event.target.closest('[data-runtime-recover]')) return;
+    const sel = document.getElementById('runtimeState');
+    sel.value = 'normal';
+    ui.runtime = 'normal';
+    renderAll();
+    document.getElementById('drawerBtn').focus();
+  });
+  $('#fRisk').addEventListener('change', e => { ui.fRisk = e.target.value; renderAll(); });
+  $('#fDomain').addEventListener('change', e => { ui.fDomain = e.target.value; renderAll(); });
+  $('#fRegion').addEventListener('change', e => { ui.fRegion = e.target.value; renderAll(); });
+  document.querySelectorAll('[data-module]').forEach(btn => btn.addEventListener('click', () => { ui.module = btn.dataset.module; renderAll(); }));
+  $('#substatePanel').addEventListener('click', event => {
+    const btn = event.target.closest('[data-substate]');
+    if (!btn) return;
+    ui.substate = ui.substate === btn.dataset.substate ? null : btn.dataset.substate;
+    renderAll();
+  });
+  $('#filterChips').addEventListener('click', event => {
+    const btn = event.target.closest('[data-clear]');
+    if (!btn) return;
+    const key = btn.dataset.clear;
+    if (key === 'stage') { ui.stage = null; ui.substate = null; }
+    else if (key === 'substate') ui.substate = null;
+    else { ui[key] = 'all'; document.getElementById(key).value = 'all'; }
+    renderAll();
+  });
+  $('#caseList').addEventListener('click', event => {
+    const row = event.target.closest('[data-case-id]');
+    if (!row) return;
+    ui.caseId = row.dataset.caseId;
+    renderList(); renderDetail(); syncNums(document);
+    document.querySelector(`[data-case-id="${ui.caseId}"]`)?.focus();
+  });
+  $('#roleHome').addEventListener('click', event => {
+    const queue = event.target.closest('[data-queue-case]');
+    if (queue) {
+      ui.stage = null; ui.substate = null;
+      ui.caseId = queue.dataset.queueCase;
+      renderAll();
+      if (window.innerWidth < 1241) {
+        $('#caseDetail').scrollIntoView({ behavior: REDUCED.matches ? 'auto' : 'smooth', block: 'start' });
+      }
+      document.querySelector(`[data-case-id="${queue.dataset.queueCase}"]`)?.focus();
+      return;
+    }
+    if (event.target.closest('[data-role-home-guidance]')) {
+      const view = viewCases();
+      const item = view.find(entry => entry.caseId === ui.caseId) || view[0];
+      if (item) openGuidance(item);
+    }
+  });
+  $('#caseDetail').addEventListener('click', event => {
+    const anchor = event.target.closest('[data-anchor]');
+    if (!anchor) return;
+    event.preventDefault();
+    const target = document.getElementById(anchor.dataset.anchor);
+    if (target) target.scrollIntoView({ behavior: REDUCED.matches ? 'auto' : 'smooth', block: 'start' });
+  });
+  $('#closeGuidance').addEventListener('click', closeGuidance);
+  $('#guidanceBackdrop').addEventListener('click', event => { if (event.target.id === 'guidanceBackdrop') closeGuidance(); });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      if ($('#guidanceBackdrop').hidden) return;
+      event.preventDefault();
+      closeGuidance();
+      return;
+    }
+    keepGuidanceFocus(event);
+  });
+
+  // ===== 交互自解释系统：点 i 看每个区块在监视什么（内容只取自《飞书看板能力》台账口径） =====
+  const INFO = {
+    strip: { k: '值守状态条 · Duty Strip', rows: [
+      ['监视', '当前身份可见的案件全景与投影健康度。'],
+      ['数据', '<code>CaseState.current_case_state</code> 按唯一 case_id 计数 · 快照 2026-07-24 09:30。'],
+      ['状态词', '<code>projection_status</code> 失败只说明同步失败，不改写案件事实。']
+    ]},
+    role: { k: '演示身份 · Role', rows: [
+      ['监视', '同一套案件数据按登录身份呈现三种首页。'],
+      ['数据', '<code>get_current_user</code> · 组织范围 · 责任路由。'],
+      ['状态词', '演示切换身份，不能扩大用户数据权限。']
+    ]},
+    filter: { k: '辅助筛选 · Filter', rows: [
+      ['监视', '按风险、事件类型、组织/区域缩小案件列表。'],
+      ['数据', '只过滤当前身份可见的同一案件数组。'],
+      ['状态词', '不扩大数据权限；空结果不等于没有经营风险。']
+    ]},
+    drawer: { k: '异常状态检查器 · Runtime', rows: [
+      ['监视', '八种运行时状态下页面是否说实话。'],
+      ['数据', '查询状态合同：<code>forbidden</code> <code>no_data</code> <code>conflict</code> <code>stale</code> 等。'],
+      ['状态词', '异常时停止展示正常内容，不冒充当前经营事实。']
+    ]},
+    rt: { k: '投影状态行 · Projection', rows: [
+      ['监视', '本次投影与数据快照的健康状态。'],
+      ['数据', '<code>projection_status</code> · 快照时间 2026-07-24 09:30。'],
+      ['状态词', '<code>synced_demo</code> 表示演示投影与事件库同步。']
+    ]},
+    list: { k: '案件列表 · Cases', rows: [
+      ['监视', '当前身份与筛选范围内的全部案件。'],
+      ['数据', '<code>search_events</code> · <code>get_case_state</code> · 唯一 case_id 计数。'],
+      ['状态词', '阶段聚合只负责筛选，不改变案件的 current_case_state。']
+    ]},
+    'q-decision': { k: '待我决策 · Decision Queue', rows: [
+      ['监视', '等待授权管理者选择的决策就绪案件。'],
+      ['数据', '<code>current_case_state = decision_ready</code> 过滤。'],
+      ['状态词', '所有经营决定均需管理层批准，Agent不能自动拍板。']
+    ]},
+    'q-attention': { k: '需要关注 · Attention', rows: [
+      ['监视', '未解决专项协作、治理状态与逾期事项。'],
+      ['数据', '三类状态计数 + dueAt 早于快照时间判定逾期。'],
+      ['状态词', '治理状态不自动关闭、不标记已解决，持续在看板可见。']
+    ]},
+    'q-lines': { k: '治理线与经营影响线 · Two Ledgers', rows: [
+      ['监视', '治理效率与经营影响并列汇总。'],
+      ['数据', '治理线由同一案件数组计算；经营影响需 <code>ImpactAssessment</code> 与 <code>model_run_id</code>。'],
+      ['状态词', '<code>unknown / modeled</code>：估算不与已确认混淆，本页不显示数值。']
+    ]},
+    'q-todo': { k: '本区域待办 · Regional Todo', rows: [
+      ['监视', '本区域待人工补证与待结果验证。'],
+      ['数据', '<code>awaiting_human_evidence</code> + <code>awaiting_result_verification</code>。'],
+      ['状态词', '补证期间可继续收集事实，必需信息未齐前禁止分析。']
+    ]},
+    'q-escal': { k: '升级事项 · Escalation', rows: [
+      ['监视', '监视逾期未处理、需逐级即时升级的事项。'],
+      ['数据', 'dueAt 早于快照时间 2026-07-24 09:30 判定逾期。'],
+      ['状态词', '逾期、拒绝、高影响或持续阻塞时逐级即时升级。']
+    ]},
+    'q-dist': { k: '本区域阶段分布 · Distribution', rows: [
+      ['监视', '本区域案件在九个页面阶段的分布。'],
+      ['数据', '按当前区域范围的唯一 case_id 计数。']
+    ]},
+    'q-mine': { k: '我的任务 · My Tasks', rows: [
+      ['监视', '待我补证与我名下执行任务。'],
+      ['数据', '补证三个正式状态 + <code>executing</code> · <code>Task</code> 合同。'],
+      ['状态词', '完成标准：动作完成、规定证据提交、权威系统达到业务里程碑。']
+    ]},
+    'q-guidance': { k: '新人指导 · Guidance', rows: [
+      ['监视', '按当前案件与岗位生成五段辅助说明。'],
+      ['数据', '五个 <code>guidance_*</code> 字段。'],
+      ['状态词', '只作辅助说明，不自动决策或改状态 · <code>target-tenant unknown</code>。']
+    ]},
+    'q-perm': { k: '权限说明 · Permission', rows: [
+      ['监视', '当前身份可见的字段与证据范围。'],
+      ['数据', '摘要默认可见；满足组织、责任和敏感级别条件才可下钻原始证据。'],
+      ['状态词', '无权查看不等于没有证据，可按权限申请。']
+    ]},
+    d1: { k: '§ 01 · 案件总览', rows: [
+      ['监视', '当前责任、下一动作、期限与风险。'],
+      ['数据', '<code>Task</code> 合同 · 责任路由。']
+    ]},
+    d2: { k: '§ 02 · 经营事实与未知项', rows: [
+      ['监视', '已确认事实与未知项并列展示。'],
+      ['数据', '<code>EventPackage</code> · <code>StandardQueryResult</code> · 证据档案。'],
+      ['状态词', '缺少权威事实时不得扩大推断影响范围。']
+    ]},
+    d3: { k: '§ 03 · Agent调查循环', rows: [
+      ['监视', '当前 Skill、查询预算与停止条件。'],
+      ['数据', '<code>CaseState</code> · Skill 运行记录 · 查询记录。'],
+      ['状态词', '必需信息不足、无权、冲突或来源不可用时暂停分析。']
+    ]},
+    d4: { k: '§ 04 · 证据与查询轨迹', rows: [
+      ['监视', '每次查询的请求、返回状态与来源版本。'],
+      ['数据', '<code>get_evidence_timeline</code> · <code>StandardQueryResult</code>。'],
+      ['状态词', '不能把 <code>no_data</code> 解释为 0。']
+    ]},
+    d5: { k: '§ 05 · 责任人与下一动作', rows: [
+      ['监视', '谁负责、下一步做什么、何时到期。'],
+      ['数据', '<code>Task</code> 合同 · 动作入口按状态 × 角色给出。'],
+      ['状态词', '演示动作不执行业务写入。']
+    ]},
+    d6: { k: '§ 06 · 管理决定', rows: [
+      ['监视', '决定类型、授权人、依据与未决风险。'],
+      ['数据', '<code>Approval</code> · 决策治理档案。'],
+      ['状态词', '已知悉暂不处理与风险接受必须记录授权人、依据、复核时间。']
+    ]},
+    d7: { k: '§ 07 · 责任任务与业务里程碑', rows: [
+      ['监视', '任务完成状态与不可变里程碑时间线。'],
+      ['数据', '<code>task_completion_status</code> · <code>milestone_code</code>。'],
+      ['状态词', '任务完成只触发待结果验证，不能直接关闭案件。']
+    ]},
+    d8: { k: '§ 08 · 结果验证与关闭', rows: [
+      ['监视', '权威回读的验证结果与关闭依据。'],
+      ['数据', '<code>MilestoneRegistry</code> · 执行验证档案 · 归档重开档案。'],
+      ['状态词', '仅成功解决、合法例外、系统误报三类可关闭。']
+    ]},
+    d9: { k: '§ 09 · 飞书协同送达状态', rows: [
+      ['监视', '送达、已读、知悉、接受责任分别保存。'],
+      ['数据', '<code>collaboration_status</code> · 飞书消息、任务、审批回执。'],
+      ['状态词', '已读不等于已知悉。']
+    ]},
+    d10: { k: '§ 10 · 原始证据与权限', rows: [
+      ['监视', '原始证据按角色权限受控下钻。'],
+      ['数据', '满足组织、责任和敏感级别条件时才可下钻。'],
+      ['状态词', '权限不足不能解释为事实不存在。']
+    ]},
+    d11: { k: '§ 11 · 接口与字段映射', rows: [
+      ['监视', '每个字段读自哪个接口、页面负什么责。'],
+      ['数据', '看板组件到接口的最低映射。'],
+      ['状态词', '任一状态字段不能替代其他字段。']
+    ]}
+  };
+
+  const VF_INFO = {
+    investigation: ['Agent 正在按案件受控取证据。', '<code>investigating</code> · 案件已建立是里程碑，不是当前状态。'],
+    evidence: ['等待人补齐必需事实；可继续收集，禁止分析。', '<code>awaiting_human_evidence</code> 等三个正式状态 · 补齐前不得形成结论。'],
+    analysis: ['Agent 在完整证据上做归因与影响分析。', '<code>analyzing</code>'],
+    decision: ['证据与方案已齐，等待授权管理者选择。', '<code>decision_ready</code> · <code>DecisionPackage</code>'],
+    governance_watch: ['已知悉暂不处理与风险接受的持续监督。', '<code>known_no_action</code> + <code>risk_accepted</code> · 不自动关闭。'],
+    execution: ['已批准方案正在落地执行。', '<code>executing</code> · 任务完成只进入待结果验证。'],
+    verification: ['任务完成，等待权威系统回读经营结果。', '<code>awaiting_result_verification</code> · 任务完成 ≠ 结果达成。'],
+    unresolved: ['执行受阻或验证未达标的同案专项协作。', '<code>unresolved_collaboration</code>'],
+    closed: ['关闭依据完整并正式结案。', '<code>closed</code> · 仅三类可关闭。']
+  };
+
+  const infoPop = document.getElementById('infoPop');
+  let infoPinned = false, infoAnchor = null, hoverMuteUntil = 0;
+  // 渲染时鼠标记位：重渲染后浏览器会对静止鼠标下的新节点补发 mouseover，坐标未变的补发一律忽略
+  let mousePos = { x: -1, y: -1 }, mouseAtRender = null;
+  document.addEventListener('mousemove', event => { mousePos = { x: event.clientX, y: event.clientY }; }, { capture: true, passive: true });
+
+  function positionInfo(anchor) {
+    const w = infoPop.offsetWidth, h = infoPop.offsetHeight;
+    const r = anchor.getBoundingClientRect();
+    let left = r.left;
+    if (left + w > window.innerWidth - 8) left = Math.max(8, r.right - w);
+    left = Math.max(8, left);
+    let top = r.bottom + 8;
+    if (top + h > window.innerHeight - 8) top = Math.max(8, r.top - h - 8);
+    infoPop.style.left = left + 'px';
+    infoPop.style.top = top + 'px';
+  }
+  function showInfo(kicker, rows, anchor) {
+    infoPop.innerHTML = `<div class="ip-k">${kicker}</div>` + rows.map(([lab, txt]) => `<p><span class="ip-lab">${lab}</span>${txt}</p>`).join('');
+    infoPop.hidden = false;
+    infoAnchor = anchor;
+    positionInfo(anchor);
+  }
+  function showInfoKey(key, anchor, pinned) {
+    const entry = INFO[key];
+    if (!entry) return;
+    infoPinned = !!pinned;
+    showInfo(entry.k, entry.rows, anchor);
+    if (pinned) dismissHowto();
+  }
+  function showStageInfo(code, anchor) {
+    const entry = VF_INFO[code];
+    const index = stages.findIndex(s => s.code === code);
+    if (!entry || index < 0) return;
+    infoPinned = false;
+    showInfo(`${String(index + 1).padStart(2, '0')} · ${stages[index].label}`, [['监视', entry[0]], ['状态词', entry[1]]], anchor);
+  }
+  function hideInfo() { infoPinned = false; infoAnchor = null; infoPop.hidden = true; }
+  function dismissHowto() { const h = document.getElementById('howto'); if (h) h.hidden = true; }
+
+  document.addEventListener('mouseover', event => {
+    if (Date.now() < hoverMuteUntil) return;
+    if (mouseAtRender && event.clientX === mouseAtRender.x && event.clientY === mouseAtRender.y) return;
+    const mk = event.target.closest('[data-info]');
+    if (mk) { showInfoKey(mk.dataset.info, mk, false); return; }
+    const cell = event.target.closest('[data-info-stage]');
+    if (cell && !cell.disabled) showStageInfo(cell.dataset.infoStage, cell);
+  });
+  document.addEventListener('mouseout', event => {
+    if (infoPinned) return;
+    if (event.target.closest('[data-info], [data-info-stage]')) hideInfo();
+  });
+  document.addEventListener('focusin', event => {
+    // 仅键盘聚焦（:focus-visible）弹浮层；鼠标/触屏点击引发的 focus 不弹，避免点击后浮层残留
+    if (!event.target.matches(':focus-visible')) return;
+    const mk = event.target.closest('[data-info]');
+    if (mk) { showInfoKey(mk.dataset.info, mk, false); return; }
+    const cell = event.target.closest('[data-info-stage]');
+    if (cell) showStageInfo(cell.dataset.infoStage, cell);
+  });
+  document.addEventListener('focusout', event => {
+    if (infoPinned) return;
+    if (event.target.closest('[data-info], [data-info-stage]')) hideInfo();
+  });
+  document.addEventListener('click', event => {
+    const mk = event.target.closest('[data-info]');
+    if (mk) {
+      event.preventDefault();
+      if (infoPinned) { hideInfo(); } else { showInfoKey(mk.dataset.info, mk, true); }
+      return;
+    }
+    if (infoPinned) hideInfo();
+  });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') hideInfo(); });
+  function syncInfoOnViewportChange() {
+    if (infoPop.hidden) return;
+    if (infoPinned && infoAnchor && document.contains(infoAnchor)) positionInfo(infoAnchor);
+    else hideInfo();
+  }
+  window.addEventListener('scroll', syncInfoOnViewportChange, { capture: true, passive: true });
+  window.addEventListener('resize', syncInfoOnViewportChange);
+  document.getElementById('howto').addEventListener('click', dismissHowto);
+
+  rebuildFilterOptions();
+  renderAll();
+</script>
+<script>
+  // 整站导航：顶部阅读进度条（与首页一致）
+  const progressBar = document.getElementById('progress-bar');
+  function updateProgress() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progressBar.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+</script>
+<script>
+  // 整站导航：下拉（变体 B，与首页一致）：hover/focus 展开，Esc 关闭，触屏首次点展开二次点跳转
+  (function () {
+    var COARSE = window.matchMedia('(hover: none), (pointer: coarse)');
+
+    function open(dd, trigger) {
+      dd.classList.remove('esc-closed');
+      dd.classList.add('open');
+      if (trigger) trigger.setAttribute('aria-expanded', 'true');
+    }
+    function close(dd) {
+      dd.classList.remove('open');
+      var t = dd.querySelector('[data-trigger]');
+      if (t) t.setAttribute('aria-expanded', 'false');
+    }
+
+    document.querySelectorAll('[data-dd]').forEach(function (dd) {
+      var trigger = dd.querySelector('[data-trigger]');
+      if (!trigger) return;
+
+      trigger.addEventListener('click', function (e) {
+        if (trigger.tagName === 'BUTTON') {
+          e.preventDefault();
+          if (dd.classList.contains('open')) { close(dd); } else { open(dd, trigger); }
+          return;
+        }
+        if (COARSE.matches && !dd.classList.contains('open')) {
+          e.preventDefault();
+          open(dd, trigger);
+        }
+      });
+
+      dd.addEventListener('pointerenter', function () { dd.classList.remove('esc-closed'); });
+      dd.addEventListener('focusout', function (e) {
+        if (!dd.contains(e.relatedTarget)) dd.classList.remove('esc-closed');
+      });
+    });
+
+    document.addEventListener('pointerdown', function (e) {
+      document.querySelectorAll('[data-dd].open').forEach(function (dd) {
+        if (!dd.contains(e.target)) close(dd);
+      });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
       document.querySelectorAll('[data-dd]').forEach(function (dd) {
-        var trigger = dd.querySelector('[data-trigger]');
-        if (!trigger) return;
-
-        trigger.addEventListener('click', function (e) {
-          if (trigger.tagName === 'BUTTON') {
-            e.preventDefault();
-            if (dd.classList.contains('open')) { close(dd); } else { open(dd, trigger); }
-            return;
-          }
-          if (COARSE.matches && !dd.classList.contains('open')) {
-            e.preventDefault();
-            open(dd, trigger);
-          }
-        });
-
-        dd.addEventListener('pointerenter', function () { dd.classList.remove('esc-closed'); });
-        dd.addEventListener('focusout', function (e) {
-          if (!dd.contains(e.relatedTarget)) dd.classList.remove('esc-closed');
-        });
+        var active = dd.classList.contains('open') ||
+                     dd.contains(document.activeElement) ||
+                     dd.matches(':hover');
+        if (!active) return;
+        var wasOpen = dd.classList.contains('open');
+        close(dd);
+        dd.classList.add('esc-closed');
+        if (dd.contains(document.activeElement) && document.activeElement !== dd.querySelector('[data-trigger]')) {
+          var t = dd.querySelector('[data-trigger]');
+          if (t) t.focus();
+        }
+        if (wasOpen) e.preventDefault();
       });
-
-      document.addEventListener('pointerdown', function (e) {
-        document.querySelectorAll('[data-dd].open').forEach(function (dd) {
-          if (!dd.contains(e.target)) close(dd);
-        });
-      });
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key !== 'Escape') return;
-        document.querySelectorAll('[data-dd]').forEach(function (dd) {
-          var active = dd.classList.contains('open') ||
-                       dd.contains(document.activeElement) ||
-                       dd.matches(':hover');
-          if (!active) return;
-          var wasOpen = dd.classList.contains('open');
-          close(dd);
-          dd.classList.add('esc-closed');
-          if (dd.contains(document.activeElement) && document.activeElement !== dd.querySelector('[data-trigger]')) {
-            var t = dd.querySelector('[data-trigger]');
-            if (t) t.focus();
-          }
-          if (wasOpen) e.preventDefault();
-        });
-      });
-    })();
-  </script>
+    });
+  })();
+</script>
 </body>
 </html>
