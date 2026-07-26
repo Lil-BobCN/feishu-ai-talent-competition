@@ -54,6 +54,68 @@ async function fileMetadata(root, relativePath) {
   };
 }
 
+// 仓库内相对链接 → 交付包内重排后的路径。
+// 采用子串替换，同时覆盖 ./、../、../../、docs/ 等各种相对前缀写法；
+// 顺序保证更长、更具体的模式先替换。
+const PACKAGE_PATH_REWRITES = [
+  ['output/方案图_2026-07-23/', '07-方案图/'],
+  ['docs/评委阅览指南.md', '01a-评委阅览指南_详细版.md'],
+  // 先剥掉指向评委材料目录的各种相对前缀，再由下面的文件名规则改到包内新名。
+  ['../../docs/评委材料/', ''],
+  ['docs/评委材料/', ''],
+  ['评委材料/', ''],
+  ['00_方案薄总览.md', '02-方案薄总览.md'],
+  ['01_经营事件循环_评委文案.md', '03-经营事件循环_评委文案.md'],
+  ['02_能力进化循环_评委文案.md', '04-能力进化循环_评委文案.md'],
+  ['03_业务扩域循环_评委薄稿.md', '05-业务扩域循环_评委薄稿.md'],
+  ['80_证据与参考资料索引.md', '06-证据与参考资料索引.md'],
+  ['research/README.md', '08-选题研究/README.md'],
+  ['research/RULES.md', '08-选题研究/RULES.md'],
+  ['research/SCORING.md', '08-选题研究/SCORING.md'],
+  ['research/TOP-CANDIDATES.md', '08-选题研究/TOP-CANDIDATES.md'],
+  ['research/108-CHALLENGE-MAP.md', '08-选题研究/108-CHALLENGE-MAP.md'],
+  ['research/FEISHU-AGENT-INTEGRATION.md', '08-选题研究/FEISHU-AGENT-INTEGRATION.md'],
+  ['research/data/official-challenges.json', '08-选题研究/data/official-challenges.json'],
+  ['research/data/challenge-screening-draft.json', '08-选题研究/data/challenge-screening-draft.json'],
+];
+
+function rewritePackageLinks(markdown) {
+  let result = markdown;
+  for (const [from, to] of PACKAGE_PATH_REWRITES) {
+    result = result.split(from).join(to);
+  }
+  // 包内文件全部平铺在根目录（07-方案图/ 与 08-选题研究/ 为一级子目录），
+  // 改写后剥掉链接路径开头残留的 ../ 或 ./ 上跳前缀。
+  return result.replace(/(\]\()\s*(?:\.\.?\/)+\s*(?=(?:0[0-9][a-z]?-|demo\/))/g, '$1');
+}
+
+async function copyMarkdownWithRewrite(sourceRoot, outputRoot, source, destination) {
+  const markdown = await readFile(path.join(sourceRoot, source), 'utf8');
+  await writeFile(path.join(outputRoot, destination), rewritePackageLinks(markdown), 'utf8');
+}
+
+const RESEARCH_FILES = [
+  'README.md',
+  'RULES.md',
+  'SCORING.md',
+  'TOP-CANDIDATES.md',
+  '108-CHALLENGE-MAP.md',
+  'FEISHU-AGENT-INTEGRATION.md',
+  '108-challenge-map.csv',
+  path.join('data', 'official-challenges.json'),
+  path.join('data', 'challenge-screening-draft.json'),
+];
+
+const JUDGE_MATERIAL_COPIES = [
+  ['评委阅览指南.md', '01-评委阅览指南.md'],
+  [path.join('docs', '评委阅览指南.md'), '01a-评委阅览指南_详细版.md'],
+  [path.join('docs', '评委材料', '00_方案薄总览.md'), '02-方案薄总览.md'],
+  [path.join('docs', '评委材料', '01_经营事件循环_评委文案.md'), '03-经营事件循环_评委文案.md'],
+  [path.join('docs', '评委材料', '02_能力进化循环_评委文案.md'), '04-能力进化循环_评委文案.md'],
+  [path.join('docs', '评委材料', '03_业务扩域循环_评委薄稿.md'), '05-业务扩域循环_评委薄稿.md'],
+  [path.join('docs', '评委材料', '80_证据与参考资料索引.md'), '06-证据与参考资料索引.md'],
+];
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const sourceRoot = path.resolve(args['source-root']);
@@ -64,13 +126,13 @@ async function main() {
   }
 
   const sources = [
-    '评委阅览指南.md',
-    '圣农经营智能中枢_评委版母方案.pdf',
-    '圣农经营智能中枢_完整方案母稿.pdf',
-    path.join('docs', '圣农经营智能中枢_完整方案母稿.md'),
+    ...JUDGE_MATERIAL_COPIES.map(([source]) => source),
+    ...RESEARCH_FILES.map((name) => path.join('research', name)),
+    path.join('output', '方案图_2026-07-23'),
     'index.html',
     '圣农经营智能中枢_Aily叙事副本.js',
     'shengnong-nodes',
+    path.join('output', 'html', '圣农经营智能中枢_飞书经营看板.html'),
   ];
 
   for (const relativePath of sources) {
@@ -83,18 +145,37 @@ async function main() {
 
   await rm(output, { recursive: true, force: true });
   await mkdir(path.join(output, 'demo'), { recursive: true });
+  await mkdir(path.join(output, '08-选题研究', 'data'), { recursive: true });
 
-  const copies = [
-    ['评委阅览指南.md', '01-评委阅览指南.md'],
-    ['圣农经营智能中枢_评委版母方案.pdf', '02-圣农经营智能中枢_评委版母方案.pdf'],
-    ['圣农经营智能中枢_完整方案母稿.pdf', '03-圣农经营智能中枢_完整方案母稿.pdf'],
-    [path.join('docs', '圣农经营智能中枢_完整方案母稿.md'), '04-圣农经营智能中枢_完整方案母稿.md'],
-    ['index.html', path.join('demo', 'index.html')],
-    ['圣农经营智能中枢_Aily叙事副本.js', path.join('demo', '圣农经营智能中枢_Aily叙事副本.js')],
+  for (const [source, destination] of JUDGE_MATERIAL_COPIES) {
+    await copyMarkdownWithRewrite(sourceRoot, output, source, destination);
+  }
+
+  await cp(
+    path.join(sourceRoot, 'output', '方案图_2026-07-23'),
+    path.join(output, '07-方案图'),
+    { recursive: true },
+  );
+
+  // 方案图目录内的 README.md 同样包含仓库相对链接，打包时一并改写。
+  const diagramReadmePath = path.join(output, '07-方案图', 'README.md');
+  await writeFile(diagramReadmePath, rewritePackageLinks(await readFile(diagramReadmePath, 'utf8')), 'utf8');
+
+  for (const name of RESEARCH_FILES) {
+    await copyFile(
+      path.join(sourceRoot, 'research', name),
+      path.join(output, '08-选题研究', name),
+    );
+  }
+
+  const demoCopies = [
+    ['index.html', 'index.html'],
+    ['圣农经营智能中枢_Aily叙事副本.js', '圣农经营智能中枢_Aily叙事副本.js'],
+    [path.join('output', 'html', '圣农经营智能中枢_飞书经营看板.html'), '圣农经营智能中枢_飞书经营看板.html'],
   ];
 
-  for (const [source, destination] of copies) {
-    await copyFile(path.join(sourceRoot, source), path.join(output, destination));
+  for (const [source, destination] of demoCopies) {
+    await copyFile(path.join(sourceRoot, source), path.join(output, 'demo', destination));
   }
 
   await cp(
@@ -105,7 +186,23 @@ async function main() {
 
   const startPage = `# 圣农经营智能中枢｜评委交付包
 
-本包用于集中审阅和离线转交，请优先阅读 \`01-评委阅览指南.md\` 与 \`02-圣农经营智能中枢_评委版母方案.pdf\`。
+本包用于集中审阅和离线转交，请优先阅读 \`01-评委阅览指南.md\`，按其顺序从 \`02-方案薄总览.md\` 开始。
+
+## 包内结构
+
+- \`01-评委阅览指南.md\` / \`01a-评委阅览指南_详细版.md\`：阅读路径与资料清单
+- \`02-方案薄总览.md\`：全局地图（约 10 分钟）
+- \`03-经营事件循环_评委文案.md\`：让一次经营异常真正走到结果
+- \`04-能力进化循环_评委文案.md\`：让一次案件留下下一次能力
+- \`05-业务扩域循环_评委薄稿.md\`：试点之后，与企业共同决定下一步
+- \`06-证据与参考资料索引.md\`：每条主张的事实状态与来源边界
+- \`07-方案图/\`：五张正式方案图（PNG/SVG）
+- \`08-选题研究/\`：赛事规则、108 项挑战适配、候选方向、评分与飞书集成研究
+- \`demo/\`：在线演示离线副本与经营事件协作台（脱敏演示数据）
+
+## 更新说明
+
+本项目于 2026 年 7 月 17 日接到学校赛事通知后启动，并持续更新维护；在线演示的交互展示与补充说明会通过同一链接不断更新，欢迎评委关注网站最新内容，正式评审材料以最新 Release 评委交付包为准。
 
 在线演示：${website}
 
